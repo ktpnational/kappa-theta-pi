@@ -36,3 +36,27 @@ yarn-error.log*
 next-env.d.ts
 
 .vercel
+
+# typescript
+*.tsbuildinfo
+
+bun.lockb
+
+.million
+anaylyze
+.vscode
+.cache
+
+# Sentry Config File
+.env.sentry-build-plugin
+
+service-worker*.js
+service-worker*.js.map
+swe-worker-development.js
+workbox-*.js
+workbox-*.js.map
+sw.js
+sw.js.*
+
+/playwright-report
+/test-results
