@@ -1,4 +1,3 @@
-import { app } from '@/constants';
 import type { MetadataRoute } from 'next';
 
 export default function robots(): MetadataRoute.Robots {
@@ -15,6 +14,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ['/api/', '/legal'],
       },
     ],
-    sitemap: `${app.url}/sitemap.xml`,
+    sitemap: `https://www.kappathetapi.org/sitemap.xml`,
   };
 }

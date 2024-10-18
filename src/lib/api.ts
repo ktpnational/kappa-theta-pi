@@ -1,4 +1,4 @@
-import type { App } from '@/app/api/[[...route]]/route';
+import type { App } from '@/app/api/v1/[[...route]]/route';
 import { getURL } from '@/utils';
 import { edenTreaty } from '@elysiajs/eden';
 

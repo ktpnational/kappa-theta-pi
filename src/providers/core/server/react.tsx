@@ -1,6 +1,6 @@
 'use client';
 
-import type { App } from '@/app/api/[[...route]]/route';
+import type { App } from '@/app/api/v1/[[...route]]/route';
 import { getURL } from '@/utils';
 import { treaty } from '@elysiajs/eden';
 import type { QueryClient } from '@tanstack/react-query';

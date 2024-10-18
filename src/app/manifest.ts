@@ -1,4 +1,3 @@
-import { app } from '@/constants';
 import type { MetadataRoute } from 'next';
 
 // @ts-ignore
@@ -10,15 +9,12 @@ type ExtendedManifest = Omit<MetadataRoute.Manifest, 'screenshots'> & {
   screenshots?: ExtendedScreenshot[];
 };
 
-const shortName = `${((app.name.split('-')[0] as string).toUpperCase().split(' ') as string[])
-  .map((word: string) => word[0])
-  .join('')}-${(app.name.split('-')[1] as string).toUpperCase().split(' ')[0]}`;
-
 export default function manifest(): ExtendedManifest {
   return {
-    name: app.name,
-    short_name: shortName,
-    description: app.description,
+    name: 'Kappa Theta Pi - National',
+    short_name: 'ΚΘΠ',
+    description:
+      'Kappa Theta Pi (ΚΘΠ, also known as KTP) is a co-ed professional fraternity specializing in the field of information technology.',
     categories: [
       'education',
       'technology',

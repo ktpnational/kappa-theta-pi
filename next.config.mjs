@@ -99,7 +99,7 @@ const withBundleAnalyzerConfig = withBundleAnalyzer({
 });
 
 const millionConfig = {
-  auto: true,
+  auto: false,
 };
 
 const finalConfig = withBundleAnalyzerConfig(
@@ -109,6 +109,7 @@ const finalConfig = withBundleAnalyzerConfig(
         rsc: true,
         filter: {
           include: '**/components/**/*.{mtsx,mjsx,tsx,jsx}',
+          exclude: '**/api/**/*.{ts,tsx}',
         },
       })(config),
       millionConfig,

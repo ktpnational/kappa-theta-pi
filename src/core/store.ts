@@ -1,5 +1,8 @@
 import { createStore } from 'zustand';
 
+/**
+ * Interface representing the state of the store.
+ */
 interface StoreState {
   bears: number;
   increasePopulation: () => void;
@@ -17,6 +20,10 @@ interface StoreState {
   toggleTheme: () => void;
 }
 
+/**
+ * Creates a global store using Zustand.
+ * @returns {StoreApi<StoreState>} The Zustand store.
+ */
 const createGlobalStore = () =>
   createStore<StoreState>((set) => ({
     bears: 0,

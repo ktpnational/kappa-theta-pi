@@ -4,13 +4,18 @@ on:
   workflow_dispatch:
   push:
     branches: [master]
+
 concurrency:
   group: ${{ github.ref }}
   cancel-in-progress: true
+
+defaults:
+  run:
+    working-directory: ./
+
 jobs:
   build:
-    runs-on: self-hosted
-
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
@@ -18,9 +23,6 @@ jobs:
         run: |
           touch .env
           echo SECRET=${{ secrets.SECRET }} > .env
-          echo DATABASE_URL=${{ secrets.DATABASE_URL }} >> .env
-          echo NEXT_PUBLIC_URL=${{ secrets.NEXT_PUBLIC_URL }} >> .env
-          cat .env
 
       - name: Docker run
         run: docker compose up -d --force-recreate --build

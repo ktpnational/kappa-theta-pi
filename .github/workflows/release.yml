@@ -5,6 +5,14 @@ on:
   push:
     branches: ["master"]
 
+concurrency:
+  cancel-in-progress: true
+  group: release-${{ github.ref }}
+
+defaults:
+  run:
+    working-directory: ./packages/web
+
 jobs:
   release:
     name: Release
