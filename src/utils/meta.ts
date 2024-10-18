@@ -1,8 +1,24 @@
 import { app } from '@/constants';
 import type { Metadata, Viewport } from 'next';
 
+// Remove ' - National'
+const cleaned_title = app.name.replace(' - National', '');
+
+/**
+ * Constructs metadata for the application.
+ *
+ * @param {Object} [options] - The options for constructing metadata.
+ * @param {string} [options.title=`${app.name}`] - The title of the application.
+ * @param {string} [options.description=`${app.description}`] - The description of the application.
+ * @param {string} [options.image='/opengraph-image.png'] - The URL of the Open Graph image.
+ * @param {string} [options.twitter='/twitter-image.png'] - The URL of the Twitter image.
+ * @param {string} [options.icons='/assets/svgs/logo.svg'] - The URL of the icons.
+ * @param {boolean} [options.noIndex=false] - Whether to set noIndex for robots.
+ * @param {string} [options.url=app.url] - The URL of the application.
+ * @returns {Metadata} - The constructed metadata.
+ */
 export function constructMetadata({
-  title = `${app.name}`,
+  title = cleaned_title,
   description = `${app.description}`,
   image = '/opengraph-image.png',
   twitter = '/twitter-image.png',
@@ -62,6 +78,11 @@ export function constructMetadata({
   };
 }
 
+/**
+ * Constructs viewport settings for the application.
+ *
+ * @returns {Viewport} - The constructed viewport settings.
+ */
 export function constructViewport(): Viewport {
   return {
     width: 'device-width',

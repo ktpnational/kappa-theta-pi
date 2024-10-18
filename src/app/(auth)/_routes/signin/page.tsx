@@ -1,0 +1,13 @@
+import React from 'react';
+
+const SignInPage = () => {
+  return (
+    <div>
+      <h1>SignInPage</h1>
+    </div>
+  );
+};
+
+SignInPage.displayName = 'SignInPage';
+
+export default SignInPage;

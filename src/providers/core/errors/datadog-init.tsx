@@ -4,7 +4,12 @@ import { datadogRum } from '@datadog/browser-rum';
 import app from 'next/app';
 import { useEffect } from 'react';
 
-const initDatadog = () => {
+/**
+ * Initializes the Datadog RUM client.
+ *
+ * @returns {void}
+ */
+const initDatadog = (): void => {
   if (typeof window !== 'undefined') {
     datadogRum.init({
       applicationId: process.env.NEXT_PUBLIC_DATADOG_APPLICATION_ID,
@@ -19,14 +24,19 @@ const initDatadog = () => {
       trackResources: true,
       trackLongTasks: true,
       defaultPrivacyLevel: 'mask-user-input',
-      allowedTracingUrls: [/https:\/\/.*\.ktpnational\.com/],
+      allowedTracingUrls: [/https:\/\/.*\.kappathetapi\.org/],
     });
 
     datadogRum.startSessionReplayRecording();
   }
 };
 
-export const DatadogInit = () => {
+/**
+ * DatadogInit component to initialize the Datadog RUM client.
+ *
+ * @returns {null}
+ */
+export const DatadogInit = (): null => {
   useEffect(() => {
     initDatadog();
   }, []);
@@ -34,6 +44,13 @@ export const DatadogInit = () => {
   return null;
 };
 
-export const errorHandler = (error: Error, errorInfo: React.ErrorInfo) => {
+/**
+ * Error handler function to log errors to Datadog RUM.
+ *
+ * @param {Error} error - The error object.
+ * @param {React.ErrorInfo} errorInfo - The error information.
+ * @returns {void}
+ */
+export const errorHandler = (error: Error, errorInfo: React.ErrorInfo): void => {
   datadogRum.addError(error, { errorInfo });
 };

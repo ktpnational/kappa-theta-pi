@@ -3,6 +3,7 @@ import { registerOTel } from '@vercel/otel';
 
 export async function register() {
   registerOTel({ serviceName: 'ktp-national' });
+
   if (process.env.NEXT_RUNTIME === 'nodejs') {
     await import('../sentry.server.config');
   }

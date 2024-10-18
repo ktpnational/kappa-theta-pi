@@ -1,0 +1,5 @@
+@import "./fonts.css";
+
+html {
+  font-family: "Source Sans 3", Palatino, sans-serif;
+}

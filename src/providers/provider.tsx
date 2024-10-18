@@ -1,9 +1,7 @@
 'use client';
 
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import type { JSXElementConstructor, ReactNode } from 'react';
-import { , Events, ThemeProvider } from '.';
-import { QueryProvider } from './core/server/query-client';
+import { DatadogInit, Events, QueryProvider, StoreProvider, ThemeProvider } from '.';
 
 const Providers: React.FC<
   Readonly<{
@@ -15,13 +13,14 @@ const Providers: React.FC<
       <ProviderStack
         providers={[
           [ThemeProvider, {}],
-          [Events, {}],
           [QueryProvider, {}],
+          [StoreProvider, {}],
+          [Events, {}],
         ]}
       >
         <>
           {children}
-          <ReactQueryDevtools initialIsOpen={false} />
+          <DatadogInit />
         </>
       </ProviderStack>
     </>

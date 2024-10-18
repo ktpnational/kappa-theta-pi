@@ -5,7 +5,7 @@ import type {
 } from 'canvas-confetti';
 import confetti from 'canvas-confetti';
 import type { ReactNode } from 'react';
-import type React from 'react';
+import React from 'react';
 import {
   createContext,
   forwardRef,
@@ -99,7 +99,7 @@ interface ConfettiButtonProps extends ButtonProps {
   children?: React.ReactNode;
 }
 
-function ConfettiButton({ options, children, ...props }: ConfettiButtonProps) {
+const ConfettiButton = React.memo(({ options, children, ...props }: ConfettiButtonProps) => {
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     const rect = event.currentTarget.getBoundingClientRect();
     const x = rect.left + rect.width / 2;
@@ -118,7 +118,7 @@ function ConfettiButton({ options, children, ...props }: ConfettiButtonProps) {
       {children}
     </Button>
   );
-}
+});
 
 Confetti.displayName = 'Confetti';
 

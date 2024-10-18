@@ -1,7 +1,13 @@
 import { type CookieOptions, createServerClient } from '@supabase/ssr';
 import { type NextRequest, NextResponse } from 'next/server';
 
-export async function middleware(request: NextRequest) {
+/**
+ * Middleware function to handle requests and update session.
+ *
+ * @param {NextRequest} request - The incoming request object.
+ * @returns {Promise<NextResponse>} - The response object.
+ */
+export async function middleware(request: NextRequest): Promise<NextResponse> {
   let response = NextResponse.next({
     request: {
       headers: request.headers,
@@ -63,6 +69,12 @@ export async function middleware(request: NextRequest) {
   return response;
 }
 
+/**
+ * Checks if the request is for a public asset.
+ *
+ * @param {NextRequest} request - The incoming request object.
+ * @returns {boolean} - True if the request is for a public asset, false otherwise.
+ */
 function isPublicAsset(request: NextRequest): boolean {
   const publicAssetPaths: string[] = [
     '/assets/',
@@ -83,6 +95,12 @@ function isPublicAsset(request: NextRequest): boolean {
   return publicAssetPaths.some((path) => request.nextUrl.pathname.startsWith(path));
 }
 
+/**
+ * Configuration object for the middleware.
+ *
+ * @type {Object}
+ * @property {string[]} matcher - Array of paths to match for the middleware.
+ */
 export const config = {
   matcher: [
     /*

@@ -1,16 +1,17 @@
-'use client';
+import { Loader } from '@/components';
+import { constructMetadata } from '@/utils';
 
-import { Loader } from '@/components/client/Loader';
-import React from 'react';
+export const metadata = constructMetadata({
+  title: 'Loading...',
+  description: 'Loading...',
+});
 
-const Loading = React.memo(() => {
+const Loading = () => {
   return (
     <>
       <Loader />
     </>
   );
-});
-
-Loading.displayName = 'Loading';
+};
 
 export default Loading;
