@@ -27,6 +27,9 @@ const config = {
       { protocol: 'https', hostname: 'lh3.googleusercontent.com' },
       { protocol: 'http', hostname: 'localhost:3000' },
       { protocol: 'https', hostname: 'media.licdn.com' },
+      { protocol: 'https', hostname: 'github.com' },
+      { protocol: 'https', hostname: 'res.cloudinary.com' },
+      { protocol: 'https', hostname: 'hebbkx1anhila5yf.public.blob.vercel-storage.com' },
     ],
   },
   experimental: {
@@ -109,7 +112,7 @@ const finalConfig = withBundleAnalyzerConfig(
         rsc: true,
         filter: {
           include: '**/components/**/*.{mtsx,mjsx,tsx,jsx}',
-          exclude: '**/api/**/*.{ts,tsx}',
+          exclude: ['**/api/**/*.{ts,tsx}', '**/components/html/**/*.{ts,tsx}'],
         },
       })(config),
       millionConfig,

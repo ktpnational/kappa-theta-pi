@@ -20,8 +20,8 @@ const cleaned_title = app.name.replace(' - National', '');
 export function constructMetadata({
   title = cleaned_title,
   description = `${app.description}`,
-  image = '/opengraph-image.png',
-  twitter = '/twitter-image.png',
+  image = '/api/og',
+  twitter = '/api/og',
   icons = '/assets/svgs/logo.svg',
   noIndex = false,
   url = app.url,
@@ -94,8 +94,8 @@ export function constructViewport(): Viewport {
     viewportFit: 'cover',
     interactiveWidget: 'resizes-visual',
     themeColor: [
-      { media: '(prefers-color-scheme: light)', color: '#BA9BDD' },
-      { media: '(prefers-color-scheme: dark)', color: '#4B0082' },
+      { media: '(prefers-color-scheme: light)', color: '#8bb9ff' },
+      { media: '(prefers-color-scheme: dark)', color: '#234c8b' },
     ],
     colorScheme: 'dark light',
   };

@@ -1,40 +1,26 @@
 'use client';
 
-import { type StoreState, createGlobalStore } from '@/core';
-import { type ReactNode, createContext, useContext, useRef } from 'react';
-import { type StoreApi, useStore } from 'zustand';
+import { type StoreState, createGlobalStore } from '@/core/store';
+import type React from 'react';
+import { createContext, useContext, useRef } from 'react';
+import { useStore } from 'zustand';
 
-const StoreContext = createContext<StoreApi<StoreState> | null>(null);
+const GlobalStoreContext = createContext<ReturnType<typeof createGlobalStore> | null>(null);
 
-interface StoreProviderProps {
-  children: ReactNode;
-}
-
-/**
- * StoreProvider component that provides the global store to its children.
- * @param {StoreProviderProps} props - The props for the StoreProvider component.
- * @returns {JSX.Element} The StoreProvider component.
- */
-export const StoreProvider: React.FC<StoreProviderProps> = ({ children }) => {
-  const storeRef = useRef<ReturnType<typeof createGlobalStore> | null>(null);
+export const GlobalStoreProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
+  const storeRef = useRef<ReturnType<typeof createGlobalStore>>();
   if (!storeRef.current) {
     storeRef.current = createGlobalStore();
   }
-
-  return <StoreContext.Provider value={storeRef.current}>{children}</StoreContext.Provider>;
+  return (
+    <GlobalStoreContext.Provider value={storeRef.current}>{children}</GlobalStoreContext.Provider>
+  );
 };
 
-/**
- * Custom hook to access the global store.
- * @template T
- * @param {(state: StoreState) => T} selector - The selector function to select a part of the state.
- * @returns {T} The selected state.
- * @throws Will throw an error if used outside of a StoreProvider.
- */
-export const useGlobalStore = <T,>(selector: (state: StoreState) => T): T => {
-  const store = useContext(StoreContext);
+export const useGlobalStore = <T,>(selector: (state: StoreState) => T) => {
+  const store = useContext(GlobalStoreContext);
   if (!store) {
-    throw new Error(`useGlobalStore must be used within a StoreProvider`);
+    throw new Error('useGlobalStore must be used within a GlobalStoreProvider');
   }
   return useStore(store, selector);
 };

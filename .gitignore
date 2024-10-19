@@ -60,3 +60,5 @@ sw.js.*
 
 /playwright-report
 /test-results
+
+.vercel

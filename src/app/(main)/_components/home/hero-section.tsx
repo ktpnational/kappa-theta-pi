@@ -8,7 +8,7 @@ export const HeroSection = () => {
   return (
     <section className="text-center mb-16 md:mb-24">
       <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-[#234c8b] leading-tight">
-        Kappa Theta Pi
+        Source Sans 3
       </h1>
       <p className="text-xl md:text-2xl mb-8 text-[#234c8b]">
         Uniting tech enthusiasts and future innovators across the nation

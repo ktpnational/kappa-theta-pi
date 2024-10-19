@@ -1,7 +1,7 @@
 'use client';
 
 import type { JSXElementConstructor, ReactNode } from 'react';
-import { DatadogInit, Events, QueryProvider, StoreProvider, ThemeProvider } from '.';
+import { DatadogInit, Events, GlobalStoreProvider, QueryProvider, ThemeProvider } from '.';
 
 const Providers: React.FC<
   Readonly<{
@@ -14,7 +14,7 @@ const Providers: React.FC<
         providers={[
           [ThemeProvider, {}],
           [QueryProvider, {}],
-          [StoreProvider, {}],
+          [GlobalStoreProvider, {}],
           [Events, {}],
         ]}
       >

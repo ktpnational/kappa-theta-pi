@@ -1,23 +1,24 @@
+import type { ChapterInfo } from '@/data/map';
 import { createStore } from 'zustand';
 
 /**
  * Interface representing the state of the store.
  */
 interface StoreState {
-  bears: number;
-  increasePopulation: () => void;
-  removeAllBears: () => void;
-
-  user: {
-    id: string | null;
-    name: string | null;
-    email: string | null;
+  header: {
+    setIsMenuOpen: (value: boolean | ((prev: boolean) => boolean)) => void;
+    setIsScrolled: (value: boolean) => void;
+    setVisible: (value: boolean | ((prev: boolean) => boolean)) => void;
+    isMenuOpen: boolean;
+    isScrolled: boolean;
+    visible: boolean;
+    prevScrollPos: number;
   };
-  setUser: (user: StoreState['user']) => void;
-  clearUser: () => void;
-
-  theme: 'light' | 'dark';
-  toggleTheme: () => void;
+  map: {
+    activeFilters: ChapterInfo['status'][];
+    setActiveFilters: (filters: ChapterInfo['status'][]) => void;
+    toggleFilter: (filter: ChapterInfo['status']) => void;
+  };
 }
 
 /**
@@ -26,16 +27,46 @@ interface StoreState {
  */
 const createGlobalStore = () =>
   createStore<StoreState>((set) => ({
-    bears: 0,
-    increasePopulation: () => set((state) => ({ bears: state.bears + 1 })),
-    removeAllBears: () => set({ bears: 0 }),
-
-    user: { id: null, name: null, email: null },
-    setUser: (user) => set({ user }),
-    clearUser: () => set({ user: { id: null, name: null, email: null } }),
-
-    theme: 'light',
-    toggleTheme: () => set((state) => ({ theme: state.theme === 'light' ? 'dark' : 'light' })),
+    header: {
+      isMenuOpen: false,
+      isScrolled: false,
+      visible: true,
+      prevScrollPos: 0,
+      setIsMenuOpen: (value) =>
+        set((state) => ({
+          header: {
+            ...state.header,
+            isMenuOpen: typeof value === 'function' ? value(state.header.isMenuOpen) : value,
+          },
+        })),
+      setIsScrolled: (value) =>
+        set((state) => ({
+          header: { ...state.header, isScrolled: value },
+        })),
+      setVisible: (value) =>
+        set((state) => ({
+          header: {
+            ...state.header,
+            visible: typeof value === 'function' ? value(state.header.visible) : value,
+          },
+        })),
+    },
+    map: {
+      activeFilters: ['Active', 'Colony', 'Inactive'],
+      setActiveFilters: (filters) =>
+        set((state) => ({
+          map: { ...state.map, activeFilters: filters },
+        })),
+      toggleFilter: (filter) =>
+        set((state) => ({
+          map: {
+            ...state.map,
+            activeFilters: state.map.activeFilters.includes(filter)
+              ? state.map.activeFilters.filter((f) => f !== filter)
+              : [...state.map.activeFilters, filter],
+          },
+        })),
+    },
   }));
 
 export { createGlobalStore, type StoreState };

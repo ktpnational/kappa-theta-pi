@@ -5,12 +5,12 @@ export default function robots(): MetadataRoute.Robots {
     rules: [
       {
         userAgent: 'Googlebot',
-        allow: ['/'],
+        allow: ['/api/og/*'],
         disallow: ['/api/', '/legal'],
       },
       {
         userAgent: ['Applebot', 'Bingbot'],
-        allow: ['/'],
+        allow: ['/api/og/*'],
         disallow: ['/api/', '/legal'],
       },
     ],

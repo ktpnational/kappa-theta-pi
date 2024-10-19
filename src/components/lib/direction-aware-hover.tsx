@@ -3,7 +3,7 @@
 import { cn } from '@/lib/utils';
 import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
-import { useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import React from 'react';
 
 export const DirectionAwareHover = React.memo(
@@ -26,29 +26,32 @@ export const DirectionAwareHover = React.memo(
       'left',
     );
 
-    const handleMouseEnter = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-      if (!ref.current) return;
+    const handleMouseEnter = useCallback(
+      (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        if (!ref.current) return;
 
-      const direction = getDirection(event, ref.current);
-      console.log('direction', direction);
-      switch (direction) {
-        case 0:
-          setDirection('top');
-          break;
-        case 1:
-          setDirection('right');
-          break;
-        case 2:
-          setDirection('bottom');
-          break;
-        case 3:
-          setDirection('left');
-          break;
-        default:
-          setDirection('left');
-          break;
-      }
-    };
+        const direction = getDirection(event, ref.current);
+        console.log('direction', direction);
+        switch (direction) {
+          case 0:
+            setDirection('top');
+            break;
+          case 1:
+            setDirection('right');
+            break;
+          case 2:
+            setDirection('bottom');
+            break;
+          case 3:
+            setDirection('left');
+            break;
+          default:
+            setDirection('left');
+            break;
+        }
+      },
+      [ref],
+    );
 
     const getDirection = (ev: React.MouseEvent<HTMLDivElement, MouseEvent>, obj: HTMLElement) => {
       const { width: w, height: h, left, top } = obj.getBoundingClientRect();

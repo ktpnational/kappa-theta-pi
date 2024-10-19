@@ -6,7 +6,7 @@ import { Toaster } from '@/components/ui/sonner';
  * @param {React.PropsWithChildren} props - The props containing children components.
  * @returns {JSX.Element} - The Events component.
  */
-const Events: React.FC<
+export const Events: React.FC<
   Readonly<{
     children: React.ReactNode;
   }>
@@ -28,5 +28,3 @@ const Events: React.FC<
     </>
   );
 };
-
-export { Events };

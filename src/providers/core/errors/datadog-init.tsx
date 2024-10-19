@@ -2,7 +2,7 @@
 
 import { datadogRum } from '@datadog/browser-rum';
 import app from 'next/app';
-import { useEffect } from 'react';
+import { memo, useEffect } from 'react';
 
 /**
  * Initializes the Datadog RUM client.
@@ -36,13 +36,13 @@ const initDatadog = (): void => {
  *
  * @returns {null}
  */
-export const DatadogInit = (): null => {
+export const DatadogInit = memo((): null => {
   useEffect(() => {
     initDatadog();
   }, []);
 
   return null;
-};
+});
 
 /**
  * Error handler function to log errors to Datadog RUM.

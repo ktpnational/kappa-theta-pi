@@ -6,3 +6,5 @@ export * from './direction-aware-hover';
 export * from './hero-video-dialog';
 export * from './link-preview';
 export * from './number-ticker';
+export * from './infinite-moving-cards';
+export * from './scroll-based-velocity';
