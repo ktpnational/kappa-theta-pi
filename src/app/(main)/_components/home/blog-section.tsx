@@ -9,7 +9,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { cn } from '@/lib/utils';
-import { motion } from 'framer-motion';
+import { type HTMLMotionProps, motion } from 'framer-motion';
 import Image from 'next/image';
 import type React from 'react';
 import { useEffect, useRef, useState } from 'react';
@@ -280,9 +280,11 @@ const InfiniteMovingCards: React.FC<{
 const BlogCard: React.FC<{ post: BlogPost; onClick: () => void }> = ({ post, onClick }) => {
   return (
     <motion.div
-      className="bg-white rounded-xl shadow-lg overflow-hidden cursor-pointer h-full"
+      {...({
+        className: 'bg-white rounded-xl shadow-lg overflow-hidden cursor-pointer h-full',
+        onClick: onClick,
+      } as HTMLMotionProps<'div'>)}
       whileHover={{ scale: 1.05 }}
-      onClick={onClick}
     >
       <div className="relative h-48 overflow-hidden">
         <Image

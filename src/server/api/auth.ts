@@ -2,7 +2,7 @@ import { encrypt } from '@/lib/jwt';
 import { db } from '@/lib/prisma';
 import { authUser } from '@/lib/schema';
 import { Elysia, InternalServerError } from 'elysia';
-import { cookies } from 'next/headers';
+import { type UnsafeUnwrappedCookies, cookies } from 'next/headers';
 
 export const authRoute = new Elysia({ prefix: '/auth' })
   .post(
@@ -21,7 +21,7 @@ export const authRoute = new Elysia({ prefix: '/auth' })
       });
 
       // Set authentication cookie
-      cookies().set({
+      (await cookies()).set({
         name: process.env.AUTH_COOKIE,
         value: (await encrypt(user))!,
         path: '/',
@@ -44,7 +44,7 @@ export const authRoute = new Elysia({ prefix: '/auth' })
       });
 
       if (!user) throw new InternalServerError('User not found');
-      cookies().set({
+      (await cookies()).set({
         name: process.env.AUTH_COOKIE,
         value: (await encrypt(user))!,
         path: '/',
@@ -56,5 +56,5 @@ export const authRoute = new Elysia({ prefix: '/auth' })
     { body: authUser },
   )
   .get('/logout', (_ctx) => {
-    return !!cookies().delete(process.env.AUTH_COOKIE);
+    return !!(cookies() as unknown as UnsafeUnwrappedCookies).delete(process.env.AUTH_COOKIE);
   });

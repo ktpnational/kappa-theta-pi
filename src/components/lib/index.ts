@@ -1,4 +1,3 @@
-export * from './apple-cards-carousel';
 export * from './animated-circular-progress-bar';
 export * from './animated-shiny-text';
 export * from './confetti';

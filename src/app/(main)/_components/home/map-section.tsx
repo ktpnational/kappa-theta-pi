@@ -1,7 +1,7 @@
 'use client';
 
 import { GoogleMaps } from '@/components';
-import { motion } from 'framer-motion';
+import { type HTMLMotionProps, motion } from 'framer-motion';
 import type React from 'react';
 
 export const MapSection: React.FC = () => {
@@ -13,7 +13,9 @@ export const MapSection: React.FC = () => {
         {['Active Chapters', 'Colonies', 'Inactive Chapters'].map((status, index) => (
           <motion.span
             key={status}
-            className="flex items-center bg-white px-3 py-2 rounded-full shadow-md"
+            {...({
+              className: 'flex items-center bg-white px-3 py-2 rounded-full shadow-md',
+            } as HTMLMotionProps<'span'>)}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >

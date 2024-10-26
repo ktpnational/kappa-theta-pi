@@ -20,7 +20,7 @@ const Providers: React.FC<
       >
         <>
           {children}
-          <DatadogInit />
+          {/* <DatadogInit /> */}
         </>
       </ProviderStack>
     </>

@@ -1,14 +1,14 @@
-'use client'
+'use client';
 
-import { motion } from 'framer-motion'
-import React from 'react'
+import { motion } from 'framer-motion';
+import React from 'react';
 
 export const AnimatedBackground = () => {
   const randomMovement = () => ({
     x: [0, Math.random() * 10 - 5],
     y: [0, Math.random() * 10 - 5],
     rotate: [0, Math.random() * 10 - 5],
-  })
+  });
 
   return (
     <div className="fixed inset-0 overflow-hidden bg-[#234C8B]">
@@ -30,7 +30,7 @@ export const AnimatedBackground = () => {
               animate={randomMovement()}
               transition={{
                 duration: 20,
-                repeat: Infinity,
+                repeat: Number.POSITIVE_INFINITY,
                 repeatType: 'reverse',
                 ease: 'easeInOut',
               }}
@@ -41,7 +41,7 @@ export const AnimatedBackground = () => {
               animate={randomMovement()}
               transition={{
                 duration: 25,
-                repeat: Infinity,
+                repeat: Number.POSITIVE_INFINITY,
                 repeatType: 'reverse',
                 ease: 'easeInOut',
               }}
@@ -53,7 +53,7 @@ export const AnimatedBackground = () => {
               animate={randomMovement()}
               transition={{
                 duration: 22,
-                repeat: Infinity,
+                repeat: Number.POSITIVE_INFINITY,
                 repeatType: 'reverse',
                 ease: 'easeInOut',
               }}
@@ -103,7 +103,7 @@ export const AnimatedBackground = () => {
         </p>
       </div>
     </div>
-  )
-}
+  );
+};
 
-AnimatedBackground.displayName = 'AnimatedBackground'
+AnimatedBackground.displayName = 'AnimatedBackground';

@@ -103,9 +103,10 @@ const Slider: React.FC<SliderProps> & { Slide: React.FC<SlideProps> } = ({
         ref={containerRef}
       >
         <motion.div
-          className={cn('flex', `w-[calc(${width} * ${React.Children.count(children) * 2})]`)}
+          style={{
+            width: `calc(${width} * ${React.Children.count(children) * 2})`,
+          }}
           animate={controls}
-          id={`slider_${idNanoid}`}
         >
           <AnimatePresence>
             {React.Children.map(children, (child, i) => (
@@ -139,10 +140,12 @@ const Slider: React.FC<SliderProps> & { Slide: React.FC<SlideProps> } = ({
 
 // Define a memoized component for children
 const MemoizedChild = React.memo(({ child, width }: { child: React.ReactNode; width: string }) => (
-  <React.Fragment>{React.cloneElement(child as React.ReactElement, { width })}</React.Fragment>
+  <React.Fragment>
+    {React.cloneElement(child as React.ReactElement<any>, { style: { width } })}
+  </React.Fragment>
 ));
 
-const Slide: React.FC<SlideProps> = memo(({ children, width = '200px', ...props }) => {
+const Slide: React.FC<SlideProps> = React.memo(({ children, width = '200px', ...props }) => {
   return (
     <div className={cn('flex items-center', `w-[${width}]`)} {...props}>
       {children}

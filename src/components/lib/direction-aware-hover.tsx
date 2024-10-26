@@ -1,7 +1,7 @@
 'use client';
 
 import { cn } from '@/lib/utils';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, type HTMLMotionProps, motion } from 'framer-motion';
 import Image from 'next/image';
 import { useCallback, useRef, useState } from 'react';
 import React from 'react';
@@ -63,24 +63,34 @@ export const DirectionAwareHover = React.memo(
 
     return (
       <motion.div
-        onMouseEnter={handleMouseEnter}
-        ref={ref}
-        className={cn(
-          'md:h-96 w-60 h-60 md:w-96 bg-transparent rounded-lg overflow-hidden group/card relative',
-          className,
-        )}
+        {...({
+          onMouseEnter: handleMouseEnter,
+          className: cn(
+            'md:h-96 w-60 h-60 md:w-96 bg-transparent rounded-lg overflow-hidden group/card relative',
+            className,
+          ),
+        } as HTMLMotionProps<'div'>)}
       >
         <AnimatePresence mode="wait">
           <motion.div
-            className="relative h-full w-full"
+            {...({
+              className: 'relative h-full w-full',
+            } as HTMLMotionProps<'div'>)}
             initial="initial"
             whileHover={direction}
             exit="exit"
           >
-            <motion.div className="group-hover/card:block hidden absolute inset-0 w-full h-full bg-black/40 z-10 transition duration-500" />
+            <motion.div
+              {...({
+                className:
+                  'group-hover/card:block hidden absolute inset-0 w-full h-full bg-black/40 z-10 transition duration-500',
+              } as HTMLMotionProps<'div'>)}
+            />
             <motion.div
               variants={variants}
-              className="h-full w-full relative bg-gray-50 dark:bg-black"
+              {...({
+                className: 'h-full w-full relative bg-gray-50 dark:bg-black',
+              } as HTMLMotionProps<'div'>)}
               transition={{
                 duration: 0.2,
                 ease: 'easeOut',
@@ -100,7 +110,9 @@ export const DirectionAwareHover = React.memo(
                 duration: 0.5,
                 ease: 'easeOut',
               }}
-              className={cn('text-white absolute bottom-4 left-4 z-40', childrenClassName)}
+              {...({
+                className: cn('text-white absolute bottom-4 left-4 z-40', childrenClassName),
+              } as HTMLMotionProps<'div'>)}
             >
               {children}
             </motion.div>

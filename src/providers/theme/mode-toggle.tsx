@@ -7,6 +7,11 @@ import * as React from 'react';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
+/**
+ * ModeToggle component to switch between light and dark themes.
+ *
+ * @returns {JSX.Element} - The ModeToggle component.
+ */
 export function ModeToggle() {
   const { setTheme, theme } = useTheme();
 

@@ -18,9 +18,9 @@ export const Footer = memo(function Footer() {
           <FooterSection
             title="Quick Links"
             links={[
-              { href: '/about-us', text: 'About Us' },
+              { href: '/about', text: 'About Us' },
               { href: '/chapters', text: 'Chapters' },
-              { href: '/join-us', text: 'Join Us' },
+              { href: '/join', text: 'Join Us' },
               { href: '/blog', text: 'Blog' },
             ]}
           />

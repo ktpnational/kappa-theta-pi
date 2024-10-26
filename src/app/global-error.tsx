@@ -1,16 +1,15 @@
-'use client'
-
-import { Button } from '@/components/ui/button'
-import { AnimatedBackground } from '@/components'
-import * as Sentry from '@sentry/nextjs'
-import { AlertTriangle, Home, RotateCw } from 'lucide-react'
-import { useEffect } from 'react'
-import { motion } from 'framer-motion'
+'use client';
+import { AnimatedBackground } from '@/components';
+import { Button } from '@/components/ui/button';
+import * as Sentry from '@sentry/nextjs';
+import { motion } from 'framer-motion';
+import { AlertTriangle, Home, RotateCw } from 'lucide-react';
+import { useEffect } from 'react';
 
 export default function GlobalError({ error }: { error: Error & { digest?: string } }) {
   useEffect(() => {
-    Sentry.captureException(error)
-  }, [error])
+    Sentry.captureException(error);
+  }, [error]);
 
   return (
     <html lang="en">
@@ -18,8 +17,14 @@ export default function GlobalError({ error }: { error: Error & { digest?: strin
         <div className="relative flex flex-col items-center justify-center min-h-screen overflow-hidden">
           <AnimatedBackground />
           <motion.div
-            className="z-10 max-w-md w-full px-4 text-center"
-            initial={{ opacity: 0, y: -20 }}
+            style={{
+              zIndex: 10,
+              maxWidth: '28rem',
+              width: '100%',
+              paddingLeft: '1rem',
+              paddingRight: '1rem',
+              textAlign: 'center',
+            }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
@@ -48,12 +53,10 @@ export default function GlobalError({ error }: { error: Error & { digest?: strin
                 Go back home
               </Button>
             </div>
-            {error.digest && (
-              <p className="mt-4 text-sm text-white/60">Error ID: {error.digest}</p>
-            )}
+            {error.digest && <p className="mt-4 text-sm text-white/60">Error ID: {error.digest}</p>}
           </motion.div>
         </div>
       </body>
     </html>
-  )
+  );
 }

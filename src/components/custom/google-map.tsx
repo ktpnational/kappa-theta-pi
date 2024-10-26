@@ -100,7 +100,13 @@ const Markers: React.FC<Props> = ({ chapters }) => {
           onClick={() => setActiveMarker(chapter.name)}
         >
           <motion.div
-            className={`p-2 rounded-full shadow-lg ${getMarkerColor(chapter.status)}`}
+            style={{
+              backgroundColor: getMarkerColor(chapter.status).split(' ')[0],
+              color: getMarkerColor(chapter.status).split(' ')[1],
+              padding: '0.5rem',
+              borderRadius: '50%',
+              boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
+            }}
             whileHover={{ scale: 1.2 }}
             whileTap={{ scale: 0.9 }}
           >
@@ -143,7 +149,14 @@ const ChapterInfo: React.FC<{ chapter: ChapterInfo }> = ({ chapter }) => (
     initial={{ opacity: 0, y: -20 }}
     animate={{ opacity: 1, y: 0 }}
     exit={{ opacity: 0, y: 20 }}
-    className="bg-[#234c8b] text-[#8bb9ff] p-4 rounded-lg shadow-lg max-w-xs"
+    style={{
+      backgroundColor: '#234c8b',
+      color: '#8bb9ff',
+      padding: '1rem',
+      borderRadius: '0.5rem',
+      boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
+      maxWidth: '20rem',
+    }}
   >
     <h3 className="text-lg font-bold mb-2">
       {chapter.greekName} - {chapter.name} Chapter

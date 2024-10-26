@@ -26,7 +26,7 @@ export const NumberTicker = React.memo(
       damping: 60,
       stiffness: 100,
     });
-    const isInView = useInView(ref, { once: true, margin: '0px' });
+    const isInView = useInView(ref as React.RefObject<HTMLElement>, { once: true, margin: '0px' });
 
     useEffect(() => {
       isInView &&

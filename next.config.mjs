@@ -34,7 +34,6 @@ const config = {
   },
   experimental: {
     optimizeCss: true,
-    swcMinify: true,
     turbo: {
       rules: {
         '*.svg': {
@@ -46,14 +45,6 @@ const config = {
   },
   typescript: {
     ignoreBuildErrors: true,
-  },
-  async rewrites() {
-    return [
-      { source: '/healthz', destination: '/api/health' },
-      { source: '/api/healthz', destination: '/api/health' },
-      { source: '/health', destination: '/api/health' },
-      { source: '/ping', destination: '/api/health' },
-    ];
   },
   async headers() {
     return [

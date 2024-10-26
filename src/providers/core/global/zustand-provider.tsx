@@ -7,8 +7,14 @@ import { useStore } from 'zustand';
 
 const GlobalStoreContext = createContext<ReturnType<typeof createGlobalStore> | null>(null);
 
+/**
+ * GlobalStoreProvider component to provide the global store to the React component tree.
+ *
+ * @param {React.PropsWithChildren} props - The props containing children components.
+ * @returns {JSX.Element} - The GlobalStoreProvider component wrapping the children.
+ */
 export const GlobalStoreProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
-  const storeRef = useRef<ReturnType<typeof createGlobalStore>>();
+  const storeRef = useRef<ReturnType<typeof createGlobalStore>>(null);
   if (!storeRef.current) {
     storeRef.current = createGlobalStore();
   }

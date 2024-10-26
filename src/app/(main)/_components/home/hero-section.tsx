@@ -18,7 +18,7 @@ export const HeroSection = () => {
         opportunities for professional development, networking, and collaborative learning.
       </p>
       <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6">
-        <Link href="/join-us">
+        <Link href="/join">
           <Button size="lg" className="w-full sm:w-auto bg-[#234c8b] text-white hover:bg-[#458eff]">
             Join Kappa Theta Pi
           </Button>

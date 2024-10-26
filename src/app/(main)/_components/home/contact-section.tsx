@@ -30,7 +30,6 @@ export const ContactSection = () => {
   });
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
-    // Here you would typically send the data to your server
     console.log(data);
     toast.success('Message sent successfully!');
     reset();

@@ -1,24 +1,32 @@
-'use client'
+'use client';
 
-import { Button } from '@/components/ui/button'
-import { AnimatedBackground } from '@/components'
-import { AlertTriangle, Home, RotateCw } from 'lucide-react'
-import { motion } from 'framer-motion'
+import { AnimatedBackground } from '@/components';
+import { Button } from '@/components/ui/button';
+import { motion } from 'framer-motion';
+import { AlertTriangle, Home, RotateCw } from 'lucide-react';
 
-export default function Error({ error, reset }: { error: Error & { digest?: string }, reset: () => void }) {
+export default function Error({
+  error,
+  reset,
+}: { error: Error & { digest?: string }; reset: () => void }) {
   return (
     <div className="relative flex flex-col items-center justify-center min-h-screen overflow-hidden">
       <AnimatedBackground />
       <motion.div
-        className="z-10 max-w-md w-full px-4 text-center"
+        style={{
+          zIndex: 10,
+          maxWidth: '28rem',
+          width: '100%',
+          paddingLeft: '1rem',
+          paddingRight: '1rem',
+          textAlign: 'center',
+        }}
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
         <AlertTriangle className="mx-auto h-12 w-12 text-destructive" />
-        <h1 className="mt-4 text-3xl font-bold tracking-tight text-white">
-          Something went wrong
-        </h1>
+        <h1 className="mt-4 text-3xl font-bold tracking-tight text-white">Something went wrong</h1>
         <p className="mt-2 text-base text-white/80">
           We apologize for the inconvenience. Please try again or return to the home page.
         </p>
@@ -32,17 +40,15 @@ export default function Error({ error, reset }: { error: Error & { digest?: stri
             Try again
           </Button>
           <Button
-            onClick={() => window.location.href = '/'}
+            onClick={() => (window.location.href = '/')}
             className="w-full bg-primary text-white hover:bg-primary/90"
           >
             <Home className="w-4 h-4 mr-2" />
             Go back home
           </Button>
         </div>
-        {error.digest && (
-          <p className="mt-4 text-sm text-white/60">Error ID: {error.digest}</p>
-        )}
+        {error.digest && <p className="mt-4 text-sm text-white/60">Error ID: {error.digest}</p>}
       </motion.div>
     </div>
-  )
+  );
 }

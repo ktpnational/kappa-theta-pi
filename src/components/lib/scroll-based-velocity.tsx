@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  type HTMLMotionProps,
   motion,
   useAnimationFrame,
   useMotionValue,
@@ -67,7 +68,7 @@ export function VelocityScroll({ text, default_velocity = 5, className }: Veloci
     const x = useTransform(baseX, (v) => `${wrap(-100 / repetitions, 0, v)}%`);
 
     const directionFactor = React.useRef<number>(1);
-    useAnimationFrame((t, delta) => {
+    useAnimationFrame((_t, delta) => {
       let moveBy = directionFactor.current * baseVelocity * (delta / 1000);
 
       if (velocityFactor.get() < 0) {
@@ -83,7 +84,12 @@ export function VelocityScroll({ text, default_velocity = 5, className }: Veloci
 
     return (
       <div className="w-full overflow-hidden whitespace-nowrap" ref={containerRef}>
-        <motion.div className={cn('inline-block', className)} style={{ x }}>
+        <motion.div
+          style={{ x }}
+          {...({
+            className: cn('inline-block', className),
+          } as HTMLMotionProps<'div'>)}
+        >
           {Array.from({ length: repetitions }).map((_, i) => (
             <span key={i} ref={i === 0 ? textRef : null}>
               {children}{' '}

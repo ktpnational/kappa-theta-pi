@@ -1,7 +1,13 @@
 'use client';
 import { cn } from '@/lib/utils';
 import * as HoverCardPrimitive from '@radix-ui/react-hover-card';
-import { AnimatePresence, motion, useMotionValue, useSpring } from 'framer-motion';
+import {
+  AnimatePresence,
+  type HTMLMotionProps,
+  motion,
+  useMotionValue,
+  useSpring,
+} from 'framer-motion';
 import Image, { type ImageProps } from 'next/image';
 import Link from 'next/link';
 import { encode } from 'qss';
@@ -65,7 +71,7 @@ export const LinkPreview = React.memo(
     const handleMouseMove = (event: any) => {
       const targetRect = event.target.getBoundingClientRect();
       const eventOffsetX = event.clientX - targetRect.left;
-      const offsetFromCenter = (eventOffsetX - targetRect.width / 2) / 2; // Reduce the effect to make it subtle
+      const offsetFromCenter = (eventOffsetX - targetRect.width / 2) / 2;
       x.set(offsetFromCenter);
     };
 
@@ -121,10 +127,12 @@ export const LinkPreview = React.memo(
                     },
                   }}
                   exit={{ opacity: 0, y: 20, scale: 0.6 }}
-                  className="shadow-xl rounded-xl"
-                  style={{
-                    x: translateX,
-                  }}
+                  {...({
+                    className: 'shadow-xl rounded-xl',
+                    style: {
+                      x: translateX,
+                    },
+                  } as HTMLMotionProps<'div'>)}
                 >
                   <Link
                     href={url}

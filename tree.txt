@@ -1,0 +1,395 @@
+.
+├── Dockerfile
+├── README.md
+├── biome.json
+├── bun.lockb
+├── bunfig.toml
+├── components.json
+├── custom.d.ts
+├── docker-compose.yml
+├── env.d.ts
+├── git-conventional-commits.yaml
+├── next-env.d.ts
+├── next.config.mjs
+├── package.json
+├── playwright.config.ts
+├── postcss.config.mjs
+├── prisma
+│   └── schema.prisma
+├── public
+│   ├── assets
+│   │   ├── fonts
+│   │   │   ├── OFL.txt
+│   │   │   ├── README.txt
+│   │   │   ├── SourceSans3-Italic-VariableFont_wght.ttf
+│   │   │   ├── SourceSans3-VariableFont_wght.ttf
+│   │   │   ├── palatino.ttf
+│   │   │   └── static
+│   │   │       ├── SourceSans3-Black.ttf
+│   │   │       ├── SourceSans3-BlackItalic.ttf
+│   │   │       ├── SourceSans3-Bold.ttf
+│   │   │       ├── SourceSans3-BoldItalic.ttf
+│   │   │       ├── SourceSans3-ExtraBold.ttf
+│   │   │       ├── SourceSans3-ExtraBoldItalic.ttf
+│   │   │       ├── SourceSans3-ExtraLight.ttf
+│   │   │       ├── SourceSans3-ExtraLightItalic.ttf
+│   │   │       ├── SourceSans3-Italic.ttf
+│   │   │       ├── SourceSans3-Light.ttf
+│   │   │       ├── SourceSans3-LightItalic.ttf
+│   │   │       ├── SourceSans3-Medium.ttf
+│   │   │       ├── SourceSans3-MediumItalic.ttf
+│   │   │       ├── SourceSans3-Regular.ttf
+│   │   │       ├── SourceSans3-SemiBold.ttf
+│   │   │       └── SourceSans3-SemiBoldItalic.ttf
+│   │   ├── images
+│   │   │   ├── 404-code.png
+│   │   │   ├── 404.png
+│   │   │   ├── logo-letters.png
+│   │   │   ├── logo-small.png
+│   │   │   └── logo.png
+│   │   └── svgs
+│   │       ├── background.svg
+│   │       ├── logo-small.svg
+│   │       ├── logo.svg
+│   │       └── og.svg
+│   ├── favicon.ico
+│   └── pwa
+│       ├── android
+│       │   ├── android-launchericon-144-144.png
+│       │   ├── android-launchericon-192-192.png
+│       │   ├── android-launchericon-48-48.png
+│       │   ├── android-launchericon-512-512.png
+│       │   ├── android-launchericon-72-72.png
+│       │   └── android-launchericon-96-96.png
+│       ├── ios
+│       │   ├── 100.png
+│       │   ├── 1024.png
+│       │   ├── 114.png
+│       │   ├── 120.png
+│       │   ├── 128.png
+│       │   ├── 144.png
+│       │   ├── 152.png
+│       │   ├── 16.png
+│       │   ├── 167.png
+│       │   ├── 180.png
+│       │   ├── 192.png
+│       │   ├── 20.png
+│       │   ├── 256.png
+│       │   ├── 29.png
+│       │   ├── 32.png
+│       │   ├── 40.png
+│       │   ├── 50.png
+│       │   ├── 512.png
+│       │   ├── 57.png
+│       │   ├── 58.png
+│       │   ├── 60.png
+│       │   ├── 64.png
+│       │   ├── 72.png
+│       │   ├── 76.png
+│       │   ├── 80.png
+│       │   └── 87.png
+│       └── windows11
+│           ├── LargeTile.scale-100.png
+│           ├── LargeTile.scale-125.png
+│           ├── LargeTile.scale-150.png
+│           ├── LargeTile.scale-200.png
+│           ├── LargeTile.scale-400.png
+│           ├── SmallTile.scale-100.png
+│           ├── SmallTile.scale-125.png
+│           ├── SmallTile.scale-150.png
+│           ├── SmallTile.scale-200.png
+│           ├── SmallTile.scale-400.png
+│           ├── SplashScreen.scale-100.png
+│           ├── SplashScreen.scale-125.png
+│           ├── SplashScreen.scale-150.png
+│           ├── SplashScreen.scale-200.png
+│           ├── SplashScreen.scale-400.png
+│           ├── Square150x150Logo.scale-100.png
+│           ├── Square150x150Logo.scale-125.png
+│           ├── Square150x150Logo.scale-150.png
+│           ├── Square150x150Logo.scale-200.png
+│           ├── Square150x150Logo.scale-400.png
+│           ├── Square44x44Logo.altform-lightunplated_targetsize-16.png
+│           ├── Square44x44Logo.altform-lightunplated_targetsize-20.png
+│           ├── Square44x44Logo.altform-lightunplated_targetsize-24.png
+│           ├── Square44x44Logo.altform-lightunplated_targetsize-256.png
+│           ├── Square44x44Logo.altform-lightunplated_targetsize-30.png
+│           ├── Square44x44Logo.altform-lightunplated_targetsize-32.png
+│           ├── Square44x44Logo.altform-lightunplated_targetsize-36.png
+│           ├── Square44x44Logo.altform-lightunplated_targetsize-40.png
+│           ├── Square44x44Logo.altform-lightunplated_targetsize-44.png
+│           ├── Square44x44Logo.altform-lightunplated_targetsize-48.png
+│           ├── Square44x44Logo.altform-lightunplated_targetsize-60.png
+│           ├── Square44x44Logo.altform-lightunplated_targetsize-64.png
+│           ├── Square44x44Logo.altform-lightunplated_targetsize-72.png
+│           ├── Square44x44Logo.altform-lightunplated_targetsize-80.png
+│           ├── Square44x44Logo.altform-lightunplated_targetsize-96.png
+│           ├── Square44x44Logo.altform-unplated_targetsize-16.png
+│           ├── Square44x44Logo.altform-unplated_targetsize-20.png
+│           ├── Square44x44Logo.altform-unplated_targetsize-24.png
+│           ├── Square44x44Logo.altform-unplated_targetsize-256.png
+│           ├── Square44x44Logo.altform-unplated_targetsize-30.png
+│           ├── Square44x44Logo.altform-unplated_targetsize-32.png
+│           ├── Square44x44Logo.altform-unplated_targetsize-36.png
+│           ├── Square44x44Logo.altform-unplated_targetsize-40.png
+│           ├── Square44x44Logo.altform-unplated_targetsize-44.png
+│           ├── Square44x44Logo.altform-unplated_targetsize-48.png
+│           ├── Square44x44Logo.altform-unplated_targetsize-60.png
+│           ├── Square44x44Logo.altform-unplated_targetsize-64.png
+│           ├── Square44x44Logo.altform-unplated_targetsize-72.png
+│           ├── Square44x44Logo.altform-unplated_targetsize-80.png
+│           ├── Square44x44Logo.altform-unplated_targetsize-96.png
+│           ├── Square44x44Logo.scale-100.png
+│           ├── Square44x44Logo.scale-125.png
+│           ├── Square44x44Logo.scale-150.png
+│           ├── Square44x44Logo.scale-200.png
+│           ├── Square44x44Logo.scale-400.png
+│           ├── Square44x44Logo.targetsize-16.png
+│           ├── Square44x44Logo.targetsize-20.png
+│           ├── Square44x44Logo.targetsize-24.png
+│           ├── Square44x44Logo.targetsize-256.png
+│           ├── Square44x44Logo.targetsize-30.png
+│           ├── Square44x44Logo.targetsize-32.png
+│           ├── Square44x44Logo.targetsize-36.png
+│           ├── Square44x44Logo.targetsize-40.png
+│           ├── Square44x44Logo.targetsize-44.png
+│           ├── Square44x44Logo.targetsize-48.png
+│           ├── Square44x44Logo.targetsize-60.png
+│           ├── Square44x44Logo.targetsize-64.png
+│           ├── Square44x44Logo.targetsize-72.png
+│           ├── Square44x44Logo.targetsize-80.png
+│           ├── Square44x44Logo.targetsize-96.png
+│           ├── StoreLogo.scale-100.png
+│           ├── StoreLogo.scale-125.png
+│           ├── StoreLogo.scale-150.png
+│           ├── StoreLogo.scale-200.png
+│           ├── StoreLogo.scale-400.png
+│           ├── Wide310x150Logo.scale-100.png
+│           ├── Wide310x150Logo.scale-125.png
+│           ├── Wide310x150Logo.scale-150.png
+│           ├── Wide310x150Logo.scale-200.png
+│           └── Wide310x150Logo.scale-400.png
+├── renovate.json
+├── report-bundle-size.js
+├── reset.d.ts
+├── sentry.client.config.ts
+├── sentry.edge.config.ts
+├── sentry.server.config.ts
+├── src
+│   ├── app
+│   │   ├── (auth)
+│   │   │   ├── _client
+│   │   │   │   └── index.ts
+│   │   │   ├── _components
+│   │   │   │   └── index.ts
+│   │   │   ├── layout.tsx
+│   │   │   ├── signin
+│   │   │   │   └── page.tsx
+│   │   │   └── signup
+│   │   │       └── page.tsx
+│   │   ├── (dashboard)
+│   │   │   ├── _client
+│   │   │   │   └── index.ts
+│   │   │   ├── _components
+│   │   │   │   ├── company
+│   │   │   │   │   └── index.ts
+│   │   │   │   ├── crumbs.tsx
+│   │   │   │   ├── index.ts
+│   │   │   │   └── member
+│   │   │   │       └── index.ts
+│   │   │   ├── dashboard
+│   │   │   │   └── page.tsx
+│   │   │   └── layout.tsx
+│   │   ├── (legal)
+│   │   │   ├── _client
+│   │   │   │   └── index.ts
+│   │   │   ├── _components
+│   │   │   │   └── index.ts
+│   │   │   ├── copyright
+│   │   │   │   └── page.tsx
+│   │   │   ├── layout.tsx
+│   │   │   ├── privacy
+│   │   │   │   └── page.tsx
+│   │   │   └── terms
+│   │   │       └── page.tsx
+│   │   ├── (main)
+│   │   │   ├── _client
+│   │   │   │   └── index.ts
+│   │   │   ├── _components
+│   │   │   │   ├── home
+│   │   │   │   │   ├── blog-section.tsx
+│   │   │   │   │   ├── contact-section.tsx
+│   │   │   │   │   ├── cta-section.tsx
+│   │   │   │   │   ├── hero-section.tsx
+│   │   │   │   │   ├── index.ts
+│   │   │   │   │   ├── map-section.tsx
+│   │   │   │   │   ├── sections.tsx
+│   │   │   │   │   └── sponsors-section.tsx
+│   │   │   │   └── index.ts
+│   │   │   ├── about
+│   │   │   │   └── page.tsx
+│   │   │   ├── blog
+│   │   │   │   └── page.tsx
+│   │   │   ├── chapters
+│   │   │   │   └── page.tsx
+│   │   │   ├── contact
+│   │   │   │   └── page.tsx
+│   │   │   ├── join
+│   │   │   │   └── page.tsx
+│   │   │   ├── layout.tsx
+│   │   │   └── page.tsx
+│   │   ├── _components
+│   │   │   └── index.ts
+│   │   ├── api
+│   │   │   ├── auth
+│   │   │   │   └── [...nextauth]
+│   │   │   │       ├── options.ts
+│   │   │   │       └── route.ts
+│   │   │   ├── health
+│   │   │   │   └── route.ts
+│   │   │   ├── og
+│   │   │   │   └── route.tsx
+│   │   │   └── v1
+│   │   │       └── [[...route]]
+│   │   │           └── route.ts
+│   │   ├── error.tsx
+│   │   ├── global-error.tsx
+│   │   ├── layout.tsx
+│   │   ├── loading.tsx
+│   │   ├── manifest.ts
+│   │   ├── not-found.tsx
+│   │   ├── robots.ts
+│   │   └── sitemap.ts
+│   ├── components
+│   │   ├── app-sidebar.tsx
+│   │   ├── client
+│   │   │   ├── 404.tsx
+│   │   │   ├── background.tsx
+│   │   │   ├── index.ts
+│   │   │   ├── loader.tsx
+│   │   │   └── speech-to-text.tsx
+│   │   ├── custom
+│   │   │   ├── google-map.tsx
+│   │   │   ├── index.ts
+│   │   │   └── infinite-slider.tsx
+│   │   ├── html
+│   │   │   ├── footer.tsx
+│   │   │   ├── header.tsx
+│   │   │   └── index.ts
+│   │   ├── index.ts
+│   │   ├── lib
+│   │   │   ├── animated-circular-progress-bar.tsx
+│   │   │   ├── animated-shiny-text.tsx
+│   │   │   ├── confetti.tsx
+│   │   │   ├── direction-aware-hover.tsx
+│   │   │   ├── hero-video-dialog.tsx
+│   │   │   ├── index.ts
+│   │   │   ├── infinite-moving-cards.tsx
+│   │   │   ├── link-preview.tsx
+│   │   │   ├── number-ticker.tsx
+│   │   │   └── scroll-based-velocity.tsx
+│   │   ├── nav-main.tsx
+│   │   ├── nav-projects.tsx
+│   │   ├── nav-secondary.tsx
+│   │   ├── nav-user.tsx
+│   │   └── ui
+│   │       ├── avatar.tsx
+│   │       ├── breadcrumb.tsx
+│   │       ├── button.tsx
+│   │       ├── card.tsx
+│   │       ├── collapsible.tsx
+│   │       ├── dialog.tsx
+│   │       ├── dropdown-menu.tsx
+│   │       ├── index.ts
+│   │       ├── input.tsx
+│   │       ├── separator.tsx
+│   │       ├── sheet.tsx
+│   │       ├── sidebar.tsx
+│   │       ├── skeleton.tsx
+│   │       ├── sonner.tsx
+│   │       ├── textarea.tsx
+│   │       └── tooltip.tsx
+│   ├── constants
+│   │   ├── app.ts
+│   │   ├── companies.ts
+│   │   └── index.ts
+│   ├── core
+│   │   ├── index.ts
+│   │   └── store.ts
+│   ├── data
+│   │   ├── index.ts
+│   │   └── map.ts
+│   ├── e2e
+│   │   └── example.spec.ts
+│   ├── hooks
+│   │   ├── index.ts
+│   │   ├── use-copy-to-clipboard.ts
+│   │   ├── use-mobile.tsx
+│   │   ├── use-outside-click.ts
+│   │   └── use-persisted-id.ts
+│   ├── instrumentation.ts
+│   ├── lib
+│   │   ├── api.ts
+│   │   ├── index.ts
+│   │   ├── jwt.ts
+│   │   ├── prisma.ts
+│   │   ├── s3.ts
+│   │   └── utils.ts
+│   ├── middleware.ts
+│   ├── providers
+│   │   ├── core
+│   │   │   ├── errors
+│   │   │   │   ├── datadog-init.tsx
+│   │   │   │   └── index.ts
+│   │   │   ├── events.tsx
+│   │   │   ├── global
+│   │   │   │   ├── index.ts
+│   │   │   │   └── zustand-provider.tsx
+│   │   │   ├── index.ts
+│   │   │   └── server
+│   │   │       ├── index.ts
+│   │   │       ├── query-client.ts
+│   │   │       └── react.tsx
+│   │   ├── index.ts
+│   │   ├── provider.tsx
+│   │   └── theme
+│   │       ├── index.ts
+│   │       ├── mode-toggle.tsx
+│   │       └── theme-provider.tsx
+│   ├── schema
+│   │   └── index.ts
+│   ├── scripts
+│   │   ├── index.ts
+│   │   └── script.tsx
+│   ├── server
+│   │   ├── api
+│   │   │   ├── auth.ts
+│   │   │   └── index.ts
+│   │   └── index.ts
+│   ├── styles
+│   │   ├── dom.css
+│   │   ├── fonts.css
+│   │   └── globals.css
+│   ├── types
+│   │   └── next.auth.d.ts
+│   └── utils
+│       ├── api.ts
+│       ├── helpers
+│       │   ├── debug.ts
+│       │   ├── helpers.ts
+│       │   └── index.ts
+│       ├── index.ts
+│       ├── meta.ts
+│       └── supabase
+│           ├── client.ts
+│           ├── file.ts
+│           ├── index.ts
+│           ├── middleware.ts
+│           └── server.ts
+├── tailwind.config.ts
+├── test-fixtures.ts
+├── tree.txt
+├── tsconfig.json
+└── vitest.config.ts
+
+74 directories, 318 files

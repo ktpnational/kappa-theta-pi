@@ -11,7 +11,7 @@ export const CtaSection = () => {
       <p className="text-xl mb-8 max-w-2xl mx-auto">
         Be part of the premier national technology fraternity and shape the future of tech
       </p>
-      <Link href="/join-us">
+      <Link href="/join">
         <Button size="lg" className="bg-[#538b52] text-white hover:bg-[#8ddd8d]">
           Apply to ΚΘΠ Now
         </Button>
