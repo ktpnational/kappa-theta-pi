@@ -111,7 +111,7 @@
     "@js-temporal/polyfill": "^0.4.4",
     "@million/lint": "^1.0.11",
     "@next/bundle-analyzer": "15.0.1",
-    "@opentelemetry/api-logs": "^0.53.0",
+    "@opentelemetry/api-logs": "^0.54.0",
     "@opentelemetry/instrumentation": "^0.53.0",
     "@opentelemetry/sdk-logs": "^0.53.0",
     "@playwright/test": "^1.48.1",
