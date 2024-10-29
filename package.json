@@ -157,7 +157,7 @@
     "fs": "^0.0.1-security",
     "gzip-size": "^7.0.0",
     "jose": "^5.9.6",
-    "lucide-react": "^0.453.0",
+    "lucide-react": "^0.454.0",
     "million": "^3.1.11",
     "mkdirp": "^3.0.1",
     "next": "15.0.1",
