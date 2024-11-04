@@ -3,7 +3,7 @@
 import { cn } from '@/lib/utils';
 import { AnimatePresence, motion, useAnimation } from 'framer-motion';
 import { nanoid } from 'nanoid';
-import React, { useEffect, useState, memo, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 
 interface SliderProps {
   children: React.ReactNode;

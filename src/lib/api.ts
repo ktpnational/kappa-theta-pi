@@ -1,4 +1,4 @@
-import type { App } from '@/app/api/v1/[[...route]]/route';
+// import type { App } from '@/app/api/v1/[[...route]]/route';
 import { getURL } from '@/utils';
 import { edenTreaty } from '@elysiajs/eden';
 
@@ -13,6 +13,6 @@ import { edenTreaty } from '@elysiajs/eden';
  * - On the client side, it uses the current window's origin
  * @returns {EdenTreaty<App>} - The API client.
  */
-export const api = edenTreaty<App>(
+export const api = edenTreaty<any>(
   typeof window === 'undefined' ? getURL() : window.location.origin,
 );

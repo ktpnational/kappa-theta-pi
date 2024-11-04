@@ -49,7 +49,15 @@
     "**/*.js",
     ".next/types/**/*.ts",
     "next.config.mjs",
-    "custom.d.ts"
+    "custom.d.ts",
+    "prisma/migrations/**/*.sql"
   ],
-  "exclude": ["node_modules", "**/*.spec.ts", "**/*.spec.tsx", "**/*.test.ts", "**/*.test.tsx"]
+  "exclude": [
+    "node_modules",
+    "**/*.spec.ts",
+    "**/*.spec.tsx",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/*.js"
+  ]
 }

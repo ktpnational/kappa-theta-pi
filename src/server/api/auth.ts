@@ -1,60 +1,60 @@
-import { encrypt } from '@/lib/jwt';
-import { db } from '@/lib/prisma';
-import { authUser } from '@/lib/schema';
-import { Elysia, InternalServerError } from 'elysia';
-import { type UnsafeUnwrappedCookies, cookies } from 'next/headers';
+// import { encrypt } from '@/lib/jwt';
+// import { db } from '@/lib/prisma';
+// // import { authUser } from '@/lib/schema';
+// import { Elysia, InternalServerError } from 'elysia';
+// import { type UnsafeUnwrappedCookies, cookies } from 'next/headers';
 
-export const authRoute = new Elysia({ prefix: '/auth' })
-  .post(
-    '/register',
-    async (ctx) => {
-      // Check if user already exists
-      const userExist = await db.user.findFirst({
-        where: { username: ctx.body.username.trim() },
-      });
-      if (userExist) throw new InternalServerError('User already exists');
-      const user = await db.user.create({
-        data: {
-          username: ctx.body.username.trim(),
-          password: ctx.body.password.trim(),
-        },
-      });
+// export const authRoute = new Elysia({ prefix: '/auth' })
+//   .post(
+//     '/register',
+//     async (ctx) => {
+//       // Check if user already exists
+//       const userExist = await db.user.findFirst({
+//         where: { email: ctx.body.email.trim() },
+//       });
+//       if (userExist) throw new InternalServerError('User already exists');
+//       const user = await db.user.create({
+//         data: {
+//           email: ctx.body.email.trim(),
+//           password: ctx.body.password.trim(),
+//         },
+//       });
 
-      // Set authentication cookie
-      (await cookies()).set({
-        name: process.env.AUTH_COOKIE,
-        value: (await encrypt(user))!,
-        path: '/',
-        httpOnly: true,
-        maxAge: process.env.SEVEN_DAYS,
-      });
+//       // Set authentication cookie
+//       (await cookies()).set({
+//         name: process.env.AUTH_COOKIE,
+//         value: (await encrypt(user))!,
+//         path: '/',
+//         httpOnly: true,
+//         maxAge: process.env.SEVEN_DAYS,
+//       });
 
-      return 'success';
-    },
-    { body: authUser },
-  )
-  .post(
-    '/login',
-    async (ctx) => {
-      const user = await db.user.findFirst({
-        where: {
-          username: ctx.body.username.trim(),
-          password: ctx.body.password.trim(),
-        },
-      });
+//       return 'success';
+//     },
+//     { body: authUser },
+//   )
+//   .post(
+//     '/login',
+//     async (ctx) => {
+//       const user = await db.user.findFirst({
+//         where: {
+//           email: ctx.body.email.trim(),
+//           password: ctx.body.password.trim(),
+//         },
+//       });
 
-      if (!user) throw new InternalServerError('User not found');
-      (await cookies()).set({
-        name: process.env.AUTH_COOKIE,
-        value: (await encrypt(user))!,
-        path: '/',
-        httpOnly: true,
-        maxAge: process.env.SEVEN_DAYS,
-      });
-      return 'success';
-    },
-    { body: authUser },
-  )
-  .get('/logout', (_ctx) => {
-    return !!(cookies() as unknown as UnsafeUnwrappedCookies).delete(process.env.AUTH_COOKIE);
-  });
+//       if (!user) throw new InternalServerError('User not found');
+//       (await cookies()).set({
+//         name: process.env.AUTH_COOKIE,
+//         value: (await encrypt(user))!,
+//         path: '/',
+//         httpOnly: true,
+//         maxAge: process.env.SEVEN_DAYS,
+//       });
+//       return 'success';
+//     },
+//     { body: authUser },
+//   )
+//   .get('/logout', (_ctx) => {
+//     return !!(cookies() as unknown as UnsafeUnwrappedCookies).delete(process.env.AUTH_COOKIE);
+//   });

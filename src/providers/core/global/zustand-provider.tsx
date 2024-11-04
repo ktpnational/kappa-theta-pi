@@ -14,7 +14,7 @@ const GlobalStoreContext = createContext<ReturnType<typeof createGlobalStore> | 
  * @returns {JSX.Element} - The GlobalStoreProvider component wrapping the children.
  */
 export const GlobalStoreProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
-  const storeRef = useRef<ReturnType<typeof createGlobalStore>>(null);
+  const storeRef = useRef<ReturnType<typeof createGlobalStore>>();
   if (!storeRef.current) {
     storeRef.current = createGlobalStore();
   }

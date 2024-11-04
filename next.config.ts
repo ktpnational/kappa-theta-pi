@@ -1,21 +1,12 @@
-import pwa from '@ducanh2912/next-pwa';
+import withPwa from '@ducanh2912/next-pwa';
 import MillionLint from '@million/lint';
-import withBundleAnalyzer from '@next/bundle-analyzer';
 import { withSentryConfig } from '@sentry/nextjs';
-import million from 'million/compiler';
-
-const withPwa = pwa({
-  dest: 'public',
-  disable: true,
-  register: true,
-  sw: '/sw.js',
-  publicExcludes: ['!noprecache/**/*'],
-});
+import type { NextConfig } from 'next';
 
 /**
- * @type {import('next').NextConfig}
+ * @type {NextConfig}
  */
-const config = {
+const nextConfig: NextConfig = {
   reactStrictMode: true,
   logging: {
     fetches: {
@@ -25,16 +16,24 @@ const config = {
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: 'lh3.googleusercontent.com' },
-      { protocol: 'http', hostname: 'localhost:3000' },
+      { protocol: 'http', hostname: 'localhost' },
       { protocol: 'https', hostname: 'media.licdn.com' },
       { protocol: 'https', hostname: 'github.com' },
       { protocol: 'https', hostname: 'res.cloudinary.com' },
-      { protocol: 'https', hostname: 'hebbkx1anhila5yf.public.blob.vercel-storage.com' },
+      { protocol: 'https', hostname: 'maps.googleapis.com' },
     ],
   },
   experimental: {
     optimizeCss: true,
+    serverActions: {
+      allowedOrigins: ['localhost:3000'],
+      bodySizeLimit: '2mb',
+    },
     turbo: {
+      resolveExtensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
+      resolveAlias: {
+        '@': './src',
+      },
       rules: {
         '*.svg': {
           loaders: ['@svgr/webpack'],
@@ -43,6 +42,7 @@ const config = {
       },
     },
   },
+  serverExternalPackages: [],
   typescript: {
     ignoreBuildErrors: true,
   },
@@ -75,12 +75,10 @@ const config = {
       };
     }
     config.module.rules.push({
-      test: /\.(png|jpe?g|gif|svg|webp|avif)$/i,
-      type: 'asset',
-      generator: {
-        filename: 'static/media/[hash][ext][query]',
-      },
+      test: /\.svg$/i,
+      use: ['@svgr/webpack'],
     });
+
     return config;
   },
   publicRuntimeConfig: {
@@ -88,28 +86,15 @@ const config = {
   },
 };
 
-const withBundleAnalyzerConfig = withBundleAnalyzer({
-  enabled: process.env.ANALYZE === 'true',
+const millionLintConfig = MillionLint.next({
+  rsc: true,
+  filter: {
+    include: '**/components/**/*.{mtsx,mjsx,tsx,jsx}',
+    exclude: ['**/api/**/*.{ts,tsx}', '**/components/html/**/*.{ts,tsx}'],
+  },
 });
 
-const millionConfig = {
-  auto: false,
-};
-
-const finalConfig = withBundleAnalyzerConfig(
-  withPwa(
-    million.next(
-      MillionLint.next({
-        rsc: true,
-        filter: {
-          include: '**/components/**/*.{mtsx,mjsx,tsx,jsx}',
-          exclude: ['**/api/**/*.{ts,tsx}', '**/components/html/**/*.{ts,tsx}'],
-        },
-      })(config),
-      millionConfig,
-    ),
-  ),
-);
+const finalConfig = withPwa(millionLintConfig(nextConfig));
 
 const shouldUseSentry = process.env.NODE_ENV === 'production' && process.env.SENTRY_AUTH_TOKEN;
 

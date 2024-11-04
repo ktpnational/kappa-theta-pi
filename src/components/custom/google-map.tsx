@@ -8,17 +8,34 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { memo, useEffect, useMemo, useRef, useState } from 'react';
 import { FaMapMarkerAlt } from 'react-icons/fa';
 
+// North America boundaries
+const NORTH_AMERICA_BOUNDS = {
+  north: 71.5388001, // Northern Canada
+  south: 15.7835, // Southern Mexico
+  west: -167.2764, // Alaska westernmost point
+  east: -52.648, // Newfoundland easternmost point
+};
+
+// Center point of North America
+const DEFAULT_CENTER = { lat: 48.1667, lng: -100.1667 };
+
 export const GoogleMaps: React.FC = memo(() => {
   return (
     <section className="w-full h-[400px] md:h-[500px] lg:h-[600px] relative rounded-lg overflow-hidden shadow-lg">
       <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!}>
         <Map
-          defaultCenter={{ lat: 40.73061, lng: -73.935242 }}
-          defaultZoom={4}
+          defaultCenter={DEFAULT_CENTER}
+          defaultZoom={3}
           mapId={process.env.NEXT_PUBLIC_GOOGLE_MAPS_MAP_ID}
           gestureHandling={'greedy'}
           disableDefaultUI={true}
           styles={MapStyles}
+          restriction={{
+            latLngBounds: NORTH_AMERICA_BOUNDS,
+            strictBounds: true,
+          }}
+          minZoom={2}
+          maxZoom={15}
         >
           <Markers chapters={chapters} />
         </Map>
@@ -35,10 +52,19 @@ const Markers: React.FC<Props> = ({ chapters }) => {
   const [activeMarker, setActiveMarker] = useState<string | null>(null);
   const clusterer = useRef<MarkerClusterer | null>(null);
 
-  const allChapters = useMemo(
-    () => [...chapters.active, ...chapters.colony, ...chapters.inactive],
-    [chapters],
-  );
+  const allChapters = useMemo(() => {
+    const combined = [...chapters.active, ...chapters.colony, ...chapters.inactive];
+    // Filter for chapters within North America bounds
+    return combined.filter((chapter) => {
+      const [lat, lng] = chapter.coordinates;
+      return (
+        lat <= NORTH_AMERICA_BOUNDS.north &&
+        lat >= NORTH_AMERICA_BOUNDS.south &&
+        lng >= NORTH_AMERICA_BOUNDS.west &&
+        lng <= NORTH_AMERICA_BOUNDS.east
+      );
+    });
+  }, [chapters]);
 
   useEffect(() => {
     if (!map) return;

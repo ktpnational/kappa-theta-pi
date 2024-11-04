@@ -1,7 +1,13 @@
 'use client';
 
 import type { JSXElementConstructor, ReactNode } from 'react';
-import { DatadogInit, Events, GlobalStoreProvider, QueryProvider, ThemeProvider } from '.';
+import {
+  // DatadogInit,
+  Events,
+  GlobalStoreProvider,
+  QueryProvider,
+  ThemeProvider,
+} from '.';
 
 const Providers: React.FC<
   Readonly<{

@@ -32,8 +32,7 @@ const blogPosts: BlogPost[] = [
       'Explore how artificial intelligence is shaping the landscape of technology-focused fraternities and the opportunities it presents for student growth and innovation.',
     date: '2023-05-15',
     author: 'Jane Doe',
-    image:
-      'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/ai-tech-NRHwOCGd9K8pW8riYrlSIkupeknilP.jpg',
+    image: '/assets/images/logo.png',
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
     category: 'Technology',
@@ -45,8 +44,7 @@ const blogPosts: BlogPost[] = [
       'Learn effective networking techniques tailored for technology students, from leveraging social media to making the most of industry events and fraternity connections.',
     date: '2023-05-10',
     author: 'John Smith',
-    image:
-      'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/networking-zO6zfwIiFHrob8XNXELtVsSNgqZxRR.jpg',
+    image: '/assets/images/logo.png',
     content:
       'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
     category: 'Career Development',
@@ -58,8 +56,7 @@ const blogPosts: BlogPost[] = [
       'Discover how open source projects are revolutionizing education in technology fields and how Kappa Theta Pi members are contributing to this movement.',
     date: '2023-05-05',
     author: 'Alice Johnson',
-    image:
-      'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/open-source-pWGmGXXIGVGkHWGTEFxlpAGXhJJwgx.jpg',
+    image: '/assets/images/logo.png',
     content:
       'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.',
     category: 'Education',
@@ -71,7 +68,7 @@ const blogPosts: BlogPost[] = [
       'Understand the importance of cybersecurity in today’s tech landscape and how students can prepare for careers in this critical field.',
     date: '2023-05-01',
     author: 'Michael Brown',
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/cybersecurity.jpg',
+    image: '/assets/images/logo.png',
     content:
       'Cybersecurity is a growing field with increasing importance as technology advances. This article explores the key aspects of cybersecurity and how students can get involved.',
     category: 'Cybersecurity',
@@ -83,7 +80,7 @@ const blogPosts: BlogPost[] = [
       'Dive into the latest innovations in blockchain technology and how they are transforming various industries.',
     date: '2023-04-25',
     author: 'Emily Davis',
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/blockchain.jpg',
+    image: '/assets/images/logo.png',
     content:
       'Blockchain technology is revolutionizing industries from finance to healthcare. Learn about the latest developments and how they are being applied.',
     category: 'Blockchain',
@@ -95,7 +92,7 @@ const blogPosts: BlogPost[] = [
       'Explore the evolution of cloud computing and its impact on the tech industry, including benefits and challenges.',
     date: '2023-04-20',
     author: 'David Wilson',
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/cloud-computing.jpg',
+    image: '/assets/images/logo.png',
     content:
       'Cloud computing has transformed the way businesses operate. This article covers the history, benefits, and future of cloud computing.',
     category: 'Cloud Computing',
@@ -107,7 +104,7 @@ const blogPosts: BlogPost[] = [
       'Discover how AI and machine learning are being used to improve healthcare outcomes and the future of medical technology.',
     date: '2023-04-15',
     author: 'Sophia Martinez',
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/ai-healthcare.jpg',
+    image: '/assets/images/logo.png',
     content:
       'AI and machine learning are making significant strides in healthcare. Learn about the latest advancements and their potential impact on patient care.',
     category: 'Healthcare',
@@ -119,7 +116,7 @@ const blogPosts: BlogPost[] = [
       'Learn about the rise of quantum computing and its potential to solve complex problems that are beyond the capabilities of classical computers.',
     date: '2023-04-10',
     author: 'James Anderson',
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/quantum-computing.jpg',
+    image: '/assets/images/logo.png',
     content:
       'Quantum computing is an emerging field with the potential to revolutionize technology. This article explores its principles and applications.',
     category: 'Quantum Computing',
@@ -131,7 +128,7 @@ const blogPosts: BlogPost[] = [
       'Examine the ethical considerations in AI development and the importance of responsible AI practices.',
     date: '2023-04-05',
     author: 'Olivia Lee',
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/ethical-ai.jpg',
+    image: '/assets/images/logo.png',
     content:
       'As AI technology advances, ethical considerations become increasingly important. This article discusses the key ethical issues and how they can be addressed.',
     category: 'Ethics',
@@ -143,7 +140,7 @@ const blogPosts: BlogPost[] = [
       'Explore the future of remote work in the tech industry and how companies are adapting to this new way of working.',
     date: '2023-04-01',
     author: 'William Taylor',
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/remote-work.jpg',
+    image: '/assets/images/logo.png',
     content:
       'Remote work has become a permanent fixture in the tech industry. Learn about the benefits, challenges, and future trends of remote work.',
     category: 'Remote Work',
