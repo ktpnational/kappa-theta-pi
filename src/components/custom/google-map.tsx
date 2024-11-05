@@ -1,6 +1,10 @@
 'use client';
 
-import { type ChapterInfo, MapStyles, chapters } from '@/data/map';
+import {
+  type ChapterInfo,
+  // MapStyles,
+  chapters,
+} from '@/data/map';
 import { MarkerClusterer } from '@googlemaps/markerclusterer';
 import type { Marker } from '@googlemaps/markerclusterer';
 import { APIProvider, AdvancedMarker, InfoWindow, Map, useMap } from '@vis.gl/react-google-maps';
@@ -19,7 +23,7 @@ const NORTH_AMERICA_BOUNDS = {
 // Center point of North America
 const DEFAULT_CENTER = { lat: 48.1667, lng: -100.1667 };
 
-export const GoogleMaps: React.FC = memo(() => {
+export const GoogleMaps = memo(() => {
   return (
     <section className="w-full h-[400px] md:h-[500px] lg:h-[600px] relative rounded-lg overflow-hidden shadow-lg">
       <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!}>
@@ -29,7 +33,7 @@ export const GoogleMaps: React.FC = memo(() => {
           mapId={process.env.NEXT_PUBLIC_GOOGLE_MAPS_MAP_ID}
           gestureHandling={'greedy'}
           disableDefaultUI={true}
-          styles={MapStyles}
+          // styles={MapStyles}
           restriction={{
             latLngBounds: NORTH_AMERICA_BOUNDS,
             strictBounds: true,

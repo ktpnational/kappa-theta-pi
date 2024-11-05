@@ -21,7 +21,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       data-a11y-animated-images="system"
       data-a11y-link-underlines="false"
     >
-      <Scripts />
+      <head>
+        <Scripts />
+      </head>
       <body className={`min-h-screen bg-white overflow-x-hidden`}>
         <noscript>
           <iframe

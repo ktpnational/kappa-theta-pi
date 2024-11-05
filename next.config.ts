@@ -8,6 +8,7 @@ import type { NextConfig } from 'next';
  */
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  pageExtensions: ['tsx', 'mdx', 'ts', 'js'],
   logging: {
     fetches: {
       fullUrl: true,

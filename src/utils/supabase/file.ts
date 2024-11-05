@@ -10,17 +10,18 @@ import { v4 as uuidv4 } from 'uuid';
  * @param {File} file
  * @param {string} bucket
  * @param {string} folder
- * @param {string} title
- * @param {string} description
- * @param {string} user_id
+ * @param {string} resumeId
+ * @param {string} chapterId
+ * @param {string} profileId
+ * @param {boolean} useMultipart
  */
 type UploadProps = {
   file: File;
   bucket: string;
   folder?: string;
-  title?: string;
-  description?: string;
-  user_id: string;
+  resumeId: string;
+  chapterId: string;
+  profileId: string;
   useMultipart?: boolean;
 };
 
@@ -28,9 +29,9 @@ export const uploadImage = async ({
   file,
   bucket,
   folder,
-  title,
-  description,
-  user_id,
+  resumeId,
+  chapterId,
+  profileId,
   useMultipart = false,
 }: UploadProps) => {
   const supabase = createClient();
@@ -71,13 +72,14 @@ export const uploadImage = async ({
     const { data: publicUrlData } = supabase.storage.from(bucket).getPublicUrl(path);
 
     const { data: imageData, error: insertError } = await supabase
-      .from('image_uploads')
+      .from('members')
       .insert({
-        user_id,
-        file_name: fileName,
-        file_path: path,
-        title,
-        description,
+        id: uuidv4(),
+        resumeId,
+        chapterId,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        profileId,
       })
       .select()
       .single();

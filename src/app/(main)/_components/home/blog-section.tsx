@@ -1,30 +1,41 @@
+'use client';
+
 import { BlogCard, Section } from '@/components';
-import { getBlogPosts } from '@/lib/blog';
-import { Suspense } from 'react';
 import { BlogLoading } from '@/components/blog-loading';
+import { type Post, getBlogPosts } from '@/lib';
+import { useEffect, useState } from 'react';
 
-async function BlogPosts() {
-  const allPosts = await getBlogPosts();
-  const articles = allPosts.sort((a, b) =>
-    b.metadata.publishedAt.localeCompare(a.metadata.publishedAt)
-  );
-
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      {articles.map((data, idx) => (
-        <BlogCard key={data.slug} data={data.metadata} priority={idx <= 1} />
-      ))}
-    </div>
-  );
-}
-
-// Main component
 export const BlogSection = () => {
+  const [articles, setArticles] = useState<Post[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const response = await getBlogPosts();
+        const data = response.slice(0, 6).map((item) => item.metadata);
+        setArticles(data);
+      } catch (error) {
+        console.error('Error fetching blog posts:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPosts();
+  }, []);
+
   return (
     <Section title="Blog" subtitle="Latest Articles">
-      <Suspense fallback={<BlogLoading />}>
-        <BlogPosts />
-      </Suspense>
+      {loading ? (
+        <BlogLoading />
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {articles.map((data, idx) => (
+            <BlogCard key={data.slug} data={data} priority={idx <= 1} />
+          ))}
+        </div>
+      )}
     </Section>
   );
 };

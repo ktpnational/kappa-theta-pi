@@ -27,6 +27,8 @@ declare global {
       // Supabase
       NEXT_PUBLIC_SUPABASE_URL: string;
       NEXT_PUBLIC_SUPABASE_ANON_KEY: string;
+      NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY: string;
+      NEXT_PUBLIC_SUPABASE_JWT_SECRET: string;
       NEXT_PUBLIC_DATABASE_URL: string;
       NEXT_PUBLIC_DIRECT_URL: string;
       NEXT_PUBLIC_PROJECT_REGION: string;
@@ -34,6 +36,8 @@ declare global {
       // Google
       NEXT_PUBLIC_GOOGLE_MAPS_API_KEY: string;
       NEXT_PUBLIC_GOOGLE_MAPS_MAP_ID: string;
+      NEXT_PUBLIC_GOOGLE_CLIENT_ID: string;
+      NEXT_PUBLIC_GOOGLE_CLIENT_SECRET: string;
 
       // Analytics
       NEXT_PUBLIC_GA_MEASUREMENT_ID: string;

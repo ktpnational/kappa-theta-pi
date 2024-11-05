@@ -20,14 +20,14 @@ export function ModeToggle() {
       <Tooltip delayDuration={100}>
         <TooltipTrigger asChild>
           <Button
-            className="rounded-full w-8 h-8 bg-background"
-            variant="outline"
+            variant="ghost"
+            type="button"
             size="icon"
+            className="px-2"
             onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
           >
-            <SunIcon className="w-[1.2rem] h-[1.2rem] rotate-90 scale-0 transition-transform ease-in-out duration-500 dark:rotate-0 dark:scale-100" />
-            <MoonIcon className="absolute w-[1.2rem] h-[1.2rem] rotate-0 scale-1000 transition-transform ease-in-out duration-500 dark:-rotate-90 dark:scale-0" />
-            <span className="sr-only">Switch Theme</span>
+            <SunIcon className="h-[1.2rem] w-[1.2rem] text-neutral-800 dark:hidden dark:text-neutral-200" />
+            <MoonIcon className="hidden h-[1.2rem] w-[1.2rem] text-neutral-800 dark:block dark:text-neutral-200" />
           </Button>
         </TooltipTrigger>
         <TooltipContent side="bottom">Switch Theme</TooltipContent>

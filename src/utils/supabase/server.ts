@@ -1,18 +1,19 @@
 'use server';
 
+import type { Database } from '@/types/supabase';
 import type { CookieOptions } from '@supabase/ssr';
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 
 /**
  * @description The function to create a supabase server client.
- * @returns {ReturnType<typeof createServerClient>}
+ * @returns {ReturnType<typeof createServerClient<Database>>}
  */
 export const createServer = async () => {
   try {
     const cookieStore = await cookies();
 
-    const client = createServerClient(
+    const client = createServerClient<Database>(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
       {

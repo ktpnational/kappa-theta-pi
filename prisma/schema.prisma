@@ -1,5 +1,5 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["multiSchema"]
 }
 
@@ -12,18 +12,19 @@ datasource db {
 
 // NextAuth.js Models (next_auth schema)
 model User {
-  id            String    @id @default(uuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  password      String?
-  accounts      Account[]
-  sessions      Session[]
-  profile       Profile?
+  id                    String                 @id @default(uuid())
+  name                  String?
+  email                 String?                @unique
+  emailVerified         DateTime?
+  image                 String?
+  password              String?
+  accounts              Account[]
+  sessions              Session[]
+  profile               Profile?
+  TwoFactorConfirmation TwoFactorConfirmation?
 
-  @@schema("next_auth")
   @@map("users")
+  @@schema("next_auth")
 }
 
 model Account {
@@ -42,8 +43,8 @@ model Account {
   user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
-  @@schema("next_auth")
   @@map("accounts")
+  @@schema("next_auth")
 }
 
 model Session {
@@ -53,39 +54,72 @@ model Session {
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@schema("next_auth")
   @@map("sessions")
+  @@schema("next_auth")
 }
 
 model VerificationToken {
-  identifier String
-  token      String   @unique
-  expires    DateTime
+  id      String   @id @default(uuid())
+  email   String
+  token   String   @unique
+  expires DateTime
 
-  @@unique([identifier, token])
-  @@schema("next_auth")
+  @@unique([email, token])
   @@map("verification_tokens")
+  @@schema("next_auth")
+}
+
+model PasswordResetToken {
+  id      String   @id @default(uuid())
+  email   String
+  token   String   @unique
+  expires DateTime
+
+  @@unique([email, token])
+  @@map("password_reset_tokens")
+  @@schema("next_auth")
+}
+
+model TwoFactorToken {
+  id      String   @id @default(uuid())
+  email   String
+  token   String   @unique
+  expires DateTime
+
+  @@unique([email, token])
+  @@map("two_factor_tokens")
+  @@schema("next_auth")
+}
+
+model TwoFactorConfirmation {
+  id     String @id @default(uuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId])
+  @@map("two_factor_confirmations")
+  @@schema("next_auth")
 }
 
 // Application Models (public schema)
 model Profile {
-  id        String    @id @default(uuid())
-  userId    String    @unique
-  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  role      Role      @default(USER)
-  active    Boolean   @default(true)
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role      Role     @default(USER)
+  active    Boolean  @default(true)
   version   String?
   photoUrl  String?
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   // Related entities
-  address   Address?
-  member    Member?
-  company   Company?
+  address Address?
+  member  Member?
+  company Company?
 
-  @@schema("public")
   @@map("profiles")
+  @@schema("public")
 }
 
 enum Role {
@@ -110,24 +144,24 @@ model Address {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@schema("public")
   @@map("addresses")
+  @@schema("public")
 }
 
 model Member {
-  id          String      @id @default(uuid())
-  profileId   String      @unique
-  profile     Profile     @relation(fields: [profileId], references: [id], onDelete: Cascade)
-  resumeId    String      @unique
-  resume      Resume      @relation(fields: [resumeId], references: [id])
-  chapterId   String
-  chapter     Chapter     @relation(fields: [chapterId], references: [id])
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
-  candidates  Candidate[]
+  id         String      @id @default(uuid())
+  profileId  String      @unique
+  profile    Profile     @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  resumeId   String      @unique
+  resume     Resume      @relation(fields: [resumeId], references: [id])
+  chapterId  String
+  chapter    Chapter     @relation(fields: [chapterId], references: [id])
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  candidates Candidate[]
 
-  @@schema("public")
   @@map("members")
+  @@schema("public")
 }
 
 model Resume {
@@ -139,8 +173,8 @@ model Resume {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 
-  @@schema("public")
   @@map("resumes")
+  @@schema("public")
 }
 
 model Company {
@@ -154,8 +188,8 @@ model Company {
   updatedAt   DateTime    @updatedAt
   candidates  Candidate[]
 
-  @@schema("public")
   @@map("companies")
+  @@schema("public")
 }
 
 model Candidate {
@@ -170,13 +204,13 @@ model Candidate {
   updatedAt DateTime        @updatedAt
 
   @@unique([companyId, memberId])
-  @@schema("public")
   @@map("candidates")
+  @@schema("public")
 }
 
 model Chapter {
-  id           String    @id @default(uuid())
-  name         String    @unique
+  id           String   @id @default(uuid())
+  name         String   @unique
   greekName    String
   foundingDate DateTime
   university   String
@@ -184,12 +218,13 @@ model Chapter {
   status       String
   latitude     Float
   longitude    Float
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
   members      Member[]
+  events       Event[]
 
-  @@schema("public")
   @@map("chapters")
+  @@schema("public")
 }
 
 enum CandidateStatus {
@@ -199,5 +234,24 @@ enum CandidateStatus {
   OFFERED
   REJECTED
 
+  @@schema("public")
+}
+
+model Event {
+  id          String   @id @default(cuid())
+  name        String
+  description String
+  startDate   DateTime
+  endDate     DateTime
+  location    String
+  type        String
+  status      String
+  chapter     Chapter  @relation(fields: [chapterId], references: [id])
+  chapterId   String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([chapterId])
   @@schema("public")
 }

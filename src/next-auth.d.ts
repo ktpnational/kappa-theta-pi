@@ -13,11 +13,12 @@ declare module 'next-auth' {
     role?: Role;
   }
 
-  interface Session extends DefaultSession {
+  interface Session extends DefaultSession["user"] {
     user: User & {
       id: string;
       role: Role;
     };
+    supabaseAccessToken?: string;
   }
 
   interface NextAuthOptions {
