@@ -1,4 +1,7 @@
+import { getS3Client } from '@/lib/s3';
 import { createClient } from '@/utils/supabase/client';
+import { PutObjectCommand } from '@aws-sdk/client-s3';
+import { Upload } from '@aws-sdk/lib-storage';
 import imageCompression from 'browser-image-compression';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -18,6 +21,7 @@ type UploadProps = {
   title?: string;
   description?: string;
   user_id: string;
+  useMultipart?: boolean;
 };
 
 export const uploadImage = async ({
@@ -27,6 +31,7 @@ export const uploadImage = async ({
   title,
   description,
   user_id,
+  useMultipart = false,
 }: UploadProps) => {
   const supabase = createClient();
   const fileName = file.name;
@@ -37,35 +42,40 @@ export const uploadImage = async ({
     file = await imageCompression(file, {
       maxSizeMB: 1,
     });
-  } catch (error) {
-    console.error('Image compression failed:', error);
-    return { imageUrl: '', error: 'Image compression failed' };
-  }
 
-  try {
-    const { data, error } = await supabase.storage.from(bucket).upload(path, file, {
-      cacheControl: '3600',
-      upsert: false,
-    });
+    const s3Client = await getS3Client();
 
-    if (error) {
-      console.error('Supabase storage upload error:', error);
-      return { imageUrl: '', error: `Image upload failed: ${error.message}` };
+    if (useMultipart) {
+      const upload = new Upload({
+        client: s3Client,
+        params: {
+          Bucket: bucket,
+          Key: path,
+          Body: file,
+          ContentType: file.type,
+        },
+      });
+
+      await upload.done();
+    } else {
+      const uploadCommand = new PutObjectCommand({
+        Bucket: bucket,
+        Key: path,
+        Body: file,
+        ContentType: file.type,
+      });
+
+      await s3Client.send(uploadCommand);
     }
 
-    if (!data) {
-      console.error('No data returned from Supabase upload');
-      return { imageUrl: '', error: 'No data returned from upload' };
-    }
-
-    const { data: publicUrlData } = supabase.storage.from(bucket).getPublicUrl(data.path);
+    const { data: publicUrlData } = supabase.storage.from(bucket).getPublicUrl(path);
 
     const { data: imageData, error: insertError } = await supabase
       .from('image_uploads')
       .insert({
         user_id,
         file_name: fileName,
-        file_path: data.path,
+        file_path: path,
         title,
         description,
       })
@@ -80,7 +90,10 @@ export const uploadImage = async ({
     return { imageUrl: publicUrlData.publicUrl, imageData, error: '' };
   } catch (error) {
     console.error('Unexpected error during upload:', error);
-    return { imageUrl: '', error: 'Unexpected error during upload' };
+    return {
+      imageUrl: '',
+      error: `Unexpected error during upload: ${error instanceof Error ? error.message : String(error)}`,
+    };
   }
 };
 

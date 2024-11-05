@@ -1,45 +1,44 @@
 'use client';
 
-import { Slider } from '@/components';
+import Marquee from '@/components/ui/marquee';
 import Image from 'next/image';
-import React from 'react';
 
-// Dummy sponsor data with local images
-const dummySponsors = [
-  { name: 'Sponsor 1', logo: '/assets/images/logo.png' },
-  { name: 'Sponsor 2', logo: '/assets/images/logo.png' },
-  { name: 'Sponsor 3', logo: '/assets/images/logo.png' },
-  { name: 'Sponsor 4', logo: '/assets/images/logo.png' },
-  { name: 'Sponsor 5', logo: '/assets/images/logo.png' },
-  { name: 'Sponsor 6', logo: '/assets/images/logo.png' },
-] as const;
+const companies = [
+  'Google',
+  'Microsoft',
+  'Amazon',
+  'Netflix',
+  'YouTube',
+  'Instagram',
+  'Uber',
+  'Spotify',
+];
 
 export const SponsorsSection = () => {
-  const sliderProps = {
-    width: '200px',
-    duration: 30,
-    pauseOnHover: true,
-    blurBorders: true,
-    blurBorderColor: '#f0f4f8',
-  };
-
   return (
-    <Slider {...sliderProps} toRight={true}>
-      {dummySponsors.map((sponsor, index) => (
-        <Slider.Slide key={`${sponsor.name}-${index}`}>
-          <div className="mx-4 bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 flex items-center justify-center h-20 w-[160px] relative">
-            <Image
-              src={sponsor.logo}
-              alt={sponsor.name}
-              fill
-              style={{ objectFit: 'contain' }}
-              className="p-2"
-              priority={index < 2}
-            />
-          </div>
-        </Slider.Slide>
-      ))}
-    </Slider>
+    <section id="logos">
+      <div className="container mx-auto px-4 md:px-8 py-12">
+        <h3 className="text-center text-sm font-semibold text-gray-500">
+          TRUSTED BY LEADING TEAMS
+        </h3>
+        <div className="relative mt-6">
+          <Marquee className="max-w-full [--duration:40s]">
+            {companies.map((logo, idx) => (
+              <Image
+                key={idx}
+                width={112}
+                height={40}
+                src={`https://cdn.magicui.design/companies/${logo}.svg`}
+                className="h-10 w-28 dark:brightness-0 dark:invert grayscale opacity-30"
+                alt={logo}
+              />
+            ))}
+          </Marquee>
+          <div className="pointer-events-none absolute inset-y-0 left-0 h-full w-1/3 bg-gradient-to-r from-background"></div>
+          <div className="pointer-events-none absolute inset-y-0 right-0 h-full w-1/3 bg-gradient-to-l from-background"></div>
+        </div>
+      </div>
+    </section>
   );
 };
 

@@ -7,3 +7,6 @@ export * from './nav-main';
 export * from './nav-projects';
 export * from './nav-secondary';
 export * from './nav-user';
+export * from './blog-author';
+export * from './blog-card';
+export * from './section';

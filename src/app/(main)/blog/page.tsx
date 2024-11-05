@@ -1,11 +1,37 @@
-import React from 'react';
+import { BlogCard } from '@/components';
+import { app } from '@/constants';
+import { getBlogPosts } from '@/lib/blog';
+import { constructMetadata } from '@/utils';
 
-export default function Page() {
+export const metadata = constructMetadata({
+  title: 'Blog',
+  description: `Latest news and updates from ${app.name}.`,
+});
+
+export default async function Blog() {
+  const allPosts = await getBlogPosts();
+
+  const articles = await Promise.all(
+    allPosts.sort((a, b) => b.metadata.publishedAt.localeCompare(a.metadata.publishedAt)),
+  );
+
   return (
-    <div>
-      <h1>Blog</h1>
-    </div>
+    <>
+      <div className="mx-auto w-full max-w-screen-xl px-2.5 lg:px-20 mt-24">
+        <div className="text-center py-16">
+          <h1 className="text-3xl font-bold text-foreground sm:text-4xl">Articles</h1>
+          <p className="mt-4 text-xl text-muted-foreground">
+            Latest news and updates from {app.name}
+          </p>
+        </div>
+      </div>
+      <div className="min-h-[50vh] bg-white/50 shadow-[inset_10px_-50px_94px_0_rgb(199,199,199,0.2)] backdrop-blur-lg">
+        <div className="mx-auto grid w-full max-w-screen-xl grid-cols-1 gap-8 px-2.5 py-10 lg:px-20 lg:grid-cols-3">
+          {articles.map((data, idx) => (
+            <BlogCard key={data.slug} data={data.metadata} priority={idx <= 1} />
+          ))}
+        </div>
+      </div>
+    </>
   );
 }
-
-Page.displayName = 'BlogPage';

@@ -8,7 +8,13 @@ if (!accessKeyId) {
   throw new Error('Access Key ID is undefined');
 }
 
-async function getS3Client() {
+/**
+ * Retrieves an S3 client instance configured with the necessary credentials and endpoint.
+ *
+ * @returns {Promise<S3Client>} - A promise that resolves to an S3 client instance.
+ * @throws {Error} - Throws an error if there is no active session or if the access key ID is undefined.
+ */
+async function getS3Client(): Promise<S3Client> {
   const {
     data: { session },
   } = await supabase.auth.getSession();
