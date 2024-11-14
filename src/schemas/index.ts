@@ -1,3 +1,5 @@
+// TODO: fix folder structure, and exports
+
 import { Role } from '@prisma/client';
 import * as z from 'zod';
 

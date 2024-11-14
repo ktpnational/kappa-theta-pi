@@ -14,6 +14,7 @@ import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { buttonVariants } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 
+
 export default function BlogPostPage({ params }: BlogPostParamsProps): JSX.Element {
   const post = getPostFromParams(params);
   if (!post) notFound();

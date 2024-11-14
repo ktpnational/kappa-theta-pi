@@ -41,7 +41,7 @@ export async function resendEmailVerificationLink(
     });
 
     const emailSent = await resend.emails.send({
-      from: env.RESEND_EMAIL_FROM,
+      from: process.env.RESEND_EMAIL_FROM,
       to: [validatedInput.data.email],
       subject: 'Verify your email address',
       react: EmailVerificationEmail({
@@ -100,8 +100,8 @@ export async function submitContactForm(rawInput: ContactFormInput): Promise<'er
     if (!validatedInput.success) return 'error';
 
     const emailSent = await resend.emails.send({
-      from: env.RESEND_EMAIL_FROM,
-      to: env.RESEND_EMAIL_TO,
+      from: process.env.RESEND_EMAIL_FROM,
+      to: process.env.RESEND_EMAIL_TO,
       subject: 'Exciting news! New enquiry awaits',
       react: NewEnquiryEmail({
         name: validatedInput.data.name,

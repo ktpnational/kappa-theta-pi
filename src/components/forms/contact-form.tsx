@@ -1,15 +1,16 @@
-"use client"
+'use client';
 
-import * as React from "react"
-import { submitContactForm } from "@/actions/email"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
+import { submitContactForm } from '@/actions/email';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as React from 'react';
+import { useForm } from 'react-hook-form';
 
-import { contactFormSchema, type ContactFormInput } from "@/schemas/email"
+import { type ContactFormInput, contactFormSchema } from '@/schemas/email';
 
-import { useToast } from "@/hooks/use-toast"
+import { useToast } from '@/hooks/use-toast';
 
-import { Button } from "@/components/ui/button"
+import { Icons } from '@/components/icons';
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -17,58 +18,57 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Icons } from "@/components/icons"
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 
-export function ContactForm(): JSX.Element {
-  const { toast } = useToast()
-  const [isPending, startTransition] = React.useTransition()
+export const ContactForm = (): JSX.Element => {
+  const { toast } = useToast();
+  const [isPending, startTransition] = React.useTransition();
 
   const form = useForm<ContactFormInput>({
     resolver: zodResolver(contactFormSchema),
     defaultValues: {
-      name: "",
-      email: "",
-      message: "",
+      name: '',
+      email: '',
+      message: '',
     },
-  })
+  });
 
   function onSubmit(formData: ContactFormInput): void {
     startTransition(async () => {
       try {
-        const message = await submitContactForm(formData)
+        const message = await submitContactForm(formData);
 
         switch (message) {
-          case "success":
+          case 'success':
             toast({
-              title: "Thank you!",
-              description: "Your message has been sent",
-            })
-            form.reset()
-            break
+              title: 'Thank you!',
+              description: 'Your message has been sent',
+            });
+            form.reset();
+            break;
           default:
             toast({
-              title: "Something went wrong",
-              description: "Please try again",
-              variant: "destructive",
-            })
+              title: 'Something went wrong',
+              description: 'Please try again',
+              variant: 'destructive',
+            });
         }
       } catch (error) {
         toast({
-          description: "Something went wrong. Please try again",
-          variant: "destructive",
-        })
+          description: 'Something went wrong. Please try again',
+          variant: 'destructive',
+        });
       }
-    })
+    });
   }
   const Spinner = Icons.miscellaneous?.spinner
     ? React.createElement(Icons.miscellaneous.spinner, {
         className: 'mr-2 size-4 animate-spin',
         'aria-hidden': 'true',
       })
-    : null
+    : null;
 
   return (
     <Form {...form}>
@@ -114,11 +114,7 @@ export function ContactForm(): JSX.Element {
             <FormItem className="">
               <FormLabel>Message</FormLabel>
               <FormControl className="min-h-[180px] md:min-h-[240px]">
-                <Textarea
-                  {...field}
-                  placeholder="Hi, I am looking to..."
-                  className="text-base"
-                />
+                <Textarea {...field} placeholder="Hi, I am looking to..." className="text-base" />
               </FormControl>
               <FormMessage className="pt-2 sm:text-sm" />
             </FormItem>
@@ -135,5 +131,5 @@ export function ContactForm(): JSX.Element {
         </Button>
       </form>
     </Form>
-  )
+  );
 }

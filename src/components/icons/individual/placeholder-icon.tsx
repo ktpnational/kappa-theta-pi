@@ -1,7 +1,11 @@
 import { cn } from '@/lib';
 import type { SVGIconProps } from '../types';
 
-export const PlaceholderIcon: React.FC<SVGIconProps> = ({ className, size, props }): JSX.Element => {
+export const PlaceholderIcon: React.FC<SVGIconProps> = ({
+  className,
+  size,
+  props,
+}): JSX.Element => {
   return (
     <svg
       width="15"
@@ -20,5 +24,5 @@ export const PlaceholderIcon: React.FC<SVGIconProps> = ({ className, size, props
         clipRule="evenodd"
       />
     </svg>
-  )
-}
+  );
+};

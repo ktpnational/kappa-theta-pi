@@ -1,13 +1,13 @@
 import { cn } from '@/lib';
 import { LogoIcon, LogoSmallIcon } from './components';
-import type { IconsProps, SVGIconProps } from './types';
 import {
+  ArrowLeftIcon,
+  AvatarIcon,
   PaperplaneIcon,
   PlaceholderIcon,
   SpinnerIcon,
-  AvatarIcon,
-  ArrowLeftIcon,
 } from './individual';
+import type { IconsProps, SVGIconProps } from './types';
 
 export const Icons: IconsProps = {
   logos: {

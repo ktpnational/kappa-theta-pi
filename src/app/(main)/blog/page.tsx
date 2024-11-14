@@ -1,4 +1,4 @@
-import { allPosts } from '@/contentlayer/generated';
+import { allPosts } from 'contentlayer/generated';
 import { formatDate } from '@/lib/utils';
 import { compareDesc } from 'date-fns';
 import Image from 'next/image';

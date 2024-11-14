@@ -1,19 +1,17 @@
-"use client"
+'use client';
 
-import * as React from "react"
-import { useRouter } from "next/navigation"
-import { resendEmailVerificationLink } from "@/actions/email"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
+import { resendEmailVerificationLink } from '@/actions/email';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
+import * as React from 'react';
+import { useForm } from 'react-hook-form';
 
-import {
-  emailVerificationSchema,
-  type EmailVerificationFormInput,
-} from "@/schemas/email"
+import { type EmailVerificationFormInput, emailVerificationSchema } from '@/schemas/email';
 
-import { useToast } from "@/hooks/use-toast"
+import { useToast } from '@/hooks/use-toast';
 
-import { Button } from "@/components/ui/button"
+import { Icons } from '@/components/icons';
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -21,61 +19,60 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { Icons } from "@/components/icons"
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
 
-export function EmailVerificationForm(): JSX.Element {
-  const router = useRouter()
-  const { toast } = useToast()
-  const [isPending, startTransition] = React.useTransition()
+export const EmailVerificationForm = (): JSX.Element => {
+  const router = useRouter();
+  const { toast } = useToast();
+  const [isPending, startTransition] = React.useTransition();
 
   const form = useForm<EmailVerificationFormInput>({
     resolver: zodResolver(emailVerificationSchema),
     defaultValues: {
-      email: "",
+      email: '',
     },
-  })
+  });
 
   function onSubmit(formData: EmailVerificationFormInput): void {
     startTransition(async () => {
       try {
         const message = await resendEmailVerificationLink({
           email: formData.email,
-        })
+        });
 
         switch (message) {
-          case "not-found":
+          case 'not-found':
             toast({
-              title: "User with this email address does not exist",
-              variant: "destructive",
-            })
-            form.reset()
-            break
-          case "success":
+              title: 'User with this email address does not exist',
+              variant: 'destructive',
+            });
+            form.reset();
+            break;
+          case 'success':
             toast({
-              title: "Success!",
-              description: "Check your inbox and verify your email address",
-            })
-            router.push("/signin")
-            break
+              title: 'Success!',
+              description: 'Check your inbox and verify your email address',
+            });
+            router.push('/signin');
+            break;
           default:
             toast({
-              title: "Error sending verification link",
-              description: "Please try again",
-              variant: "destructive",
-            })
-            router.push("/signup")
+              title: 'Error sending verification link',
+              description: 'Please try again',
+              variant: 'destructive',
+            });
+            router.push('/signup');
         }
       } catch (error) {
         toast({
-          title: "Something went wrong",
-          description: "Please try again",
-          variant: "destructive",
-        })
-        console.error(error)
+          title: 'Something went wrong',
+          description: 'Please try again',
+          variant: 'destructive',
+        });
+        console.error(error);
       }
-    })
+    });
   }
 
   return (
@@ -101,10 +98,8 @@ export function EmailVerificationForm(): JSX.Element {
         <Button disabled={isPending}>
           {isPending ? (
             <>
-              <Icons.spinner
-                className="mr-2 size-4 animate-spin"
-                aria-hidden="true"
-              />
+              {/* TODO: fix this, or just re type the interface better, adn thus the Icons export  */}
+              <Icons.spinner className="mr-2 size-4 animate-spin" aria-hidden="true" />
               <span>Pending...</span>
             </>
           ) : (
@@ -114,5 +109,5 @@ export function EmailVerificationForm(): JSX.Element {
         </Button>
       </form>
     </Form>
-  )
+  );
 }

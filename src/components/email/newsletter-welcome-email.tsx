@@ -47,8 +47,8 @@ export function NewsletterWelcomeEmail(): JSX.Element {
               <Text className="my-4">
                 {`We're`} looking forward to seeing you around! If you have any questions, please{' '}
                 {`don't`} hesitate to reach out to us at{' '}
-                <Link href={`mailto:${env.RESEND_EMAIL_FROM}`} className="text-blue-500 underline">
-                  {env.RESEND_EMAIL_FROM}
+                <Link href={`mailto:${process.env.RESEND_EMAIL_FROM}`} className="text-blue-500 underline">
+                  {process.env.RESEND_EMAIL_FROM}
                 </Link>
               </Text>
               <Text className="mb-0 mt-4">@ SaaSyLand.com {new Date().getFullYear()}</Text>

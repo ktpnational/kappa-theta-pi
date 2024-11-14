@@ -2,7 +2,6 @@
 
 import { prisma } from '@/config/db';
 import { resend } from '@/config/email';
-import { env } from '@/env.mjs';
 import {
   type CheckIfSubscribedToNewsletterInput,
   type NewsletterSignUpFormInput,
@@ -48,7 +47,7 @@ export async function subscribeToNewsletter(
     });
 
     const emailSent = await resend.emails.send({
-      from: env.RESEND_EMAIL_FROM,
+      from: process.env.RESEND_EMAIL_FROM,
       to: validatedInput.data.email,
       subject: 'Welcome to our newsletter!',
       react: NewsletterWelcomeEmail(),

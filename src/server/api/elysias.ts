@@ -37,7 +37,7 @@ const createContext = new Elysia()
  */
 const timmingMiddleware = new Elysia()
   .state({ start: 0 })
-  .onBeforeHandle(({ store }) => (store.start = Date.now()))
+  .onBeforeHandle(({ store }) => (store.start = Date.now())) // TODO: biome: The assignment should not be in an expression.
   .onAfterHandle(({ path, store: { start } }) =>
     console.log(`[Elysia] ${path} took ${Date.now() - start}ms to execute`),
   )

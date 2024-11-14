@@ -19,4 +19,4 @@ export const ArrowLeftIcon: React.FC<SVGIconProps> = ({ className, size, props }
       clipRule="evenodd"
     />
   </svg>
-)
+);

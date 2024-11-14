@@ -19,4 +19,4 @@ export const AvatarIcon: React.FC<SVGIconProps> = ({ className, size, props }): 
       clipRule="evenodd"
     />
   </svg>
-)
+);

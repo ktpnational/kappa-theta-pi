@@ -19,5 +19,6 @@ export const PaperplaneIcon: React.FC<SVGIconProps> = ({ className, size, props 
         fillRule="evenodd"
         clipRule="evenodd"
       />
-    </svg>  )
-}
+    </svg>
+  );
+};

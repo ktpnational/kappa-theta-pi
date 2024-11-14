@@ -1,18 +1,16 @@
-"use client"
+'use client';
 
-import * as React from "react"
-import { subscribeToNewsletter } from "@/actions/newsletter"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
+import { subscribeToNewsletter } from '@/actions/newsletter';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as React from 'react';
+import { useForm } from 'react-hook-form';
 
-import {
-  newsletterSignUpSchema,
-  type NewsletterSignUpFormInput,
-} from "@/schemas/newsletter"
+import { type NewsletterSignUpFormInput, newsletterSignUpSchema } from '@/schemas/newsletter';
 
-import { useToast } from "@/hooks/use-toast"
+import { useToast } from '@/hooks/use-toast';
 
-import { Button } from "@/components/ui/button"
+import { Icons } from '@/components/icons';
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -20,56 +18,55 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { Icons } from "@/components/icons"
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
 
-export function NewsletterSignUpForm(): JSX.Element {
-  const { toast } = useToast()
-  const [isPending, startTransition] = React.useTransition()
+export const NewsletterSignUpForm = (): JSX.Element => {
+  const { toast } = useToast();
+  const [isPending, startTransition] = React.useTransition();
 
   const form = useForm<NewsletterSignUpFormInput>({
     resolver: zodResolver(newsletterSignUpSchema),
     defaultValues: {
-      email: "",
+      email: '',
     },
-  })
+  });
 
   function onSubmit(formData: NewsletterSignUpFormInput): void {
     startTransition(async () => {
       try {
-        const message = await subscribeToNewsletter({ email: formData.email })
+        const message = await subscribeToNewsletter({ email: formData.email });
 
         switch (message) {
-          case "exists":
+          case 'exists':
             toast({
-              title: "You are subscribed already",
-              variant: "destructive",
-            })
-            form.reset()
-            break
-          case "success":
+              title: 'You are subscribed already',
+              variant: 'destructive',
+            });
+            form.reset();
+            break;
+          case 'success':
             toast({
-              title: "Thank you!",
-              description: "You have successfully subscribed to our newsletter",
-            })
-            form.reset()
-            break
+              title: 'Thank you!',
+              description: 'You have successfully subscribed to our newsletter',
+            });
+            form.reset();
+            break;
           default:
             toast({
-              title: "Something went wrong",
-              description: "Please try again",
-              variant: "destructive",
-            })
+              title: 'Something went wrong',
+              description: 'Please try again',
+              variant: 'destructive',
+            });
         }
       } catch (error) {
         toast({
-          title: "Something went wrong",
-          description: "Please try again",
-          variant: "destructive",
-        })
+          title: 'Something went wrong',
+          description: 'Please try again',
+          variant: 'destructive',
+        });
       }
-    })
+    });
   }
 
   return (
@@ -97,10 +94,7 @@ export function NewsletterSignUpForm(): JSX.Element {
           )}
         />
 
-        <Button
-          className="size-10 rounded-l-none md:size-12"
-          disabled={isPending}
-        >
+        <Button className="size-10 rounded-l-none md:size-12" disabled={isPending}>
           {isPending ? (
             <Icons.spinner className="size-4 animate-spin" aria-hidden="true" />
           ) : (
@@ -110,5 +104,5 @@ export function NewsletterSignUpForm(): JSX.Element {
         </Button>
       </form>
     </Form>
-  )
+  );
 }

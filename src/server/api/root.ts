@@ -6,8 +6,9 @@ import { createElysia } from './elysias';
  *
  * @constant
  * @type {ReturnType<typeof createElysia>}
+ * TODO: check what the  empty prefix does, might jsut be a double forwarded route
  */
-export const appRouter = createElysia({ prefix: '/api/elysia' }).use(api).compile();
+export const appRouter = createElysia({ prefix: '/' }).use(api).compile();
 
 /**
  * Type definition for the application router.
