@@ -1,37 +1,67 @@
-import { BlogCard } from '@/components';
-import { app } from '@/constants';
-import { getBlogPosts } from '@/lib/blog';
-import { constructMetadata } from '@/utils';
+import { allPosts } from '@/contentlayer/generated';
+import { formatDate } from '@/lib/utils';
+import { compareDesc } from 'date-fns';
+import Image from 'next/image';
+import Link from 'next/link';
 
-export const metadata = constructMetadata({
+import { Icons } from '@/components/icons';
+import { AspectRatio } from '@/components/ui/aspect-ratio';
+
+export const metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL),
   title: 'Blog',
-  description: `Latest news and updates from ${app.name}.`,
-});
+  description: 'Read out latest blog posts',
+};
 
-export default async function Blog() {
-  const allPosts = await getBlogPosts();
+type Post = {
+  title: string;
+  description: string;
+  date: string;
+  image: string;
+  slug: string;
+  published: boolean;
+};
 
-  const articles = await Promise.all(
-    allPosts.sort((a, b) => b.metadata.publishedAt.localeCompare(a.metadata.publishedAt)),
-  );
+export default function BlogPage(): JSX.Element {
+  const posts = allPosts
+    .filter((post: Post) => post.published)
+    .sort((a: Post, b: Post) => compareDesc(new Date(a.date), new Date(b.date)));
 
   return (
-    <>
-      <div className="mx-auto w-full max-w-screen-xl px-2.5 lg:px-20 mt-24">
-        <div className="text-center py-16">
-          <h1 className="text-3xl font-bold text-foreground sm:text-4xl">Articles</h1>
-          <p className="mt-4 text-xl text-muted-foreground">
-            Latest news and updates from {app.name}
-          </p>
-        </div>
-      </div>
-      <div className="min-h-[50vh] bg-white/50 shadow-[inset_10px_-50px_94px_0_rgb(199,199,199,0.2)] backdrop-blur-lg">
-        <div className="mx-auto grid w-full max-w-screen-xl grid-cols-1 gap-8 px-2.5 py-10 lg:px-20 lg:grid-cols-3">
-          {articles.map((data, idx) => (
-            <BlogCard key={data.slug} data={data.metadata} priority={idx <= 1} />
-          ))}
-        </div>
-      </div>
-    </>
+    <div className="container grid w-full max-w-7xl grid-cols-2 gap-8 py-24 md:py-16 lg:grid-cols-3 lg:gap-16 lg:py-32">
+      {posts.map(({ post, index }: { post: Post; index: number }) => (
+        <Link key={post.slug} href={post.slug}>
+          <article className="flex flex-col space-y-2.5">
+            <AspectRatio ratio={16 / 9}>
+              {post.image ? (
+                <Image
+                  src={post.image}
+                  alt={post.title}
+                  fill
+                  sizes="(min-width: 1024px) 384px, (min-width: 768px) 288px, (min-width: 640px) 224px, 100vw"
+                  className="rounded-lg object-cover"
+                  priority={index <= 1}
+                />
+              ) : (
+                <div
+                  aria-label="Placeholder"
+                  role="img"
+                  aria-roledescription="placeholder"
+                  className="flex size-full items-center justify-center rounded-lg bg-secondary"
+                >
+                  <Icons.placeholder className="size-9 text-muted-foreground" aria-hidden="true" />
+                </div>
+              )}
+            </AspectRatio>
+            <h2 className="line-clamp-1 text-xl font-semibold">{post.title}</h2>
+            <p className="line-clamp-2 text-muted-foreground">{post.description}</p>
+            {post.date ? (
+              <p className="text-sm text-muted-foreground">{formatDate(post.date)}</p>
+            ) : null}
+          </article>
+          <span className="sr-only">{post.title}</span>
+        </Link>
+      ))}
+    </div>
   );
 }

@@ -3,6 +3,10 @@
 import Script from 'next/script';
 import { useIsomorphicLayoutEffect } from 'usehooks-ts';
 
+/**
+ * Component that manages the inclusion of various external scripts
+ * and prevents the default context menu from appearing.
+ */
 export function Scripts() {
   useIsomorphicLayoutEffect(() => {
     document.addEventListener('contextmenu', (event: MouseEvent) => {

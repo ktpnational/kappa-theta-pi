@@ -1,23 +1,19 @@
 import 'next-auth';
+import type { Role } from '@prisma/client';
 import type { NextAuthOptions } from 'next-auth';
 import type { DefaultSession } from 'next-auth';
 import type { Provider } from 'next-auth/providers';
 
 declare module 'next-auth' {
-  interface User {
-    id: string;
-    email: string;
-    name?: string | null;
-    emailVerified?: Date | null;
-    image?: string | null;
-    role?: Role;
-  }
-
-  interface Session extends DefaultSession["user"] {
-    user: User & {
+  interface Session extends DefaultSession {
+    user: {
       id: string;
       role: Role;
-    };
+      isTwoFactorEnabled: boolean;
+      isOAuth: boolean;
+      name: string;
+      email: string;
+    } & DefaultSession['user'];
     supabaseAccessToken?: string;
   }
 

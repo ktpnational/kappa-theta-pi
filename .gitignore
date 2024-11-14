@@ -63,3 +63,7 @@ sw.js.*
 /test-results
 
 .vercel
+
+
+# Contentlayer
+.contentlayer

@@ -1,6 +1,6 @@
 'use server';
 
-import bcrypt from 'bcryptjs';
+import bcrypt from 'bcrypt';
 import type * as z from 'zod';
 
 import { getUserByEmail, getUserById } from '@/data/user';

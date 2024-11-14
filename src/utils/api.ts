@@ -1,6 +1,10 @@
 import { Errors } from '@sinclair/typebox/errors';
 import type { Static, TSchema } from '@sinclair/typebox/type';
 import { Check } from '@sinclair/typebox/value';
+/**
+ * @see https://github.com/elysiajs/eden/blob/main/src/errors.ts
+ */
+import type { EdenFetchError } from 'custom';
 
 /**
  * Parses a value against a TypeBox schema and throws an error if invalid.

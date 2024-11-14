@@ -1,6 +1,6 @@
 import * as z from 'zod';
 
-import { emailSchema } from '@/validations/email';
+import { emailSchema } from '@/schemas/email';
 
 export const userIdSchema = z
   .string({

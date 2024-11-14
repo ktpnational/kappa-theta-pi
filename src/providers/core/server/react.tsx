@@ -1,14 +1,17 @@
 'use client';
 
-// import type { App } from '@/app/api/v1/[[...route]]/route';
-// import { getURL } from '@/utils';
-// import { treaty } from '@elysiajs/eden';
+import type { AppRouter } from '@/server/api/root';
+import { getURL } from '@/utils';
+import { treaty } from '@elysiajs/eden';
+
 import type { QueryClient } from '@tanstack/react-query';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { createQueryClient } from '.';
 
-// export const api = treaty<App>(getURL()).api.elysia;
+export const client_api = treaty<AppRouter>(
+  typeof window === 'undefined' ? getURL() : window.location.origin,
+).api.elysia;
 
 let clientQueryClientSingleton: QueryClient | undefined = undefined;
 

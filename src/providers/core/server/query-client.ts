@@ -1,4 +1,5 @@
 import { QueryClient, defaultShouldDehydrateQuery } from '@tanstack/react-query';
+import { cache } from 'react';
 import SuperJSON from 'superjson';
 
 /**
@@ -24,7 +25,7 @@ const fetchWithSuperJSON = async (url: string): Promise<any> => {
  *
  * @returns {QueryClient} - The memoized QueryClient instance.
  */
-export const createQueryClient = (() => {
+export const createQueryClient = cache(() => {
   let queryClient: QueryClient | null = null;
 
   return (): QueryClient => {

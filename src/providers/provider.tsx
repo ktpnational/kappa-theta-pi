@@ -1,7 +1,16 @@
 'use client';
 
 import type { JSXElementConstructor, ReactNode } from 'react';
-import { Events, GlobalStoreProvider, ModeToggle, QueryProvider, ThemeProvider } from '.';
+import {
+  AuthProvider,
+  Events,
+  GlobalStoreProvider,
+  ModeToggle,
+  QueryProvider,
+  SmoothScrollProvider,
+  TelemetryInit,
+  ThemeProvider,
+} from '.';
 
 const Providers: React.FC<
   Readonly<{
@@ -12,8 +21,10 @@ const Providers: React.FC<
     <>
       <ProviderStack
         providers={[
-          [ThemeProvider, {}],
+          [AuthProvider, {}],
           [QueryProvider, {}],
+          [ThemeProvider, {}],
+          [SmoothScrollProvider, {}],
           [GlobalStoreProvider, {}],
           [Events, {}],
         ]}
@@ -21,6 +32,7 @@ const Providers: React.FC<
         <>
           {children}
           <ModeToggle />
+          <TelemetryInit />
         </>
       </ProviderStack>
     </>

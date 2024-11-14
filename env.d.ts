@@ -23,6 +23,7 @@ declare global {
       // App
       NODE_ENV: NodeEnv;
       NEXT_PUBLIC_APP_VERSION: string;
+      NEXT_PUBLIC_APP_URL: string;
 
       // Supabase
       NEXT_PUBLIC_SUPABASE_URL: string;
@@ -59,6 +60,7 @@ declare global {
       SERVER_URL_KEY: ServerConfig.URL;
       SECRET: string;
       SEVEN_DAYS: ServerConfig.DAYS;
+      AUTH_SECRET: string;
     }
   }
 }

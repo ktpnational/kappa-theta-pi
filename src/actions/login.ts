@@ -1,6 +1,6 @@
 'use server';
 
-import bcrypt from 'bcryptjs';
+import bcrypt from 'bcrypt';
 import { AuthError } from 'next-auth';
 import type * as z from 'zod';
 
@@ -93,7 +93,7 @@ export const login = async (values: z.infer<typeof LoginSchema>, callbackUrl?: s
       redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT,
     });
 
-    // return { success: "Login Sucess!" };
+    return { success: 'Login Sucess!' };
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {

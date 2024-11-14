@@ -194,3 +194,14 @@ export function memoize<T extends (...args: any[]) => any>(
     return result;
   }) as T;
 }
+
+/**
+ * Truncates a string to a specified length and adds ellipsis if it exceeds that length.
+ *
+ * @param {string} str - The string to truncate.
+ * @param {number} length - The maximum length of the truncated string.
+ * @returns {string} - The truncated string with ellipsis if it exceeds the specified length.
+ */
+export function truncate(str: string, length: number): string {
+  return str.length > length ? `${str.substring(0, length)}...` : str;
+}

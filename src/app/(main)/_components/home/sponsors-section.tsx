@@ -1,18 +1,8 @@
 'use client';
 
 import Marquee from '@/components/ui/marquee';
+import { companies } from '@/constants';
 import Image from 'next/image';
-
-const companies = [
-  'Google',
-  'Microsoft',
-  'Amazon',
-  'Netflix',
-  'YouTube',
-  'Instagram',
-  'Uber',
-  'Spotify',
-];
 
 export const SponsorsSection = () => {
   return (

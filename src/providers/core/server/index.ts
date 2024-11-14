@@ -1,2 +1,2 @@
-export * from './react';
+export { QueryProvider } from './react';
 export * from './query-client';

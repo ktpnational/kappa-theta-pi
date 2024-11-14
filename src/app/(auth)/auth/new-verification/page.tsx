@@ -1,4 +1,4 @@
-import NewVerificationForm from '@/components/auth/new-verification-form';
+import { NewVerificationForm } from '@/app/(auth)/_components';
 
 const NewVerificationPage = () => {
   return <NewVerificationForm />;

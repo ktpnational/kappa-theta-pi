@@ -12,16 +12,21 @@ datasource db {
 
 // NextAuth.js Models (next_auth schema)
 model User {
-  id                    String                 @id @default(uuid())
-  name                  String?
-  email                 String?                @unique
-  emailVerified         DateTime?
-  image                 String?
-  password              String?
-  accounts              Account[]
-  sessions              Session[]
-  profile               Profile?
-  TwoFactorConfirmation TwoFactorConfirmation?
+  id                      String                 @id @default(uuid())
+  name                    String?
+  email                   String?                @unique
+  emailVerified           DateTime?
+  image                   String?
+  password                String?
+  role                    Role                   @default(USER)
+  accounts                Account[]
+  sessions                Session[]
+  isTwoFactorEnabled      Boolean                @default(false)
+  twoFactorConfirmation   TwoFactorConfirmation?
+  twoFactorConfirmationId String?
+  profile                 Profile?
+  resources               Resource[]
+  rsvps                   RSVP[]
 
   @@map("users")
   @@schema("next_auth")
@@ -128,7 +133,7 @@ enum Role {
   ADMIN
   COMPANY
 
-  @@schema("public")
+  @@schema("next_auth")
 }
 
 model Address {
@@ -209,8 +214,8 @@ model Candidate {
 }
 
 model Chapter {
-  id           String   @id @default(uuid())
-  name         String   @unique
+  id           String     @id @default(uuid())
+  name         String     @unique
   greekName    String
   foundingDate DateTime
   university   String
@@ -218,10 +223,11 @@ model Chapter {
   status       String
   latitude     Float
   longitude    Float
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
   members      Member[]
   events       Event[]
+  resources    Resource[]
 
   @@map("chapters")
   @@schema("public")
@@ -240,18 +246,65 @@ enum CandidateStatus {
 model Event {
   id          String   @id @default(cuid())
   name        String
-  description String
+  description String?
   startDate   DateTime
   endDate     DateTime
   location    String
   type        String
   status      String
-  chapter     Chapter  @relation(fields: [chapterId], references: [id])
-  chapterId   String
+  chapter     Chapter? @relation(fields: [chapterId], references: [id])
+  chapterId   String?
+  rsvps       RSVP[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([chapterId])
+  @@schema("public")
+}
+
+model Resource {
+  id          String   @id @default(cuid())
+  title       String
+  type        String
+  url         String
+  description String?
+  category    String
+  tags        String[]
+  createdBy   String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  chapterId   String?
+  chapter     Chapter? @relation(fields: [chapterId], references: [id])
+
+  @@index([userId])
+  @@index([chapterId])
+  @@map("resources")
+  @@schema("public")
+}
+
+model RSVP {
+  id        String   @id @default(cuid())
+  eventId   String
+  userId    String
+  status    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  event     Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([eventId, userId])
+  @@map("rsvps")
+  @@schema("public")
+}
+
+model NewsletterSubscriber {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("newsletter_subscribers")
   @@schema("public")
 }

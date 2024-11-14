@@ -1,13 +1,13 @@
 import * as z from 'zod';
 
-import { passwordSchema, userIdSchema } from '@/validations/auth';
-import { emailSchema } from '@/validations/email';
+import { passwordSchema, userIdSchema } from '@/schemas/auth';
+import { emailSchema } from '@/schemas/email';
 
 export const userSchema = z.object({
   role: z
-    .enum(['USER', 'ADMIN'], {
+    .enum(['USER', 'ADMIN', 'COMPANY'], {
       required_error: 'Role is required',
-      invalid_type_error: 'Role must be one of the following: user, admin',
+      invalid_type_error: 'Role must be one of the following: user, admin, company',
     })
     .default('USER'),
   email: emailSchema,

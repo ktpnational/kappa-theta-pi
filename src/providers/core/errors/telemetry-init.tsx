@@ -29,11 +29,11 @@ const initTelemetry = (): void => {
     });
 
     // Configure the OTLP exporter
-    const exporter = new OTLPTraceExporter({
+    const otlpExporter = new OTLPTraceExporter({
       url: process.env.NEXT_PUBLIC_OTEL_COLLECTOR_URL || 'http://localhost:4318/v1/traces',
     });
 
-    provider.addSpanProcessor(new BatchSpanProcessor(exporter));
+    provider.addSpanProcessor(new BatchSpanProcessor(otlpExporter));
     provider.register({
       contextManager: new ZoneContextManager(),
     });
@@ -44,7 +44,7 @@ const initTelemetry = (): void => {
         new DocumentLoadInstrumentation(),
         new UserInteractionInstrumentation(),
         new FetchInstrumentation({
-          ignoreUrls: [/localhost/], // Ignore local development URLs
+          ignoreUrls: [/localhost/],
           clearTimingResources: true,
         }),
       ],

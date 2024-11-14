@@ -1,4 +1,3 @@
-export * from './blog-section';
 export * from './cta-section';
 export * from './hero-section';
 export * from './map-section';
