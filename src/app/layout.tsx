@@ -1,8 +1,6 @@
-/**
- * @fileoverview Root layout component for the Next.js application
- */
+import '@/styles/css/globals.css';
+import '@/styles/sass/globals.scss';
 
-import '@/styles/globals.css';
 import { Providers } from '@/providers';
 import { Scripts } from '@/scripts';
 import { constructMetadata, constructViewport } from '@/utils';
@@ -36,7 +34,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html
       lang="en"
       suppressHydrationWarning
-      data-a11y-animated-images="system" 
+      data-a11y-animated-images="system"
       data-a11y-link-underlines="false"
     >
       <head>

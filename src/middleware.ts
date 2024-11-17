@@ -2,10 +2,24 @@ import { type CookieOptions, createServerClient } from '@supabase/ssr';
 import { type NextRequest, NextResponse } from 'next/server';
 
 /**
- * Middleware function to handle requests and update session.
+ * Middleware function to handle authentication and session management for incoming requests.
+ * This middleware integrates Supabase authentication with Next.js middleware capabilities.
  *
- * @param {NextRequest} request - The incoming request object.
- * @returns {Promise<NextResponse>} - The response object.
+ * @param {NextRequest} request - The incoming Next.js request object containing headers, cookies and other request data
+ * @returns {Promise<NextResponse>} A promise that resolves to the modified Next.js response object
+ *
+ * @remarks
+ * - Creates a new response object with preserved request headers
+ * - Checks if request is for public asset using isPublicAsset()
+ * - Initializes Supabase client with cookie handling
+ * - Manages authentication state via getUser()
+ * - Handles cookie operations (get/set/remove) for session management
+ *
+ * @example
+ * ```ts
+ * // Automatically applied to matching routes via Next.js middleware
+ * const response = await middleware(request);
+ * ```
  */
 export async function middleware(request: NextRequest): Promise<NextResponse> {
   let response = NextResponse.next({
@@ -71,10 +85,25 @@ export async function middleware(request: NextRequest): Promise<NextResponse> {
 }
 
 /**
- * Checks if the request is for a public asset.
+ * Determines if the incoming request is for a public asset that should bypass authentication.
+ * Public assets include static files, images, favicons, and other publicly accessible resources.
  *
- * @param {NextRequest} request - The incoming request object.
- * @returns {boolean} - True if the request is for a public asset, false otherwise.
+ * @param {NextRequest} request - The incoming Next.js request object to check
+ * @returns {boolean} True if the request is for a public asset, false otherwise
+ *
+ * @remarks
+ * - Checks request path against predefined list of public asset paths
+ * - Uses startsWith() to match path prefixes
+ * - Includes common static assets like favicons, images, PWA assets
+ * - Includes common web standard files like robots.txt and sitemap.xml
+ *
+ * @example
+ * ```ts
+ * if (isPublicAsset(request)) {
+ *   // Allow access without authentication
+ *   return response;
+ * }
+ * ```
  */
 function isPublicAsset(request: NextRequest): boolean {
   const publicAssetPaths: string[] = [
@@ -97,10 +126,26 @@ function isPublicAsset(request: NextRequest): boolean {
 }
 
 /**
- * Configuration object for the middleware.
+ * Configuration object that defines which routes the middleware should be applied to.
+ * Uses Next.js middleware matcher patterns to include/exclude specific paths.
  *
  * @type {Object}
- * @property {string[]} matcher - Array of paths to match for the middleware.
+ * @property {string[]} matcher - Array of path patterns to match against incoming requests
+ *
+ * @remarks
+ * - Matches all paths by default
+ * - Excludes Next.js internal paths (_next/static, _next/image)
+ * - Excludes favicon.ico requests
+ * - Pattern can be modified to include additional paths
+ * - Uses negative lookahead (?!) in regex for exclusions
+ *
+ * @example
+ * ```ts
+ * // In middleware.ts
+ * export const config = {
+ *   matcher: ['/((?!_next/static|_next/image|favicon.ico).*)']
+ * };
+ * ```
  */
 export const config = {
   matcher: [

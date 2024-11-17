@@ -22,19 +22,54 @@ import {
 import { Input } from '@/components/ui/input';
 
 /**
- * Newsletter signup form component that allows users to subscribe to a newsletter.
- * 
+ * Newsletter signup form component for collecting email subscriptions
+ *
  * @component
- * @remarks
- * This component provides a form with email input validation using zod schema.
- * It handles form submission asynchronously and shows appropriate toast messages.
- * 
- * @returns {JSX.Element} A form component with an email input field and submit button
- * 
+ * @description
+ * A React component that renders a responsive newsletter signup form with email input.
+ * Uses react-hook-form for form handling and validation, with Zod schema validation.
+ * Includes loading states, error handling, success notifications, and duplicate subscription checking.
+ *
  * @example
  * ```tsx
  * <NewsletterSignUpForm />
  * ```
+ *
+ * @returns {JSX.Element} A fully styled and functional newsletter signup form
+ *
+ * @features
+ * - Form validation using Zod schema
+ * - Loading states during form submission
+ * - Error handling with toast notifications
+ * - Success feedback with form reset
+ * - Duplicate subscription detection
+ * - Responsive design with mobile/desktop variants
+ * - Accessible form controls with ARIA labels
+ *
+ * @validation
+ * Validates:
+ * - Email (required, valid email format)
+ *
+ * @state
+ * - isPending: Tracks form submission state using React.useTransition
+ * - form: React Hook Form instance with email field
+ *
+ * @notifications
+ * Toast messages for:
+ * - Successful subscription
+ * - Existing subscription
+ * - Error states
+ *
+ * @accessibility
+ * - Screen reader labels for form controls
+ * - Loading state indicators
+ * - Clear success/error feedback
+ *
+ * @styling
+ * - Responsive sizing (mobile/desktop)
+ * - Loading spinner animation
+ * - Custom button icons
+ * - Tailwind CSS utilities
  */
 export const NewsletterSignUpForm = (): JSX.Element => {
   const { toast } = useToast();
@@ -52,21 +87,26 @@ export const NewsletterSignUpForm = (): JSX.Element => {
   });
 
   /**
-   * Handles the form submission process
-   * 
+   * Handles the form submission for newsletter signup
+   *
+   * @param {NewsletterSignUpFormInput} formData - The form data containing the email
+   * @returns {void}
+   *
    * @async
-   * @param {NewsletterSignUpFormInput} formData - The form data containing the email address
-   * @throws {Error} When the newsletter subscription request fails
-   * 
-   * @remarks
-   * This function:
-   * 1. Attempts to subscribe the user to the newsletter
-   * 2. Handles different response cases:
-   *    - 'exists': User is already subscribed
-   *    - 'success': Successful subscription
-   *    - default: Generic error
-   * 3. Shows appropriate toast notifications
-   * 4. Resets the form on success or if user already exists
+   * @function
+   * @description
+   * Processes the newsletter signup request:
+   * 1. Starts a transition for loading state
+   * 2. Attempts to subscribe the email
+   * 3. Handles different response cases:
+   *    - Existing subscription
+   *    - Successful subscription
+   *    - Error states
+   * 4. Shows appropriate toast notifications
+   * 5. Resets form on success/existing subscription
+   *
+   * @error
+   * Handles errors with user-friendly toast notifications
    */
   function onSubmit(formData: NewsletterSignUpFormInput): void {
     startTransition(async () => {
@@ -132,9 +172,9 @@ export const NewsletterSignUpForm = (): JSX.Element => {
 
         <Button className="size-10 rounded-l-none md:size-12" disabled={isPending}>
           {isPending ? (
-            <Icons.spinner className="size-4 animate-spin" aria-hidden="true" />
+            <Icons.miscellaneous.spinner className="size-4 animate-spin" aria-hidden="true" />
           ) : (
-            <Icons.paperPlane className="size-4" aria-hidden="true" />
+            <Icons.communication.paperplane className="size-4" aria-hidden="true" />
           )}
           <span className="sr-only">Join newsletter</span>
         </Button>

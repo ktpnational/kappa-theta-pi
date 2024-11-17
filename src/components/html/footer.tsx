@@ -7,15 +7,33 @@ import { memo } from 'react';
 
 /**
  * Footer component for the Kappa Theta Pi website
+ *
  * @component
- * @description Main footer component that displays organization information, navigation links, contact details, and social media links.
- * The footer is divided into multiple sections including quick links, resources, contact information and social media follows.
- * It also includes a copyright notice and legal links at the bottom.
- * @returns {JSX.Element} A responsive footer element with multiple columns of content
+ * @description
+ * A responsive footer component that displays organizational information, navigation links,
+ * contact details, and social media links. The component is memoized for performance optimization.
+ *
  * @example
  * ```tsx
  * <Footer />
  * ```
+ *
+ * @returns {JSX.Element} A memoized footer component
+ *
+ * @features
+ * - Responsive grid layout that adapts to different screen sizes
+ * - Quick links navigation section
+ * - Resources section with important links
+ * - Contact information display
+ * - Social media links with icons
+ * - Copyright notice and legal links
+ *
+ * @styling
+ * - Uses Tailwind CSS for styling
+ * - Consistent color scheme with brand colors
+ * - Hover effects on interactive elements
+ * - Responsive padding and spacing
+ * - Accessible color contrast ratios
  */
 export const Footer = memo(function Footer() {
   const currentYear = new Date().getFullYear();
@@ -84,8 +102,8 @@ export const Footer = memo(function Footer() {
 });
 
 /**
- * Properties for the FooterSection component
- * @typedef {Object} FooterSectionProps
+ * Props interface for the FooterSection component
+ * @interface FooterSectionProps
  * @property {string} title - The heading text for the footer section
  * @property {Array<{href: string, text: string}>} links - Array of link objects containing href and display text
  */
@@ -95,12 +113,17 @@ type FooterSectionProps = {
 };
 
 /**
- * Reusable FooterSection component for link lists
+ * Reusable FooterSection component for grouping related links
+ *
  * @component
- * @param {FooterSectionProps} props - The props for the FooterSection component
- * @param {string} props.title - The heading text for the footer section
- * @param {Array<{href: string, text: string}>} props.links - Array of link objects containing href and display text
- * @returns {JSX.Element} A section containing a title and list of links
+ * @description
+ * A component that renders a section of footer links with a title.
+ * Used for organizing related links into logical groups within the footer.
+ *
+ * @param {FooterSectionProps} props - Component props
+ * @param {string} props.title - The heading text for the section
+ * @param {Array<{href: string, text: string}>} props.links - Array of link objects
+ *
  * @example
  * ```tsx
  * <FooterSection
@@ -111,6 +134,8 @@ type FooterSectionProps = {
  *   ]}
  * />
  * ```
+ *
+ * @returns {JSX.Element} A footer section with title and links
  */
 const FooterSection = ({ title, links }: FooterSectionProps) => (
   <div>
@@ -128,11 +153,11 @@ const FooterSection = ({ title, links }: FooterSectionProps) => (
 );
 
 /**
- * Properties for the SocialLink component
- * @typedef {Object} SocialLinkProps
+ * Props interface for the SocialLink component
+ * @interface SocialLinkProps
  * @property {string} href - The URL the social link points to
- * @property {string} aria-label - Accessibility label for the social link
- * @property {React.ReactNode} children - The icon component to display
+ * @property {string} aria-label - Accessible label for the social link
+ * @property {React.ReactNode} children - Child elements (typically social icons)
  */
 type SocialLinkProps = {
   href: string;
@@ -141,19 +166,26 @@ type SocialLinkProps = {
 };
 
 /**
- * Reusable SocialLink component for social media icons
+ * Reusable SocialLink component for social media links
+ *
  * @component
- * @param {SocialLinkProps} props - The props for the SocialLink component
+ * @description
+ * A component that renders a social media link with an icon.
+ * Includes proper accessibility attributes and styling for social media links.
+ *
+ * @param {SocialLinkProps} props - Component props
  * @param {string} props.href - The URL the social link points to
- * @param {string} props.aria-label - Accessibility label for the social link
- * @param {React.ReactNode} props.children - The icon component to display
- * @returns {JSX.Element} An anchor tag with social media icon
+ * @param {string} props.aria-label - Accessible label for the social link
+ * @param {React.ReactNode} props.children - Child elements (typically social icons)
+ *
  * @example
  * ```tsx
- * <SocialLink href="https://instagram.com/example" aria-label="Instagram">
- *   <Instagram className="w-6 h-6" />
+ * <SocialLink href="https://instagram.com" aria-label="Instagram">
+ *   <InstagramIcon />
  * </SocialLink>
  * ```
+ *
+ * @returns {JSX.Element} A styled social media link with icon
  */
 const SocialLink = ({ href, 'aria-label': ariaLabel, children }: SocialLinkProps) => (
   <a
@@ -168,8 +200,8 @@ const SocialLink = ({ href, 'aria-label': ariaLabel, children }: SocialLinkProps
 );
 
 /**
- * Properties for the FooterLink component
- * @typedef {Object} FooterLinkProps
+ * Props interface for the FooterLink component
+ * @interface FooterLinkProps
  * @property {string} href - The URL the footer link points to
  * @property {string} text - The display text for the link
  */
@@ -179,16 +211,23 @@ type FooterLinkProps = {
 };
 
 /**
- * Reusable FooterLink component for legal links
+ * Reusable FooterLink component for legal and policy links
+ *
  * @component
- * @param {FooterLinkProps} props - The props for the FooterLink component
+ * @description
+ * A component that renders a footer link, typically used for legal pages
+ * and policy documents. Includes consistent styling with hover effects.
+ *
+ * @param {FooterLinkProps} props - Component props
  * @param {string} props.href - The URL the footer link points to
  * @param {string} props.text - The display text for the link
- * @returns {JSX.Element} A styled Next.js Link component
+ *
  * @example
  * ```tsx
  * <FooterLink href="/privacy" text="Privacy Policy" />
  * ```
+ *
+ * @returns {JSX.Element} A styled footer link
  */
 const FooterLink = ({ href, text }: FooterLinkProps) => (
   <Link href={href} className="text-white hover:text-[#8BB9FF] transition-colors">

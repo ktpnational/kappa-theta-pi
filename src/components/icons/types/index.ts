@@ -1,47 +1,27 @@
-type sizes =
-  | '0'
-  | '1'
-  | '2'
-  | '3'
-  | '4'
-  | '5'
-  | '6'
-  | '7'
-  | '8'
-  | '9'
-  | '10'
-  | '11'
-  | '12'
-  | '14'
-  | '16'
-  | '20'
-  | '24'
-  | '28'
-  | '32'
-  | '36'
-  | '40'
-  | '44'
-  | '48'
-  | '52'
-  | '56'
-  | '60'
-  | '64'
-  | '72'
-  | '80'
-  | '96';
+type NumberRange<T extends number, R extends number[] = []> = R['length'] extends T
+  ? R[number]
+  : NumberRange<T, [...R, R['length']]>;
 
-type SVGIconProps = {
-  className?: string;
-  props?: React.SVGProps<SVGSVGElement>;
-  size?: sizes | '4';
-};
+type sizes = `${
+  | NumberRange<13>
+  | 14
+  | 16
+  | 20
+  | 24
+  | 28
+  | 32
+  | 36
+  | 40
+  | 44
+  | 48
+  | 52
+  | 56
+  | 60
+  | 64
+  | 72
+  | 80
+  | 96}`;
 
-type SVGIconParams = ({ className, size, props }: SVGIconProps) => JSX.Element;
-
-type IconsProps = DeepRequired<{
-  [key: string]: {
-    [key: string]: SVGIconParams;
-  };
-}>;
-
-export type { IconsProps, SVGIconProps, SVGIconParams, sizes };
+export interface IconProps extends React.HTMLAttributes<SVGElement> {
+  size?: sizes;
+}

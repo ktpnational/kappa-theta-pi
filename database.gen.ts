@@ -5,29 +5,63 @@ import { promisify } from 'node:util';
 
 /**
  * Asynchronously sets up the database by running Prisma migrations and generating Supabase types.
+ * This script uses non-interactive commands that work in all environments.
  *
- * This script performs the following tasks:
- * 1. Runs Prisma migrations and generates Prisma client.
- * 2. Generates Supabase types for the specified schemas.
+ * @description
+ * This script performs the following tasks in sequence:
+ * 1. Validates the Supabase URL environment variable
+ * 2. Generates the Prisma client
+ * 3. Pushes schema changes to database (dev only)
+ * 4. Applies existing migrations
+ * 5. Generates Supabase TypeScript types
  *
- * @throws Will throw an error if the NEXT_PUBLIC_SUPABASE_URL environment variable is not properly set.
- * @throws Will exit the process with code 1 if any command fails during execution.
+ * @environment
+ * Required environment variables:
+ * - NEXT_PUBLIC_SUPABASE_URL: The full URL of your Supabase project
+ * - NODE_ENV: Environment type (development/production)
  */
 (async () => {
   const execPromise = promisify(exec);
+
+  // Validate Supabase URL
   const projectRef = process.env.NEXT_PUBLIC_SUPABASE_URL?.split('//')[1]?.split('.')[0];
   if (!projectRef) {
     throw new Error('NEXT_PUBLIC_SUPABASE_URL environment variable is not properly set');
   }
-  try {
-    console.log('Running Prisma migrations and generation...');
-    const prismaCommand = 'bunx prisma migrate dev --name init && bunx prisma generate';
-    const { stdout: prismaOutput, stderr: prismaError } = await execPromise(prismaCommand);
 
-    if (prismaError) {
-      console.warn('Prisma command produced warnings:', prismaError);
+  const isDev = process.env.NODE_ENV !== 'production';
+
+  try {
+    console.log('Starting database setup...');
+
+    console.log('Generating Prisma client...');
+    const { stdout: generateOutput, stderr: generateError } = await execPromise('bunx prisma generate');
+
+    if (generateError) {
+      console.warn('Prisma generate produced warnings:', generateError);
     }
-    console.log('Prisma setup completed:', prismaOutput);
+    console.log('Prisma client generated:', generateOutput);
+
+    if (isDev) {
+      console.log('Pushing schema changes (development only)...');
+      try {
+        const { stdout: pushOutput, stderr: pushError } = await execPromise('bunx prisma db push --accept-data-loss --skip-generate');
+        if (pushError) {
+          console.warn('Schema push produced warnings:', pushError);
+        }
+        console.log('Schema push completed:', pushOutput);
+      } catch (pushError) {
+        console.warn('Schema push failed, continuing with migrations:', pushError);
+      }
+    }
+
+    console.log('Applying migrations...');
+    const { stdout: migrateOutput, stderr: migrateError } = await execPromise('bunx prisma migrate deploy');
+
+    if (migrateError) {
+      console.warn('Migration produced warnings:', migrateError);
+    }
+    console.log('Migrations completed:', migrateOutput);
 
     console.log('Generating Supabase types...');
     const supabaseCommand = `npx supabase gen types --lang=typescript --project-id "${projectRef}" --schema public,auth,storage,next_auth > src/types/supabase.ts`;
@@ -41,6 +75,14 @@ import { promisify } from 'node:util';
     console.log('Database setup completed successfully!');
   } catch (error) {
     console.error('Failed to complete database setup:', error);
+    if (error instanceof Error) {
+      console.error('Error details:', {
+        message: error.message,
+        stack: error.stack,
+        // @ts-ignore
+        code: error.code,
+      });
+    }
     process.exit(1);
   }
 })();

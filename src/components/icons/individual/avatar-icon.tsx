@@ -1,22 +1,7 @@
 import { cn } from '@/lib';
-import type { SVGIconProps } from '../types';
+import type { IconProps } from '../types';
 
-/**
- * Avatar icon component that renders an SVG representation of a user avatar.
- * 
- * @component
- * @param {Object} props - The component props
- * @param {string} [props.className] - Additional CSS class names to apply to the SVG
- * @param {number|string} [props.size] - Size of the icon (width and height will be set to this value)
- * @param {Object} [props.props] - Additional props to spread onto the SVG element
- * @returns {JSX.Element} An SVG element representing a user avatar icon
- * 
- * @example
- * ```tsx
- * <AvatarIcon size={6} className="text-gray-500" />
- * ```
- */
-export const AvatarIcon: React.FC<SVGIconProps> = ({ className, size, props }): JSX.Element => (
+export const AvatarIcon: React.FC<IconProps> = ({ className, size, ...props }): JSX.Element => (
   <svg
     width="15"
     height="15"

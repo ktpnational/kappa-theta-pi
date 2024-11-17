@@ -2,9 +2,9 @@
 
 import crypto from 'crypto';
 
-import { getUserByEmail } from '@/actions/user';
-import { prisma } from '@/config/db';
-import { resend } from '@/config/email';
+import { getUserByEmail } from '@/data';
+import { db } from '@/lib';
+import { resend } from '@/lib/resend';
 import {
   type CheckIfEmailVerifiedInput,
   type ContactFormInput,
@@ -16,8 +16,8 @@ import {
   markEmailAsVerifiedSchema,
 } from '@/schemas/email';
 
-import { EmailVerificationEmail } from '@/app/(auth)/_components/emails/email-verification-email';
-import { NewEnquiryEmail } from '@/app/(auth)/_components/emails/new-enquiry-email';
+import { EmailVerificationEmail } from '@/components/email';
+import { NewEnquiryEmail } from '@/components/email';
 
 export async function resendEmailVerificationLink(
   rawInput: EmailVerificationFormInput,
@@ -31,7 +31,7 @@ export async function resendEmailVerificationLink(
 
     const emailVerificationToken = crypto.randomBytes(32).toString('base64url');
 
-    const userUpdated = await prisma.user.update({
+    const userUpdated = await db.user.update({
       where: {
         email: validatedInput.data.email,
       },
@@ -77,7 +77,7 @@ export async function markEmailAsVerified(
     const validatedInput = markEmailAsVerifiedSchema.safeParse(rawInput);
     if (!validatedInput.success) return 'invalid-input';
 
-    const userUpdated = await prisma.user.update({
+    const userUpdated = await db.user.update({
       where: {
         emailVerificationToken: validatedInput.data.token,
       },

@@ -3,7 +3,7 @@
 import { useQueryState } from 'nuqs';
 import { useCallback } from 'react';
 import { useIsomorphicLayoutEffect } from 'usehooks-ts';
-import { v4 as uuidv4 } from 'uuid';
+import { randomUUID as uuidv4 } from 'crypto';
 
 /**
  * Custom React hook for managing a persisted ID in both session storage and URL query parameters.

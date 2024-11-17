@@ -1,19 +1,20 @@
+import { randomUUID as uuidv4 } from 'crypto';
 import { getS3Client } from '@/lib/s3';
 import { createClient } from '@/utils/supabase/client';
 import { PutObjectCommand } from '@aws-sdk/client-s3';
 import { Upload } from '@aws-sdk/lib-storage';
 import imageCompression from 'browser-image-compression';
-import { v4 as uuidv4 } from 'uuid';
 
 /**
- * @description The properties for the upload image function.
- * @param {File} file
- * @param {string} bucket
- * @param {string} folder
- * @param {string} resumeId
- * @param {string} chapterId
- * @param {string} profileId
- * @param {boolean} useMultipart
+ * Properties for the uploadImage function.
+ * @interface UploadProps
+ * @property {File} file - The image file to be uploaded
+ * @property {string} bucket - The S3 bucket name where the image will be stored
+ * @property {string} [folder] - Optional subfolder path within the bucket
+ * @property {string} resumeId - The ID of the associated resume
+ * @property {string} chapterId - The ID of the associated chapter
+ * @property {string} profileId - The ID of the associated profile
+ * @property {boolean} [useMultipart=false] - Whether to use multipart upload for large files
  */
 type UploadProps = {
   file: File;
@@ -25,6 +26,37 @@ type UploadProps = {
   useMultipart?: boolean;
 };
 
+/**
+ * Uploads an image to S3 and creates associated database records.
+ * 
+ * @async
+ * @param {UploadProps} props - The upload properties
+ * @param {File} props.file - The image file to upload
+ * @param {string} props.bucket - Target S3 bucket name
+ * @param {string} [props.folder] - Optional subfolder path in bucket
+ * @param {string} props.resumeId - Associated resume ID
+ * @param {string} props.chapterId - Associated chapter ID
+ * @param {string} props.profileId - Associated profile ID
+ * @param {boolean} [props.useMultipart=false] - Whether to use multipart upload
+ * 
+ * @returns {Promise<{
+ *   imageUrl: string,
+ *   imageData?: any,
+ *   error: string
+ * }>} Object containing:
+ * - imageUrl: Public URL of uploaded image (empty string if failed)
+ * - imageData: Database record data if successful
+ * - error: Error message if failed, empty string if successful
+ * 
+ * @throws Will not throw directly, but returns error information in result object
+ * 
+ * @description
+ * This function performs several operations:
+ * 1. Compresses the image to max 1MB
+ * 2. Uploads to S3 using either multipart or standard upload
+ * 3. Gets the public URL for the uploaded file
+ * 4. Creates a database record linking the image to resume/chapter/profile
+ */
 export const uploadImage = async ({
   file,
   bucket,
@@ -99,6 +131,33 @@ export const uploadImage = async ({
   }
 };
 
+/**
+ * Deletes an image from Supabase storage.
+ * 
+ * @async
+ * @param {string} imageUrl - The public URL of the image to delete
+ * 
+ * @returns {Promise<{
+ *   data: any | null,
+ *   error: string | null
+ * }>} Object containing:
+ * - data: Response data from successful deletion
+ * - error: Error message if deletion failed
+ * 
+ * @description
+ * This function:
+ * 1. Parses the bucket name and file path from the public URL
+ * 2. Attempts to remove the file from Supabase storage
+ * 3. Returns the result or error information
+ * 
+ * @example
+ * ```ts
+ * const { data, error } = await deleteImage('https://example.com/storage/v1/object/public/bucket-name/path/to/image.jpg');
+ * if (error) {
+ *   console.error('Failed to delete:', error);
+ * }
+ * ```
+ */
 export const deleteImage = async (imageUrl: string) => {
   const supabase = createClient();
   const bucketAndPathString = imageUrl.split('/storage/v1/object/public/')[1];

@@ -1,14 +1,7 @@
 import { cn } from '@/lib';
-import type { SVGIconProps } from '../types';
+import type { IconProps } from '../types';
 
-/**
- * Small logo icon component
- * @param className - Optional className for custom styling
- * @param size - Size of the icon (width and height)
- * @param props - Additional SVG props to pass through
- * @returns JSX.Element - The rendered logo icon
- */
-export const LogoSmallIcon: React.FC<SVGIconProps> = ({ className, size, props }): JSX.Element => {
+export const LogoSmallIcon: React.FC<IconProps> = ({ className, size, ...props }): JSX.Element => {
   return (
     <svg
       width="96"

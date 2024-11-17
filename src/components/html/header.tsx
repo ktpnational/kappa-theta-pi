@@ -9,12 +9,12 @@ import type React from 'react';
 import { memo, useCallback, useEffect, useRef } from 'react';
 
 /**
- * Memoized version of the Button component for performance optimization
+ * Memoized Button component for performance optimization
  */
 const MemoizedButton = memo(Button);
 
 /**
- * Navigation items configuration
+ * Navigation items configuration array
  * @type {Array<{href: string, label: string}>}
  */
 const navItems = [
@@ -26,9 +26,64 @@ const navItems = [
 ];
 
 /**
- * Header component that provides navigation and responsive menu functionality
+ * Header component for the website's navigation bar
+ *
  * @component
- * @returns {React.ReactElement} The rendered Header component
+ * @description
+ * A responsive header component that provides navigation functionality and adapts to scroll behavior.
+ * Features include a collapsible mobile menu, scroll-aware visibility, and smooth transitions.
+ * The component is memoized for performance optimization.
+ *
+ * @example
+ * ```tsx
+ * <Header />
+ * ```
+ *
+ * @returns {JSX.Element} A memoized header component
+ *
+ * @features
+ * - Responsive design with mobile/desktop layouts
+ * - Scroll-aware behavior (hide/show on scroll)
+ * - Frosted glass effect on scroll
+ * - Collapsible mobile menu
+ * - Smooth transitions and animations
+ * - Memoized child components for performance
+ *
+ * @state
+ * Uses global Zustand store for:
+ * - isMenuOpen: Controls mobile menu visibility
+ * - isScrolled: Tracks if page is scrolled
+ * - visible: Controls header visibility based on scroll direction
+ *
+ * @hooks
+ * - useCallback: Memoizes event handlers
+ * - useEffect: Manages scroll event listeners
+ * - useRef: Tracks previous scroll position
+ *
+ * @styling
+ * - Uses Tailwind CSS for styling
+ * - Dynamic classes based on scroll state
+ * - Smooth transitions with CSS
+ * - Consistent spacing and alignment
+ * - Brand colors and theming
+ *
+ * @accessibility
+ * - Semantic HTML structure
+ * - Keyboard navigation support
+ * - ARIA-compliant menu button
+ * - Proper heading hierarchy
+ *
+ * @performance
+ * - Memoized component
+ * - Memoized event handlers
+ * - Optimized scroll listener
+ * - Efficient state updates
+ *
+ * @responsive
+ * - Mobile-first design
+ * - Breakpoint-based layout changes
+ * - Touch-friendly mobile menu
+ * - Adaptive spacing and sizing
  */
 export const Header: React.FC = memo(() => {
   /**
@@ -44,8 +99,15 @@ export const Header: React.FC = memo(() => {
 
   /**
    * Handles scroll events to update header visibility and appearance
+   *
    * @function
-   * @returns {void}
+   * @description
+   * Updates header state based on scroll position and direction:
+   * - Shows header when scrolling up or near top
+   * - Hides header when scrolling down
+   * - Adds frosted glass effect when scrolled
+   *
+   * @listens {Event} scroll
    */
   const handleScroll = useCallback(() => {
     const currentScrollPos = window.scrollY;
@@ -74,9 +136,12 @@ export const Header: React.FC = memo(() => {
   }, [handleScroll]);
 
   /**
-   * Toggles mobile menu open/closed state
+   * Toggles the mobile menu state
+   *
    * @function
-   * @returns {void}
+   * @description
+   * Toggles the mobile navigation menu visibility state
+   * Memoized to prevent unnecessary re-renders
    */
   const toggleMenu = useCallback(() => setIsMenuOpen((prev) => !prev), [setIsMenuOpen]);
 

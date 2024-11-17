@@ -1,15 +1,15 @@
 'use server';
 
-import { prisma } from '@/config/db';
-import { resend } from '@/config/email';
+import { db } from '@/lib';
+import { resend } from '@/lib/resend';
 import {
   type CheckIfSubscribedToNewsletterInput,
   type NewsletterSignUpFormInput,
   checkIfSubscribedToNewsletterSchema,
   newsletterSignUpSchema,
-} from '@/validations/newsletter';
+} from '@/schemas/newsletter';
 
-import { NewsletterWelcomeEmail } from '@/components/emails/newsletter-welcome-email';
+import { NewsletterWelcomeEmail } from '@/components/email';
 
 export async function checkIfSubscribedToNewsletter(
   rawInput: CheckIfSubscribedToNewsletterInput,
@@ -18,7 +18,7 @@ export async function checkIfSubscribedToNewsletter(
     const validatedInput = checkIfSubscribedToNewsletterSchema.safeParse(rawInput);
     if (!validatedInput.success) return false;
 
-    const subscribed = await prisma.newsletterSubscriber.findUnique({
+    const subscribed = await db.newsletterSubscriber.findUnique({
       where: {
         email: validatedInput.data.email,
       },
@@ -42,7 +42,7 @@ export async function subscribeToNewsletter(
     });
     if (alreadySubscribed) return 'exists';
 
-    const newSubscriber = await prisma.newsletterSubscriber.create({
+    const newSubscriber = await db.newsletterSubscriber.create({
       data: { email: validatedInput.data.email },
     });
 

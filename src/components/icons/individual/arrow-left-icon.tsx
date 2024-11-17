@@ -1,28 +1,7 @@
 import { cn } from '@/lib';
-import type { SVGIconProps } from '../types';
+import type { IconProps } from '../types';
 
-/**
- * ArrowLeftIcon Component
- * 
- * A React functional component that renders a left-pointing arrow icon as an SVG.
- * 
- * @component
- * @param {Object} props - The component props
- * @param {string} [props.className] - Additional CSS classes to apply to the SVG
- * @param {number|string} [props.size] - Size of the icon (width and height)
- * @param {Object} [props.props] - Additional props to spread to the SVG element
- * 
- * @returns {JSX.Element} An SVG element representing a left arrow icon
- * 
- * @example
- * // Basic usage
- * <ArrowLeftIcon size={4} />
- * 
- * @example
- * // With custom className
- * <ArrowLeftIcon size={6} className="text-blue-500" />
- */
-export const ArrowLeftIcon: React.FC<SVGIconProps> = ({ className, size, props }): JSX.Element => (
+export const ArrowLeftIcon: React.FC<IconProps> = ({ className, size, ...props }): JSX.Element => (
   <svg
     width="15"
     height="15"

@@ -45,7 +45,6 @@ bun.lockb
 
 .million
 anaylyze
-.vscode
 .cache
 
 # Sentry Config File

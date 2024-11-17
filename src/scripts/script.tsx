@@ -41,7 +41,6 @@ export function Scripts() {
       event.preventDefault();
     });
   }, []);
-  // TODO: ffix dangerously set  html
   return (
     <>
       <Script

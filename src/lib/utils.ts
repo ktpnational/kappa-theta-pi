@@ -47,3 +47,6 @@ export function formatDate(date: string): string {
     return `${fullDate} (${yearsAgo}y ago)`;
   }
 }
+
+export const truncate = (str: string, length: number) =>
+  str.length > length ? `${str.substring(0, length)}...` : str;
