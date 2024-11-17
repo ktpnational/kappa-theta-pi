@@ -43,7 +43,7 @@ const SIDEBAR_KEYBOARD_SHORTCUT = 'b';
  * @property {boolean} open - Whether sidebar is open
  * @property {(open: boolean) => void} setOpen - Function to set open state
  * @property {boolean} openMobile - Whether mobile sidebar is open
- * @property {(open: boolean) => void} setOpenMobile - Function to set mobile open state 
+ * @property {(open: boolean) => void} setOpenMobile - Function to set mobile open state
  * @property {boolean} isMobile - Whether viewport is mobile size
  * @property {() => void} toggleSidebar - Function to toggle sidebar open/closed
  */
@@ -78,7 +78,7 @@ function useSidebar() {
  * @param {Object} props - Component props
  * @param {boolean} [props.defaultOpen=true] - Initial open state
  * @param {boolean} [props.open] - Controlled open state
- * @param {(open: boolean) => void} [props.onOpenChange] - Callback when open state changes 
+ * @param {(open: boolean) => void} [props.onOpenChange] - Callback when open state changes
  */
 const SidebarProvider = React.forwardRef<
   HTMLDivElement,
@@ -94,7 +94,7 @@ const SidebarProvider = React.forwardRef<
       open: openProp,
       onOpenChange: setOpenProp,
       className,
-      style,  
+      style,
       children,
       ...props
     },
@@ -196,7 +196,7 @@ const Sidebar = React.forwardRef<
   (
     {
       side = 'left',
-      variant = 'sidebar', 
+      variant = 'sidebar',
       collapsible = 'offcanvas',
       className,
       children,
@@ -351,7 +351,7 @@ SidebarRail.displayName = 'SidebarRail';
 
 /**
  * Main content area that adjusts based on sidebar state
- */ 
+ */
 const SidebarInset = React.forwardRef<HTMLDivElement, React.ComponentProps<'main'>>(
   ({ className, ...props }, ref) => {
     return (
@@ -360,7 +360,7 @@ const SidebarInset = React.forwardRef<HTMLDivElement, React.ComponentProps<'main
         className={cn(
           'relative flex min-h-svh flex-1 flex-col bg-background',
           'peer-data-[variant=inset]:min-h-[calc(100svh-theme(spacing.4))] md:peer-data-[variant=inset]:m-2 md:peer-data-[state=collapsed]:peer-data-[variant=inset]:ml-2 md:peer-data-[variant=inset]:ml-0 md:peer-data-[variant=inset]:rounded-xl md:peer-data-[variant=inset]:shadow',
-          className, 
+          className,
         )}
         {...props}
       />
@@ -392,7 +392,7 @@ const SidebarInput = React.forwardRef<
 
 SidebarInput.displayName = 'SidebarInput';
 
-/** 
+/**
  * Header section of sidebar
  */
 const SidebarHeader = React.forwardRef<HTMLDivElement, React.ComponentProps<'div'>>(
@@ -438,7 +438,7 @@ const SidebarSeparator = React.forwardRef<
   return (
     <Separator
       ref={ref}
-      data-sidebar="separator" 
+      data-sidebar="separator"
       className={cn('mx-2 w-auto bg-sidebar-border', className)}
       {...props}
     />
@@ -674,7 +674,7 @@ const SidebarMenuButton = React.forwardRef<
 SidebarMenuButton.displayName = 'SidebarMenuButton';
 
 /**
- * Action button for menu items 
+ * Action button for menu items
  */
 const SidebarMenuAction = React.forwardRef<
   HTMLButtonElement,
@@ -817,4 +817,41 @@ const SidebarMenuSubButton = React.forwardRef<
       data-active={isActive}
       className={cn(
         'flex h-7 min-w-0 -translate-x-px items-center gap-2 overflow-hidden rounded-md px-2 text-sidebar-foreground outline-none ring-sidebar-ring hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:text-sidebar-accent-foreground',
-        '
+        'data-[active=true]:bg-sidebar-accent data-[active=true]:text-sidebar-accent-foreground',
+        size === 'sm' && 'text-xs',
+        size === 'md' && 'text-sm',
+        'group-data-[collapsible=icon]:hidden',
+        className,
+      )}
+      {...props}
+    />
+  );
+});
+SidebarMenuSubButton.displayName = 'SidebarMenuSubButton';
+
+export {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarGroupAction,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarInput,
+  SidebarInset,
+  SidebarMenu,
+  SidebarMenuAction,
+  SidebarMenuBadge,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarMenuSkeleton,
+  SidebarMenuSub,
+  SidebarMenuSubButton,
+  SidebarMenuSubItem,
+  SidebarProvider,
+  SidebarRail,
+  SidebarSeparator,
+  SidebarTrigger,
+  useSidebar,
+};

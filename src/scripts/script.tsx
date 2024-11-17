@@ -5,34 +5,23 @@ import { useIsomorphicLayoutEffect } from 'usehooks-ts';
 
 /**
  * Component that manages the inclusion of various external scripts and disables context menu functionality.
- * 
+ *
  * @component
  * @description
  * This component handles the integration of multiple external scripts including:
  * - Google Maps JavaScript API with beta features
  * - Google Analytics tracking script
  * - Google Tag Manager implementation
- * 
+ *
  * It also prevents the default context menu from appearing on right-click by adding
  * an event listener to the document object.
- * 
- * @example
- * ```tsx
- * function App() {
- *   return (
- *     <div>
- *       <Scripts />
- *       {/* Other components */}
- *     </div>
- *   );
- * }
- * ```
- * 
+ *
+ *
  * @remarks
  * The component uses different loading strategies for scripts:
  * - 'lazyOnload' for Google Maps to defer loading until other resources are loaded
  * - 'afterInteractive' for analytics to load after the page becomes interactive
- * 
+ *
  * @returns {JSX.Element} A fragment containing multiple Script components for external services
  */
 export function Scripts() {

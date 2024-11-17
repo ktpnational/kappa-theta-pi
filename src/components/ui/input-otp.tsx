@@ -1,6 +1,6 @@
 'use client';
 
-import { OTPInput, OTPInputContext } from 'input-otp';
+import { OTPInput, OTPInputContext, SlotProps } from 'input-otp';
 import { Dot } from 'lucide-react';
 import * as React from 'react';
 
@@ -8,7 +8,7 @@ import { cn } from '@/lib/utils';
 
 /**
  * A controlled input component for one-time password (OTP) entry.
- * 
+ *
  * @component
  * @param {Object} props - Component props
  * @param {string} [props.className] - Additional CSS classes for the input element
@@ -34,7 +34,7 @@ InputOTP.displayName = 'InputOTP';
 
 /**
  * A container component for grouping OTP input slots.
- * 
+ *
  * @component
  * @param {Object} props - Component props
  * @param {string} [props.className] - Additional CSS classes
@@ -51,7 +51,7 @@ InputOTPGroup.displayName = 'InputOTPGroup';
 
 /**
  * An individual slot/cell component for a single OTP character input.
- * 
+ *
  * @component
  * @param {Object} props - Component props
  * @param {number} props.index - The index position of this slot in the OTP input
@@ -64,7 +64,7 @@ const InputOTPSlot = React.forwardRef<
   React.ComponentPropsWithoutRef<'div'> & { index: number }
 >(({ index, className, ...props }, ref) => {
   const inputOTPContext = React.useContext(OTPInputContext);
-  const { char, hasFakeCaret, isActive } = inputOTPContext.slots[index];
+  const { char, hasFakeCaret, isActive } = inputOTPContext.slots[index] as SlotProps;
 
   return (
     <div
@@ -89,7 +89,7 @@ InputOTPSlot.displayName = 'InputOTPSlot';
 
 /**
  * A visual separator component to be placed between OTP input slots.
- * 
+ *
  * @component
  * @param {Object} props - Component props
  * @param {React.Ref} ref - Forwarded ref to access the underlying div element

@@ -8,7 +8,7 @@ import { cn } from '@/lib/utils';
  *
  * @component
  * @template T - The type of the ref passed to the component
- * 
+ *
  * @param {Object} props - The component props
  * @param {string} [props.className] - Additional CSS classes to apply to the input
  * @param {string} [props.type] - The input type (e.g. 'text', 'password', etc.)
@@ -18,14 +18,14 @@ import { cn } from '@/lib/utils';
  * ```tsx
  * // Basic usage
  * <Input type="text" placeholder="Enter text..." />
- * 
+ *
  * // With custom className
- * <Input 
+ * <Input
  *   type="password"
  *   className="custom-class"
  *   placeholder="Enter password..."
  * />
- * 
+ *
  * // With forwarded ref
  * const inputRef = useRef<HTMLInputElement>(null);
  * <Input ref={inputRef} type="text" />
@@ -50,4 +50,5 @@ const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<'input'>>(
 );
 Input.displayName = 'Input';
 
-export { Input };
+type InputProps = React.ComponentProps<'input'>;
+export { Input, type InputProps };
