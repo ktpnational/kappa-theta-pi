@@ -61,12 +61,9 @@ declare global {
       SECRET: string;
       SEVEN_DAYS: ServerConfig.DAYS;
       AUTH_SECRET: string;
-      
+
       // Resend
       RESEND_API_KEY: string;
-      
-      
-      
     }
   }
 }

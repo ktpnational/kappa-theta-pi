@@ -75,7 +75,7 @@ export const {
       if (token.role && session.user) {
         session.user.role = token.role as Role;
       }
-      
+
       // TODO: check schema for both database andd enxt_auth
       // getting nullish coellacent fixes, which should not be the case
       if (session.user) {

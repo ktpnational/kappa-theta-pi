@@ -28,12 +28,33 @@ import {
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
 
+/**
+ * Static data configuration for the application sidebar.
+ * @type {Object}
+ */
 const data = {
+  /** 
+   * User information
+   * @type {Object}
+   * @property {string} name - The user's display name
+   * @property {string} email - The user's email address 
+   * @property {string} avatar - Path to user's avatar image
+   */
   user: {
     name: 'shadcn',
     email: 'm@example.com',
     avatar: '/avatars/shadcn.jpg',
   },
+
+  /**
+   * Main navigation items configuration
+   * @type {Array<Object>}
+   * @property {string} title - The display title for the nav item
+   * @property {string} url - The target URL
+   * @property {React.ComponentType} icon - Icon component to display
+   * @property {boolean} [isActive] - Whether this item is currently active
+   * @property {Array<{title: string, url: string}>} items - Sub-items under this nav item
+   */
   navMain: [
     {
       title: 'Playground',
@@ -121,6 +142,14 @@ const data = {
       ],
     },
   ],
+
+  /**
+   * Secondary navigation items configuration
+   * @type {Array<Object>}
+   * @property {string} title - The display title for the nav item
+   * @property {string} url - The target URL
+   * @property {React.ComponentType} icon - Icon component to display
+   */
   navSecondary: [
     {
       title: 'Support',
@@ -133,6 +162,14 @@ const data = {
       icon: Send,
     },
   ],
+
+  /**
+   * Project navigation items configuration
+   * @type {Array<Object>}
+   * @property {string} name - The project name
+   * @property {string} url - The target URL
+   * @property {React.ComponentType} icon - Icon component to display
+   */
   projects: [
     {
       name: 'Design Engineering',
@@ -152,6 +189,14 @@ const data = {
   ],
 };
 
+/**
+ * Application Sidebar Component
+ * Renders a full sidebar with header, content sections, and footer
+ * 
+ * @component
+ * @param {React.ComponentProps<typeof Sidebar>} props - Props extending from base Sidebar component
+ * @returns {React.ReactElement} Rendered sidebar component
+ */
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar variant="inset" {...props}>

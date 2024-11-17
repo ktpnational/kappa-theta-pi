@@ -5,6 +5,15 @@ import * as React from 'react';
 
 import { cn } from '@/lib/utils';
 
+/**
+ * Root navigation menu component that wraps the entire navigation structure.
+ * Provides context and positioning for nested navigation elements.
+ *
+ * @component
+ * @param {string} className - Additional CSS classes to apply
+ * @param {React.ReactNode} children - Child elements to render within the menu
+ * @param {React.Ref<HTMLElement>} ref - Forwarded ref
+ */
 const NavigationMenu = React.forwardRef<
   React.ElementRef<typeof NavigationMenuPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Root>
@@ -20,6 +29,14 @@ const NavigationMenu = React.forwardRef<
 ));
 NavigationMenu.displayName = NavigationMenuPrimitive.Root.displayName;
 
+/**
+ * Container component for navigation menu items.
+ * Renders as an unordered list with flex layout.
+ *
+ * @component
+ * @param {string} className - Additional CSS classes to apply
+ * @param {React.Ref<HTMLElement>} ref - Forwarded ref
+ */
 const NavigationMenuList = React.forwardRef<
   React.ElementRef<typeof NavigationMenuPrimitive.List>,
   React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.List>
@@ -32,12 +49,28 @@ const NavigationMenuList = React.forwardRef<
 ));
 NavigationMenuList.displayName = NavigationMenuPrimitive.List.displayName;
 
+/**
+ * Individual navigation menu item component
+ */
 const NavigationMenuItem = NavigationMenuPrimitive.Item;
 
+/**
+ * Styling utility for navigation menu triggers
+ * Provides consistent styling for interactive menu elements
+ */
 const navigationMenuTriggerStyle = cva(
   'group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50',
 );
 
+/**
+ * Trigger button component for navigation menu dropdowns.
+ * Includes a chevron icon that rotates when the dropdown is open.
+ *
+ * @component
+ * @param {string} className - Additional CSS classes to apply
+ * @param {React.ReactNode} children - Label content for the trigger
+ * @param {React.Ref<HTMLElement>} ref - Forwarded ref
+ */
 const NavigationMenuTrigger = React.forwardRef<
   React.ElementRef<typeof NavigationMenuPrimitive.Trigger>,
   React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Trigger>
@@ -56,6 +89,14 @@ const NavigationMenuTrigger = React.forwardRef<
 ));
 NavigationMenuTrigger.displayName = NavigationMenuPrimitive.Trigger.displayName;
 
+/**
+ * Container for dropdown content in the navigation menu.
+ * Handles positioning and animations for showing/hiding content.
+ *
+ * @component
+ * @param {string} className - Additional CSS classes to apply
+ * @param {React.Ref<HTMLElement>} ref - Forwarded ref
+ */
 const NavigationMenuContent = React.forwardRef<
   React.ElementRef<typeof NavigationMenuPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Content>
@@ -71,8 +112,19 @@ const NavigationMenuContent = React.forwardRef<
 ));
 NavigationMenuContent.displayName = NavigationMenuPrimitive.Content.displayName;
 
+/**
+ * Navigation menu link component for clickable items
+ */
 const NavigationMenuLink = NavigationMenuPrimitive.Link;
 
+/**
+ * Viewport component that displays the content of the active navigation item.
+ * Handles sizing and positioning of dropdown content.
+ *
+ * @component
+ * @param {string} className - Additional CSS classes to apply
+ * @param {React.Ref<HTMLElement>} ref - Forwarded ref
+ */
 const NavigationMenuViewport = React.forwardRef<
   React.ElementRef<typeof NavigationMenuPrimitive.Viewport>,
   React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Viewport>
@@ -90,6 +142,14 @@ const NavigationMenuViewport = React.forwardRef<
 ));
 NavigationMenuViewport.displayName = NavigationMenuPrimitive.Viewport.displayName;
 
+/**
+ * Visual indicator component showing the currently active navigation item.
+ * Displays an arrow pointer below the active item.
+ *
+ * @component
+ * @param {string} className - Additional CSS classes to apply
+ * @param {React.Ref<HTMLElement>} ref - Forwarded ref
+ */
 const NavigationMenuIndicator = React.forwardRef<
   React.ElementRef<typeof NavigationMenuPrimitive.Indicator>,
   React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Indicator>

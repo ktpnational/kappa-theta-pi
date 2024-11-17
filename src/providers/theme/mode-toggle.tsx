@@ -8,9 +8,34 @@ import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 /**
- * ModeToggle component to switch between light and dark themes.
- *
- * @returns {JSX.Element} - The ModeToggle component.
+ * A component that provides a button to toggle between light and dark themes.
+ * 
+ * The component uses the `next-themes` library to manage theme state and provides 
+ * a tooltip-wrapped button with sun/moon icons that toggle based on the current theme.
+ * 
+ * @component
+ * @example
+ * ```tsx
+ * <ModeToggle />
+ * ```
+ * 
+ * @returns {JSX.Element} A button component with theme toggling functionality
+ * 
+ * @remarks
+ * The component renders different icons based on the current theme:
+ * - Sun icon is visible in light mode
+ * - Moon icon is visible in dark mode
+ * 
+ * @dependencies
+ * - @radix-ui/react-icons - For theme icons
+ * - next-themes - For theme management
+ * - @/components/ui/button - For base button component
+ * - @/components/ui/tooltip - For tooltip functionality
+ * 
+ * @accessibility
+ * - Uses semantic button element
+ * - Includes tooltip for better UX
+ * - Supports keyboard navigation
  */
 export function ModeToggle() {
   const { setTheme, theme } = useTheme();

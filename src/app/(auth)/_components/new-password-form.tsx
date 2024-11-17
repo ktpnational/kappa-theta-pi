@@ -24,14 +24,41 @@ import { Input } from '@/components/ui/input';
 
 import { newPassword } from '@/actions/new-password';
 
+/**
+ * NewPasswordForm Component
+ *
+ * A form component that allows users to set a new password, typically used in password reset flows.
+ *
+ * @component
+ * @example
+ * ```tsx
+ * <NewPasswordForm />
+ * ```
+ *
+ * @remarks
+ * - Uses React Hook Form for form state management
+ * - Validates input using Zod schema
+ * - Handles loading states and displays success/error messages
+ * - Integrates with Next.js client-side navigation
+ */
 const NewPasswordForm = () => {
+  /** Error message state for form submission failures */
   const [error, setError] = useState<string | undefined>('');
+
+  /** Success message state for successful password updates */
   const [success, setSuccess] = useState<string | undefined>('');
+
+  /** Loading state indicator during form submission */
   const [isPending, startTransition] = useTransition();
 
+  /** Access URL search parameters to get reset token */
   const searchParams = useSearchParams();
   const token = searchParams.get('token');
 
+  /**
+   * Initialize form with React Hook Form
+   * @type {UseFormReturn<z.infer<typeof NewPasswordSchema>>}
+   */
   const form = useForm<z.infer<typeof NewPasswordSchema>>({
     resolver: zodResolver(NewPasswordSchema),
     defaultValues: {
@@ -39,6 +66,10 @@ const NewPasswordForm = () => {
     },
   });
 
+  /**
+   * Handles form submission
+   * @param {z.infer<typeof NewPasswordSchema>} values - Form values containing new password
+   */
   const onSubmit = (values: z.infer<typeof NewPasswordSchema>) => {
     setError('');
     setSuccess('');
@@ -61,7 +92,6 @@ const NewPasswordForm = () => {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <div className="space-y-4">
-            {/* Email */}
             <FormField
               control={form.control}
               name="password"
@@ -86,5 +116,3 @@ const NewPasswordForm = () => {
     </CardWrapper>
   );
 };
-
-export { NewPasswordForm };

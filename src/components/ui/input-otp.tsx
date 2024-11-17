@@ -6,6 +6,16 @@ import * as React from 'react';
 
 import { cn } from '@/lib/utils';
 
+/**
+ * A controlled input component for one-time password (OTP) entry.
+ * 
+ * @component
+ * @param {Object} props - Component props
+ * @param {string} [props.className] - Additional CSS classes for the input element
+ * @param {string} [props.containerClassName] - Additional CSS classes for the container
+ * @param {React.Ref} ref - Forwarded ref to access the underlying input element
+ * @returns {JSX.Element} A controlled OTP input component
+ */
 const InputOTP = React.forwardRef<
   React.ElementRef<typeof OTPInput>,
   React.ComponentPropsWithoutRef<typeof OTPInput>
@@ -22,6 +32,15 @@ const InputOTP = React.forwardRef<
 ));
 InputOTP.displayName = 'InputOTP';
 
+/**
+ * A container component for grouping OTP input slots.
+ * 
+ * @component
+ * @param {Object} props - Component props
+ * @param {string} [props.className] - Additional CSS classes
+ * @param {React.Ref} ref - Forwarded ref to access the underlying div element
+ * @returns {JSX.Element} A flex container for OTP input slots
+ */
 const InputOTPGroup = React.forwardRef<
   React.ElementRef<'div'>,
   React.ComponentPropsWithoutRef<'div'>
@@ -30,6 +49,16 @@ const InputOTPGroup = React.forwardRef<
 ));
 InputOTPGroup.displayName = 'InputOTPGroup';
 
+/**
+ * An individual slot/cell component for a single OTP character input.
+ * 
+ * @component
+ * @param {Object} props - Component props
+ * @param {number} props.index - The index position of this slot in the OTP input
+ * @param {string} [props.className] - Additional CSS classes
+ * @param {React.Ref} ref - Forwarded ref to access the underlying div element
+ * @returns {JSX.Element} A single OTP input slot with character display and caret animation
+ */
 const InputOTPSlot = React.forwardRef<
   React.ElementRef<'div'>,
   React.ComponentPropsWithoutRef<'div'> & { index: number }
@@ -58,6 +87,14 @@ const InputOTPSlot = React.forwardRef<
 });
 InputOTPSlot.displayName = 'InputOTPSlot';
 
+/**
+ * A visual separator component to be placed between OTP input slots.
+ * 
+ * @component
+ * @param {Object} props - Component props
+ * @param {React.Ref} ref - Forwarded ref to access the underlying div element
+ * @returns {JSX.Element} A dot separator between OTP input slots
+ */
 const InputOTPSeparator = React.forwardRef<
   React.ElementRef<'div'>,
   React.ComponentPropsWithoutRef<'div'>

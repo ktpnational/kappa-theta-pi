@@ -13,6 +13,32 @@ import {
 import React from 'react';
 import { memo } from 'react';
 
+/**
+ * A memoized breadcrumb navigation component that displays the current page location
+ * in a hierarchical path structure.
+ *
+ * @component
+ * @param {Object} props - The component props
+ * @param {Array<{name: string, href: string}>} props.routes - Array of route objects containing
+ * name and href for each breadcrumb link in the navigation path
+ * @param {string} props.routes[].name - The display text for the breadcrumb link
+ * @param {string} props.routes[].href - The URL that the breadcrumb link points to
+ * @param {string} props.current - The name of the current page to display as the final breadcrumb
+ *
+ * @example
+ * ```jsx
+ * <Crumbs 
+ *   routes={[
+ *     { name: "Home", href: "/" },
+ *     { name: "Products", href: "/products" }
+ *   ]} 
+ *   current="Product Details"
+ * />
+ * ```
+ *
+ * @returns {JSX.Element} A header containing a breadcrumb navigation component with
+ * a sidebar trigger, separator, and breadcrumb trail
+ */
 export const Crumbs = memo(
   ({
     routes,

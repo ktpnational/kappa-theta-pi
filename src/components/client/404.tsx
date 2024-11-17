@@ -7,6 +7,29 @@ import React from 'react';
 import { memo } from 'react';
 import { AnimatedBackground } from '.';
 
+/**
+ * The NotFound component renders a 404 error page with an animated background.
+ * 
+ * @component
+ * @description A memoized component that displays a 404 error page with a heading,
+ * subheading, and a button to return to the home page. The page includes an animated
+ * background and is fully responsive.
+ * 
+ * @example
+ * ```tsx
+ * <NotFound />
+ * ```
+ * 
+ * @returns {JSX.Element} A React component that renders the 404 error page layout
+ * with animated background, error message, and navigation button.
+ * 
+ * @remarks
+ * - Uses the 'use client' directive for Next.js client-side rendering
+ * - Implements responsive design using Tailwind CSS classes
+ * - Includes an animated background component
+ * - Features custom font styling using Palatino serif
+ * - Provides a home navigation button with Lucide React icons
+ */
 export const NotFound = memo(() => {
   return (
     <div className="relative flex flex-col items-center justify-center min-h-screen overflow-hidden p-4">

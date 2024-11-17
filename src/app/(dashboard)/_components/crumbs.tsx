@@ -1,5 +1,3 @@
-'use client';
-
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -13,6 +11,31 @@ import {
 import React from 'react';
 import { memo } from 'react';
 
+/**
+ * Breadcrumb navigation component that displays the current page location and ancestral routes
+ *
+ * @component
+ * @param {Object} props - Component props
+ * @param {Array<{name: string, href: string}>} props.routes - Array of route objects containing names and URLs for ancestor pages
+ * @param {string} props.routes[].name - Display name for the route
+ * @param {string} props.routes[].href - URL for the route
+ * @param {string} props.current - Name of the current page
+ *
+ * @example
+ * ```tsx
+ * const routes = [
+ *   { name: 'Home', href: '/' },
+ *   { name: 'Products', href: '/products' }
+ * ];
+ *
+ * <Crumbs
+ *   routes={routes}
+ *   current="Product Details"
+ * />
+ * ```
+ *
+ * @returns {JSX.Element} Breadcrumb navigation component with sidebar trigger
+ */
 export const Crumbs = memo(
   ({
     routes,

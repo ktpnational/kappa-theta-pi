@@ -21,10 +21,29 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 
+/**
+ * Newsletter signup form component that allows users to subscribe to a newsletter.
+ * 
+ * @component
+ * @remarks
+ * This component provides a form with email input validation using zod schema.
+ * It handles form submission asynchronously and shows appropriate toast messages.
+ * 
+ * @returns {JSX.Element} A form component with an email input field and submit button
+ * 
+ * @example
+ * ```tsx
+ * <NewsletterSignUpForm />
+ * ```
+ */
 export const NewsletterSignUpForm = (): JSX.Element => {
   const { toast } = useToast();
   const [isPending, startTransition] = React.useTransition();
 
+  /**
+   * Form instance created using react-hook-form with zod validation
+   * @type {UseFormReturn<NewsletterSignUpFormInput>}
+   */
   const form = useForm<NewsletterSignUpFormInput>({
     resolver: zodResolver(newsletterSignUpSchema),
     defaultValues: {
@@ -32,6 +51,23 @@ export const NewsletterSignUpForm = (): JSX.Element => {
     },
   });
 
+  /**
+   * Handles the form submission process
+   * 
+   * @async
+   * @param {NewsletterSignUpFormInput} formData - The form data containing the email address
+   * @throws {Error} When the newsletter subscription request fails
+   * 
+   * @remarks
+   * This function:
+   * 1. Attempts to subscribe the user to the newsletter
+   * 2. Handles different response cases:
+   *    - 'exists': User is already subscribed
+   *    - 'success': Successful subscription
+   *    - default: Generic error
+   * 3. Shows appropriate toast notifications
+   * 4. Resets the form on success or if user already exists
+   */
   function onSubmit(formData: NewsletterSignUpFormInput): void {
     startTransition(async () => {
       try {
@@ -105,4 +141,4 @@ export const NewsletterSignUpForm = (): JSX.Element => {
       </form>
     </Form>
   );
-}
+};

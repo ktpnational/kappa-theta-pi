@@ -1,14 +1,31 @@
 import type { MetadataRoute } from 'next';
 
-// @ts-ignore
+/**
+ * Extends the base screenshot type from Next.js MetadataRoute.Manifest with additional form factor property
+ * @typedef {Object} ExtendedScreenshot
+ * @property {string} src - Source URL of the screenshot image
+ * @property {string} sizes - Dimensions of the screenshot in format "widthxheight"
+ * @property {string} type - MIME type of the image (e.g. "image/png")
+ * @property {'narrow' | 'wide'} [form_factor] - Optional form factor indicating if screenshot is for narrow/mobile or wide/desktop views
+ */
 type ExtendedScreenshot = MetadataRoute.Manifest['screenshots'][number] & {
   form_factor?: 'narrow' | 'wide';
 };
 
+/**
+ * Extended manifest type that overrides screenshots array with ExtendedScreenshot type
+ * @typedef {Object} ExtendedManifest
+ * @extends {Omit<MetadataRoute.Manifest, 'screenshots'>}
+ * @property {ExtendedScreenshot[]} [screenshots] - Array of screenshots with optional form factor property
+ */
 type ExtendedManifest = Omit<MetadataRoute.Manifest, 'screenshots'> & {
   screenshots?: ExtendedScreenshot[];
 };
 
+/**
+ * Generates the Web App Manifest for the PWA
+ * @returns {ExtendedManifest} Complete manifest object with all PWA configuration
+ */
 export default function manifest(): ExtendedManifest {
   return {
     name: 'Kappa Theta Pi - National',
@@ -16,7 +33,7 @@ export default function manifest(): ExtendedManifest {
     description:
       'Kappa Theta Pi (ΚΘΠ, also known as KTP) is a co-ed professional fraternity specializing in the field of information technology.',
     categories: [
-      'education',
+      'education', 
       'technology',
       'professional',
       'networking',

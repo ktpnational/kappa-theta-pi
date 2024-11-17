@@ -7,6 +7,15 @@ import { memo } from 'react';
 
 /**
  * Footer component for the Kappa Theta Pi website
+ * @component
+ * @description Main footer component that displays organization information, navigation links, contact details, and social media links.
+ * The footer is divided into multiple sections including quick links, resources, contact information and social media follows.
+ * It also includes a copyright notice and legal links at the bottom.
+ * @returns {JSX.Element} A responsive footer element with multiple columns of content
+ * @example
+ * ```tsx
+ * <Footer />
+ * ```
  */
 export const Footer = memo(function Footer() {
   const currentYear = new Date().getFullYear();
@@ -74,6 +83,12 @@ export const Footer = memo(function Footer() {
   );
 });
 
+/**
+ * Properties for the FooterSection component
+ * @typedef {Object} FooterSectionProps
+ * @property {string} title - The heading text for the footer section
+ * @property {Array<{href: string, text: string}>} links - Array of link objects containing href and display text
+ */
 type FooterSectionProps = {
   title: string;
   links: Array<{ href: string; text: string }>;
@@ -81,6 +96,21 @@ type FooterSectionProps = {
 
 /**
  * Reusable FooterSection component for link lists
+ * @component
+ * @param {FooterSectionProps} props - The props for the FooterSection component
+ * @param {string} props.title - The heading text for the footer section
+ * @param {Array<{href: string, text: string}>} props.links - Array of link objects containing href and display text
+ * @returns {JSX.Element} A section containing a title and list of links
+ * @example
+ * ```tsx
+ * <FooterSection
+ *   title="Quick Links"
+ *   links={[
+ *     { href: '/about', text: 'About Us' },
+ *     { href: '/contact', text: 'Contact' }
+ *   ]}
+ * />
+ * ```
  */
 const FooterSection = ({ title, links }: FooterSectionProps) => (
   <div>
@@ -97,6 +127,13 @@ const FooterSection = ({ title, links }: FooterSectionProps) => (
   </div>
 );
 
+/**
+ * Properties for the SocialLink component
+ * @typedef {Object} SocialLinkProps
+ * @property {string} href - The URL the social link points to
+ * @property {string} aria-label - Accessibility label for the social link
+ * @property {React.ReactNode} children - The icon component to display
+ */
 type SocialLinkProps = {
   href: string;
   'aria-label': string;
@@ -105,6 +142,18 @@ type SocialLinkProps = {
 
 /**
  * Reusable SocialLink component for social media icons
+ * @component
+ * @param {SocialLinkProps} props - The props for the SocialLink component
+ * @param {string} props.href - The URL the social link points to
+ * @param {string} props.aria-label - Accessibility label for the social link
+ * @param {React.ReactNode} props.children - The icon component to display
+ * @returns {JSX.Element} An anchor tag with social media icon
+ * @example
+ * ```tsx
+ * <SocialLink href="https://instagram.com/example" aria-label="Instagram">
+ *   <Instagram className="w-6 h-6" />
+ * </SocialLink>
+ * ```
  */
 const SocialLink = ({ href, 'aria-label': ariaLabel, children }: SocialLinkProps) => (
   <a
@@ -118,6 +167,12 @@ const SocialLink = ({ href, 'aria-label': ariaLabel, children }: SocialLinkProps
   </a>
 );
 
+/**
+ * Properties for the FooterLink component
+ * @typedef {Object} FooterLinkProps
+ * @property {string} href - The URL the footer link points to
+ * @property {string} text - The display text for the link
+ */
 type FooterLinkProps = {
   href: string;
   text: string;
@@ -125,6 +180,15 @@ type FooterLinkProps = {
 
 /**
  * Reusable FooterLink component for legal links
+ * @component
+ * @param {FooterLinkProps} props - The props for the FooterLink component
+ * @param {string} props.href - The URL the footer link points to
+ * @param {string} props.text - The display text for the link
+ * @returns {JSX.Element} A styled Next.js Link component
+ * @example
+ * ```tsx
+ * <FooterLink href="/privacy" text="Privacy Policy" />
+ * ```
  */
 const FooterLink = ({ href, text }: FooterLinkProps) => (
   <Link href={href} className="text-white hover:text-[#8BB9FF] transition-colors">

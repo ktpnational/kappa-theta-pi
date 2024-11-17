@@ -9,11 +9,28 @@ import { toast } from 'sonner';
 import { useIsomorphicLayoutEffect } from 'usehooks-ts';
 
 /**
- * SpeechToText component
+ * A React component that provides speech-to-text functionality using the Web Speech API.
+ * 
+ * This component renders a microphone button that toggles speech recognition on/off.
+ * When active, it converts spoken words to text and updates the provided content state.
+ * Supports continuous recognition and interim results.
  *
- * @param {Object} props - Component props
- * @param {React.Dispatch<React.SetStateAction<string>>} props.setContent - State setter to store the result of speech to text
- * @returns {JSX.Element} The rendered component
+ * @component
+ * @param {Object} props - The component props
+ * @param {React.Dispatch<React.SetStateAction<string>>} props.setContent - State setter function to update the transcribed text
+ * @returns {JSX.Element} A button to toggle speech recognition and a hidden results div
+ *
+ * @example
+ * ```jsx
+ * const [content, setContent] = useState('');
+ * <SpeechToText setContent={setContent} />
+ * ```
+ * 
+ * @remarks
+ * - Uses the SpeechRecognition API or webkitSpeechRecognition as fallback
+ * - Shows toast notifications for status updates and errors
+ * - Stops recording if the word "stop" is spoken
+ * - Requires browser support for Web Speech API
  */
 export const SpeechToText = React.memo(
   ({
@@ -21,9 +38,27 @@ export const SpeechToText = React.memo(
   }: {
     setContent: React.Dispatch<React.SetStateAction<string>>;
   }) => {
+    /**
+     * Tracks whether speech recognition is currently active
+     */
     const [isRecording, setIsRecording] = useState(false);
+
+    /**
+     * Reference to the start/stop button element
+     * @type {React.RefObject<HTMLButtonElement>}
+     */
     const startButtonRef = React.useRef<HTMLButtonElement>(null);
+
+    /**
+     * Reference to the results div element
+     * @type {React.RefObject<HTMLDivElement>}
+     */
     const resultRef = React.useRef<HTMLDivElement>(null);
+
+    /**
+     * Reference to store the SpeechRecognition instance
+     * @type {React.RefObject<SpeechRecognition>}
+     */
     const recognitionRef = React.useRef<any>(null);
 
     useIsomorphicLayoutEffect(() => {
@@ -37,6 +72,10 @@ export const SpeechToText = React.memo(
         recognition.continuous = true;
         recognition.interimResults = true;
 
+        /**
+         * Handles the start of speech recognition
+         * Updates recording state and shows success toast
+         */
         recognition.onstart = () => {
           setIsRecording(true);
           toast.success('Listening... Speak now!', {
@@ -45,6 +84,10 @@ export const SpeechToText = React.memo(
           });
         };
 
+        /**
+         * Handles the end of speech recognition
+         * Updates recording state and shows info toast
+         */
         recognition.onend = () => {
           setIsRecording(false);
           toast.info('Speech recognition ended.', {
@@ -53,6 +96,11 @@ export const SpeechToText = React.memo(
           });
         };
 
+        /**
+         * Processes speech recognition results
+         * Appends final transcripts to content and handles "stop" command
+         * @param {SpeechRecognitionEvent} event - The recognition result event
+         */
         recognition.onresult = (event: any) => {
           let finalTranscript = '';
           for (let i = event.resultIndex; i < event.results.length; ++i) {
@@ -71,6 +119,11 @@ export const SpeechToText = React.memo(
           }
         };
 
+        /**
+         * Handles speech recognition errors
+         * Logs error and shows error toast
+         * @param {SpeechRecognitionErrorEvent} event - The error event
+         */
         recognition.onerror = (event: any) => {
           console.error('Speech recognition error:', (event as any).error);
           toast.error('Speech recognition error', {
@@ -91,7 +144,8 @@ export const SpeechToText = React.memo(
     }, [setContent]);
 
     /**
-     * Toggles the recording state
+     * Toggles the speech recognition on/off
+     * Starts recognition if stopped, stops if already recording
      */
     const toggleRecording = () => {
       if (isRecording) {

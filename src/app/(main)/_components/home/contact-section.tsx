@@ -9,17 +9,34 @@ import { type SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import * as z from 'zod';
 
-// Define the schema for form validation
+/**
+ * Zod schema for contact form validation
+ * @remarks
+ * Defines validation rules for name, email and message fields
+ */
 const formSchema = z.object({
+  /** Name field - minimum 2 characters */
   name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
+  /** Email field - must be valid email format */
   email: z.string().email({ message: 'Invalid email address.' }),
+  /** Message field - minimum 10 characters */
   message: z.string().min(10, { message: 'Message must be at least 10 characters.' }),
 });
 
-// Define the type for our form data
+/** Type definition for form data based on Zod schema */
 type FormData = z.infer<typeof formSchema>;
 
+/**
+ * Contact form section component
+ * @returns JSX.Element - Rendered contact form section
+ * @remarks
+ * Provides a contact form with name, email and message fields
+ * Includes form validation and submission handling
+ */
 export const ContactSection = () => {
+  /**
+   * Form hook initialization with Zod resolver
+   */
   const {
     register,
     handleSubmit,
@@ -29,6 +46,12 @@ export const ContactSection = () => {
     resolver: zodResolver(formSchema),
   });
 
+  /**
+   * Form submission handler
+   * @param data - Validated form data matching FormData type
+   * @remarks
+   * Logs form data, shows success toast and resets form
+   */
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     console.log(data);
     toast.success('Message sent successfully!');

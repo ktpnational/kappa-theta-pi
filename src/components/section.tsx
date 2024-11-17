@@ -1,12 +1,36 @@
+/**
+ * Interface for props accepted by the Section component
+ * @interface SectionProps
+ */
 interface SectionProps {
+  /** Optional ID for the section element. Used as fallback if title is not provided */
   id?: string;
+  /** Optional title text displayed at top of section in small uppercase text */
   title?: string;
+  /** Optional subtitle displayed below title in large text */
   subtitle?: string;
+  /** Optional description paragraph displayed below subtitle */
   description?: string;
+  /** Optional child elements rendered below the header content */
   children?: React.ReactNode;
+  /** Optional CSS classes to apply to the section's outer div */
   className?: string;
 }
 
+/**
+ * A section component that displays a formatted header with optional title, subtitle,
+ * and description, followed by child content.
+ *
+ * @component
+ * @param {SectionProps} props - The properties passed to the component
+ * @param {string} [props.id] - Optional ID for the section element
+ * @param {string} [props.title] - Optional title text
+ * @param {string} [props.subtitle] - Optional subtitle text
+ * @param {string} [props.description] - Optional description text
+ * @param {React.ReactNode} [props.children] - Optional child elements
+ * @param {string} [props.className] - Optional CSS class names
+ * @returns {JSX.Element} A section element with formatted header and content
+ */
 export const Section = ({
   id,
   title,

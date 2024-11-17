@@ -22,11 +22,23 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 
+/**
+ * Email Verification Form Component
+ * 
+ * A form component that allows users to request an email verification link.
+ * Handles email submission, validation, and displays appropriate feedback.
+ * 
+ * @component
+ * @returns {JSX.Element} The rendered email verification form
+ */
 export const EmailVerificationForm = (): JSX.Element => {
   const router = useRouter();
   const { toast } = useToast();
   const [isPending, startTransition] = React.useTransition();
 
+  /**
+   * Form initialization with Zod schema validation
+   */
   const form = useForm<EmailVerificationFormInput>({
     resolver: zodResolver(emailVerificationSchema),
     defaultValues: {
@@ -34,6 +46,13 @@ export const EmailVerificationForm = (): JSX.Element => {
     },
   });
 
+  /**
+   * Handles form submission
+   * Attempts to resend verification email and handles various response cases
+   * 
+   * @param {EmailVerificationFormInput} formData - The form data containing the email address
+   * @returns {void}
+   */
   function onSubmit(formData: EmailVerificationFormInput): void {
     startTransition(async () => {
       try {
@@ -110,4 +129,4 @@ export const EmailVerificationForm = (): JSX.Element => {
       </form>
     </Form>
   );
-}
+};

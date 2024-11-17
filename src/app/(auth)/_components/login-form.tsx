@@ -25,19 +25,44 @@ import { Input } from '@/components/ui/input';
 
 import { login } from '@/actions/login';
 
+/**
+ * LoginForm Component
+ *
+ * A React component that handles user authentication through a login form.
+ * Supports both regular email/password login and two-factor authentication.
+ *
+ * @component
+ * @returns {JSX.Element} Rendered login form component
+ */
 const LoginForm = () => {
+  /** @state {boolean} Controls visibility of two-factor authentication form */
   const [showTwoFactor, setShowTwoFactor] = useState(false);
+
+  /** @state {string|undefined} Stores error messages from form submission */
   const [error, setError] = useState<string | undefined>('');
+
+  /** @state {string|undefined} Stores success messages from form submission */
   const [success, setSuccess] = useState<string | undefined>('');
+
+  /** @state {boolean} Indicates if form submission is in progress */
   const [isPending, startTransition] = useTransition();
 
+  /** @const {URLSearchParams} Access URL search parameters */
   const searchParams = useSearchParams();
+
+  /** @const {string|null} URL to redirect after successful login */
   const callbackUrl = searchParams.get('callbackUrl');
+
+  /** @const {string} Error message for OAuth account linking issues */
   const urlError =
     searchParams.get('error') === 'OAuthAccountNotLinked'
       ? 'Email already in use with different Provider!'
       : '';
 
+  /**
+   * Initialize form with react-hook-form and zod validation
+   * @const {UseFormReturn} Form instance with validation schema
+   */
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -46,6 +71,11 @@ const LoginForm = () => {
     },
   });
 
+  /**
+   * Handles form submission for login
+   * @param {z.infer<typeof LoginSchema>} values - Form values including email and password
+   * @returns {Promise<void>}
+   */
   const onSubmit = (values: z.infer<typeof LoginSchema>) => {
     setError('');
     setSuccess('');

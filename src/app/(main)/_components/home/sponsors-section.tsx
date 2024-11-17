@@ -1,9 +1,33 @@
-'use client';
-
 import Marquee from '@/components/ui/marquee';
 import { companies } from '@/constants';
 import Image from 'next/image';
 
+/**
+ * SponsorsSection Component
+ *
+ * A section component that displays a horizontally scrolling marquee of company logos
+ * to showcase trusted companies/partners.
+ *
+ * @component
+ *
+ * @example
+ * ```jsx
+ * <SponsorsSection />
+ * ```
+ *
+ * Features:
+ * - Horizontally scrolling marquee effect
+ * - Gradient fade effect on edges
+ * - Dark mode support for logos
+ * - Responsive container padding
+ *
+ * Dependencies:
+ * - @/components/ui/marquee - Custom marquee component
+ * - @/constants - Contains companies array
+ * - next/image - Next.js Image component for optimized images
+ *
+ * @returns {JSX.Element} A section containing a marquee of company logos
+ */
 export const SponsorsSection = () => {
   return (
     <section id="logos">

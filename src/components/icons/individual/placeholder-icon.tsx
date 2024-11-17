@@ -1,6 +1,27 @@
 import { cn } from '@/lib';
 import type { SVGIconProps } from '../types';
 
+/**
+ * PlaceholderIcon Component
+ * 
+ * A React functional component that renders an SVG placeholder image icon.
+ * The icon displays a rounded rectangle frame with a circular element inside.
+ *
+ * @component
+ * @param {Object} props - Component props
+ * @param {string} [props.className] - Additional CSS class names to apply to the SVG element
+ * @param {number|string} [props.size] - Size of the icon in width and height. Applied as Tailwind classes w-{size} h-{size}
+ * @param {Object} [props.props] - Any additional props to spread onto the SVG element
+ * @returns {JSX.Element} A rendered SVG icon element
+ *
+ * @example
+ * // Basic usage
+ * <PlaceholderIcon size={6} />
+ * 
+ * @example
+ * // With custom className
+ * <PlaceholderIcon size={4} className="text-gray-500" />
+ */
 export const PlaceholderIcon: React.FC<SVGIconProps> = ({
   className,
   size,

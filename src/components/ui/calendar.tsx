@@ -7,8 +7,49 @@ import { DayPicker } from 'react-day-picker';
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
+/**
+ * Props typ/**
+ * Props inte for the Calendar component, erface that extending DayPicker's tends DayPicker's base prrops
+ */
+expops for the Calendar component
+ * @typedef {Object} CalendarProps
+ * @extends {React.ComponentProps<typeof DayPicker>}
+ */
 export type CalendarProps = React.ComponentProps<typeof DayPicker>;
 
+/**
+ * Calendar component that wraps react-day-picker with custom styling
+ * 
+ * @component
+ * @param {Object} props - Component props
+ * @param {string} [props.className] - AdditioSS clpass names
+ * @param {Object} [props.cram {string} [props.classNamassNames] - Custom class ] - Additionames for internal elements
+ * @param {boolean} [props.showOutsial CSS classes to apply to the calendeDays=true] - Whether to show days from previous/next months
+ * 
+ * @example
+ * ```tsx
+ * <Calendar 
+ *   selected={date}
+ *   onSelect={setDate}
+ *   cName="rounded-md border"
+ * />
+ * ```
+ */
+function Calendar({ classNames] - Custom class names for various calendar elements
+ * @param {boolean} [props.showOutsideDays=true] - Whether to show days from previous/next months
+ * @param {Object} props.props - Additional props passed to the underlying DayPicker component
+ * @returns {JSX.Element} Rendered calendar component
+ * 
+ * @example
+ * // Basic usage
+ * <Calendar />
+ * 
+ * // With custom styling and outside days hidden
+ * <Calendar 
+ *   className="my-calendar"
+ *   showOutsideDays={false}
+ * />
+ */
 function Calendar({ className, classNames, showOutsideDays = true, ...props }: CalendarProps) {
   return (
     <DayPicker

@@ -5,6 +5,18 @@ import { AnimatePresence, motion, useAnimation } from 'framer-motion';
 import { nanoid } from 'nanoid';
 import React, { useEffect, useState, useRef } from 'react';
 
+/**
+ * Props for the Slider component
+ * @interface SliderProps
+ * @property {React.ReactNode} children - Child elements to be rendered in the slider
+ * @property {string} [width='200px'] - Width of each slide
+ * @property {number} [duration=40] - Duration of the slide animation in seconds
+ * @property {boolean} [toRight=false] - Direction of the slider movement. If true, slides move right to left
+ * @property {boolean} [pauseOnHover=false] - If true, animation pauses when mouse hovers over the slider
+ * @property {boolean} [blurBorders=false] - If true, adds gradient blur effect to slider edges
+ * @property {string} [blurBorderColor='#fff'] - Color of the blur gradient borders
+ * @property {boolean} [infiniteRepeat=false] - If true, animation loops infinitely
+ */
 interface SliderProps {
   children: React.ReactNode;
   width?: string;
@@ -16,11 +28,23 @@ interface SliderProps {
   infiniteRepeat?: boolean;
 }
 
+/**
+ * Props for individual Slide components
+ * @interface SlideProps
+ * @property {React.ReactNode} children - Content to be rendered within the slide
+ * @property {string} [width='200px'] - Width of the slide
+ */
 interface SlideProps {
   children: React.ReactNode;
   width?: string;
 }
 
+/**
+ * A customizable slider/carousel component with animation controls
+ * @component
+ * @param {SliderProps} props - The props for the Slider component
+ * @returns {React.ReactElement} Rendered Slider component
+ */
 const Slider: React.FC<SliderProps> & { Slide: React.FC<SlideProps> } = ({
   children,
   width = '200px',
@@ -36,16 +60,19 @@ const Slider: React.FC<SliderProps> & { Slide: React.FC<SlideProps> } = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const [containerWidth, setContainerWidth] = useState(0);
 
+  // Generate unique ID for slider wrapper
   useEffect(() => {
     setIdNanoid(nanoid());
   }, []);
 
+  // Update container width when children change
   useEffect(() => {
     if (containerRef.current) {
       setContainerWidth(containerRef.current.offsetWidth);
     }
   }, [children]);
 
+  // Handle animation frame updates
   useEffect(() => {
     let animationFrameId: number;
     let startTime: number;
@@ -74,12 +101,20 @@ const Slider: React.FC<SliderProps> & { Slide: React.FC<SlideProps> } = ({
     };
   }, [controls, duration, toRight, containerWidth, infiniteRepeat]);
 
+  /**
+   * Handles mouse enter event for pause on hover functionality
+   * @function handleMouseEnter
+   */
   const handleMouseEnter = () => {
     if (pauseOnHover) {
       controls.stop();
     }
   };
 
+  /**
+   * Handles mouse leave event to resume animation
+   * @function handleMouseLeave
+   */
   const handleMouseLeave = () => {
     if (pauseOnHover) {
       controls.start({
@@ -138,13 +173,26 @@ const Slider: React.FC<SliderProps> & { Slide: React.FC<SlideProps> } = ({
   );
 };
 
-// Define a memoized component for children
+/**
+ * Memoized child component for performance optimization
+ * @component
+ * @param {Object} props - Component props
+ * @param {React.ReactNode} props.child - Child element to be rendered
+ * @param {string} props.width - Width of the child element
+ * @returns {React.ReactElement} Memoized child component
+ */
 const MemoizedChild = React.memo(({ child, width }: { child: React.ReactNode; width: string }) => (
   <React.Fragment>
     {React.cloneElement(child as React.ReactElement<any>, { style: { width } })}
   </React.Fragment>
 ));
 
+/**
+ * Individual slide component for the Slider
+ * @component
+ * @param {SlideProps} props - The props for the Slide component
+ * @returns {React.ReactElement} Rendered Slide component
+ */
 const Slide: React.FC<SlideProps> = React.memo(({ children, width = '200px', ...props }) => {
   return (
     <div className={cn('flex items-center', `w-[${width}]`)} {...props}>

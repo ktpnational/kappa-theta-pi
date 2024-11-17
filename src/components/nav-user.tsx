@@ -1,4 +1,3 @@
-'use client';
 
 import { BadgeCheck, Bell, ChevronsUpDown, CreditCard, LogOut, Sparkles } from 'lucide-react';
 
@@ -19,6 +18,30 @@ import {
   useSidebar,
 } from '@/components/ui/sidebar';
 
+/**
+ * NavUser Component
+ * 
+ * A navigation component that displays user information and provides a dropdown menu
+ * with various user-related actions and settings.
+ *
+ * @component
+ * @param {Object} props - The component props
+ * @param {Object} props.user - User information object
+ * @param {string} props.user.name - The user's display name
+ * @param {string} props.user.email - The user's email address
+ * @param {string} props.user.avatar - URL to the user's avatar image
+ *
+ * @returns {JSX.Element} A sidebar menu containing a dropdown with user information and actions
+ *
+ * @example
+ * const user = {
+ *   name: "John Doe",
+ *   email: "john@example.com",
+ *   avatar: "/path/to/avatar.jpg"
+ * };
+ * 
+ * return <NavUser user={user} />;
+ */
 export function NavUser({
   user,
 }: {

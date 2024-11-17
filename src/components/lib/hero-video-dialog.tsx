@@ -7,6 +7,10 @@ import { useState } from 'react';
 
 import { cn } from '@/lib/utils';
 
+/**
+ * Defines the available animation styles for the video dialog transitions
+ * @typedef {'from-bottom' | 'from-center' | 'from-top' | 'from-left' | 'from-right' | 'fade' | 'top-in-bottom-out' | 'left-in-right-out'} AnimationStyle
+ */
 type AnimationStyle =
   | 'from-bottom'
   | 'from-center'
@@ -17,6 +21,15 @@ type AnimationStyle =
   | 'top-in-bottom-out'
   | 'left-in-right-out';
 
+/**
+ * Props interface for the HeroVideoDialog component
+ * @interface HeroVideoProps
+ * @property {AnimationStyle} [animationStyle='from-center'] - The animation style to use for dialog transitions
+ * @property {string} videoSrc - Source URL of the video to be displayed
+ * @property {string} thumbnailSrc - Source URL of the thumbnail image
+ * @property {string} [thumbnailAlt='Video thumbnail'] - Alt text for the thumbnail image
+ * @property {string} [className] - Additional CSS classes to apply to the container
+ */
 interface HeroVideoProps {
   animationStyle?: AnimationStyle;
   videoSrc: string;
@@ -25,6 +38,12 @@ interface HeroVideoProps {
   className?: string;
 }
 
+/**
+ * Animation variant configurations for different transition styles
+ * Each variant defines initial, animate, and exit states for the animation
+ * @constant
+ * @type {Record<AnimationStyle, {initial: object, animate: object, exit: object}>}
+ */
 const animationVariants = {
   'from-bottom': {
     initial: { y: '100%', opacity: 0 },
@@ -68,6 +87,17 @@ const animationVariants = {
   },
 };
 
+/**
+ * A memoized video dialog component with animated transitions
+ * @component
+ * @param {HeroVideoProps} props - Component props
+ * @param {AnimationStyle} [props.animationStyle='from-center'] - Animation style for transitions
+ * @param {string} props.videoSrc - URL of the video to display
+ * @param {string} props.thumbnailSrc - URL of the thumbnail image
+ * @param {string} [props.thumbnailAlt='Video thumbnail'] - Alt text for thumbnail
+ * @param {string} [props.className] - Additional CSS classes
+ * @returns {React.ReactElement} Rendered component
+ */
 const HeroVideoDialog = React.memo(
   ({
     animationStyle = 'from-center',

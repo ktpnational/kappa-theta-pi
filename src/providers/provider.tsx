@@ -12,6 +12,13 @@ import {
   ThemeProvider,
 } from '.';
 
+/**
+ * Provider wrapper component that composes multiple context providers
+ * @component
+ * @param {Object} props - Component props
+ * @param {React.ReactNode} props.children - Child elements to be wrapped by the providers
+ * @returns {JSX.Element} Composed provider stack with children
+ */
 const Providers: React.FC<
   Readonly<{
     children: React.ReactNode;
@@ -41,12 +48,28 @@ const Providers: React.FC<
 
 export { Providers };
 
+/**
+ * Utility type to prevent type inference
+ * @template T - The type to prevent inference for
+ */
 type NoInfer<T> = [T][T extends any ? 0 : 1];
 
+/**
+ * Interface for components that can accept children
+ * @interface
+ */
 type ContainsChildren = {
   children?: React.ReactNode;
 };
 
+/**
+ * Component that recursively composes provider components
+ * @template Providers - Tuple type extending ContainsChildren
+ * @param {Object} props - Component props
+ * @param {Array} props.providers - Array of provider components and their props
+ * @param {ReactNode} props.children - Child elements to be wrapped by the providers
+ * @returns {ReactNode} Nested provider structure containing children
+ */
 function ProviderStack<Providers extends [ContainsChildren, ...ContainsChildren[]]>({
   providers,
   children,

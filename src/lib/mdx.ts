@@ -2,12 +2,23 @@ import { getURL } from '@/utils';
 import { allPosts } from 'contentlayer/generated';
 import type { Metadata } from 'next';
 
+/**
+ * Interface representing the parameters for a blog post route
+ * @interface BlogPostParamsProps
+ * @property {object} params - The route parameters object
+ * @property {string[]} params.slug - Array of URL segments representing the post slug
+ */
 interface BlogPostParamsProps {
   params: {
     slug: string[];
   };
 }
 
+/**
+ * Retrieves a blog post based on the provided route parameters
+ * @param {BlogPostParamsProps['params']} params - The route parameters containing the post slug
+ * @returns {Post | null} The matching blog post or null if not found
+ */
 export function getPostFromParams(params: BlogPostParamsProps['params']) {
   const slug = params?.slug?.join('/');
   const post = allPosts.find((post) => post.slugAsParams === slug);
@@ -16,6 +27,10 @@ export function getPostFromParams(params: BlogPostParamsProps['params']) {
   return post;
 }
 
+/**
+ * Generates static parameters for all blog post routes at build time
+ * @returns {Promise<BlogPostParamsProps['params'][]>} Promise resolving to array of route parameters
+ */
 export function generateStaticParams(): Promise<BlogPostParamsProps['params'][]> {
   return Promise.resolve(
     allPosts.map((post) => ({
@@ -24,6 +39,11 @@ export function generateStaticParams(): Promise<BlogPostParamsProps['params'][]>
   );
 }
 
+/**
+ * Generates metadata for a blog post page
+ * @param {BlogPostParamsProps} props - The route parameters containing the post slug
+ * @returns {Promise<Metadata>} Promise resolving to the page metadata
+ */
 export function generateMetadata({ params }: BlogPostParamsProps): Promise<Metadata> {
   const post = getPostFromParams(params);
   if (!post) return Promise.resolve({});

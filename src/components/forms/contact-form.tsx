@@ -22,10 +22,27 @@ import {
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 
+/**
+ * ContactForm Component
+ * 
+ * A React component that renders a contact form with name, email and message fields.
+ * Uses react-hook-form for form handling and validation via zod schema.
+ * Submits form data via server action and shows success/error toasts.
+ *
+ * @component
+ * @returns {JSX.Element} The rendered contact form
+ */
 export const ContactForm = (): JSX.Element => {
+  /** Toast notification hook for showing submission status */
   const { toast } = useToast();
+
+  /** Loading state for form submission */
   const [isPending, startTransition] = React.useTransition();
 
+  /** 
+   * Form instance using react-hook-form
+   * Validates against contactFormSchema using zod resolver
+   */
   const form = useForm<ContactFormInput>({
     resolver: zodResolver(contactFormSchema),
     defaultValues: {
@@ -35,6 +52,12 @@ export const ContactForm = (): JSX.Element => {
     },
   });
 
+  /**
+   * Handles form submission
+   * Submits form data to server action and shows appropriate toast notifications
+   *
+   * @param {ContactFormInput} formData - The validated form data
+   */
   function onSubmit(formData: ContactFormInput): void {
     startTransition(async () => {
       try {
@@ -63,6 +86,11 @@ export const ContactForm = (): JSX.Element => {
       }
     });
   }
+
+  /** 
+   * Loading spinner element displayed during form submission
+   * Conditionally rendered based on Icons.miscellaneous.spinner availability
+   */
   const Spinner = Icons.miscellaneous?.spinner
     ? React.createElement(Icons.miscellaneous.spinner, {
         className: 'mr-2 size-4 animate-spin',
@@ -132,4 +160,4 @@ export const ContactForm = (): JSX.Element => {
       </form>
     </Form>
   );
-}
+};

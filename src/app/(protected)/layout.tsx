@@ -1,3 +1,24 @@
+/**
+ * A protected layout component that wraps child components in a styled container.
+ * 
+ * @component
+ * @description
+ * This component creates a full-width and full-height container with centered content
+ * and a gradient background. It uses Tailwind CSS for styling and implements a conic
+ * gradient pattern from neutral colors.
+ * 
+ * @param {Object} props - Component props
+ * @param {React.ReactNode} props.children - Child components to be rendered within the layout
+ * 
+ * @returns {JSX.Element} A div container with gradient background and centered content
+ * 
+ * @example
+ * ```jsx
+ * <ProtectedLayout>
+ *   <SomeChildComponent />
+ * </ProtectedLayout>
+ * ```
+ */
 const ProtectedLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div

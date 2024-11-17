@@ -5,6 +5,24 @@ import * as React from 'react';
 
 import { cn } from '@/lib/utils';
 
+/**
+ * A customizable switch/toggle component built on top of Radix UI Switch primitives.
+ * 
+ * @component
+ * @example
+ * ```tsx
+ * <Switch checked={isChecked} onCheckedChange={setIsChecked} />
+ * ```
+ * 
+ * @param {object} props - The component props
+ * @param {string} [props.className] - Additional CSS classes to apply to the switch
+ * @param {boolean} props.checked - Whether the switch is checked/active
+ * @param {(checked: boolean) => void} props.onCheckedChange - Callback fired when switch state changes
+ * @param {boolean} [props.disabled] - Whether the switch is disabled
+ * @param {React.Ref<HTMLButtonElement>} ref - Forwarded ref to the underlying button element
+ * 
+ * @returns {JSX.Element} A styled switch toggle component
+ */
 const Switch = React.forwardRef<
   React.ElementRef<typeof SwitchPrimitives.Root>,
   React.ComponentPropsWithoutRef<typeof SwitchPrimitives.Root>

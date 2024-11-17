@@ -4,6 +4,38 @@ import { Button } from '@/components/ui';
 import Link from 'next/link';
 import React from 'react';
 
+/**
+ * H/**
+ * A landing pageroSection Component
+ * 
+ * A landing page hero section component that di introduti * This component serves as the primary
+ *
+d call-to-action buttons. * mission statement an
+, tagline, hero section component that displays the main heading splays ectheion main heading, tagline,
+ * mission statement and call-to-action buttons.
+ * 
+ * @component
+ * @example
+ * ```tsx
+ * <of the landing page,
+ * featuring the organization's key messaging and primary call-to-action elements.
+ * 
+ * @component HeroSection
+ />
+ * ```
+ * 
+ * @returns {JSX.Element} A section element containing the hero content
+ * 
+ * @remarks
+ * The component uses responsive design with Tailwind CSS classes to adjust layout and sizing
+ * across different screen sizes. It includes:
+ * - Main heading with graduated font sizes (4xl to 6xl)
+ * - Tagline with responsive text sizing
+ * - Mission statement paragraph
+ * - Two CTA buttons that stack vertically on mobile and horizontally on larger screens
+ * 
+ * Color scheme uses #234c8b as primary color with #458eff as hover state
+ */
 export const HeroSection = () => {
   return (
     <section className="text-center mb-16 md:mb-24">

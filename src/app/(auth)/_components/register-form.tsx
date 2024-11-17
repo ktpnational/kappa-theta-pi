@@ -23,11 +23,32 @@ import { FormSucess } from '@/components/form-sucess';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
+/**
+ * RegisterForm component for user registration
+ *
+ * @component
+ * @description Provides a form interface for new users to create an account. Handles form state,
+ * validation, and submission while providing visual feedback during the registration process.
+ *
+ * @example
+ * ```tsx
+ * <RegisterForm />
+ * ```
+ */
 const RegisterForm = () => {
+  /** Error message state for form submission failures */
   const [error, setError] = useState<string | undefined>('');
+
+  /** Success message state for successful registrations */
   const [sucess, setSucess] = useState<string | undefined>('');
+
+  /** Loading state indicator for form submission */
   const [isPending, startTransition] = useTransition();
 
+  /**
+   * Form initialization with Zod schema validation
+   * @type {UseFormReturn<z.infer<typeof RegisterSchema>>}
+   */
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
@@ -37,6 +58,11 @@ const RegisterForm = () => {
     },
   });
 
+  /**
+   * Handles form submission
+   * @param {z.infer<typeof RegisterSchema>} values - Form values matching the RegisterSchema
+   * @returns {void}
+   */
   const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
     setError('');
     setSucess('');
@@ -59,7 +85,7 @@ const RegisterForm = () => {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <div className="space-y-4">
-            {/* Name */}
+            {/* Name field */}
             <FormField
               control={form.control}
               name="name"
@@ -74,7 +100,7 @@ const RegisterForm = () => {
               )}
             />
 
-            {/* Email */}
+            {/* Email field */}
             <FormField
               control={form.control}
               name="email"
@@ -94,7 +120,7 @@ const RegisterForm = () => {
               )}
             />
 
-            {/* Password */}
+            {/* Password field */}
             <FormField
               control={form.control}
               name="password"

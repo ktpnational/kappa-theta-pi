@@ -1,3 +1,7 @@
+/**
+ * @fileoverview Root layout component for the Next.js application
+ */
+
 import '@/styles/globals.css';
 import { Providers } from '@/providers';
 import { Scripts } from '@/scripts';
@@ -5,20 +9,34 @@ import { constructMetadata, constructViewport } from '@/utils';
 import { Analytics } from '@vercel/analytics/react';
 import type { NextWebVitalsMetric } from 'next/app';
 
+/** Application metadata constructed from utility function */
 export const metadata = constructMetadata();
+
+/** Viewport configuration constructed from utility function */
 export const viewport = constructViewport();
+
+/**
+ * Reports web vitals metrics for performance monitoring
+ * @param {NextWebVitalsMetric} metric - The web vital metric to report
+ */
 export const reportWebVitals = (metric: NextWebVitalsMetric) => {
   if (metric.label === 'web-vital') {
     console.log(metric);
   }
 };
 
+/**
+ * Root layout component that wraps the entire application
+ * @param {Object} props - Component props
+ * @param {React.ReactNode} props.children - Child components to render
+ * @returns {JSX.Element} Root layout structure
+ */
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
       lang="en"
       suppressHydrationWarning
-      data-a11y-animated-images="system"
+      data-a11y-animated-images="system" 
       data-a11y-link-underlines="false"
     >
       <head>
@@ -42,4 +60,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   );
 }
 
+/**
+ * Display name for the RootLayout component
+ */
 RootLayout.displayName = 'RootLayout';

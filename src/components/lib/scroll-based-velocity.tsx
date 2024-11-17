@@ -14,24 +14,55 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import { cn } from '@/lib/utils';
 
+/**
+ * Props for the VelocityScroll component
+ * @interface VelocityScrollProps
+ * @property {string} text - The text content to be scrolled
+ * @property {number} [default_velocity=5] - The default scrolling velocity
+ * @property {string} [className] - Optional CSS class name
+ */
 interface VelocityScrollProps {
   text: string;
   default_velocity?: number;
   className?: string;
 }
 
+/**
+ * Props for the ParallaxText component
+ * @interface ParallaxProps
+ * @property {string} children - The text content to be displayed
+ * @property {number} baseVelocity - The base velocity for the parallax effect
+ * @property {string} [className] - Optional CSS class name
+ */
 interface ParallaxProps {
   children: string;
   baseVelocity: number;
   className?: string;
 }
 
+/**
+ * Wraps a value within a range, creating a circular motion effect
+ * @param {number} min - The minimum value of the range
+ * @param {number} max - The maximum value of the range
+ * @param {number} v - The value to wrap
+ * @returns {number} The wrapped value within the specified range
+ */
 export const wrap = (min: number, max: number, v: number) => {
   const rangeSize = max - min;
   return ((((v - min) % rangeSize) + rangeSize) % rangeSize) + min;
 };
 
+/**
+ * A component that creates a velocity-based scrolling text effect
+ * @param {VelocityScrollProps} props - The component props
+ * @returns {JSX.Element} The rendered VelocityScroll component
+ */
 export function VelocityScroll({ text, default_velocity = 5, className }: VelocityScrollProps) {
+  /**
+   * Inner component that handles the parallax text animation
+   * @param {ParallaxProps} props - The component props
+   * @returns {JSX.Element} The rendered ParallaxText component
+   */
   function ParallaxText({ children, baseVelocity = 100, className }: ParallaxProps) {
     const baseX = useMotionValue(0);
     const { scrollY } = useScroll();

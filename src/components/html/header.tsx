@@ -8,8 +8,15 @@ import Link from 'next/link';
 import type React from 'react';
 import { memo, useCallback, useEffect, useRef } from 'react';
 
+/**
+ * Memoized version of the Button component for performance optimization
+ */
 const MemoizedButton = memo(Button);
 
+/**
+ * Navigation items configuration
+ * @type {Array<{href: string, label: string}>}
+ */
 const navItems = [
   { href: '/about', label: 'About Us' },
   { href: '/chapters', label: 'Chapters' },
@@ -18,12 +25,28 @@ const navItems = [
   { href: '/contact', label: 'Contact Us' },
 ];
 
+/**
+ * Header component that provides navigation and responsive menu functionality
+ * @component
+ * @returns {React.ReactElement} The rendered Header component
+ */
 export const Header: React.FC = memo(() => {
+  /**
+   * Destructured global store values and setters for header state management
+   */
   const { isMenuOpen, isScrolled, visible, setIsMenuOpen, setIsScrolled, setVisible } =
     useGlobalStore((state) => state.header);
 
-  const prevScrollPosRef = useRef(0);
+  /**
+   * Ref to store previous scroll position for scroll direction detection
+   */
+  const prevScrollPosRef = useRef<number>(0);
 
+  /**
+   * Handles scroll events to update header visibility and appearance
+   * @function
+   * @returns {void}
+   */
   const handleScroll = useCallback(() => {
     const currentScrollPos = window.scrollY;
     const isScrolledNow = currentScrollPos > 0;
@@ -42,11 +65,19 @@ export const Header: React.FC = memo(() => {
     prevScrollPosRef.current = currentScrollPos;
   }, [isScrolled, visible, setIsScrolled, setVisible]);
 
+  /**
+   * Effect to add and remove scroll event listener
+   */
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, [handleScroll]);
 
+  /**
+   * Toggles mobile menu open/closed state
+   * @function
+   * @returns {void}
+   */
   const toggleMenu = useCallback(() => setIsMenuOpen((prev) => !prev), [setIsMenuOpen]);
 
   return (

@@ -3,6 +3,19 @@
 import { cn } from '@/lib/utils';
 import React, { useEffect, useState } from 'react';
 
+/**
+ * A component that displays an infinitely scrolling list of cards.
+ * @component
+ * 
+ * @param {Object} props - The component props
+ * @param {Array<{quote: string, name: string, title: string}>} props.items - Array of items to display in the cards
+ * @param {'left' | 'right'} [props.direction='left'] - The scroll direction of the cards
+ * @param {'fast' | 'normal' | 'slow'} [props.speed='fast'] - The scroll speed of the cards
+ * @param {boolean} [props.pauseOnHover=true] - Whether to pause the animation on hover
+ * @param {string} [props.className] - Additional CSS classes to apply to the container
+ * 
+ * @returns {JSX.Element} The rendered component
+ */
 export const InfiniteMovingCards = ({
   items,
   direction = 'left',
@@ -20,13 +33,22 @@ export const InfiniteMovingCards = ({
   pauseOnHover?: boolean;
   className?: string;
 }) => {
+  /** Reference to the outer container element */
   const containerRef = React.useRef<HTMLDivElement>(null);
+  /** Reference to the scrolling list element */
   const scrollerRef = React.useRef<HTMLUListElement>(null);
 
   useEffect(() => {
     addAnimation();
   }, []);
+
+  /** State to track if animation has started */
   const [start, setStart] = useState(false);
+
+  /**
+   * Initializes the infinite scroll animation by duplicating list items
+   * and setting animation properties
+   */
   function addAnimation() {
     if (containerRef.current && scrollerRef.current) {
       const scrollerContent = Array.from(scrollerRef.current.children);
@@ -43,6 +65,10 @@ export const InfiniteMovingCards = ({
       setStart(true);
     }
   }
+
+  /**
+   * Sets the animation direction CSS property based on the direction prop
+   */
   const getDirection = () => {
     if (containerRef.current) {
       if (direction === 'left') {
@@ -52,6 +78,10 @@ export const InfiniteMovingCards = ({
       }
     }
   };
+
+  /**
+   * Sets the animation duration CSS property based on the speed prop
+   */
   const getSpeed = () => {
     if (containerRef.current) {
       if (speed === 'fast') {
@@ -63,6 +93,7 @@ export const InfiniteMovingCards = ({
       }
     }
   };
+
   return (
     <div
       ref={containerRef}

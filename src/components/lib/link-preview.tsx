@@ -13,9 +13,22 @@ import Link from 'next/link';
 import { encode } from 'qss';
 import React, { memo } from 'react';
 
+/**
+ * Props for the LinkPreview component
+ * @typedef {Object} LinkPreviewProps
+ * @property {React.ReactNode} children - Child elements to render within the preview trigger
+ * @property {string} url - URL to preview and link to
+ * @property {string} [className] - Optional CSS class name
+ * @property {number} [width=200] - Width of preview image in pixels
+ * @property {number} [height=125] - Height of preview image in pixels
+ * @property {number} [quality=50] - Quality of preview image (1-100)
+ * @property {string} [layout='fixed'] - Layout mode for preview image
+ * @property {boolean} [isStatic=false] - Whether to use static image source or generate preview
+ * @property {string} [imageSrc] - Static image source URL (required if isStatic is true)
+ */
 type LinkPreviewProps = {
   children: React.ReactNode;
-  url: string;
+  url: string; 
   className?: string;
   width?: number;
   height?: number;
@@ -23,8 +36,17 @@ type LinkPreviewProps = {
   layout?: string;
 } & ({ isStatic: true; imageSrc: string } | { isStatic?: false; imageSrc?: never });
 
+/**
+ * Memoized Image component to prevent unnecessary re-renders
+ * @param {ImageProps} props - Props passed to Next.js Image component 
+ */
 const MemoizedImage = memo((props: ImageProps) => <Image {...props} />);
 
+/**
+ * LinkPreview component that shows a preview image when hovering over a link
+ * @param {LinkPreviewProps} props - Component props
+ * @returns {JSX.Element} Rendered component
+ */
 export const LinkPreview = React.memo(
   ({
     children,
@@ -39,6 +61,7 @@ export const LinkPreview = React.memo(
   }: LinkPreviewProps) => {
     let src;
     if (!isStatic) {
+      // Generate preview URL using microlink API
       const params = encode({
         url,
         screenshot: true,
@@ -55,19 +78,25 @@ export const LinkPreview = React.memo(
       src = imageSrc;
     }
 
+    // Track hover card open state
     const [isOpen, setOpen] = React.useState(false);
 
+    // Track component mount state
     const [isMounted, setIsMounted] = React.useState(false);
 
     React.useEffect(() => {
       setIsMounted(true);
     }, []);
 
+    // Configure spring animation properties
     const springConfig = { stiffness: 100, damping: 15 };
     const x = useMotionValue(0);
-
     const translateX = useSpring(x, springConfig);
 
+    /**
+     * Handle mouse movement to create hover animation effect
+     * @param {MouseEvent} event - Mouse move event
+     */
     const handleMouseMove = (event: any) => {
       const targetRect = event.target.getBoundingClientRect();
       const eventOffsetX = event.clientX - targetRect.left;

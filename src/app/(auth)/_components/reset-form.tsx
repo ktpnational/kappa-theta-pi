@@ -23,11 +23,38 @@ import { Input } from '@/components/ui/input';
 
 import { reset } from '@/actions/reset';
 
+/**
+ * ResetForm Component
+ *
+ * A React component that renders a password reset form with email input.
+ * Handles form submission and displays success/error states.
+ *
+ * @component
+ * @returns {JSX.Element} The rendered password reset form
+ */
 const ResetForm = () => {
+  /**
+   * State for handling form error messages
+   * @type {[string | undefined, React.Dispatch<React.SetStateAction<string | undefined>>]}
+   */
   const [error, setError] = useState<string | undefined>('');
+
+  /**
+   * State for handling success messages
+   * @type {[string | undefined, React.Dispatch<React.SetStateAction<string | undefined>>]}
+   */
   const [success, setSuccess] = useState<string | undefined>('');
+
+  /**
+   * Transition state for handling form submission
+   * @type {[boolean, (callback: () => void) => void]}
+   */
   const [isPending, startTransition] = useTransition();
 
+  /**
+   * Form instance created using react-hook-form
+   * Uses zod schema for validation
+   */
   const form = useForm<z.infer<typeof ResetSchema>>({
     resolver: zodResolver(ResetSchema),
     defaultValues: {
@@ -35,6 +62,12 @@ const ResetForm = () => {
     },
   });
 
+  /**
+   * Handles form submission
+   * Resets error/success states and initiates password reset process
+   *
+   * @param {z.infer<typeof ResetSchema>} values - Form values containing email
+   */
   const onSubmit = (values: z.infer<typeof ResetSchema>) => {
     setError('');
     setSuccess('');
@@ -57,7 +90,6 @@ const ResetForm = () => {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <div className="space-y-4">
-            {/* Email */}
             <FormField
               control={form.control}
               name="email"

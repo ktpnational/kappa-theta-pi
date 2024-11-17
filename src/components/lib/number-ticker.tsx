@@ -6,6 +6,33 @@ import React from 'react';
 
 import { cn } from '@/lib/utils';
 
+/**
+ * NumberTicker Component
+ * A memoized React component that displays an animated number counting up or down with configurable animation settings.
+ *
+ * @component
+ * @param {Object} props - Component props
+ * @param {number} props.value - The target number value to animate to/from
+ * @param {('up'|'down')} [props.direction='up'] - The direction of the animation - counting up from 0 or down from value
+ * @param {number} [props.delay=0] - Delay in seconds before starting the animation
+ * @param {string} [props.className] - Additional CSS classes to apply to the component
+ * @param {number} [props.decimalPlaces=0] - Number of decimal places to display
+ * 
+ * @returns {JSX.Element} A span element containing the animated number
+ * 
+ * @example
+ * // Basic usage counting up to 100
+ * <NumberTicker value={100} />
+ * 
+ * @example
+ * // Counting down from 1000 with 2 decimal places and 1s delay
+ * <NumberTicker 
+ *   value={1000}
+ *   direction="down"
+ *   decimalPlaces={2}
+ *   delay={1}
+ * />
+ */
 export const NumberTicker = React.memo(
   ({
     value,

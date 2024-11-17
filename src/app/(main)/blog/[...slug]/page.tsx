@@ -1,3 +1,7 @@
+/**
+ * @fileoverview Blog post page component that displays a single blog post with full content and metadata
+ */
+
 import type { BlogPostParamsProps } from '@/types';
 import { ChevronLeftIcon } from '@radix-ui/react-icons';
 import { allAuthors, allPosts } from 'contentlayer/generated';
@@ -14,11 +18,26 @@ import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { buttonVariants } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 
-
+/**
+ * Renders a full blog post page including title, metadata, author info, content and navigation
+ *
+ * @param {Object} props - Component props
+ * @param {BlogPostParamsProps} props.params - URL parameters containing post slug
+ * @returns {JSX.Element} Rendered blog post page
+ * @throws {Error} If post is not found
+ */
 export default function BlogPostPage({ params }: BlogPostParamsProps): JSX.Element {
+  /**
+   * The full blog post data retrieved from parameters
+   * @type {Post | undefined}
+   */
   const post = getPostFromParams(params);
   if (!post) notFound();
 
+  /**
+   * Array of author objects matched with post author names
+   * @type {(Author | undefined)[]}
+   */
   const authors = post.authors.map((author) =>
     allAuthors.find((a) => a.title === author?.replace(/\r$/, '')),
   );

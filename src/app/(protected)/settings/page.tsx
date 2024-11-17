@@ -35,14 +35,39 @@ import {
 } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 
+/**
+ * SettingsPage Component
+ * 
+ * A form component that allows users to modify their account settings including:
+ * - Name
+ * - Email (for non-OAuth users)
+ * - Password (for non-OAuth users)
+ * - Role selection
+ * - Two-factor authentication toggle (for non-OAuth users)
+ * 
+ * @component
+ * @returns {JSX.Element} The rendered settings page component
+ */
 const SettingsPage = () => {
+  /** State for displaying error messages */
   const [error, setError] = useState<string | undefined>();
+
+  /** State for displaying success messages */
   const [success, setSuccess] = useState<string | undefined>();
+
+  /** State for handling loading states during form submission */
   const [isPending, startTransition] = useTransition();
+
+  /** Hook to access and update session data */
   const { update } = useSession();
 
+  /** Hook to access current user data */
   const user = useCurrentUser();
 
+  /**
+   * Form initialization using react-hook-form with zod schema validation
+   * Prepopulates form fields with current user data where available
+   */
   const form = useForm<z.infer<typeof SettingsSchema>>({
     resolver: zodResolver(SettingsSchema),
     defaultValues: {
@@ -55,6 +80,12 @@ const SettingsPage = () => {
     },
   });
 
+  /**
+   * Handles form submission
+   * Updates user settings and manages success/error states
+   * 
+   * @param {z.infer<typeof SettingsSchema>} values - The form values to be submitted
+   */
   const onSubmit = (values: z.infer<typeof SettingsSchema>) => {
     startTransition(() => {
       settings(values)

@@ -5,6 +5,14 @@ import * as ResizablePrimitive from 'react-resizable-panels';
 
 import { cn } from '@/lib/utils';
 
+/**
+ * A wrapper component that creates a resizable panel group container.
+ * @component
+ * @param {Object} props - The component properties
+ * @param {string} [props.className] - Additional CSS classes to apply to the panel group
+ * @param {ResizablePrimitive.PanelGroupProps} props - All properties from react-resizable-panels PanelGroup
+ * @returns {JSX.Element} A resizable panel group component that can contain multiple panels
+ */
 const ResizablePanelGroup = ({
   className,
   ...props
@@ -15,8 +23,22 @@ const ResizablePanelGroup = ({
   />
 );
 
+/**
+ * A basic resizable panel component that can be used within a ResizablePanelGroup.
+ * Direct export of ResizablePrimitive.Panel for use in resizable layouts.
+ * @type {ResizablePrimitive.Panel}
+ */
 const ResizablePanel = ResizablePrimitive.Panel;
 
+/**
+ * A customizable resize handle component that appears between resizable panels.
+ * @component
+ * @param {Object} props - The component properties
+ * @param {boolean} [props.withHandle] - Whether to show a visual grip handle
+ * @param {string} [props.className] - Additional CSS classes to apply to the resize handle
+ * @param {ResizablePrimitive.PanelResizeHandleProps} props - All properties from react-resizable-panels PanelResizeHandle
+ * @returns {JSX.Element} A resize handle component that can be placed between panels
+ */
 const ResizableHandle = ({
   withHandle,
   className,

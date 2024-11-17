@@ -4,6 +4,25 @@ import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { Separator } from '@/components/ui/separator';
 import { Skeleton } from '@/components/ui/skeleton';
 
+/**
+ * A loading state component for blog post pages.
+ *
+ * This component displays a skeleton UI while the main blog post content is loading.
+ * It includes placeholder elements for:
+ * - Header section with metadata
+ * - Featured image
+ * - Author information
+ * - Post content preview
+ * - Footer navigation
+ *
+ * The layout is responsive and adapts to different screen sizes using Tailwind breakpoints:
+ * - Mobile: Default padding
+ * - md: Modified vertical padding
+ * - lg: Larger vertical padding
+ * - xl: Shows additional navigation elements
+ *
+ * @returns {JSX.Element} The rendered loading state UI for a blog post
+ */
 export default function BlogPostLoadingPage(): JSX.Element {
   return (
     <article className="container grid max-w-7xl items-center gap-8 py-24 md:py-16 lg:py-32">

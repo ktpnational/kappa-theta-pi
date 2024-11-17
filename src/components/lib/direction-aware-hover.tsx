@@ -6,6 +6,18 @@ import Image from 'next/image';
 import { useCallback, useRef, useState } from 'react';
 import React from 'react';
 
+/**
+ * A component that provides direction-aware hover effects for images.
+ * 
+ * @component
+ * @param {Object} props - The component props
+ * @param {string} props.imageUrl - URL of the image to display
+ * @param {React.ReactNode | string} props.children - Content to display over the image
+ * @param {string} [props.childrenClassName] - Additional CSS classes for the children container
+ * @param {string} [props.imageClassName] - Additional CSS classes for the image
+ * @param {string} [props.className] - Additional CSS classes for the root container
+ * @returns {JSX.Element} A direction-aware hover component
+ */
 export const DirectionAwareHover = React.memo(
   ({
     imageUrl,
@@ -26,6 +38,11 @@ export const DirectionAwareHover = React.memo(
       'left',
     );
 
+    /**
+     * Handles mouse enter events and determines hover direction
+     * 
+     * @param {React.MouseEvent<HTMLDivElement, MouseEvent>} event - Mouse enter event
+     */
     const handleMouseEnter = useCallback(
       (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         if (!ref.current) return;
@@ -53,6 +70,13 @@ export const DirectionAwareHover = React.memo(
       [ref],
     );
 
+    /**
+     * Calculates the direction of hover based on mouse position relative to element
+     * 
+     * @param {React.MouseEvent<HTMLDivElement, MouseEvent>} ev - Mouse event
+     * @param {HTMLElement} obj - DOM element being hovered
+     * @returns {number} Direction index (0: top, 1: right, 2: bottom, 3: left)
+     */
     const getDirection = (ev: React.MouseEvent<HTMLDivElement, MouseEvent>, obj: HTMLElement) => {
       const { width: w, height: h, left, top } = obj.getBoundingClientRect();
       const x = ev.clientX - left - (w / 2) * (w > h ? h / w : 1);
@@ -125,11 +149,13 @@ export const DirectionAwareHover = React.memo(
 
 DirectionAwareHover.displayName = 'DirectionAwareHover';
 
+/**
+ * Animation variants for the image container motion
+ */
 const variants = {
   initial: {
     x: 0,
   },
-
   exit: {
     x: 0,
     y: 0,
@@ -148,6 +174,9 @@ const variants = {
   },
 };
 
+/**
+ * Animation variants for the text overlay motion
+ */
 const textVariants = {
   initial: {
     y: 0,

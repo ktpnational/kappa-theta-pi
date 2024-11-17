@@ -1,6 +1,24 @@
 import { cn } from '@/lib';
 import type { SVGIconProps } from '../types';
 
+/**
+ * A React component that renders a paper plane icon SVG.
+ *
+ * @component
+ * @param {Object} props - The component props
+ * @param {string} [props.className] - Additional CSS class names to apply to the SVG
+ * @param {number|string} [props.size] - The size of the icon. Applied to both width and height
+ * @param {Object} [props.props] - Any additional props to spread onto the SVG element
+ * @returns {JSX.Element} A paper plane icon SVG element
+ *
+ * @example
+ * // Basic usage
+ * <PaperplaneIcon size={6} className="text-blue-500" />
+ *
+ * @example
+ * // With custom styling
+ * <PaperplaneIcon size="8" className="text-gray-600 hover:text-gray-800" />
+ */
 export const PaperplaneIcon: React.FC<SVGIconProps> = ({ className, size, props }): JSX.Element => {
   return (
     <svg
@@ -9,7 +27,7 @@ export const PaperplaneIcon: React.FC<SVGIconProps> = ({ className, size, props 
       viewBox="0 0 15 15"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className={cn(`w-${size} h-${size}`, className)}
+      className={cn(`w-${size} h-${size}`, className)} 
       role="img"
       {...props}
     >

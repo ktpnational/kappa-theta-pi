@@ -1,6 +1,32 @@
+/**
+ * @module OpenGraph
+ */
+
 import { constructMetadata } from '@/utils';
 import { ImageResponse } from 'next/og';
 
+/**
+ * Generates an OpenGraph image for social media sharing
+ * @async
+ * @function GET
+ * @param {Request} request - The incoming HTTP request
+ * @throws {Error} When image generation fails
+ * @returns {Promise<ImageResponse|Response>} The generated image response or error response
+ *
+ * @description
+ * This endpoint generates a dynamic OpenGraph image based on provided title and description
+ * parameters. It creates a branded image with a custom background and typography.
+ *
+ * The image includes:
+ * - A custom background with gradient effects
+ * - The page title in large text
+ * - A description excerpt below the title
+ * - Custom Palatino font rendering
+ *
+ * @example
+ * // Request:
+ * GET /api/og?title=My%20Page&description=Page%20description
+ */
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const title = searchParams.get('title') || constructMetadata({}).title;
@@ -9,6 +35,10 @@ export async function GET(request: Request) {
   const description = searchParams.get('description') || String(constructMetadata({}).description);
 
   try {
+    /**
+     * Load custom font data
+     * @type {ArrayBuffer}
+     */
     const fontData = await fetch(
       new URL('../../../../public/assets/fonts/palatino.ttf', import.meta.url),
     ).then((res) => res.arrayBuffer());

@@ -2,6 +2,32 @@ import * as React from 'react';
 
 import { cn } from '@/lib/utils';
 
+/**
+ * A customizable textarea component that forwards refs and extends the native HTML textarea element.
+ * 
+ * @component
+ * @template {HTMLTextAreaElement} T - The HTML textarea element type
+ * @template {React.ComponentProps<'textarea'>} P - The native textarea props type
+ * 
+ * @param {Object} props - Component props
+ * @param {string} [props.className] - Optional CSS class name to apply additional styles
+ * @param {React.Ref<HTMLTextAreaElement>} ref - Forwarded ref to access the underlying textarea element
+ * 
+ * @returns {JSX.Element} A styled textarea component with forwarded ref support
+ * 
+ * @example
+ * // Basic usage
+ * <Textarea placeholder="Enter text here..." />
+ * 
+ * @example
+ * // With custom class name
+ * <Textarea className="custom-textarea" />
+ * 
+ * @example
+ * // With ref
+ * const textareaRef = useRef<HTMLTextAreaElement>(null);
+ * <Textarea ref={textareaRef} />
+ */
 const Textarea = React.forwardRef<HTMLTextAreaElement, React.ComponentProps<'textarea'>>(
   ({ className, ...props }, ref) => {
     return (

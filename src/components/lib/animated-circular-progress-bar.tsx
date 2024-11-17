@@ -1,15 +1,40 @@
 import { cn } from '@/lib';
 import React from 'react';
 
+/**
+ * Props interface for the AnimatedCircularProgressBar component
+ * @interface Props
+ */
 interface Props {
+  /** Maximum value for the progress bar */
   max: number;
+  /** Current value to display in the progress bar */
   value: number;
+  /** Minimum value for the progress bar */
   min: number;
+  /** Primary color of the gauge/progress arc */
   gaugePrimaryColor: string;
+  /** Secondary/background color of the gauge */
   gaugeSecondaryColor: string;
+  /** Optional CSS class name(s) to apply to the component */
   className?: string;
 }
 
+/**
+ * Animated circular progress bar component that displays a percentage value
+ * with smooth transitions and customizable colors.
+ * 
+ * @component
+ * @param {Props} props - Component props
+ * @param {number} props.max - Maximum value (defaults to 100)
+ * @param {number} props.min - Minimum value (defaults to 0)
+ * @param {number} props.value - Current value to display (defaults to 0)
+ * @param {string} props.gaugePrimaryColor - Color of the progress arc
+ * @param {string} props.gaugeSecondaryColor - Color of the background arc
+ * @param {string} [props.className] - Optional CSS classes
+ * 
+ * @returns {JSX.Element} Animated circular progress bar
+ */
 export const AnimatedCircularProgressBar = React.memo(
   ({ max = 100, min = 0, value = 0, gaugePrimaryColor, gaugeSecondaryColor, className }: Props) => {
     const circumference = 2 * Math.PI * 45;

@@ -1,4 +1,5 @@
 'use client';
+
 import { ExitIcon } from '@radix-ui/react-icons';
 import { FaUser } from 'react-icons/fa';
 
@@ -13,6 +14,33 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
+/**
+ * UserButton component that displays a user avatar with dropdown menu functionality
+ *
+ * @component
+ * @description
+ * This component renders a clickable user avatar that opens a dropdown menu with user-related actions.
+ * It displays the user's profile image if available, or falls back to a generic user icon.
+ * The dropdown menu currently contains a logout option.
+ *
+ * @example
+ * ```jsx
+ * <UserButton />
+ * ```
+ *
+ * @returns {JSX.Element} A dropdown menu component containing a user avatar and logout option
+ *
+ * @dependencies
+ * - useCurrentUser hook for accessing the current user's data
+ * - Radix UI components for dropdown menu functionality
+ * - React Icons for fallback user icon
+ *
+ * @features
+ * - Displays user profile image when available
+ * - Provides fallback avatar with generic user icon
+ * - Includes dropdown menu with logout functionality
+ * - Fully accessible dropdown menu implementation
+ */
 export const UserButton = () => {
   const user = useCurrentUser();
 
