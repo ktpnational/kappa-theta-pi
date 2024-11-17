@@ -76,16 +76,13 @@ export const {
         session.user.role = token.role as Role;
       }
 
-      // TODO: check schema for both database andd enxt_auth
-      // getting nullish coellacent fixes, which should not be the case
       if (session.user) {
         session.user.isTwoFactorEnabled = token.isTwoFactorEnabled as boolean;
-        session.user.name = token.name;
-        session.user.email = token.email ?? '';
+        session.user.name = token.name as string;
+        session.user.email = token.email as string;
         session.user.isOAuth = token.isOAuth as boolean;
       }
 
-      // Add Supabase JWT token generation
       const signingSecret = process.env.NEXT_PUBLIC_SUPABASE_JWT_SECRET;
       if (signingSecret && token.sub && token.email) {
         const payload = {

@@ -12,19 +12,19 @@ import { useToast } from '@/hooks/use-toast';
 
 /**
  * Toaster component that renders toast notifications.
- * 
+ *
  * This component uses the useToast hook to access the toast state and render
  * toast notifications in a consistent layout. It handles displaying toasts with
  * optional titles, descriptions, and actions.
- * 
+ *
  * @component
  * @returns {JSX.Element} A ToastProvider containing mapped toast notifications
- * 
+ *
  * @example
  * ```tsx
  * // In your app layout or pages:
  * import { Toaster } from './Toaster'
- * 
+ *
  * function App() {
  *   return (
  *     <>
@@ -36,7 +36,7 @@ import { useToast } from '@/hooks/use-toast';
  * ```
  */
 export function Toaster() {
-  /** 
+  /**
    * Destructure toasts array from useToast hook
    * Each toast contains: id, title, description, action and other props
    */

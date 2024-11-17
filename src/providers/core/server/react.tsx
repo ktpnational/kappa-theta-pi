@@ -12,22 +12,22 @@ import { createQueryClient } from '.';
 /**
  * Client API instance created using Elysia's treaty.
  * This provides type-safe API endpoints based on the AppRouter type.
- * 
+ *
  * @remarks
  * The API instance is initialized with different base URLs depending on the environment:
  * - In server-side context (window undefined): Uses getURL()
  * - In client-side context: Uses the current window.location.origin
- * 
+ *
  * @type {AppRouter} - The typed API router instance
  */
 export const client_api = treaty<AppRouter>(
   typeof window === 'undefined' ? getURL() : window.location.origin,
-).api.elysia;
+)[''].api;
 
 /**
  * Singleton instance of QueryClient to ensure consistent caching across the application.
  * This is only initialized on the client side to prevent shared state between requests.
- * 
+ *
  * @type {QueryClient | undefined} - The singleton QueryClient instance
  * @private
  */
@@ -35,12 +35,12 @@ let clientQueryClientSingleton: QueryClient | undefined = undefined;
 
 /**
  * Get or create a QueryClient instance based on the execution context.
- * 
+ *
  * @remarks
  * This function handles two scenarios:
  * 1. Server-side: Creates a new QueryClient instance for each request to prevent shared state
  * 2. Client-side: Returns or initializes a singleton QueryClient instance
- * 
+ *
  * The singleton pattern on the client side ensures that:
  * - Cache is preserved between re-renders
  * - Prevents memory leaks from multiple instances
@@ -58,12 +58,12 @@ const getQueryClient = (): QueryClient => {
 
 /**
  * React component that provides QueryClient context to the application.
- * 
+ *
  * @remarks
  * This component wraps the application with necessary React Query infrastructure:
  * - QueryClientProvider: Provides the QueryClient instance to all child components
  * - ReactQueryDevtools: Development tools for debugging queries (disabled by default)
- * 
+ *
  * The QueryClient is managed through getQueryClient() which handles:
  * - Server-side rendering considerations
  * - Client-side singleton management
@@ -75,7 +75,7 @@ const getQueryClient = (): QueryClient => {
  *   <App />
  * </QueryProvider>
  * ```
- * 
+ *
  * @param {Object} props - Component props
  * @param {React.ReactNode} props.children - Child components to be wrapped with the QueryClient context
  * @returns {JSX.Element} A QueryClientProvider component with configured QueryClient and dev tools

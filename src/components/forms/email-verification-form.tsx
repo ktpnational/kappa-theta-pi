@@ -181,7 +181,10 @@ export const EmailVerificationForm = (): JSX.Element => {
         <Button disabled={isPending}>
           {isPending ? (
             <>
-              <Icons.miscellaneous.spinner className="mr-2 size-4 animate-spin" aria-hidden="true" />
+              <Icons.miscellaneous.spinner
+                className="mr-2 size-4 animate-spin"
+                aria-hidden="true"
+              />
               <span>Pending...</span>
             </>
           ) : (

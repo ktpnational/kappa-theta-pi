@@ -8,7 +8,7 @@ import React from 'react';
 
 /**
  * A component that provides direction-aware hover effects for images.
- * 
+ *
  * @component
  * @param {Object} props - The component props
  * @param {string} props.imageUrl - URL of the image to display
@@ -40,7 +40,7 @@ export const DirectionAwareHover = React.memo(
 
     /**
      * Handles mouse enter events and determines hover direction
-     * 
+     *
      * @param {React.MouseEvent<HTMLDivElement, MouseEvent>} event - Mouse enter event
      */
     const handleMouseEnter = useCallback(
@@ -72,7 +72,7 @@ export const DirectionAwareHover = React.memo(
 
     /**
      * Calculates the direction of hover based on mouse position relative to element
-     * 
+     *
      * @param {React.MouseEvent<HTMLDivElement, MouseEvent>} ev - Mouse event
      * @param {HTMLElement} obj - DOM element being hovered
      * @returns {number} Direction index (0: top, 1: right, 2: bottom, 3: left)

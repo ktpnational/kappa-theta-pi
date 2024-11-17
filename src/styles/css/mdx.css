@@ -20,6 +20,7 @@
 
 [data-rehype-pretty-code-fragment] code {
   @apply grid min-w-full break-words rounded-none border-0 bg-transparent p-0 text-sm;
+
   counter-reset: line;
   box-decoration-break: clone;
 }
@@ -34,6 +35,7 @@
 
 [data-rehype-pretty-code-fragment] [data-line-numbers] > .line::before {
   @apply text-xs text-zinc-50/40;
+
   counter-increment: line;
   content: counter(line);
   display: inline-block;

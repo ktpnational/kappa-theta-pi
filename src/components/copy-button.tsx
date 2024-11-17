@@ -7,7 +7,7 @@ import { Button, type ButtonProps } from '@/components/ui/button';
 
 /**
  * A button component that copies text to the clipboard when clicked.
- * 
+ *
  * @component
  * @param {Object} props - The component props
  * @param {any} props.value - The value to be copied to clipboard when clicked

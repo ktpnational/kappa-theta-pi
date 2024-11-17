@@ -2,7 +2,6 @@
  * @fileoverview Blog post page component that displays a single blog post with full content and metadata
  */
 
-import type { BlogPostParamsProps } from '@/types';
 import { ChevronLeftIcon } from '@radix-ui/react-icons';
 import { allAuthors, allPosts } from 'contentlayer/generated';
 import Image from 'next/image';
@@ -17,6 +16,12 @@ import { MdxPager } from '@/components/mdx/mdx-pager';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { buttonVariants } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
+
+interface BlogPostParamsProps {
+  params: {
+    slug: string[];
+  };
+}
 
 /**
  * Renders a full blog post page including title, metadata, author info, content and navigation

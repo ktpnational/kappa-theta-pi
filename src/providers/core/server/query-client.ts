@@ -5,8 +5,8 @@ import SuperJSON from 'superjson';
 /**
  * A reusable fetch utility to handle query requests.
  * This can be shared across different queries.
- * 
- * The function uses the native fetch API to make HTTP requests and SuperJSON to parse 
+ *
+ * The function uses the native fetch API to make HTTP requests and SuperJSON to parse
  * the response data. SuperJSON allows for preservation of data types during serialization/deserialization.
  *
  * @param {string} url - The URL endpoint to fetch data from
@@ -32,23 +32,23 @@ const fetchWithSuperJSON = async (url: string): Promise<any> => {
 /**
  * Creates a memoized QueryClient instance for React Query with predefined configuration.
  * This ensures the client is only created once and reused across re-renders for optimal performance.
- * 
+ *
  * Configuration includes:
  * - Stale time of 30 seconds
  * - Window focus refetching disabled
  * - Custom query function using fetchWithSuperJSON
  * - 2 retry attempts for failed queries
  * - SuperJSON serialization/deserialization for data hydration
- * 
+ *
  * @returns {Function} A memoized factory function that returns a QueryClient instance
  * @example
  * const queryClient = createQueryClient();
- * 
+ *
  * // In your React application:
  * <QueryClientProvider client={queryClient()}>
  *   <App />
  * </QueryClientProvider>
- * 
+ *
  * @see {@link https://tanstack.com/query/latest/docs/react/reference/QueryClient}
  * @see {@link https://github.com/blitz-js/superjson}
  */

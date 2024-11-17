@@ -4,9 +4,9 @@
  * Only modify this file if you need to:
  * 1. Make changes to request context handling
  * 2. Add/modify middleware or procedure types
- * 
+ *
  * @fileoverview Main Elysia server configuration and setup
- * @module server/config 
+ * @module server/config
  */
 import type { ElysiaConfig } from 'elysia';
 import Elysia from 'elysia';
@@ -22,7 +22,7 @@ import { db } from '@/lib';
  * The context is created for each incoming request and includes:
  * - Database connection ({@link db})
  * - Authentication session ({@link auth})
- * 
+ *
  * @see {@link https://elysiajs.com/essential/life-cycle.html#derive|Elysia Lifecycle Documentation}
  *
  * @returns {Elysia} Configured Elysia plugin with context
@@ -43,7 +43,7 @@ const createContext = new Elysia()
  * - Stores request start time in middleware state
  * - Calculates and logs total execution time after request completion
  * - Helps identify performance issues by simulating production latency
- * 
+ *
  * @example
  * // Example log output:
  * // [Elysia] /api/users took 127ms to execute
@@ -52,7 +52,7 @@ const createContext = new Elysia()
  */
 const timmingMiddleware = new Elysia()
   .state({ start: 0 })
-  .onBeforeHandle(({ store }) => (store.start = Date.now())) // TODO: biome: The assignment should not be in an expression.
+  .onBeforeHandle(({ store }) => (store.start = Date.now()))
   .onAfterHandle(({ path, store: { start } }) =>
     console.log(`[Elysia] ${path} took ${Date.now() - start}ms to execute`),
   )

@@ -1,4 +1,3 @@
-
 import * as TabsPrimitive from '@radix-ui/react-tabs';
 import * as React from 'react';
 
@@ -13,7 +12,7 @@ const Tabs = TabsPrimitive.Root;
 /**
  * Container for tab triggers that users can click to change tabs.
  * Renders as a horizontal list with centered items and muted background.
- * 
+ *
  * @component
  * @param {Object} props - Component props
  * @param {string} [props.className] - Additional CSS classes to apply
@@ -38,7 +37,7 @@ TabsList.displayName = TabsPrimitive.List.displayName;
 /**
  * Individual clickable tab trigger button.
  * Changes appearance when active and handles user interaction.
- * 
+ *
  * @component
  * @param {Object} props - Component props
  * @param {string} [props.className] - Additional CSS classes to apply
@@ -63,7 +62,7 @@ TabsTrigger.displayName = TabsPrimitive.Trigger.displayName;
 /**
  * Container for tab panel content that is shown/hidden based on selected tab.
  * Handles focus management and accessibility.
- * 
+ *
  * @component
  * @param {Object} props - Component props
  * @param {string} [props.className] - Additional CSS classes to apply

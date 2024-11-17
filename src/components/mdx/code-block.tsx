@@ -1,6 +1,6 @@
-import * as React from "react"
+import type * as React from 'react';
 
-import { CopyButton } from "@/components/copy-button"
+import { CopyButton } from '@/components/copy-button';
 
 /**
  * Props interface for the CodeBlock component extending HTMLPreElement props
@@ -12,8 +12,8 @@ type CodeBlockProps = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLPreElement>,
   HTMLPreElement
 > & {
-  raw?: string
-}
+  raw?: string;
+};
 
 /**
  * CodeBlock component for rendering code snippets with syntax highlighting and copy functionality
@@ -33,11 +33,7 @@ type CodeBlockProps = React.DetailedHTMLProps<
  * </CodeBlock>
  * ```
  */
-export function CodeBlock({
-  children,
-  raw,
-  ...props
-}: CodeBlockProps): JSX.Element {
+export function CodeBlock({ children, raw, ...props }: CodeBlockProps): JSX.Element {
   return (
     <>
       <CopyButton value={raw} />
@@ -48,5 +44,5 @@ export function CodeBlock({
         {children}
       </pre>
     </>
-  )
+  );
 }

@@ -35,7 +35,8 @@ import { promisify } from 'node:util';
     console.log('Starting database setup...');
 
     console.log('Generating Prisma client...');
-    const { stdout: generateOutput, stderr: generateError } = await execPromise('bunx prisma generate');
+    const { stdout: generateOutput, stderr: generateError } =
+      await execPromise('bunx prisma generate');
 
     if (generateError) {
       console.warn('Prisma generate produced warnings:', generateError);
@@ -45,7 +46,9 @@ import { promisify } from 'node:util';
     if (isDev) {
       console.log('Pushing schema changes (development only)...');
       try {
-        const { stdout: pushOutput, stderr: pushError } = await execPromise('bunx prisma db push --accept-data-loss --skip-generate');
+        const { stdout: pushOutput, stderr: pushError } = await execPromise(
+          'bunx prisma db push --accept-data-loss --skip-generate',
+        );
         if (pushError) {
           console.warn('Schema push produced warnings:', pushError);
         }
@@ -56,7 +59,9 @@ import { promisify } from 'node:util';
     }
 
     console.log('Applying migrations...');
-    const { stdout: migrateOutput, stderr: migrateError } = await execPromise('bunx prisma migrate deploy');
+    const { stdout: migrateOutput, stderr: migrateError } = await execPromise(
+      'bunx prisma migrate deploy',
+    );
 
     if (migrateError) {
       console.warn('Migration produced warnings:', migrateError);

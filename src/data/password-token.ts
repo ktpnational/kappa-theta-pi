@@ -2,13 +2,13 @@ import { db } from '@/lib';
 
 /**
  * Retrieves a password reset token record from the database by its token value
- * 
+ *
  * @param {string} token - The unique token string to search for
  * @returns {Promise<PasswordResetToken | null>} The password reset token record if found, null if not found or on error
- * 
+ *
  * @throws {PrismaClientKnownRequestError} If there is a known Prisma Client request error
  * @throws {PrismaClientUnknownRequestError} If there is an unknown Prisma Client request error
- * 
+ *
  * @example
  * ```typescript
  * const token = await getPasswordResetTokenByToken("abc123");
@@ -32,19 +32,19 @@ export const getPasswordResetTokenByToken = async (token: string) => {
 
 /**
  * Retrieves a password reset token record from the database by email address
- * 
+ *
  * @param {string} email - The email address to search for
  * @returns {Promise<PasswordResetToken | null>} The password reset token record if found, null if not found or on error
- * 
- * @throws {PrismaClientKnownRequestError} If there is a known Prisma Client request error  
+ *
+ * @throws {PrismaClientKnownRequestError} If there is a known Prisma Client request error
  * @throws {PrismaClientUnknownRequestError} If there is an unknown Prisma Client request error
- * 
+ *
  * @example
  * ```typescript
  * const token = await getPasswordResetTokenByEmail("user@example.com");
  * if (token) {
  *   // Token found
- *   console.log(token.createdAt); 
+ *   console.log(token.createdAt);
  * }
  * ```
  */

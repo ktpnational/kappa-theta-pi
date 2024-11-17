@@ -33,7 +33,7 @@ export default function manifest(): ExtendedManifest {
     description:
       'Kappa Theta Pi (ΚΘΠ, also known as KTP) is a co-ed professional fraternity specializing in the field of information technology.',
     categories: [
-      'education', 
+      'education',
       'technology',
       'professional',
       'networking',

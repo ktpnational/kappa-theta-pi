@@ -1,4 +1,3 @@
-
 import { BadgeCheck, Bell, ChevronsUpDown, CreditCard, LogOut, Sparkles } from 'lucide-react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -20,7 +19,7 @@ import {
 
 /**
  * NavUser Component
- * 
+ *
  * A navigation component that displays user information and provides a dropdown menu
  * with various user-related actions and settings.
  *
@@ -39,7 +38,7 @@ import {
  *   email: "john@example.com",
  *   avatar: "/path/to/avatar.jpg"
  * };
- * 
+ *
  * return <NavUser user={user} />;
  */
 export function NavUser({

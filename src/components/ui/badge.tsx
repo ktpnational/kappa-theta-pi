@@ -39,17 +39,17 @@ export interface BadgeProps
 
 /**
  * A customizable badge component that can be used to display short status text, counts, or labels.
- * 
+ *
  * @component
  * @param {object} props - The component props
  * @param {string} [props.className] - Additional CSS classes to apply to the badge
  * @param {('default'|'secondary'|'destructive'|'outline')} [props.variant='default'] - The visual style variant of the badge
  * @param {React.HTMLAttributes<HTMLDivElement>} props.rest - Any other props will be spread to the underlying div element
- * 
+ *
  * @example
  * // Default badge
  * <Badge>New</Badge>
- * 
+ *
  * @example
  * // Secondary variant with custom class
  * <Badge variant="secondary" className="my-2">Processing</Badge>

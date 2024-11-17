@@ -14,7 +14,7 @@ import { cn } from '@/lib/utils';
  * ```tsx
  * <Slider defaultValue={[50]} min={0} max={100} step={1} />
  * ```
- * 
+ *
  * @param {Object} props - Component props
  * @param {string} [props.className] - Additional CSS class names to apply to the slider root
  * @param {number[]} props.defaultValue - Default value(s) of the slider
@@ -24,7 +24,7 @@ import { cn } from '@/lib/utils';
  * @param {boolean} [props.disabled] - Whether the slider is disabled
  * @param {function} [props.onValueChange] - Callback fired when the value changes
  * @param {React.Ref} ref - Forwarded ref to access the underlying DOM element
- * 
+ *
  * @returns {JSX.Element} A slider component with track, range and thumb elements
  */
 const Slider = React.forwardRef<

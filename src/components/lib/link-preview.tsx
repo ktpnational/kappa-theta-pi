@@ -28,7 +28,7 @@ import React, { memo } from 'react';
  */
 type LinkPreviewProps = {
   children: React.ReactNode;
-  url: string; 
+  url: string;
   className?: string;
   width?: number;
   height?: number;
@@ -38,7 +38,7 @@ type LinkPreviewProps = {
 
 /**
  * Memoized Image component to prevent unnecessary re-renders
- * @param {ImageProps} props - Props passed to Next.js Image component 
+ * @param {ImageProps} props - Props passed to Next.js Image component
  */
 const MemoizedImage = memo((props: ImageProps) => <Image {...props} />);
 

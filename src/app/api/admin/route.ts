@@ -1,13 +1,13 @@
 /**
  * Imports required dependencies for role-based authentication and response handling
  */
-import { currentRole } from '@/lib/auth';
+import { currentRole } from '@/lib';
 import { Role } from '@prisma/client';
 import { NextResponse } from 'next/server';
 
 /**
  * HTTP GET endpoint handler for admin authorization verification
- * 
+ *
  * @async
  * @function GET
  * @description Verifies if the current user has admin role permissions

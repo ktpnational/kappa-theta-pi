@@ -1,3 +1,4 @@
+import { app } from '@/constants';
 import {
   Body,
   Container,
@@ -10,7 +11,6 @@ import {
   Tailwind,
   Text,
 } from '@react-email/components';
-import { app } from '@/constants';
 
 /**
  * Props interface for the NewEnquiryEmail component

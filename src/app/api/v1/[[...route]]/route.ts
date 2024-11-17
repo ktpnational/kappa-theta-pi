@@ -6,10 +6,10 @@
 import { appRouter } from '@/server/api/root';
 
 /**
- * Create a unified request handler from the application router that processes 
+ * Create a unified request handler from the application router that processes
  * incoming HTTP requests and executes the appropriate route handler based on
  * the request path and method.
- * 
+ *
  * This handler implements the tRPC protocol for typesafe API communication between
  * the client and server.
  */
@@ -21,7 +21,7 @@ const handler = appRouter.handle;
  * - POST: For creating new resources
  * - PUT: For updating existing resources
  * - DELETE: For removing resources
- * 
+ *
  * The same handler is used for all methods since tRPC internally routes
  * requests based on the procedure definitions in the router.
  */

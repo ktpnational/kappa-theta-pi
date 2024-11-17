@@ -10,7 +10,7 @@ import {
   Text,
 } from '@react-email/components';
 
-import { app } from '@/constants'
+import { app } from '@/constants';
 
 /**
  * Props interface for the EmailVerificationEmail component
@@ -88,12 +88,11 @@ export function EmailVerificationEmail({
 
             <Section>
               <Text className="text-xs">
-                If you didn&apos;t sign up at {app.name}, just ignore and delete this
-                message.
+                If you didn&apos;t sign up at {app.name}, just ignore and delete this message.
               </Text>
               <Text className="text-base font-medium">
-                Enjoy <span className="font-semibold tracking-wide">{app.name}</span> and
-                have a nice day!
+                Enjoy <span className="font-semibold tracking-wide">{app.name}</span> and have a
+                nice day!
               </Text>
             </Section>
           </Container>

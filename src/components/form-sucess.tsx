@@ -18,7 +18,7 @@ interface FormSucessProps {
  * @example
  * // Basic usage
  * <FormSucess message="Operation completed successfully" />
- * 
+ *
  * // Component will not render if message is undefined
  * <FormSucess message={undefined} />
  */

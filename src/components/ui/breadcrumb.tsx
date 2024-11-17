@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils';
 
 /**
  * A navigation component that displays a breadcrumb trail showing the user's current location in a site hierarchy.
- * 
+ *
  * @component
  * @param {Object} props - The component props
  * @param {React.ReactNode} [props.separator] - Optional custom separator element between breadcrumb items
@@ -23,7 +23,7 @@ Breadcrumb.displayName = 'Breadcrumb';
 
 /**
  * Container component for breadcrumb items.
- * 
+ *
  * @component
  * @param {Object} props - The component props
  * @param {string} [props.className] - Additional CSS classes to apply
@@ -46,7 +46,7 @@ BreadcrumbList.displayName = 'BreadcrumbList';
 
 /**
  * Individual item within a breadcrumb trail.
- * 
+ *
  * @component
  * @param {Object} props - The component props
  * @param {string} [props.className] - Additional CSS classes to apply
@@ -62,7 +62,7 @@ BreadcrumbItem.displayName = 'BreadcrumbItem';
 
 /**
  * Interactive link element within a breadcrumb item.
- * 
+ *
  * @component
  * @param {Object} props - The component props
  * @param {boolean} [props.asChild] - Whether to render as a child component using Radix Slot
@@ -90,7 +90,7 @@ BreadcrumbLink.displayName = 'BreadcrumbLink';
 
 /**
  * Current page indicator in the breadcrumb trail.
- * 
+ *
  * @component
  * @param {Object} props - The component props
  * @param {string} [props.className] - Additional CSS classes to apply
@@ -113,7 +113,7 @@ BreadcrumbPage.displayName = 'BreadcrumbPage';
 
 /**
  * Separator component between breadcrumb items.
- * 
+ *
  * @component
  * @param {Object} props - The component props
  * @param {React.ReactNode} [props.children] - Custom separator content
@@ -134,7 +134,7 @@ BreadcrumbSeparator.displayName = 'BreadcrumbSeparator';
 
 /**
  * Ellipsis component indicating truncated breadcrumb items.
- * 
+ *
  * @component
  * @param {Object} props - The component props
  * @param {string} [props.className] - Additional CSS classes to apply

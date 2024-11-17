@@ -2,12 +2,12 @@ import { db } from '@/lib';
 
 /**
  * Retrieves a verification token from the database by email address
- * 
+ *
  * @param email - The email address associated with the verification token to find
  * @returns {Promise<VerificationToken | null>} The verification token if found, null if not found or on error
  *
  * @throws Will return null instead of throwing if database query fails
- * 
+ *
  * @example
  * const token = await getVerificationTokenByEmail("user@example.com");
  * if (token) {
@@ -28,12 +28,12 @@ export const getVerificationTokenByEmail = async (email: string) => {
 
 /**
  * Retrieves a verification token from the database by token string
- * 
+ *
  * @param token - The unique token string to search for
  * @returns {Promise<VerificationToken | null>} The verification token if found, null if not found or on error
- * 
+ *
  * @throws Will return null instead of throwing if database query fails
- * 
+ *
  * @example
  * const token = await getVerificationTokenByToken("abc123");
  * if (token) {

@@ -65,10 +65,7 @@ export const Icons = {
      * @returns {JSX.Element} Small logo icon component
      */
     small: ({ className, size, ...props }: IconProps) => (
-      <LogoSmallIcon
-        className={cn(getSizeClasses(size), className)}
-        {...props}
-      />
+      <LogoSmallIcon className={cn(getSizeClasses(size), className)} {...props} />
     ),
     /**
      * Default/full version of the logo icon
@@ -109,10 +106,7 @@ export const Icons = {
      * @returns {JSX.Element} Paper plane icon component
      */
     paperplane: ({ className, size, ...props }: IconProps) => (
-      <PaperplaneIcon
-        className={cn(getSizeClasses(size), className)}
-        {...props}
-      />
+      <PaperplaneIcon className={cn(getSizeClasses(size), className)} {...props} />
     ),
   },
   /** Miscellaneous utility icons */
@@ -123,10 +117,7 @@ export const Icons = {
      * @returns {JSX.Element} Placeholder icon component
      */
     placeholder: ({ className, size, ...props }: IconProps) => (
-      <PlaceholderIcon
-        className={cn(getSizeClasses(size), className)}
-        {...props}
-      />
+      <PlaceholderIcon className={cn(getSizeClasses(size), className)} {...props} />
     ),
     /**
      * Animated spinner icon for loading states
@@ -134,10 +125,7 @@ export const Icons = {
      * @returns {JSX.Element} Spinner icon component
      */
     spinner: ({ className, size, ...props }: IconProps) => (
-      <SpinnerIcon
-        className={cn(getSizeClasses(size), className)}
-        {...props}
-      />
+      <SpinnerIcon className={cn(getSizeClasses(size), className)} {...props} />
     ),
   },
 };

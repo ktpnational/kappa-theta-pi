@@ -8,7 +8,7 @@ import { cn } from '@/lib/utils';
 /**
  * A customizable avatar component that displays a user's profile image or fallback content.
  * Built on top of Radix UI's Avatar primitive.
- * 
+ *
  * @component
  * @param {object} props - The component props
  * @param {string} [props.className] - Additional CSS classes to apply to the avatar

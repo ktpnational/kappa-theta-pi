@@ -20,7 +20,7 @@ if (!accessKeyId) {
 
 /**
  * Retrieves an AWS S3 client instance configured with Supabase storage credentials and settings.
- * 
+ *
  * Creates a new S3Client with authentication and configuration for Supabase storage.
  * Uses environment variables and session tokens to setup secure access.
  *
@@ -29,7 +29,7 @@ if (!accessKeyId) {
  * @returns {Promise<S3Client>} A promise that resolves to a configured S3 client instance
  * @throws {Error} When there is no active user session
  * @throws {Error} When required environment variables are missing
- * 
+ *
  * @example
  * try {
  *   const s3Client = await getS3Client();
@@ -37,7 +37,7 @@ if (!accessKeyId) {
  * } catch (error) {
  *   console.error('Failed to get S3 client:', error);
  * }
- * 
+ *
  * @requires NEXT_PUBLIC_SUPABASE_URL - The Supabase project URL
  * @requires NEXT_PUBLIC_PROJECT_REGION - The AWS/Supabase region
  * @requires NEXT_PUBLIC_SUPABASE_ANON_KEY - The anonymous API key

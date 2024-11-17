@@ -7,7 +7,7 @@ import React from 'react';
 
 /**
  * A loading spinner component with animated background and fade-in effects.
- * 
+ *
  * @component
  * @description
  * Displays a centered loading spinner with multiple animated elements:
@@ -15,20 +15,20 @@ import React from 'react';
  * - A fading-in container with vertical transition
  * - A circular border with scaling animation
  * - A continuously rotating Loader2 icon
- * 
+ *
  * Uses Framer Motion for animations and React.memo for performance optimization.
- * 
+ *
  * @example
  * ```jsx
  * // Basic usage
  * <Loader />
  * ```
- * 
+ *
  * @remarks
  * - Uses 'use client' directive for Next.js client-side rendering
  * - Implements full-screen responsive layout
  * - Includes fallback memoization to prevent unnecessary re-renders
- * 
+ *
  * @returns {JSX.Element} A memoized loading spinner component with animations
  */
 export const Loader = React.memo(

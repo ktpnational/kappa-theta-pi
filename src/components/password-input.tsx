@@ -10,22 +10,22 @@ import { Input, type InputProps } from '@/components/ui/input';
 
 /**
  * A password input component that allows toggling password visibility.
- * 
+ *
  * @component
  * @template HTMLInputElement - The HTML input element type
  * @template InputProps - Props interface extending from the base Input component
- * 
+ *
  * @param {Object} props - Component props
  * @param {string} [props.className] - Additional CSS classes to apply to the input
  * @param {string} [props.value] - The current value of the input
  * @param {boolean} [props.disabled] - Whether the input is disabled
  * @param {React.Ref<HTMLInputElement>} ref - Forwarded ref to access the underlying input element
- * 
+ *
  * @returns {JSX.Element} A password input with a toggle button to show/hide the password
  *
  * @example
  * ```tsx
- * <PasswordInput 
+ * <PasswordInput
  *   value="mypassword"
  *   onChange={(e) => handleChange(e)}
  *   className="my-custom-class"

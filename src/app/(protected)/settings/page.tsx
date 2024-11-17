@@ -37,14 +37,14 @@ import { Switch } from '@/components/ui/switch';
 
 /**
  * SettingsPage Component
- * 
+ *
  * A form component that allows users to modify their account settings including:
  * - Name
  * - Email (for non-OAuth users)
  * - Password (for non-OAuth users)
  * - Role selection
  * - Two-factor authentication toggle (for non-OAuth users)
- * 
+ *
  * @component
  * @returns {JSX.Element} The rendered settings page component
  */
@@ -83,7 +83,7 @@ const SettingsPage = () => {
   /**
    * Handles form submission
    * Updates user settings and manages success/error states
-   * 
+   *
    * @param {z.infer<typeof SettingsSchema>} values - The form values to be submitted
    */
   const onSubmit = (values: z.infer<typeof SettingsSchema>) => {

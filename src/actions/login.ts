@@ -5,15 +5,91 @@ import { AuthError } from 'next-auth';
 import type * as z from 'zod';
 
 import { signIn } from '@/auth';
-import { getTwoFactorConfirmationByUserId } from '@/data/two-factor-confirmation';
-import { getTwoFactorTokenByEmail } from '@/data/two-factor-token';
-import { getUserByEmail } from '@/data/user';
-import { db } from '@/lib';
-import { sendTwoFactorTokenEmail, sendVerificationEmail } from '@/lib/mail';
-import { generateTwoFactorToken, generateVerificationToken } from '@/lib/tokens';
+import { getTwoFactorConfirmationByUserId, getTwoFactorTokenByEmail, getUserByEmail } from '@/data';
+import {
+  db,
+  generateTwoFactorToken,
+  generateVerificationToken,
+  sendTwoFactorTokenEmail,
+  sendVerificationEmail,
+} from '@/lib';
 import { DEFAULT_LOGIN_REDIRECT } from '@/routes';
 import { LoginSchema } from '@/schemas';
 
+/**
+ * Server action that handles user authentication with support for email verification and 2FA
+ *
+ * @description
+ * This server action processes login attempts by validating credentials and handling various
+ * authentication scenarios including:
+ * - Email verification
+ * - Two-factor authentication (2FA)
+ * - Password validation
+ * - Session creation
+ *
+ * @param {z.infer<typeof LoginSchema>} values - Login form values containing:
+ *   - email: User's email address
+ *   - password: User's password
+ *   - code: Optional 2FA verification code
+ * @param {string | null} [callbackUrl] - Optional URL to redirect to after successful login
+ *
+ * @returns {Promise<{
+ *   error?: string;
+ *   success?: string;
+ *   twoFactor?: boolean;
+ * }>} Returns an object containing either:
+ * - error: Description of what went wrong
+ * - success: Success message
+ * - twoFactor: Flag indicating 2FA is required
+ *
+ * @throws {AuthError} May throw authentication errors during the sign-in process
+ *
+ * @example
+ * ```typescript
+ * // Basic login
+ * const result = await login({ email: "user@example.com", password: "password123" });
+ *
+ * // Login with 2FA code
+ * const result = await login({
+ *   email: "user@example.com",
+ *   password: "password123",
+ *   code: "123456"
+ * });
+ *
+ * // Login with custom callback URL
+ * const result = await login(
+ *   { email: "user@example.com", password: "password123" },
+ *   "/dashboard"
+ * );
+ * ```
+ *
+ * @remarks
+ * The function follows this process:
+ * 1. Validates input fields using Zod schema
+ * 2. Checks if user exists and has verified email
+ * 3. Verifies password
+ * 4. Handles 2FA if enabled:
+ *    - Validates 2FA code if provided
+ *    - Generates and sends new 2FA token if needed
+ * 5. Creates session and redirects on success
+ *
+ * If email is not verified:
+ * - Generates new verification token
+ * - Sends verification email
+ * - Returns success message
+ *
+ * If 2FA is enabled:
+ * - Without code: Generates and sends 2FA token
+ * - With code: Validates token and creates confirmation
+ *
+ * Error cases include:
+ * - Invalid fields
+ * - Non-existent email
+ * - Unverified email
+ * - Invalid password
+ * - Invalid/expired 2FA code
+ * - Authentication errors
+ */
 export const login = async (values: z.infer<typeof LoginSchema>, callbackUrl?: string | null) => {
   const validatedFields = LoginSchema.safeParse(values);
 

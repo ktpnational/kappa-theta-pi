@@ -23,7 +23,7 @@ interface MarqueeProps {
 
 /**
  * A marquee component that creates an infinitely scrolling container of repeated elements
- * 
+ *
  * @param {MarqueeProps} props - The component props
  * @param {string} [props.className] - Additional CSS class names
  * @param {boolean} [props.reverse] - Reverse animation direction

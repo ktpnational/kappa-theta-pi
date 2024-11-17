@@ -24,7 +24,7 @@ const TooltipTrigger = TooltipPrimitive.Trigger;
 
 /**
  * The content displayed inside the tooltip when triggered.
- * 
+ *
  * @component
  * @param {Object} props - Component props
  * @param {string} [props.className] - Additional CSS classes to apply

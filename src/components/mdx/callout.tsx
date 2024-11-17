@@ -1,6 +1,6 @@
-import * as React from "react"
+import type * as React from 'react';
 
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 /**
  * Props interface for the Callout component.
@@ -12,11 +12,11 @@ interface CalloutProps extends React.PropsWithChildren {
    * Optional icon to display at the start of the callout.
    * Typically an emoji or icon character.
    */
-  icon?: string
+  icon?: string;
   /**
    * Optional title text to display at the top of the callout.
    */
-  title?: string
+  title?: string;
 }
 
 /**
@@ -39,17 +39,12 @@ interface CalloutProps extends React.PropsWithChildren {
  * @param {string} [props.icon] - Optional icon character displayed at the start
  * @returns {JSX.Element} A styled alert component containing the icon, title and content
  */
-export function Callout({
-  title,
-  children,
-  icon,
-  ...props
-}: CalloutProps): JSX.Element {
+export function Callout({ title, children, icon, ...props }: CalloutProps): JSX.Element {
   return (
     <Alert {...props}>
       {icon && <span className="mr-4 text-2xl">{icon}</span>}
       {title && <AlertTitle>{title}</AlertTitle>}
       <AlertDescription>{children}</AlertDescription>
     </Alert>
-  )
+  );
 }

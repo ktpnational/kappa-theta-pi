@@ -15,7 +15,7 @@ import { FaMapMarkerAlt } from 'react-icons/fa';
 /**
  * Geographic boundaries for North America.
  * Used to restrict map panning and marker placement.
- * @typedef {Object} NorthAmericaBounds 
+ * @typedef {Object} NorthAmericaBounds
  * @property {number} north - Northern limit (Northern Canada) in decimal degrees
  * @property {number} south - Southern limit (Southern Mexico) in decimal degrees
  * @property {number} west - Western limit (Alaska westernmost point) in decimal degrees
@@ -25,11 +25,11 @@ const NORTH_AMERICA_BOUNDS = {
   /** Northern limit (Northern Canada) */
   north: 71.5388001,
   /** Southern limit (Southern Mexico) */
-  south: 15.7835, 
+  south: 15.7835,
   /** Western limit (Alaska westernmost point) */
   west: -167.2764,
   /** Eastern limit (Newfoundland easternmost point) */
-  east: -52.648
+  east: -52.648,
 };
 
 /**
@@ -44,7 +44,7 @@ const DEFAULT_CENTER = { lat: 48.1667, lng: -100.1667 };
  * Main Google Maps component that renders the map and chapter markers.
  * Uses the Google Maps JavaScript API to display an interactive map of North America
  * with chapter locations marked and clustered.
- * 
+ *
  * @component
  * @returns {JSX.Element} React component containing the Google Map implementation with markers
  * @example
@@ -76,7 +76,7 @@ export const GoogleMaps = memo(() => {
   );
 });
 
-/** 
+/**
  * Props interface for Markers component
  * @typedef {Object} MarkersProps
  * @property {Object} chapters - Object containing arrays of chapter information
@@ -89,7 +89,7 @@ type Props = { chapters: typeof chapters };
 /**
  * Component that handles the rendering and management of map markers.
  * Implements marker clustering and interactive info windows.
- * 
+ *
  * @component
  * @param {MarkersProps} props - Component props
  * @param {Object} props.chapters - Object containing arrays of chapter information
@@ -104,7 +104,7 @@ const Markers: React.FC<Props> = ({ chapters }) => {
   /**
    * Combines all chapter types and filters to include only those within North America bounds.
    * Uses memoization to prevent unnecessary recalculations.
-   * 
+   *
    * @type {ChapterInfo[]}
    */
   const allChapters = useMemo(() => {
@@ -123,7 +123,7 @@ const Markers: React.FC<Props> = ({ chapters }) => {
   /**
    * Initializes the marker clusterer when map is ready.
    * Configures cluster appearance and behavior.
-   * 
+   *
    * @effect
    */
   useEffect(() => {
@@ -159,7 +159,7 @@ const Markers: React.FC<Props> = ({ chapters }) => {
   /**
    * Updates clusterer when markers change.
    * Clears existing markers and adds updated ones.
-   * 
+   *
    * @effect
    */
   useEffect(() => {
@@ -170,7 +170,7 @@ const Markers: React.FC<Props> = ({ chapters }) => {
   /**
    * Manages marker references for clustering.
    * Updates marker state while avoiding unnecessary re-renders.
-   * 
+   *
    * @param {Marker | null} marker - The marker instance to manage
    * @param {string} key - Unique identifier for the marker
    */
@@ -235,7 +235,7 @@ const Markers: React.FC<Props> = ({ chapters }) => {
 /**
  * Determines marker color based on chapter status.
  * Returns Tailwind CSS classes for styling markers.
- * 
+ *
  * @param {ChapterInfo['status']} status - Chapter status (Active, Colony, or Inactive)
  * @returns {string} Space-separated string of Tailwind CSS classes for background and text colors
  */
@@ -253,7 +253,7 @@ const getMarkerColor = (status: ChapterInfo['status']) => {
 /**
  * Component that displays detailed chapter information in an info window.
  * Uses Framer Motion for animations.
- * 
+ *
  * @component
  * @param {Object} props - Component props
  * @param {ChapterInfo} props.chapter - Chapter information object containing details to display

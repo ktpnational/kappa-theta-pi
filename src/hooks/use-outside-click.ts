@@ -5,22 +5,22 @@ import { useEffect } from 'react';
 
 /**
  * Custom React hook that detects and handles clicks outside of a specified element.
- * 
+ *
  * This hook attaches event listeners for both mouse and touch events to detect clicks/taps
  * outside of the referenced element. When such an event occurs, it triggers the provided
  * callback function.
  *
- * @param {React.RefObject<HTMLDivElement>} ref - React ref object pointing to the DOM element 
+ * @param {React.RefObject<HTMLDivElement>} ref - React ref object pointing to the DOM element
  *        that should be monitored for outside clicks. The ref must be attached to an HTMLDivElement.
- * 
+ *
  * @param {Function} callback - Callback function that will be executed when a click/tap is detected
  *        outside of the referenced element. The callback receives the original event object as its parameter.
- * 
+ *
  * @example
  * ```tsx
  * const MyComponent = () => {
  *   const divRef = useRef<HTMLDivElement>(null);
- *   
+ *
  *   useOutsideClick(divRef, (event) => {
  *     console.log('Clicked outside!', event);
  *   });

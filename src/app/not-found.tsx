@@ -13,7 +13,7 @@ import { constructMetadata } from '@/utils';
  * @property {string} description - Page description indicating page does not exist
  */
 export const metadata = constructMetadata({
-  title: '404', 
+  title: '404',
   description: 'This page does not exist',
 });
 

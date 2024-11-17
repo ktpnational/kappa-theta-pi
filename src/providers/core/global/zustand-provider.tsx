@@ -42,7 +42,7 @@ export const GlobalStoreProvider: React.FC<React.PropsWithChildren> = ({ childre
 /**
  * Custom hook to access and select data from the global store.
  * This hook must be used within a component that is wrapped by GlobalStoreProvider.
- * 
+ *
  * @template T The type of the selected state slice
  * @param {function} selector - Selector function that extracts and returns the desired state slice
  * @param {StoreState} selector.state - The complete store state object

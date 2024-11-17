@@ -3,7 +3,7 @@ import type * as React from 'react';
 
 import {
   SidebarGroup,
-  SidebarGroupContent, 
+  SidebarGroupContent,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
@@ -11,7 +11,7 @@ import {
 
 /**
  * Secondary navigation component that renders a list of menu items in a sidebar group
- * 
+ *
  * @component
  * @param {Object} props - The component props
  * @param {Array<NavItem>} props.items - Array of navigation items to display
@@ -19,20 +19,20 @@ import {
  * @param {string} props.items[].url - The URL/href the menu item links to
  * @param {LucideIcon} props.items[].icon - The Lucide icon component to display
  * @param {React.ComponentPropsWithoutRef<typeof SidebarGroup>} props.rest - Additional props passed to SidebarGroup
- * 
+ *
  * @example
  * ```tsx
  * const items = [
- *   { 
+ *   {
  *     title: "Dashboard",
  *     url: "/dashboard",
  *     icon: HomeIcon
  *   }
  * ];
- * 
+ *
  * <NavSecondary items={items} />
  * ```
- * 
+ *
  * @returns {JSX.Element} The rendered navigation component
  */
 export function NavSecondary({

@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils';
 
 /**
  * A versatile card component that serves as a container for related content.
- * 
+ *
  * @component
  * @param {Object} props - Component props
  * @param {string} [props.className] - Additional CSS classes to apply
@@ -24,7 +24,7 @@ Card.displayName = 'Card';
 
 /**
  * Header section of the Card component.
- * 
+ *
  * @component
  * @param {Object} props - Component props
  * @param {string} [props.className] - Additional CSS classes to apply
@@ -40,7 +40,7 @@ CardHeader.displayName = 'CardHeader';
 
 /**
  * Title component for the Card header.
- * 
+ *
  * @component
  * @param {Object} props - Component props
  * @param {string} [props.className] - Additional CSS classes to apply
@@ -60,7 +60,7 @@ CardTitle.displayName = 'CardTitle';
 
 /**
  * Description component for the Card header.
- * 
+ *
  * @component
  * @param {Object} props - Component props
  * @param {string} [props.className] - Additional CSS classes to apply
@@ -76,7 +76,7 @@ CardDescription.displayName = 'CardDescription';
 
 /**
  * Main content area of the Card component.
- * 
+ *
  * @component
  * @param {Object} props - Component props
  * @param {string} [props.className] - Additional CSS classes to apply
@@ -92,7 +92,7 @@ CardContent.displayName = 'CardContent';
 
 /**
  * Footer section of the Card component.
- * 
+ *
  * @component
  * @param {Object} props - Component props
  * @param {string} [props.className] - Additional CSS classes to apply

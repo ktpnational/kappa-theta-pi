@@ -11,7 +11,7 @@ import { cn } from '@/lib/utils';
 /**
  * A wrapper component around the Command primitive that provides a command palette interface.
  * Extends the base Command component with standardized styling.
- * 
+ *
  * @param {string} className - Additional CSS class names to apply
  * @param {React.RefObject} ref - Forwarded ref to the underlying Command element
  * @returns {JSX.Element} The Command component with styling applied
@@ -33,7 +33,7 @@ Command.displayName = CommandPrimitive.displayName;
 
 /**
  * A dialog wrapper for the Command component that provides a modal interface.
- * 
+ *
  * @param {ReactNode} children - Child elements to render within the command dialog
  * @param {DialogProps} props - Props for the underlying Dialog component
  * @returns {JSX.Element} A modal dialog containing the command interface
@@ -52,7 +52,7 @@ const CommandDialog = ({ children, ...props }: DialogProps) => {
 
 /**
  * An input component for the command interface with an integrated search icon.
- * 
+ *
  * @param {string} className - Additional CSS class names to apply
  * @param {React.RefObject} ref - Forwarded ref to the underlying input element
  * @returns {JSX.Element} A styled input field with search icon
@@ -78,7 +78,7 @@ CommandInput.displayName = CommandPrimitive.Input.displayName;
 
 /**
  * A scrollable list container for command items.
- * 
+ *
  * @param {string} className - Additional CSS class names to apply
  * @param {React.RefObject} ref - Forwarded ref to the underlying list element
  * @returns {JSX.Element} A styled scrollable list container
@@ -98,7 +98,7 @@ CommandList.displayName = CommandPrimitive.List.displayName;
 
 /**
  * A component to display when no results are found in the command list.
- * 
+ *
  * @param {React.RefObject} ref - Forwarded ref to the empty state element
  * @returns {JSX.Element} A centered empty state message
  */
@@ -113,7 +113,7 @@ CommandEmpty.displayName = CommandPrimitive.Empty.displayName;
 
 /**
  * A container for grouping related command items.
- * 
+ *
  * @param {string} className - Additional CSS class names to apply
  * @param {React.RefObject} ref - Forwarded ref to the group element
  * @returns {JSX.Element} A styled group container with heading support
@@ -136,7 +136,7 @@ CommandGroup.displayName = CommandPrimitive.Group.displayName;
 
 /**
  * A visual separator between command items or groups.
- * 
+ *
  * @param {string} className - Additional CSS class names to apply
  * @param {React.RefObject} ref - Forwarded ref to the separator element
  * @returns {JSX.Element} A horizontal line separator
@@ -155,7 +155,7 @@ CommandSeparator.displayName = CommandPrimitive.Separator.displayName;
 
 /**
  * An individual selectable item within the command list.
- * 
+ *
  * @param {string} className - Additional CSS class names to apply
  * @param {React.RefObject} ref - Forwarded ref to the item element
  * @returns {JSX.Element} A styled interactive command item
@@ -178,7 +178,7 @@ CommandItem.displayName = CommandPrimitive.Item.displayName;
 
 /**
  * A component for displaying keyboard shortcuts alongside command items.
- * 
+ *
  * @param {string} className - Additional CSS class names to apply
  * @param {HTMLSpanElement} props - HTML attributes for the shortcut element
  * @returns {JSX.Element} A styled shortcut display

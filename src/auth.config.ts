@@ -1,4 +1,7 @@
+import { MagicLinkEmail } from '@/components';
+import { app } from '@/constants';
 import { getUserByEmail } from '@/data/user';
+import { resend } from '@/lib';
 import { LoginSchema } from '@/schemas';
 import bcrypt from 'bcrypt';
 import type { NextAuthConfig } from 'next-auth';
@@ -55,7 +58,7 @@ export default {
           await resend.emails.send({
             from: process.env.RESEND_EMAIL_FROM,
             to: [identifier],
-            subject: `${siteConfig.name} magic link sign in`,
+            subject: `${app.name} magic link sign in`,
             react: MagicLinkEmail({ identifier, url }),
           });
 

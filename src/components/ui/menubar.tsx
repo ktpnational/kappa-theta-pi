@@ -42,13 +42,13 @@ const MenubarRadioGroup = MenubarPrimitive.RadioGroup;
 /**
  * Root menubar component that contains the entire menu structure.
  * Provides the main container and styling for the menubar.
- * 
+ *
  * @component
  * @param {string} [className] - Additional CSS classes to apply to the menubar
  * @param {React.RefObject} ref - React ref forwarded to the root element
  * @param {Object} props - Additional props to spread to the root element
  * @returns {JSX.Element} Rendered menubar component
- * 
+ *
  * @example
  * ```tsx
  * <Menubar className="my-menubar">
@@ -77,13 +77,13 @@ Menubar.displayName = MenubarPrimitive.Root.displayName;
 /**
  * Trigger button that opens a menu when clicked.
  * Provides user interaction point for expanding menus.
- * 
+ *
  * @component
  * @param {string} [className] - Additional CSS classes to apply
  * @param {React.RefObject} ref - React ref forwarded to the trigger element
  * @param {Object} props - Additional props to spread to the trigger element
  * @returns {JSX.Element} Rendered menu trigger button
- * 
+ *
  * @example
  * ```tsx
  * <MenubarTrigger className="custom-trigger">File</MenubarTrigger>
@@ -107,7 +107,7 @@ MenubarTrigger.displayName = MenubarPrimitive.Trigger.displayName;
 /**
  * Trigger for opening a submenu within a menubar item.
  * Enables nested menu structures with visual indicators.
- * 
+ *
  * @component
  * @param {string} [className] - Additional CSS classes to apply
  * @param {boolean} [inset] - Whether to inset the trigger padding
@@ -115,7 +115,7 @@ MenubarTrigger.displayName = MenubarPrimitive.Trigger.displayName;
  * @param {React.RefObject} ref - React ref forwarded to the subtrigger element
  * @param {Object} props - Additional props to spread to the subtrigger element
  * @returns {JSX.Element} Rendered submenu trigger
- * 
+ *
  * @example
  * ```tsx
  * <MenubarSubTrigger inset>More Options</MenubarSubTrigger>
@@ -145,7 +145,7 @@ MenubarSubTrigger.displayName = MenubarPrimitive.SubTrigger.displayName;
 /**
  * Content container for submenus within a menubar.
  * Handles positioning and styling of nested menu content.
- * 
+ *
  * @component
  * @param {string} [className] - Additional CSS classes to apply
  * @param {React.RefObject} ref - React ref forwarded to the subcontent element
@@ -170,7 +170,7 @@ MenubarSubContent.displayName = MenubarPrimitive.SubContent.displayName;
 /**
  * Main content container for a menu in the menubar.
  * Handles positioning and animation of top-level menu content.
- * 
+ *
  * @component
  * @param {string} [className] - Additional CSS classes to apply
  * @param {string} [align='start'] - Alignment relative to trigger ('start' | 'center' | 'end')
@@ -203,14 +203,14 @@ MenubarContent.displayName = MenubarPrimitive.Content.displayName;
 /**
  * Individual menu item component within a menubar.
  * Represents a clickable option in the menu.
- * 
+ *
  * @component
  * @param {string} [className] - Additional CSS classes to apply
  * @param {boolean} [inset] - Whether to inset the item padding
  * @param {React.RefObject} ref - React ref forwarded to the item element
  * @param {Object} props - Additional props to spread to the item element
  * @returns {JSX.Element} Rendered menu item
- * 
+ *
  * @example
  * ```tsx
  * <MenubarItem onSelect={() => console.log('Selected')}>
@@ -239,7 +239,7 @@ MenubarItem.displayName = MenubarPrimitive.Item.displayName;
 /**
  * Checkbox menu item component with selectable state.
  * Provides a toggleable menu option with visual indicator.
- * 
+ *
  * @component
  * @param {string} [className] - Additional CSS classes to apply
  * @param {React.ReactNode} children - Content to render inside the item
@@ -247,7 +247,7 @@ MenubarItem.displayName = MenubarPrimitive.Item.displayName;
  * @param {React.RefObject} ref - React ref forwarded to the checkbox item element
  * @param {Object} props - Additional props to spread to the checkbox item element
  * @returns {JSX.Element} Rendered checkbox menu item
- * 
+ *
  * @example
  * ```tsx
  * <MenubarCheckboxItem checked={isEnabled} onCheckedChange={setIsEnabled}>
@@ -281,14 +281,14 @@ MenubarCheckboxItem.displayName = MenubarPrimitive.CheckboxItem.displayName;
 /**
  * Radio menu item component for selecting one of multiple options.
  * Part of a radio group where only one item can be selected.
- * 
+ *
  * @component
  * @param {string} [className] - Additional CSS classes to apply
  * @param {React.ReactNode} children - Content to render inside the item
  * @param {React.RefObject} ref - React ref forwarded to the radio item element
  * @param {Object} props - Additional props to spread to the radio item element
  * @returns {JSX.Element} Rendered radio menu item
- * 
+ *
  * @example
  * ```tsx
  * <MenubarRadioGroup value={selected} onValueChange={setSelected}>
@@ -322,14 +322,14 @@ MenubarRadioItem.displayName = MenubarPrimitive.RadioItem.displayName;
 /**
  * Label component for menu sections.
  * Provides a non-interactive text label for grouping menu items.
- * 
+ *
  * @component
  * @param {string} [className] - Additional CSS classes to apply
  * @param {boolean} [inset] - Whether to inset the label padding
  * @param {React.RefObject} ref - React ref forwarded to the label element
  * @param {Object} props - Additional props to spread to the label element
  * @returns {JSX.Element} Rendered menu label
- * 
+ *
  * @example
  * ```tsx
  * <MenubarLabel inset>Section Title</MenubarLabel>
@@ -352,13 +352,13 @@ MenubarLabel.displayName = MenubarPrimitive.Label.displayName;
 /**
  * Visual separator between menu items.
  * Creates a horizontal line to separate groups of menu items.
- * 
+ *
  * @component
  * @param {string} [className] - Additional CSS classes to apply
  * @param {React.RefObject} ref - React ref forwarded to the separator element
  * @param {Object} props - Additional props to spread to the separator element
  * @returns {JSX.Element} Rendered menu separator
- * 
+ *
  * @example
  * ```tsx
  * <MenubarItem>First Item</MenubarItem>
@@ -381,12 +381,12 @@ MenubarSeparator.displayName = MenubarPrimitive.Separator.displayName;
 /**
  * Component for displaying keyboard shortcuts in menu items.
  * Shows keyboard combination hints next to menu items.
- * 
+ *
  * @component
  * @param {string} [className] - Additional CSS classes to apply
  * @param {Object} props - Additional props to spread to the span element
  * @returns {JSX.Element} Rendered keyboard shortcut indicator
- * 
+ *
  * @example
  * ```tsx
  * <MenubarItem>

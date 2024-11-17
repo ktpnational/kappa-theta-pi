@@ -10,7 +10,7 @@ import { useIsomorphicLayoutEffect } from 'usehooks-ts';
 
 /**
  * A React component that provides speech-to-text functionality using the Web Speech API.
- * 
+ *
  * This component renders a microphone button that toggles speech recognition on/off.
  * When active, it converts spoken words to text and updates the provided content state.
  * Supports continuous recognition and interim results.
@@ -25,7 +25,7 @@ import { useIsomorphicLayoutEffect } from 'usehooks-ts';
  * const [content, setContent] = useState('');
  * <SpeechToText setContent={setContent} />
  * ```
- * 
+ *
  * @remarks
  * - Uses the SpeechRecognition API or webkitSpeechRecognition as fallback
  * - Shows toast notifications for status updates and errors

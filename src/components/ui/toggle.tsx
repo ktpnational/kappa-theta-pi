@@ -1,4 +1,3 @@
-
 import * as TogglePrimitive from '@radix-ui/react-toggle';
 import { type VariantProps, cva } from 'class-variance-authority';
 import * as React from 'react';
@@ -14,7 +13,7 @@ import { cn } from '@/lib/utils';
  * @property {string} variants.variant.outline - Outlined style with border and hover states
  * @property {Object} variants.size - Size variants
  * @property {string} variants.size.default - Default size (40px height)
- * @property {string} variants.size.sm - Small size (36px height) 
+ * @property {string} variants.size.sm - Small size (36px height)
  * @property {string} variants.size.lg - Large size (44px height)
  * @property {Object} defaultVariants - Default variant settings
  */
@@ -48,11 +47,11 @@ const toggleVariants = cva(
  * @param {('default'|'sm'|'lg')} [props.size='default'] - The size variant
  * @param {React.Ref} ref - Forwarded ref
  * @returns {JSX.Element} A toggle button component with customizable styles
- * 
+ *
  * @example
  * // Basic usage
  * <Toggle>Click me</Toggle>
- * 
+ *
  * @example
  * // With variants
  * <Toggle variant="outline" size="lg">Large outlined toggle</Toggle>

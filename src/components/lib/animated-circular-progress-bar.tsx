@@ -23,7 +23,7 @@ interface Props {
 /**
  * Animated circular progress bar component that displays a percentage value
  * with smooth transitions and customizable colors.
- * 
+ *
  * @component
  * @param {Props} props - Component props
  * @param {number} props.max - Maximum value (defaults to 100)
@@ -32,7 +32,7 @@ interface Props {
  * @param {string} props.gaugePrimaryColor - Color of the progress arc
  * @param {string} props.gaugeSecondaryColor - Color of the background arc
  * @param {string} [props.className] - Optional CSS classes
- * 
+ *
  * @returns {JSX.Element} Animated circular progress bar
  */
 export const AnimatedCircularProgressBar = React.memo(

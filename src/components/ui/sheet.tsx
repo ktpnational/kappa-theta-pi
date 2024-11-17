@@ -21,7 +21,7 @@ const SheetTrigger = SheetPrimitive.Trigger;
 
 /**
  * Button component that closes the Sheet when clicked
- * @see SheetPrimitive.Close 
+ * @see SheetPrimitive.Close
  */
 const SheetClose = SheetPrimitive.Close;
 

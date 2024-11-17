@@ -9,11 +9,11 @@ const MOBILE_BREAKPOINT = 768;
 
 /**
  * A React hook that detects whether the current viewport width is mobile-sized.
- * 
+ *
  * This hook uses the MediaQueryList API to efficiently detect viewport size changes
- * and updates its value accordingly. It considers viewports narrower than 
+ * and updates its value accordingly. It considers viewports narrower than
  * {@link MOBILE_BREAKPOINT} to be mobile-sized.
- * 
+ *
  * @example
  * ```tsx
  * function MyComponent() {
@@ -25,7 +25,7 @@ const MOBILE_BREAKPOINT = 768;
  *   );
  * }
  * ```
- * 
+ *
  * @returns {boolean} True if the current viewport width is less than {@link MOBILE_BREAKPOINT},
  *                    false otherwise. The initial value will be based on the viewport width
  *                    when the component mounts.

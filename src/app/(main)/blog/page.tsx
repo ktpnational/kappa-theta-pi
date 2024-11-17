@@ -1,5 +1,5 @@
 import { formatDate } from '@/lib/utils';
-import { allPosts } from 'contentlayer/generated';
+import { type Post, allPosts } from 'contentlayer/generated';
 import { compareDesc } from 'date-fns';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -13,15 +13,6 @@ export const metadata = {
   description: 'Read out latest blog posts',
 };
 
-type Post = {
-  title: string;
-  description: string;
-  date: string;
-  image: string;
-  slug: string;
-  published: boolean;
-};
-
 export default function BlogPage(): JSX.Element {
   const posts = allPosts
     .filter((post: Post) => post.published)
@@ -29,7 +20,7 @@ export default function BlogPage(): JSX.Element {
 
   return (
     <div className="container grid w-full max-w-7xl grid-cols-2 gap-8 py-24 md:py-16 lg:grid-cols-3 lg:gap-16 lg:py-32">
-      {posts.map(({ post, index }: { post: Post; index: number }) => (
+      {posts.map((post: Post, index: number) => (
         <Link key={post.slug} href={post.slug}>
           <article className="flex flex-col space-y-2.5">
             <AspectRatio ratio={16 / 9}>
@@ -49,7 +40,10 @@ export default function BlogPage(): JSX.Element {
                   aria-roledescription="placeholder"
                   className="flex size-full items-center justify-center rounded-lg bg-secondary"
                 >
-                  <Icons.placeholder className="size-9 text-muted-foreground" aria-hidden="true" />
+                  <Icons.miscellaneous.placeholder
+                    className="size-9 text-muted-foreground"
+                    aria-hidden="true"
+                  />
                 </div>
               )}
             </AspectRatio>

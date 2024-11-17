@@ -18,7 +18,7 @@ interface StoreState {
     /**
      * Sets whether the header is scrolled
      * @param {boolean} value - Whether header is scrolled
-     * @returns {void} 
+     * @returns {void}
      */
     setIsScrolled: (value: boolean) => void;
 
@@ -66,10 +66,10 @@ interface StoreState {
 /**
  * Creates a global store using Zustand for state management.
  * Initializes header and map state with default values and setter functions.
- * 
+ *
  * @function createGlobalStore
  * @returns {StoreApi<StoreState>} The initialized Zustand store
- * 
+ *
  * @example
  * const store = createGlobalStore();
  * store.getState().header.setIsMenuOpen(true);

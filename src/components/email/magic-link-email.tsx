@@ -10,7 +10,7 @@ import {
   Text,
 } from '@react-email/components';
 
-import { app } from '@/constants'
+import { app } from '@/constants';
 
 /**
  * Props interface for the MagicLinkEmail component that defines required properties
@@ -77,8 +77,8 @@ export function MagicLinkEmail({ identifier, url }: MagicLinkEmailProps): JSX.El
             </Section>
             <Section>
               <Text className="text-base font-medium">
-                Enjoy <span className="font-semibold tracking-wide">{app.name}</span> and
-                have a nice day!
+                Enjoy <span className="font-semibold tracking-wide">{app.name}</span> and have a
+                nice day!
               </Text>
             </Section>
             <Section>

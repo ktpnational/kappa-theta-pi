@@ -27,11 +27,11 @@ import { memo } from 'react';
  *
  * @example
  * ```jsx
- * <Crumbs 
+ * <Crumbs
  *   routes={[
  *     { name: "Home", href: "/" },
  *     { name: "Products", href: "/products" }
- *   ]} 
+ *   ]}
  *   current="Product Details"
  * />
  * ```

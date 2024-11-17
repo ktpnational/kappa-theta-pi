@@ -15,7 +15,7 @@ const TOAST_LIMIT = 1;
 /** Delay in milliseconds before removing a toast from the DOM */
 const TOAST_REMOVE_DELAY = 1000000;
 
-/** 
+/**
  * Extension of ToastProps with additional properties for the toaster system
  * @typedef {Object} ToasterToast
  * @extends ToastProps
@@ -33,7 +33,7 @@ type ToasterToast = ToastProps & {
  */
 const actionTypes = {
   ADD_TOAST: 'ADD_TOAST',
-  UPDATE_TOAST: 'UPDATE_TOAST', 
+  UPDATE_TOAST: 'UPDATE_TOAST',
   DISMISS_TOAST: 'DISMISS_TOAST',
   REMOVE_TOAST: 'REMOVE_TOAST',
 } as const;
@@ -185,7 +185,7 @@ type Toast = Omit<ToasterToast, 'id'>;
 /**
  * Creates and displays a new toast notification
  * @param {Toast} props - Toast properties
- * @returns {Object} Toast control methods 
+ * @returns {Object} Toast control methods
  */
 function toast({ ...props }: Toast) {
   const id = genId();

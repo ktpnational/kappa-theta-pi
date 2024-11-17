@@ -19,14 +19,14 @@ const HoverCardTrigger = HoverCardPrimitive.Trigger;
 
 /**
  * The content component that appears when the trigger is hovered.
- * 
+ *
  * @component
  * @param {Object} props - The component props
  * @param {string} [props.className] - Additional CSS classes to apply to the content
  * @param {string} [props.align='center'] - Alignment of the content relative to the trigger ('start' | 'center' | 'end')
  * @param {number} [props.sideOffset=4] - Offset distance from the trigger in pixels
  * @param {React.Ref<HTMLDivElement>} ref - Forwarded ref to the content element
- * 
+ *
  * @returns {React.ReactElement} Rendered hover card content with positioning and animations
  */
 const HoverCardContent = React.forwardRef<

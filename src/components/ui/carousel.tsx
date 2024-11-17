@@ -248,7 +248,7 @@ CarouselPrevious.displayName = 'CarouselPrevious';
 
 /**
  * Next slide navigation button
- * @component 
+ * @component
  */
 const CarouselNext = React.forwardRef<HTMLButtonElement, React.ComponentProps<typeof Button>>(
   ({ className, variant = 'outline', size = 'icon', ...props }, ref) => {

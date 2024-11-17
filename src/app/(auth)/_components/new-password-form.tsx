@@ -41,7 +41,7 @@ import { newPassword } from '@/actions/new-password';
  * - Handles loading states and displays success/error messages
  * - Integrates with Next.js client-side navigation
  */
-const NewPasswordForm = () => {
+export const NewPasswordForm = () => {
   /** Error message state for form submission failures */
   const [error, setError] = useState<string | undefined>('');
 

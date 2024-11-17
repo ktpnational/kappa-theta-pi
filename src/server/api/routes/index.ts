@@ -6,14 +6,14 @@ import { createElysia } from '../elysias';
 
 /**
  * Schema for creating a new member
- * @typedef {Object} MemberSchema  
+ * @typedef {Object} MemberSchema
  * @property {string} profileId - The ID of the member's profile
  * @property {string} resumeId - The ID of the member's resume
  * @property {string} chapterId - The ID of the chapter the member belongs to
  */
 const memberSchema = t.Object({
   profileId: t.String(),
-  resumeId: t.String(), 
+  resumeId: t.String(),
   chapterId: t.String(),
 });
 
@@ -23,7 +23,7 @@ const memberSchema = t.Object({
  * @property {string} name - The name of the event
  * @property {string} [description] - Optional description of the event
  * @property {string} startDate - Start date/time in ISO format
- * @property {string} endDate - End date/time in ISO format 
+ * @property {string} endDate - End date/time in ISO format
  * @property {string} location - Location where event takes place
  * @property {string} type - Type of event
  * @property {string} status - Current status of event
@@ -54,7 +54,7 @@ const eventSchema = t.Object({
 const resourceSchema = t.Object({
   title: t.String(),
   type: t.String(),
-  url: t.String(), 
+  url: t.String(),
   description: t.Optional(t.String()),
   category: t.String(),
   tags: t.Array(t.String()),
@@ -97,7 +97,7 @@ const memberUpdateSchema = t.Object({
 
 /**
  * Schema for updating an existing event
- * @typedef {Object} EventUpdateSchema 
+ * @typedef {Object} EventUpdateSchema
  * @property {string} [name] - New event name
  * @property {string} [description] - New description
  * @property {string} [startDate] - New start date in ISO format
@@ -204,7 +204,7 @@ export const api = createElysia({ prefix: '/api' })
    * @param {Object} context.db - Database instance
    * @param {Object} context.query - Query parameters
    * @param {string} [context.query.search] - Search term for member name
-   * @param {string} [context.query.chapter] - Filter by chapter ID 
+   * @param {string} [context.query.chapter] - Filter by chapter ID
    * @param {boolean} [context.query.active] - Filter by active status
    * @returns {Promise<Object>} Response containing members data or error
    * @throws {Error} On database errors
@@ -263,7 +263,7 @@ export const api = createElysia({ prefix: '/api' })
   })
   /**
    * Creates a new member
-   * @param {Object} context - Request context 
+   * @param {Object} context - Request context
    * @param {Object} context.db - Database instance
    * @param {MemberSchema} context.body - Member data
    * @param {Object} context.session - User session
@@ -298,7 +298,7 @@ export const api = createElysia({ prefix: '/api' })
   /**
    * Retrieves resources based on query parameters
    * @param {Object} context - Request context
-   * @param {Object} context.db - Database instance  
+   * @param {Object} context.db - Database instance
    * @param {Object} context.query - Query parameters
    * @param {string} [context.query.category] - Filter by category
    * @param {string} [context.query.type] - Filter by resource type
@@ -448,9 +448,9 @@ export const api = createElysia({ prefix: '/api' })
   })
   /**
    * Creates a new event
-   * @param {Object} context - Request context  
+   * @param {Object} context - Request context
    * @param {Object} context.db - Database instance
-   * @param {EventSchema} context.body - Event data 
+   * @param {EventSchema} context.body - Event data
    * @param {Object} context.session - User session
    * @param {Function} context.error - Error handler
    * @returns {Promise<Object>} Response with created event or error
@@ -561,7 +561,7 @@ export const api = createElysia({ prefix: '/api' })
    * @param {Object} context - Request context
    * @param {Object} context.db - Database instance
    * @param {ChapterSchema} context.body - Chapter data
-   * @param {Object} context.session - User session  
+   * @param {Object} context.session - User session
    * @param {Function} context.error - Error handler
    * @returns {Promise<Object>} Response with created chapter or error
    * @throws {Error} If user not authenticated or database error occurs
@@ -731,13 +731,13 @@ export const api = createElysia({ prefix: '/api' })
 
   /**
    * Updates a resource by ID
-   * @param {Object} context - Request context  
+   * @param {Object} context - Request context
    * @param {Object} context.db - Database instance
    * @param {Object} context.params - URL parameters
    * @param {string} context.params.id - Resource ID
    * @param {ResourceUpdateSchema} context.body - Update data
    * @param {Object} context.session - User session
-   * @param {Function} context.error - Error handler  
+   * @param {Function} context.error - Error handler
    * @returns {Promise<Object>} Response with updated resource or error
    * @throws {Error} If user not authenticated
    * @throws {EdenFetchError} On database errors
@@ -781,7 +781,7 @@ export const api = createElysia({ prefix: '/api' })
   /**
    * Updates a chapter by ID
    * @param {Object} context - Request context
-   * @param {Object} context.db - Database instance  
+   * @param {Object} context.db - Database instance
    * @param {Object} context.params - URL parameters
    * @param {string} context.params.id - Chapter ID
    * @param {ChapterUpdateSchema} context.body - Update data
@@ -828,13 +828,13 @@ export const api = createElysia({ prefix: '/api' })
    * Creates an RSVP response for an event
    * @param {Object} context - Request context
    * @param {Object} context.db - Database instance
-   * @param {Object} context.params - URL parameters  
+   * @param {Object} context.params - URL parameters
    * @param {string} context.params.id - Event ID
    * @param {RSVPSchema} context.body - RSVP data
    * @param {Object} context.session - User session
    * @param {Function} context.error - Error handler
    * @returns {Promise<Object>} Response with created RSVP or error
-   * @throws {Error} If user not authenticated  
+   * @throws {Error} If user not authenticated
    * @throws {EdenFetchError} On database errors
    */
   .post(

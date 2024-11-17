@@ -7,20 +7,20 @@ import * as React from 'react';
 /**
  * ThemeProvider component that provides theme support to the application using next-themes.
  * This component wraps the application to enable theme switching functionality.
- * 
+ *
  * Supports both light and dark themes by default, and can be configured for custom themes.
  * Automatically syncs theme across browser tabs and persists user preferences.
- * 
+ *
  * @component
  * @example
  * // Basic usage
  * <ThemeProvider>
  *   <App />
  * </ThemeProvider>
- * 
+ *
  * @example
  * // With custom configuration
- * <ThemeProvider 
+ * <ThemeProvider
  *   attribute="class"
  *   defaultTheme="system"
  *   enableSystem={true}
@@ -28,7 +28,7 @@ import * as React from 'react';
  * >
  *   <App />
  * </ThemeProvider>
- * 
+ *
  * @param {Object} props - The component props
  * @param {React.ReactNode} props.children - Child components that will have theme context
  * @param {string} [props.attribute="class"] - HTML attribute to control theme ("class" or "data-theme")

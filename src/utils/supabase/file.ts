@@ -28,7 +28,7 @@ type UploadProps = {
 
 /**
  * Uploads an image to S3 and creates associated database records.
- * 
+ *
  * @async
  * @param {UploadProps} props - The upload properties
  * @param {File} props.file - The image file to upload
@@ -38,7 +38,7 @@ type UploadProps = {
  * @param {string} props.chapterId - Associated chapter ID
  * @param {string} props.profileId - Associated profile ID
  * @param {boolean} [props.useMultipart=false] - Whether to use multipart upload
- * 
+ *
  * @returns {Promise<{
  *   imageUrl: string,
  *   imageData?: any,
@@ -47,9 +47,9 @@ type UploadProps = {
  * - imageUrl: Public URL of uploaded image (empty string if failed)
  * - imageData: Database record data if successful
  * - error: Error message if failed, empty string if successful
- * 
+ *
  * @throws Will not throw directly, but returns error information in result object
- * 
+ *
  * @description
  * This function performs several operations:
  * 1. Compresses the image to max 1MB
@@ -133,23 +133,23 @@ export const uploadImage = async ({
 
 /**
  * Deletes an image from Supabase storage.
- * 
+ *
  * @async
  * @param {string} imageUrl - The public URL of the image to delete
- * 
+ *
  * @returns {Promise<{
  *   data: any | null,
  *   error: string | null
  * }>} Object containing:
  * - data: Response data from successful deletion
  * - error: Error message if deletion failed
- * 
+ *
  * @description
  * This function:
  * 1. Parses the bucket name and file path from the public URL
  * 2. Attempts to remove the file from Supabase storage
  * 3. Returns the result or error information
- * 
+ *
  * @example
  * ```ts
  * const { data, error } = await deleteImage('https://example.com/storage/v1/object/public/bucket-name/path/to/image.jpg');

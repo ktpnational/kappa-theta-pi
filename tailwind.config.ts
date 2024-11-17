@@ -50,7 +50,7 @@ const config: Config = {
         '40': '40',
         '50': '50',
         '60': '60',
-        'auto': 'auto',
+        auto: 'auto',
       },
       colors: {
         background: 'hsl(var(--background))',

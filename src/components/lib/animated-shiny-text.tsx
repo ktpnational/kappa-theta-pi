@@ -18,15 +18,15 @@ interface AnimatedShinyTextProps {
 
 /**
  * A memoized React component that renders text with an animated shimmering effect
- * 
+ *
  * @component
  * @param {AnimatedShinyTextProps} props - The component props
  * @param {ReactNode} props.children - The content to display with the shiny animation
  * @param {string} [props.className] - Additional CSS classes to apply
  * @param {number} [props.shimmerWidth=100] - Width of the shimmer effect in pixels
- * 
+ *
  * @returns {JSX.Element} A paragraph element with animated shimmer effect applied to its text
- * 
+ *
  * @example
  * ```tsx
  * <AnimatedShinyText shimmerWidth={150}>

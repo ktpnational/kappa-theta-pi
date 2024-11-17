@@ -10,23 +10,23 @@ type ToasterProps = React.ComponentProps<typeof Sonner>;
 
 /**
  * A themed toast notification component that wraps Sonner's Toaster
- * 
+ *
  * @component
  * @param {ToasterProps} props - Props to be passed to the underlying Sonner Toaster component
- * 
+ *
  * @example
  * ```tsx
  * // Basic usage
  * <Toaster />
- * 
+ *
  * // With custom props
  * <Toaster position="bottom-right" closeButton={true} />
  * ```
- * 
+ *
  * @remarks
  * This component uses next-themes for theme handling and applies consistent styling through
  * Tailwind CSS classes. It automatically adapts to the current theme (light/dark/system).
- * 
+ *
  * The component applies custom styling for:
  * - Toast container background and text
  * - Toast description text

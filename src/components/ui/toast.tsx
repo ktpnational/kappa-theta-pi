@@ -75,7 +75,7 @@ Toast.displayName = ToastPrimitives.Root.displayName;
 
 /**
  * Action button component for toast notifications
- * @param className - Optional className to override styles  
+ * @param className - Optional className to override styles
  * @param props - Additional props passed to the action element
  * @param ref - Forwarded ref
  */
@@ -97,7 +97,7 @@ ToastAction.displayName = ToastPrimitives.Action.displayName;
 /**
  * Close button component for toast notifications
  * @param className - Optional className to override styles
- * @param props - Additional props passed to the close element  
+ * @param props - Additional props passed to the close element
  * @param ref - Forwarded ref
  */
 const ToastClose = React.forwardRef<

@@ -9,7 +9,7 @@ import { cn } from '@/lib/utils';
 /**
  * Defines the visual variants and styles for the Label component using class-variance-authority.
  * Provides consistent styling with disabled state support.
- * 
+ *
  * @constant
  * @type {import('class-variance-authority').VariantProps}
  */
@@ -28,8 +28,8 @@ const labelVariants = cva(
  * ```
  *
  * @type {React.ForwardRefExoticComponent<
- *   React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root> & 
- *   VariantProps<typeof labelVariants> & 
+ *   React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root> &
+ *   VariantProps<typeof labelVariants> &
  *   React.RefAttributes<HTMLLabelElement>
  * >}
  *

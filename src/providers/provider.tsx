@@ -39,7 +39,7 @@ const Providers: React.FC<
         <>
           {children}
           <ModeToggle />
-          <TelemetryInit />
+          {/* <TelemetryInit /> */}
         </>
       </ProviderStack>
     </>

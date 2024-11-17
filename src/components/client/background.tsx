@@ -1,31 +1,29 @@
-
 import { motion } from 'framer-motion';
 import React from 'react';
 
 /**
  * An animated background component that displays floating shapes and fraternity branding
- * 
+ *
  * @component
  * @returns {JSX.Element} A full-screen background with animated SVG shapes and fraternity text
- * 
+ *
  * @example
  * return (
  *   <AnimatedBackground />
  * )
  */
 export const AnimatedBackground = () => {
-
   /**
    * Generates random movement parameters for animated shapes
-   * 
+   *
    * @returns {Object} Movement parameters for Framer Motion
-   * @property {number[]} x - X-axis movement range [start, end]  
+   * @property {number[]} x - X-axis movement range [start, end]
    * @property {number[]} y - Y-axis movement range [start, end]
    * @property {number[]} rotate - Rotation range in degrees [start, end]
    */
   const randomMovement = () => ({
     x: [0, Math.random() * 10 - 5],
-    y: [0, Math.random() * 10 - 5], 
+    y: [0, Math.random() * 10 - 5],
     rotate: [0, Math.random() * 10 - 5],
   });
 

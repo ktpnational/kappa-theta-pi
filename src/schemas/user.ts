@@ -1,6 +1,6 @@
 import * as z from 'zod';
 
-import { passwordSchema, userIdSchema } from '@/schemas/auth';
+import { basePasswordSchema, userIdSchema } from '@/schemas/auth';
 import { emailSchema } from '@/schemas/email';
 
 export const userSchema = z.object({
@@ -11,7 +11,7 @@ export const userSchema = z.object({
     })
     .default('USER'),
   email: emailSchema,
-  password: passwordSchema,
+  password: basePasswordSchema,
 });
 
 export const getUserByEmailSchema = z.object({
@@ -32,7 +32,7 @@ export const getUserByEmailVerificationTokenSchema = z.object({
 
 export const addUserAsAdminSchema = userSchema
   .extend({
-    confirmPassword: passwordSchema,
+    confirmPassword: basePasswordSchema,
   })
   .refine((schema) => schema.password === schema.confirmPassword, {
     message: 'Passwords do not match',
@@ -53,7 +53,7 @@ export const updateUserSchema = userSchema
     role: true,
   })
   .extend({
-    confirmPassword: passwordSchema,
+    confirmPassword: basePasswordSchema,
   });
 
 export const deleteUserSchema = z.object({

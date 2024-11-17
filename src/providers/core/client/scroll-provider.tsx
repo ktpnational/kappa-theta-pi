@@ -18,14 +18,14 @@ interface SmoothScrollProviderProps {
  * @param {SmoothScrollProviderProps} props - Component props
  * @param {React.ReactNode} props.children - Child components to be wrapped
  * @returns {JSX.Element} ReactLenis wrapper component
- * 
+ *
  * @example
  * ```tsx
  * <SmoothScrollProvider>
  *   <YourComponent />
  * </SmoothScrollProvider>
  * ```
- * 
+ *
  * @remarks
  * This component uses ReactLenis to provide smooth scrolling with the following options:
  * - lerp: 0.1 (Linear interpolation factor)

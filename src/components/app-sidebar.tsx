@@ -33,11 +33,11 @@ import {
  * @type {Object}
  */
 const data = {
-  /** 
+  /**
    * User information
    * @type {Object}
    * @property {string} name - The user's display name
-   * @property {string} email - The user's email address 
+   * @property {string} email - The user's email address
    * @property {string} avatar - Path to user's avatar image
    */
   user: {
@@ -192,7 +192,7 @@ const data = {
 /**
  * Application Sidebar Component
  * Renders a full sidebar with header, content sections, and footer
- * 
+ *
  * @component
  * @param {React.ComponentProps<typeof Sidebar>} props - Props extending from base Sidebar component
  * @returns {React.ReactElement} Rendered sidebar component
