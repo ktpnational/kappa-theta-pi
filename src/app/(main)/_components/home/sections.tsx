@@ -1,7 +1,7 @@
-'use client';
+
 
 import React from 'react';
-import { ContactSection, CtaSection, HeroSection, MapSection, SponsorsSection } from './';
+import { ContactSection, CtaSection, HeroSection, MapSection, SponsorsSection } from '.';
 
 /**
  * React component that renders the main sections of the home page

@@ -40,11 +40,11 @@ export default {
     }),
     ResendProvider({
       server: {
-        host: process.env.RESEND_HOST,
-        port: Number(process.env.RESEND_PORT),
+        host: process.env.NEXT_PUBLIC_RESEND_HOST,
+        port: Number(process.env.NEXT_PUBLIC_RESEND_PORT),
         auth: {
-          user: process.env.RESEND_USERNAME,
-          pass: process.env.RESEND_API_KEY,
+          user: process.env.NEXT_PUBLIC_RESEND_USERNAME,
+          pass: process.env.NEXT_PUBLIC_RESEND_API_KEY,
         },
       },
       async sendVerificationRequest({
@@ -56,7 +56,7 @@ export default {
       }) {
         try {
           await resend.emails.send({
-            from: process.env.RESEND_EMAIL_FROM,
+            from: process.env.NEXT_PUBLIC_RESEND_EMAIL_FROM,
             to: [identifier],
             subject: `${app.name} magic link sign in`,
             react: MagicLinkEmail({ identifier, url }),

@@ -63,12 +63,12 @@ declare global {
       AUTH_SECRET: string;
 
       // Resend
-      RESEND_API_KEY: string;
-      RESEND_HOST: string;
-      RESEND_PORT: string;
-      RESEND_USERNAME: string;
-      RESEND_EMAIL_FROM: string;
-      RESEND_EMAIL_TO: string;
+      NEXT_PUBLIC_RESEND_API_KEY: string;
+      NEXT_PUBLIC_RESEND_HOST: string;
+      NEXT_PUBLIC_RESEND_PORT: string;
+      NEXT_PUBLIC_RESEND_USERNAME: string;
+      NEXT_PUBLIC_RESEND_EMAIL_FROM: string;
+      NEXT_PUBLIC_RESEND_EMAIL_TO: string;
     }
   }
 }

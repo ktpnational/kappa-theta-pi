@@ -352,7 +352,6 @@ export const api = createElysia({ prefix: '/api' })
         error: error as EdenFetchError<number, string> | null,
         status: 500,
         response: {},
-        headers: {},
       });
     }
   })
@@ -442,7 +441,6 @@ export const api = createElysia({ prefix: '/api' })
         error: error as EdenFetchError<number, string> | null,
         status: 500,
         response: {},
-        headers: {},
       });
     }
   })
@@ -552,7 +550,6 @@ export const api = createElysia({ prefix: '/api' })
         error: error as EdenFetchError<number, string> | null,
         status: 500,
         response: {},
-        headers: {},
       });
     }
   })
@@ -633,7 +630,6 @@ export const api = createElysia({ prefix: '/api' })
         error: error as EdenFetchError<number, string> | null,
         status: 500,
         response: {},
-        headers: {},
       });
     }
   })
@@ -676,7 +672,6 @@ export const api = createElysia({ prefix: '/api' })
           error: error as EdenFetchError<number, string> | null,
           status: 500,
           response: {},
-          headers: {},
         });
       }
     },
@@ -722,7 +717,6 @@ export const api = createElysia({ prefix: '/api' })
           error: error as EdenFetchError<number, string> | null,
           status: 500,
           response: {},
-          headers: {},
         });
       }
     },
@@ -771,7 +765,6 @@ export const api = createElysia({ prefix: '/api' })
           error: error as EdenFetchError<number, string> | null,
           status: 500,
           response: {},
-          headers: {},
         });
       }
     },
@@ -817,7 +810,6 @@ export const api = createElysia({ prefix: '/api' })
           error: error as EdenFetchError<number, string> | null,
           status: 500,
           response: {},
-          headers: {},
         });
       }
     },
@@ -860,7 +852,6 @@ export const api = createElysia({ prefix: '/api' })
           error: error as EdenFetchError<number, string> | null,
           status: 500,
           response: {},
-          headers: {},
         });
       }
     },

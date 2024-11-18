@@ -98,8 +98,8 @@ export function NewsletterWelcomeEmail(): JSX.Element {
             <Text>
               {`We're`} looking forward to seeing you around! If you have any questions, please{' '}
               {`don't`} hesitate to reach out to us at{' '}
-              <Link href={`mailto:${process.env.RESEND_EMAIL_FROM}`} style={styles.link}>
-                {process.env.RESEND_EMAIL_FROM}
+              <Link href={`mailto:${process.env.NEXT_PUBLIC_RESEND_EMAIL_FROM}`} style={styles.link}>
+                {process.env.NEXT_PUBLIC_RESEND_EMAIL_FROM}
               </Link>
             </Text>
             <Text style={{ margin: '16px 0 0' }}>

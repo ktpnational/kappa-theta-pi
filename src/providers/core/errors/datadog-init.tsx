@@ -2,14 +2,14 @@
 
 import { datadogRum } from '@datadog/browser-rum';
 import app from 'next/app';
-import { memo, useEffect } from 'react';
+import { memo, useEffect, cache } from 'react';
 
 /**
  * Initializes the Datadog RUM client.
  *
  * @returns {void}
  */
-const initDatadog = (): void => {
+const initDatadog = cache(() => {
   if (typeof window !== 'undefined') {
     datadogRum.init({
       applicationId: process.env.NEXT_PUBLIC_DATADOG_APPLICATION_ID,
@@ -29,7 +29,7 @@ const initDatadog = (): void => {
 
     datadogRum.startSessionReplayRecording();
   }
-};
+});
 
 /**
  * DatadogInit component to initialize the Datadog RUM client.

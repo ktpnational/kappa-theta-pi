@@ -3,7 +3,7 @@ import { Resend } from 'resend';
 /**
  * Instance of Resend email service initialized with API key from environment variables
  */
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = new Resend(process.env.NEXT_PUBLIC_RESEND_API_KEY);
 
 /**
  * Base domain URL for the application taken from environment variables

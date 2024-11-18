@@ -106,7 +106,7 @@ export async function resendEmailVerificationLink(
     );
 
     const emailSent = await resend.emails.send({
-      from: process.env.RESEND_EMAIL_FROM!,
+      from: process.env.NEXT_PUBLIC_RESEND_EMAIL_FROM!,
       to: [validatedInput.data.email],
       subject: 'Verify your email address',
       react: emailTemplate,
@@ -231,8 +231,8 @@ export async function submitContactForm(rawInput: ContactFormInput): Promise<'er
     );
 
     const emailSent = await resend.emails.send({
-      from: process.env.RESEND_EMAIL_FROM!,
-      to: process.env.RESEND_EMAIL_TO!,
+      from: process.env.NEXT_PUBLIC_RESEND_EMAIL_FROM!,
+      to: process.env.NEXT_PUBLIC_RESEND_EMAIL_TO!,
       subject: 'Exciting news! New enquiry awaits',
       react: emailTemplate,
     });

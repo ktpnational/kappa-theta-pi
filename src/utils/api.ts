@@ -38,7 +38,6 @@ export function handleEden<T>(
   ) & {
     status: number;
     response: Record<number, unknown>;
-    headers: Record<string, string>;
   },
 ): T {
   if (response.error) throw response.error;

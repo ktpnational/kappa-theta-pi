@@ -146,7 +146,7 @@
   "devDependencies": {
     "@antfu/ni": "^0.23.0",
     "@auth/core": "^0.37.3",
-    "@auth/prisma-adapter": "^2.7.3",
+    "@auth/prisma-adapter": "^2.7.4",
     "@auth/supabase-adapter": "^1.7.3",
     "@aws-sdk/client-s3": "^3.685.0",
     "@aws-sdk/lib-storage": "^3.685.0",

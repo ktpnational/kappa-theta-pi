@@ -1,7 +1,7 @@
 import authConfig from '@/auth.config';
 import { getTwoFactorConfirmationByUserId } from '@/data/two-factor-confirmation';
 import { getUserById } from '@/data/user';
-import { db } from '@/lib';
+import { db } from '@/lib/prisma';
 import { PrismaAdapter } from '@auth/prisma-adapter';
 import type { Role } from '@prisma/client';
 import jwt from 'jsonwebtoken';
