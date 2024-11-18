@@ -1,4 +1,8 @@
-import { ResetForm } from '@/app/(auth)/_components';
+import dynamic from 'next/dynamic';
+
+const ResetForm = dynamic(
+  () => import('@/app/(auth)/_components').then((mod) => mod.ResetForm)
+);
 
 /**
  * ResetPage Component

@@ -3,7 +3,11 @@
  * for user email/account verification processes.
  */
 
-import { NewVerificationForm } from '@/app/(auth)/_components';
+import dynamic from 'next/dynamic';
+
+const NewVerificationForm = dynamic(
+  () => import('@/app/(auth)/_components').then((mod) => mod.NewVerificationForm)
+);
 
 /**
  * Component that handles the verification page view and renders the verification form.

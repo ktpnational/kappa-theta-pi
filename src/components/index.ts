@@ -11,7 +11,6 @@ export * from './nav-user';
 export * from './section';
 export * from './animations';
 export * from './forms';
-export * from './mdx';
 export * from './email';
 export * from './copy-button';
 export * from './form-error';

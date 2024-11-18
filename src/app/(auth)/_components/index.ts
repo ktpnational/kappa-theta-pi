@@ -2,6 +2,7 @@ export * from './back-button';
 export * from './card-wrapper';
 export * from './header';
 export * from './login-button';
+export * from './error-card';
 export * from './login-form';
 export * from './logout-button';
 export * from './new-password-form';

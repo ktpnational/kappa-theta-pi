@@ -1,3 +1,4 @@
+import { adminAuthMiddleware } from '@/middleware/index';
 import { type CookieOptions, createServerClient } from '@supabase/ssr';
 import { type NextRequest, NextResponse } from 'next/server';
 
@@ -22,6 +23,10 @@ import { type NextRequest, NextResponse } from 'next/server';
  * ```
  */
 export async function middleware(request: NextRequest): Promise<NextResponse> {
+  if (request.nextUrl.pathname.startsWith('/api/admin')) {
+    return adminAuthMiddleware(request);
+  }
+
   let response = NextResponse.next({
     request: {
       headers: request.headers,
@@ -156,5 +161,7 @@ export const config = {
      * Feel free to modify this pattern to include more paths.
      */
     '/((?!_next/static|_next/image|favicon.ico).*)',
+    '/api/admin/:path*',
   ],
+  runtime: 'nodejs',
 };

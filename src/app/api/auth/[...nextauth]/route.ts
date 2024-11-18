@@ -7,7 +7,7 @@
  * Import the auth object which contains authentication methods and middleware
  * from the local authentication configuration.
  */
-import { auth } from '@/auth';
+import { GET, POST } from '@/auth';
 
 /**
  * Force dynamic rendering of this route to ensure authentication state is always fresh.
@@ -24,4 +24,4 @@ export const dynamic = 'force-dynamic';
  * @property {Function} GET - Handles authentication verification requests
  * @property {Function} POST - Handles authentication mutation requests
  */
-export const { GET, POST } = auth;
+export { GET, POST };

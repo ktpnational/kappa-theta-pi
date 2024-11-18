@@ -9,7 +9,7 @@ import type * as z from 'zod';
 
 import { useCurrentUser } from '@/hooks/use-current-user';
 import { SettingsSchema } from '@/schemas';
-import { UserRole } from '@prisma/client';
+import { Role } from '@prisma/client';
 
 import { settings } from '@/actions/settings';
 import { FormError } from '@/components/form-error';
@@ -75,7 +75,7 @@ const SettingsPage = () => {
       email: user?.email || undefined,
       password: undefined,
       newPassword: undefined,
-      role: user?.role || undefined,
+      role: (user?.role as Exclude<Role, 'GUEST'>) || undefined,
       isTwoFactorEnabled: user?.isTwoFactorEnabled || undefined,
     },
   });
@@ -203,8 +203,9 @@ const SettingsPage = () => {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value={UserRole.ADMIN}>Admin</SelectItem>
-                        <SelectItem value={UserRole.USER}>User</SelectItem>
+                        <SelectItem value={Role.ADMIN}>Admin</SelectItem>
+                        <SelectItem value={Role.USER}>User</SelectItem>
+                        <SelectItem value={Role.COMPANY}>Company</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />

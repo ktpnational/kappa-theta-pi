@@ -51,6 +51,6 @@ export const DatadogInit = memo((): null => {
  * @param {React.ErrorInfo} errorInfo - The error information.
  * @returns {void}
  */
-export const errorHandler = (error: Error, errorInfo: React.ErrorInfo): void => {
+export const datadogErrorHandler = (error: Error, errorInfo: React.ErrorInfo): void => {
   datadogRum.addError(error, { errorInfo });
 };

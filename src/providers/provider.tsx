@@ -8,7 +8,7 @@ import {
   ModeToggle,
   QueryProvider,
   SmoothScrollProvider,
-  TelemetryInit,
+  // TelemetryInit,
   ThemeProvider,
 } from '.';
 

@@ -1,26 +1,22 @@
-/**
- * Imports required dependencies for role-based authentication and response handling
- */
-import { currentRole } from '@/lib';
-import { Role } from '@prisma/client';
-import { NextResponse } from 'next/server';
+import { adminAuthMiddleware } from '@/middleware/index';
+import { type NextRequest, NextResponse } from 'next/server';
 
-/**
- * HTTP GET endpoint handler for admin authorization verification
- *
- * @async
- * @function GET
- * @description Verifies if the current user has admin role permissions
- * @returns {Promise<NextResponse>} Returns a NextResponse with:
- *    - 200 status code if user has admin role
- *    - 403 status code if user does not have admin role
- * @throws {Error} If there is an error checking the current role
- */
-export async function GET() {
-  const role = await currentRole();
+export async function GET(request: NextRequest) {
+  try {
+    const middlewareResponse = await adminAuthMiddleware(request);
 
-  if (role === Role.ADMIN) {
-    return new NextResponse(null, { status: 200 });
+    // If middleware returns a response, return it (error case)
+    if (middlewareResponse.status !== 200) {
+      return middlewareResponse;
+    }
+
+    // If we get here, user is authenticated as admin
+    return NextResponse.json({
+      success: true,
+      message: 'Admin access granted',
+    });
+  } catch (error) {
+    console.error('Error in admin route:', error);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
-  return new NextResponse(null, { status: 403 });
 }

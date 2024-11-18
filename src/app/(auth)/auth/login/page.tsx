@@ -1,11 +1,15 @@
-import { LoginForm } from '@/app/(auth)/_components';
+import dynamic from 'next/dynamic';
+
+const LoginForm = dynamic(
+  () => import('@/app/(auth)/_components').then((mod) => mod.LoginForm)
+);
 
 /**
  * The main login page component that serves as the entry point for user authentication.
- * 
+ *
  * This component renders the LoginForm which handles user credentials input and authentication.
  * It's designed to be used as a page component in the application's routing structure.
- * 
+ *
  * @component LoginPage
  * @returns {JSX.Element} A React component that renders the LoginForm
  * @example
@@ -13,7 +17,7 @@ import { LoginForm } from '@/app/(auth)/_components';
  * // Usage in router
  * import LoginPag
  e from './LoginPage';
- * 
+ *
  * // Route definition
  * <Route path="/login" element={<LoginPage />} />
  * ```

@@ -6,7 +6,11 @@
  * // Example usage in routing
  * <Route path="/register" component={RegisterPage} />
  */
-import { RegisterForm } from '@/app/(auth)/_components';
+import dynamic from 'next/dynamic';
+
+const RegisterForm = dynamic(
+  () => import('@/app/(auth)/_components').then((mod) => mod.RegisterForm)
+);
 
 /**
  * The RegisterPage component - Displays the registration form for new users

@@ -1,4 +1,8 @@
-import { NewPasswordForm } from '@/app/(auth)/_components';
+import dynamic from 'next/dynamic';
+
+const NewPasswordForm = dynamic(
+  () => import('@/app/(auth)/_components').then((mod) => mod.NewPasswordForm)
+);
 
 /**
  * Page component that handles rendering the new password form.

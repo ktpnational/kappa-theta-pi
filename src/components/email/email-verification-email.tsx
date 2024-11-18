@@ -1,3 +1,4 @@
+import { app } from '@/constants';
 import {
   Body,
   Button,
@@ -6,98 +7,102 @@ import {
   Html,
   Preview,
   Section,
-  Tailwind,
   Text,
 } from '@react-email/components';
+import { CSSProperties } from 'react';
 
-import { app } from '@/constants';
-
-/**
- * Props interface for the EmailVerificationEmail component
- * @interface EmailVerificationEmailProps
- * @property {string} email - The email address to be verified
- * @property {string} emailVerificationToken - The token used to verify the email address
- */
 interface EmailVerificationEmailProps {
   email: string;
   emailVerificationToken: string;
 }
 
-/**
- * Email template component for email address verification
- *
- * @component
- * @description
- * Renders a responsive email template used for verifying user email addresses during signup.
- * The email includes a personalized greeting, verification instructions, and a call-to-action button.
- * Built using react-email components with Tailwind CSS styling.
- *
- * @param {Object} props - Component props
- * @param {string} props.email - The user's email address that needs verification
- * @param {string} props.emailVerificationToken - Unique token for email verification
- *
- * @example
- * ```tsx
- * <EmailVerificationEmail
- *   email="user@example.com"
- *   emailVerificationToken="abc123"
- * />
- * ```
- *
- * @returns {JSX.Element} A fully formatted email verification email template
- *
- * @structure
- * - HTML container with language set to English
- * - Email preview text for email clients
- * - Tailwind-styled body containing:
- *   - Greeting section
- *   - Verification instructions
- *   - CTA button with verification link
- *   - Disclaimer for unintended recipients
- *   - Friendly closing message
- */
+// Define styles as a regular object with explicit CSSProperties type
+const styles: Record<string, CSSProperties> = {
+  body: {
+    fontFamily: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif',
+    backgroundColor: '#ffffff',
+    margin: '0 auto',
+  },
+  container: {
+    margin: '0 auto',
+    padding: '20px 0 48px',
+    maxWidth: '580px',
+  },
+  section: {
+    padding: '24px',
+  },
+  heading: {
+    fontSize: '24px',
+    fontWeight: '600',
+    marginBottom: '24px',
+  },
+  text: {
+    fontSize: '16px',
+    lineHeight: '24px',
+    color: '#333333',
+    marginBottom: '16px',
+  },
+  brandText: {
+    fontWeight: '600',
+    letterSpacing: '0.025em',
+  },
+  button: {
+    backgroundColor: '#000000',
+    borderRadius: '6px',
+    color: '#ffffff',
+    fontSize: '16px',
+    fontWeight: '600',
+    textDecoration: 'none',
+    textAlign: 'center',
+    padding: '12px 24px',
+    display: 'inline-block',
+    marginTop: '16px',
+    marginBottom: '16px',
+  },
+  disclaimer: {
+    fontSize: '12px',
+    color: '#666666',
+    marginTop: '24px',
+  },
+};
+
 export function EmailVerificationEmail({
   email,
   emailVerificationToken,
 }: Readonly<EmailVerificationEmailProps>): JSX.Element {
   const previewText = `${app.name} email verification.`;
-  return (
-    <Html lang="en">
-      <Head>
-        <title>{previewText}</title>
-      </Head>
-      <Preview>{previewText}</Preview>
-      <Tailwind>
-        <Body>
-          <Container>
-            <Section>
-              <Text className="text-xl">Hi,</Text>
-              <Text className="text-base">
-                Your email address, {email}, was recently used to sign up at{' '}
-                <span className="font-semibold tracking-wide">{app.name}</span>.
-              </Text>
-              <Text className="text-base">
-                Please verify this address by clicking the button below
-              </Text>
-              <Button
-                href={`${process.env.NEXT_PUBLIC_APP_URL}/signup/verify-email?token=${emailVerificationToken}`}
-              >
-                Verify email now
-              </Button>
-            </Section>
+  const verificationUrl = `${process.env.NEXT_PUBLIC_APP_URL}/signup/verify-email?token=${emailVerificationToken}`;
 
-            <Section>
-              <Text className="text-xs">
-                If you didn&apos;t sign up at {app.name}, just ignore and delete this message.
-              </Text>
-              <Text className="text-base font-medium">
-                Enjoy <span className="font-semibold tracking-wide">{app.name}</span> and have a
-                nice day!
-              </Text>
-            </Section>
-          </Container>
-        </Body>
-      </Tailwind>
+  return (
+    <Html>
+      <Head />
+      <Preview>{previewText}</Preview>
+      <Body style={styles.body}>
+        <Container style={styles.container}>
+          <Section style={styles.section}>
+            <Text style={styles.text}>Hi,</Text>
+            <Text style={styles.text}>
+              Your email address, {email}, was recently used to sign up at{' '}
+              <span style={styles.brandText}>{app.name}</span>.
+            </Text>
+            <Text style={styles.text}>
+              Please verify this address by clicking the button below:
+            </Text>
+            <Button href={verificationUrl} style={styles.button}>
+              Verify email now
+            </Button>
+          </Section>
+
+          <Section style={styles.section}>
+            <Text style={styles.disclaimer}>
+              If you didn&apos;t sign up at {app.name}, just ignore and delete this message.
+            </Text>
+            <Text style={{ ...styles.text, ...styles.brandText }}>
+              Enjoy {app.name} and have a nice day!
+            </Text>
+          </Section>
+        </Container>
+      </Body>
     </Html>
   );
 }

@@ -2,11 +2,11 @@ import {
   CandidateStatus,
   type Chapter,
   PrismaClient,
-  Profile,
+  // Profile,
   Role,
   type User,
 } from '@prisma/client';
-import { hash } from 'bcrypt';
+import { hash } from 'bcryptjs';
 
 const prisma = new PrismaClient();
 

@@ -8,9 +8,11 @@ import type { MetadataRoute } from 'next';
  * @property {string} type - MIME type of the image (e.g. "image/png")
  * @property {'narrow' | 'wide'} [form_factor] - Optional form factor indicating if screenshot is for narrow/mobile or wide/desktop views
  */
-type ExtendedScreenshot = MetadataRoute.Manifest['screenshots'][number] & {
-  form_factor?: 'narrow' | 'wide';
-};
+type ExtendedScreenshot = MetadataRoute.Manifest['screenshots'] extends (infer T)[]
+  ? T & {
+      form_factor?: 'narrow' | 'wide';
+    }
+  : never;
 
 /**
  * Extended manifest type that overrides screenshots array with ExtendedScreenshot type

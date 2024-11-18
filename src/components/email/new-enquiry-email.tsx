@@ -8,7 +8,6 @@ import {
   Html,
   Preview,
   Section,
-  Tailwind,
   Text,
 } from '@react-email/components';
 
@@ -31,7 +30,7 @@ interface NewEnquiryEmailProps {
  * @component
  * @description
  * Renders a responsive email template used for notifying recipients about new enquiries submitted through the website.
- * The email includes the enquirer's details, their message, and is styled using Tailwind CSS.
+ * The email includes the enquirer's details, their message, and is styled using inline styles.
  * Built using react-email components for consistent rendering across email clients.
  *
  * @param {Object} props - Component props
@@ -39,54 +38,63 @@ interface NewEnquiryEmailProps {
  * @param {string} props.email - The email address of the enquirer
  * @param {string} props.message - The content of the enquiry message
  *
- * @example
- * ```tsx
- * <NewEnquiryEmail
- *   name="John Doe"
- *   email="john@example.com"
- *   message="I'm interested in your services"
- * />
- * ```
- *
  * @returns {JSX.Element} A fully formatted email template for new enquiry notifications
- *
- * @structure
- * - HTML container with language set to English
- * - Email preview text showing app name and enquirer's email
- * - Tailwind-styled body containing:
- *   - Exciting times heading
- *   - Horizontal rule separator
- *   - Enquiry details section with sender's information
- *   - Message content section
- *   - Empty section for potential future content/footer
  */
 export function NewEnquiryEmail({ name, email, message }: NewEnquiryEmailProps): JSX.Element {
   const previewText = `${app.name} new enquiry from ${email}!`;
+
+  // Define your styles here
+  const styles = {
+    body: {
+      fontFamily: 'Arial, sans-serif',
+      backgroundColor: '#f9f9f9',
+      margin: '0 auto',
+      padding: '20px',
+    },
+    container: {
+      maxWidth: '600px',
+      margin: '0 auto',
+    },
+    heading: {
+      fontSize: '24px',
+      fontWeight: 'bold',
+      marginBottom: '10px',
+    },
+    hr: {
+      margin: '10px 0',
+    },
+    text: {
+      fontSize: '16px',
+      lineHeight: '1.5',
+    },
+    boldText: {
+      fontWeight: 'bold',
+    },
+  };
+
   return (
     <Html lang="en">
       <Head>
         <title>{previewText}</title>
       </Head>
       <Preview>{previewText}</Preview>
-      <Tailwind>
-        <Body>
-          <Container>
-            <Section>
-              <Heading>Exciting times!</Heading>
-              <Hr className="my-2" />
-              <Heading>New enquiry from {email}</Heading>
-              <Text>
-                {name} has sent you a message from your website. Their email is{' '}
-                <span className="font-bold">{email}</span> and this is what they said:
-              </Text>
-            </Section>
-            <Section>
-              <Text>{message}</Text>
-            </Section>
-            <Section></Section>
-          </Container>
-        </Body>
-      </Tailwind>
+      <Body style={styles.body}>
+        <Container style={styles.container}>
+          <Section>
+            <Heading style={styles.heading}>Exciting times!</Heading>
+            <Hr style={styles.hr} />
+            <Heading style={styles.heading}>New enquiry from {email}</Heading>
+            <Text style={styles.text}>
+              {name} has sent you a message from your website. Their email is{' '}
+              <span style={styles.boldText}>{email}</span> and this is what they said:
+            </Text>
+          </Section>
+          <Section>
+            <Text style={styles.text}>{message}</Text>
+          </Section>
+          <Section></Section>
+        </Container>
+      </Body>
     </Html>
   );
 }

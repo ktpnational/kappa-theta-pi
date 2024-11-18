@@ -1,7 +1,6 @@
 'use server';
 
 import crypto from 'crypto';
-
 import { getUserByEmail } from '@/data';
 import { db, resend } from '@/lib';
 import {
@@ -15,37 +14,68 @@ import {
   markEmailAsVerifiedSchema,
 } from '@/schemas';
 
-import { EmailVerificationEmail } from '@/components';
-import { NewEnquiryEmail } from '@/components';
+/**
+ * Renders the email verification template with provided email and token
+ *
+ * @param {string} email - User's email address to verify
+ * @param {string} token - Verification token to include in email
+ * @returns {Promise<JSX.Element>} Rendered React email template
+ * @throws Will throw if template import or rendering fails
+ * @private
+ */
+const renderEmailVerificationTemplate = async (email: string, token: string) => {
+  const { EmailVerificationEmail } = await import('@/components/email/email-verification-email');
+  return EmailVerificationEmail({
+    email,
+    emailVerificationToken: token,
+  });
+};
 
 /**
- * Resends an email verification link to a user's email address.
+ * Renders the new enquiry notification email template
+ *
+ * @param {string} name - Name of person submitting enquiry
+ * @param {string} email - Email address of enquirer
+ * @param {string} message - Content of the enquiry message
+ * @returns {Promise<JSX.Element>} Rendered React email template
+ * @throws Will throw if template import or rendering fails
+ * @private
+ */
+const renderNewEnquiryTemplate = async (name: string, email: string, message: string) => {
+  const { NewEnquiryEmail } = await import('@/components');
+  return NewEnquiryEmail({
+    name,
+    email,
+    message,
+  });
+};
+
+/**
+ * Resends the email verification link to a user
  *
  * @description
- * This server action handles the process of resending email verification links:
- * 1. Validates the input email using zod schema
- * 2. Checks if user exists in database
- * 3. Generates a new verification token
- * 4. Updates user record with new token
- * 5. Sends verification email using Resend
+ * This server action handles resending verification emails by:
+ * 1. Validating the input email
+ * 2. Checking if user exists
+ * 3. Generating new verification token
+ * 4. Updating user record with new token
+ * 5. Sending verification email
  *
- * @param {EmailVerificationFormInput} rawInput - The raw input containing the email address
+ * Security measures:
+ * - Server-side only execution
+ * - Input validation
+ * - Cryptographically secure token generation
+ * - User existence verification
  *
- * @returns {Promise<'invalid-input' | 'not-found' | 'error' | 'success'>}
+ * @param {EmailVerificationFormInput} rawInput - Form input containing email
+ *
+ * @returns {Promise<'invalid-input' | 'not-found' | 'error' | 'success'>} Status indicating:
  * - 'invalid-input': Input validation failed
- * - 'not-found': User with provided email doesn't exist
- * - 'error': Error during token update or email sending
- * - 'success': Verification email sent successfully
+ * - 'not-found': User email not found
+ * - 'error': Operation failed
+ * - 'success': Email sent successfully
  *
- * @throws {Error} When an unexpected error occurs during the process
- *
- * @example
- * ```typescript
- * const result = await resendEmailVerificationLink({ email: "user@example.com" });
- * if (result === 'success') {
- *   // Verification email sent successfully
- * }
- * ```
+ * @throws {Error} If unexpected error occurs during process
  */
 export async function resendEmailVerificationLink(
   rawInput: EmailVerificationFormInput,
@@ -68,17 +98,21 @@ export async function resendEmailVerificationLink(
       },
     });
 
+    if (!userUpdated) return 'error';
+
+    const emailTemplate = await renderEmailVerificationTemplate(
+      validatedInput.data.email,
+      emailVerificationToken,
+    );
+
     const emailSent = await resend.emails.send({
-      from: process.env.RESEND_EMAIL_FROM,
+      from: process.env.RESEND_EMAIL_FROM!,
       to: [validatedInput.data.email],
       subject: 'Verify your email address',
-      react: EmailVerificationEmail({
-        email: validatedInput.data.email,
-        emailVerificationToken,
-      }),
+      react: emailTemplate,
     });
 
-    return userUpdated && emailSent ? 'success' : 'error';
+    return emailSent ? 'success' : 'error';
   } catch (error) {
     console.error(error);
     throw new Error('Error resending email verification link');
@@ -86,29 +120,19 @@ export async function resendEmailVerificationLink(
 }
 
 /**
- * Checks if a user's email address has been verified.
+ * Checks if a user's email has been verified
  *
  * @description
- * This server action verifies if a user's email has been confirmed by:
- * 1. Validating the input email
+ * Verifies email verification status by:
+ * 1. Validating input email
  * 2. Retrieving user record
- * 3. Checking if emailVerified field is a valid Date
+ * 3. Checking emailVerified timestamp
  *
- * @param {CheckIfEmailVerifiedInput} rawInput - The raw input containing the email to check
+ * @param {CheckIfEmailVerifiedInput} rawInput - Input containing email to check
  *
- * @returns {Promise<boolean>}
- * - true: Email is verified
- * - false: Email is not verified or validation failed
+ * @returns {Promise<boolean>} True if email is verified, false otherwise
  *
- * @throws {Error} When an unexpected error occurs during the verification check
- *
- * @example
- * ```typescript
- * const isVerified = await checkIfEmailVerified({ email: "user@example.com" });
- * if (isVerified) {
- *   // Email is verified
- * }
- * ```
+ * @throws {Error} If verification check fails unexpectedly
  */
 export async function checkIfEmailVerified(rawInput: CheckIfEmailVerifiedInput): Promise<boolean> {
   try {
@@ -124,30 +148,27 @@ export async function checkIfEmailVerified(rawInput: CheckIfEmailVerifiedInput):
 }
 
 /**
- * Marks a user's email as verified using their verification token.
+ * Marks a user's email as verified using verification token
  *
  * @description
- * This server action completes the email verification process by:
+ * This server action completes email verification by:
  * 1. Validating the verification token
- * 2. Updating the user record to mark email as verified
- * 3. Clearing the verification token
+ * 2. Updating user record with verification timestamp
+ * 3. Clearing the used verification token
  *
- * @param {MarkEmailAsVerifiedInput} rawInput - The raw input containing the verification token
+ * Security measures:
+ * - Server-side only execution
+ * - Token validation
+ * - One-time use tokens
  *
- * @returns {Promise<'invalid-input' | 'error' | 'success'>}
+ * @param {MarkEmailAsVerifiedInput} rawInput - Input containing verification token
+ *
+ * @returns {Promise<'invalid-input' | 'error' | 'success'>} Status indicating:
  * - 'invalid-input': Token validation failed
- * - 'error': Error updating user record
- * - 'success': Email marked as verified successfully
+ * - 'error': Operation failed
+ * - 'success': Email marked as verified
  *
- * @throws {Error} When an unexpected error occurs during the verification process
- *
- * @example
- * ```typescript
- * const result = await markEmailAsVerified({ token: "verification-token" });
- * if (result === 'success') {
- *   // Email verified successfully
- * }
- * ```
+ * @throws {Error} If verification process fails unexpectedly
  */
 export async function markEmailAsVerified(
   rawInput: MarkEmailAsVerifiedInput,
@@ -174,52 +195,46 @@ export async function markEmailAsVerified(
 }
 
 /**
- * Processes and submits a contact form submission.
+ * Processes and sends contact form submissions
  *
  * @description
  * This server action handles contact form submissions by:
- * 1. Validating the form input data
- * 2. Sending a notification email to the configured recipient
+ * 1. Validating form input data
+ * 2. Rendering notification email template
+ * 3. Sending notification to configured recipient
  *
- * The email is sent using Resend and includes:
- * - Sender's name
- * - Sender's email address
- * - Message content
+ * Security measures:
+ * - Server-side only execution
+ * - Input validation
+ * - Configured sender/recipient addresses
  *
- * @param {ContactFormInput} rawInput - The raw form input containing name, email, and message
+ * @param {ContactFormInput} rawInput - Form data containing:
+ * - name: Sender's name
+ * - email: Sender's email
+ * - message: Enquiry content
  *
- * @returns {Promise<'error' | 'success'>}
- * - 'error': Validation failed or email sending failed
- * - 'success': Form processed and notification sent successfully
+ * @returns {Promise<'error' | 'success'>} Status indicating:
+ * - 'error': Submission failed
+ * - 'success': Notification sent successfully
  *
- * @throws {Error} When an unexpected error occurs during form submission
- *
- * @example
- * ```typescript
- * const result = await submitContactForm({
- *   name: "John Doe",
- *   email: "john@example.com",
- *   message: "Hello, I'm interested in your services"
- * });
- * if (result === 'success') {
- *   // Form submitted successfully
- * }
- * ```
+ * @throws {Error} If submission process fails unexpectedly
  */
 export async function submitContactForm(rawInput: ContactFormInput): Promise<'error' | 'success'> {
   try {
     const validatedInput = contactFormSchema.safeParse(rawInput);
     if (!validatedInput.success) return 'error';
 
+    const emailTemplate = await renderNewEnquiryTemplate(
+      validatedInput.data.name,
+      validatedInput.data.email,
+      validatedInput.data.message,
+    );
+
     const emailSent = await resend.emails.send({
-      from: process.env.RESEND_EMAIL_FROM,
-      to: process.env.RESEND_EMAIL_TO,
+      from: process.env.RESEND_EMAIL_FROM!,
+      to: process.env.RESEND_EMAIL_TO!,
       subject: 'Exciting news! New enquiry awaits',
-      react: NewEnquiryEmail({
-        name: validatedInput.data.name,
-        email: validatedInput.data.email,
-        message: validatedInput.data.message,
-      }),
+      react: emailTemplate,
     });
 
     return emailSent ? 'success' : 'error';

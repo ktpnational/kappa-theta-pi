@@ -35,27 +35,19 @@ const globalForPrisma = globalThis as unknown as {
   cachedPrisma: ReturnType<typeof createPrismaClient> | undefined;
 };
 
-/**
- * A singleton instance of PrismaClient for database operations.
- *
- * This export provides a consistent database client throughout the application.
- * In development mode, the client instance is cached globally to prevent
- * creating multiple instances which could lead to performance issues and
- * exceeding database connection limits.
- *
- * The caching mechanism works as follows:
- * 1. First, checks if there's a cached instance in the global scope
- * 2. If no cached instance exists, creates a new one using createPrismaClient()
- * 3. In development, caches the instance globally for subsequent uses
- *
- * @example
- * import { db } from './path/to/this/file';
- *
- * // Use the client
- * const users = await db.user.findMany();
- *
- * @type {PrismaClient}
- */
-export const db = globalForPrisma.cachedPrisma ?? createPrismaClient();
+let db: PrismaClient;
 
-if (process.env.NODE_ENV !== 'production') globalForPrisma.cachedPrisma = db;
+if (process.env.NODE_ENV === 'production') {
+  db = new PrismaClient({
+    log: ['error'],
+  });
+} else {
+  if (!globalForPrisma.cachedPrisma) {
+    globalForPrisma.cachedPrisma = new PrismaClient({
+      log: ['query', 'error', 'warn'],
+    });
+  }
+  db = globalForPrisma.cachedPrisma;
+}
+
+export { db };

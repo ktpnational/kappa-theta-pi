@@ -32,7 +32,7 @@ import { memo, useEffect } from 'react';
  * initTelemetry();
  * ```
  */
-const initTelemetry = (): void => {
+export const initTelemetry = (): void => {
   if (typeof window !== 'undefined') {
     const provider = new WebTracerProvider({
       resource: new Resource({

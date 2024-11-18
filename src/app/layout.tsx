@@ -1,5 +1,4 @@
-import '@/styles/css/globals.css';
-import '@/styles/sass/globals.scss';
+import '@/styles/globals.css';
 
 import { Providers } from '@/providers';
 import { Scripts } from '@/scripts';

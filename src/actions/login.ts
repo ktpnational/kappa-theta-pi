@@ -1,6 +1,6 @@
 'use server';
 
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import { AuthError } from 'next-auth';
 import type * as z from 'zod';
 

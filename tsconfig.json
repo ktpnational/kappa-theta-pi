@@ -12,12 +12,20 @@
     "strict": true,
     "noUncheckedIndexedAccess": true,
     "checkJs": true,
-    "lib": ["dom", "dom.iterable", "ES2022"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "ES2022"
+    ],
     "noEmit": true,
     "module": "ESNext",
-    "moduleResolution": "Bundler",
+    "moduleResolution": "node",
     "jsx": "preserve",
-    "plugins": [{ "name": "next" }],
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
     "incremental": true,
     "baseUrl": ".",
     "removeComments": true,
@@ -37,9 +45,15 @@
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "paths": {
-      "@testing": ["./test-fixtures.ts"],
-      "@/*": ["./src/*"],
-      "contentlayer/generated": ["./.contentlayer/generated"]
+      "@testing": [
+        "./test-fixtures.ts"
+      ],
+      "@/*": [
+        "./src/*"
+      ],
+      "contentlayer/generated": [
+        "./.contentlayer/generated"
+      ]
     }
   },
   "include": [
@@ -52,7 +66,8 @@
     "next.config.mjs",
     "custom.d.ts",
     "prisma/migrations/**/*.sql",
-    "contentlayer/generated"
+    "contentlayer/generated",
+    "contentlayer.config.ts"
   ],
   "exclude": [
     "node_modules",

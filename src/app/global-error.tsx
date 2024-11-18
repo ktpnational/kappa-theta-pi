@@ -2,7 +2,7 @@
 
 import { AnimatedBackground } from '@/components';
 import { Button } from '@/components/ui/button';
-import * as Sentry from '@sentry/nextjs';
+import * as Sentry from '@sentry/react';
 import { motion } from 'framer-motion';
 import { AlertTriangle, Home, RotateCw } from 'lucide-react';
 import { useEffect } from 'react';

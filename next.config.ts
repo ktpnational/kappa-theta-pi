@@ -2,10 +2,9 @@ import withPwa from '@ducanh2912/next-pwa';
 import MillionLint from '@million/lint';
 import { withSentryConfig } from '@sentry/nextjs';
 import type { NextConfig } from 'next';
+import type { NextJsWebpackConfig, WebpackConfigContext } from 'next/dist/server/config-shared';
 
-/**
- * @type {NextConfig}
- */
+/** @type {NextConfig} */
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   pageExtensions: ['tsx', 'mdx', 'ts', 'js'],
@@ -24,10 +23,11 @@ const nextConfig: NextConfig = {
       { protocol: 'https', hostname: 'maps.googleapis.com' },
     ],
   },
+  serverComponentsExternalPackages: ['@supabase/ssr'],
   experimental: {
     optimizeCss: true,
     serverActions: {
-      allowedOrigins: ['localhost:3000'],
+      allowedOrigins: ['localhost:3000', process.env.NEXT_PUBLIC_APP_URL || ''],
       bodySizeLimit: '2mb',
     },
     turbo: {
@@ -42,10 +42,6 @@ const nextConfig: NextConfig = {
         },
       },
     },
-  },
-  serverExternalPackages: [],
-  typescript: {
-    ignoreBuildErrors: true,
   },
   async headers() {
     return [
@@ -68,7 +64,7 @@ const nextConfig: NextConfig = {
       },
     ];
   },
-  webpack: (config, { isServer }) => {
+  webpack: ((config, { isServer }: WebpackConfigContext) => {
     if (!isServer) {
       config.resolve.fallback = {
         ...config.resolve.fallback,
@@ -79,9 +75,13 @@ const nextConfig: NextConfig = {
       test: /\.svg$/i,
       use: ['@svgr/webpack'],
     });
-
+    config.module.rules.push({
+      test: /\.html$/,
+      loader: 'ignore-loader',
+    });
+    config.externals = [...(config.externals || [])];
     return config;
-  },
+  }) satisfies NextJsWebpackConfig,
   publicRuntimeConfig: {
     basePath: '',
   },
@@ -105,7 +105,7 @@ if (shouldUseSentry) {
   exportedConfig = withSentryConfig(finalConfig, {
     org: 'womb0comb0',
     project: 'ktp',
-    authToken: process.env.SENTRY_AUTH_TOKEN,
+    authToken: process.env.NEXT_PUBLIC_SENTRY_AUTH_TOKEN,
     silent: process.env.NODE_ENV === 'production',
     release: {
       name: process.env.VERCEL_GIT_COMMIT_SHA || `local-${Date.now()}`,
