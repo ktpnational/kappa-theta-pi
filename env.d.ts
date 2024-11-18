@@ -30,6 +30,7 @@ declare global {
       NEXT_PUBLIC_SUPABASE_ANON_KEY: string;
       NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY: string;
       NEXT_PUBLIC_SUPABASE_JWT_SECRET: string;
+      SUPABASE_ACCESS_TOKEN: string;
       NEXT_PUBLIC_DATABASE_URL: string;
       NEXT_PUBLIC_DIRECT_URL: string;
       NEXT_PUBLIC_PROJECT_REGION: string;

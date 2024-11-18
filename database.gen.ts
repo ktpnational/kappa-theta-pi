@@ -9,30 +9,47 @@ import { promisify } from 'node:util';
  *
  * @description
  * This script performs the following tasks in sequence:
- * 1. Validates the Supabase URL environment variable
- * 2. Generates the Prisma client
- * 3. Pushes schema changes to database (dev only)
- * 4. Applies existing migrations
- * 5. Generates Supabase TypeScript types
+ * 1. Validates the Supabase URL and access token
+ * 2. Logs in to Supabase CLI
+ * 3. Generates the Prisma client
+ * 4. Pushes schema changes to database (dev only)
+ * 5. Applies existing migrations
+ * 6. Generates Supabase TypeScript types
  *
  * @environment
  * Required environment variables:
  * - NEXT_PUBLIC_SUPABASE_URL: The full URL of your Supabase project
+ * - SUPABASE_ACCESS_TOKEN: Your Supabase access token
  * - NODE_ENV: Environment type (development/production)
  */
 (async () => {
   const execPromise = promisify(exec);
 
-  // Validate Supabase URL
+  // Validate environment variables
   const projectRef = process.env.NEXT_PUBLIC_SUPABASE_URL?.split('//')[1]?.split('.')[0];
   if (!projectRef) {
     throw new Error('NEXT_PUBLIC_SUPABASE_URL environment variable is not properly set');
+  }
+
+  if (!process.env.SUPABASE_ACCESS_TOKEN) {
+    throw new Error('SUPABASE_ACCESS_TOKEN environment variable is not set');
   }
 
   const isDev = process.env.NODE_ENV !== 'production';
 
   try {
     console.log('Starting database setup...');
+
+    // Login to Supabase CLI first
+    console.log('Logging in to Supabase CLI...');
+    const { stdout: loginOutput, stderr: loginError } = await execPromise(
+      `bunx supabase login --token ${process.env.SUPABASE_ACCESS_TOKEN}`
+    );
+
+    if (loginError) {
+      console.warn('Supabase login produced warnings:', loginError);
+    }
+    console.log('Supabase CLI login completed:', loginOutput);
 
     console.log('Generating Prisma client...');
     const { stdout: generateOutput, stderr: generateError } =
