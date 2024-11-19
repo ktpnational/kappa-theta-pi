@@ -133,17 +133,17 @@
     ]
   },
   "dependencies": {
+    "next": "^15.0.2",
+    "react": "^19.0.0-rc-02c0e824-20241028",
+    "react-dom": "^19.0.0-rc-02c0e824-20241028"
+  },
+  "devDependencies": {
     "@contentlayer/core": "^0.3.4",
     "@react-email/tailwind": "^1.0.2",
     "@supabase/auth-helpers-nextjs": "^0.10.0",
     "@types/bcryptjs": "^2.4.6",
     "ignore-loader": "^0.1.2",
     "micromark-util-classify-character": "^2.0.1",
-    "next": "^15.0.2",
-    "react": "^19.0.0-rc-02c0e824-20241028",
-    "react-dom": "^19.0.0-rc-02c0e824-20241028"
-  },
-  "devDependencies": {
     "@antfu/ni": "^0.23.0",
     "@auth/core": "^0.37.3",
     "@auth/prisma-adapter": "^2.7.4",

@@ -29,10 +29,9 @@ import { ImageResponse } from 'next/og';
  */
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const title = searchParams.get('title') || constructMetadata({}).title;
-  // @ts-ignore
-  const template = title['default'];
-  const description = searchParams.get('description') || String(constructMetadata({}).description);
+  const metadata = constructMetadata({});
+  const title = searchParams.get('title') || metadata.title || 'Default Title';
+  const description = searchParams.get('description') || String(metadata.description || '');
 
   try {
     /**
@@ -150,7 +149,7 @@ export async function GET(request: Request) {
               textShadow: '0 2px 4px rgba(0,0,0,0.3)',
             }}
           >
-            {`${template}`}
+            {`${title}`}
           </h1>
           <p
             style={{
