@@ -121,9 +121,7 @@ export const HeroVideoDialog = React.memo(
           />
           <div className="absolute inset-0 flex items-center justify-center group-hover:scale-100 scale-[0.9] transition-all duration-200 ease-out rounded-2xl">
             <div className="bg-primary/10 flex items-center justify-center rounded-full backdrop-blur-md size-28">
-              <div
-                className={`flex items-center justify-center bg-gradient-to-b from-primary/30 to-primary shadow-md rounded-full size-20 transition-all ease-out duration-200 relative group-hover:scale-[1.2] scale-100`}
-              >
+              <div className="flex items-center justify-center bg-gradient-to-b from-primary/30 to-primary shadow-md rounded-full size-20 transition-all ease-out duration-200 relative group-hover:scale-[1.2] scale-100">
                 <Play
                   className="size-8 text-white fill-white group-hover:scale-105 scale-100 transition-transform duration-200 ease-out"
                   style={{
@@ -141,24 +139,18 @@ export const HeroVideoDialog = React.memo(
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              {...({
-                className:
-                  'fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-md',
-                onClick: () => setIsVideoOpen(false),
-              } as HTMLMotionProps<'div'>)}
+              className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-md"
+              onClick={() => setIsVideoOpen(false)}
             >
               <motion.div
-                {...selectedAnimation}
+                initial={selectedAnimation.initial}
+                animate={selectedAnimation.animate}
+                exit={selectedAnimation.exit}
                 transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-                {...({
-                  className: 'relative w-full max-w-4xl aspect-video mx-4 md:mx-0',
-                } as HTMLMotionProps<'div'>)}
+                className="relative w-full max-w-4xl mx-4 md:mx-0 aspect-[3/2]"
               >
                 <motion.button
-                  {...({
-                    className:
-                      'absolute -top-16 right-0 text-white text-xl bg-neutral-900/50 ring-1 backdrop-blur-md rounded-full p-2 dark:bg-neutral-100/50 dark:text-black',
-                  } as HTMLMotionProps<'button'>)}
+                  className="absolute -top-16 right-0 text-white text-xl bg-neutral-900/50 ring-1 backdrop-blur-md rounded-full p-2 dark:bg-neutral-100/50 dark:text-black"
                 >
                   <XIcon className="size-5" />
                 </motion.button>
@@ -168,7 +160,7 @@ export const HeroVideoDialog = React.memo(
                     className="size-full rounded-2xl"
                     allowFullScreen
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  ></iframe>
+                  />
                 </div>
               </motion.div>
             </motion.div>
@@ -180,3 +172,4 @@ export const HeroVideoDialog = React.memo(
 );
 
 HeroVideoDialog.displayName = 'HeroVideoDialog';
+

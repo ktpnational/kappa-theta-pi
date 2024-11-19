@@ -1,5 +1,12 @@
 import React from 'react';
-import { BlogSection, CtaSection, FAQSection, HeroSection, MapSection, SponsorsSection } from '.';
+import {
+  // BlogSection,
+  CtaSection,
+  FAQSection,
+  HeroSection,
+  MapSection,
+  SponsorsSection,
+} from '.';
 
 /**
  * React component that renders the main sections of the home page
@@ -29,7 +36,7 @@ export const HomeSections = () => {
       <SponsorsSection />
       <MapSection />
       <FAQSection />
-      <BlogSection />
+      {/* <BlogSection /> */}
       <CtaSection />
     </>
   );

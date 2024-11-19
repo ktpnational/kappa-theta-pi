@@ -3,6 +3,13 @@
 /**
  * @file google-map.tsx
  * @fileoverview A comprehensive Google Maps component for displaying chapter locations with clustering, filtering, and interactive markers.
+ * The component includes features like:
+ * - Marker clustering for better visualization of dense areas
+ * - Status-based filtering (Active, Colony, Inactive chapters)
+ * - Interactive info windows with chapter details
+ * - Custom map styling and restricted bounds
+ * - Responsive design and loading states
+ * - Scroll lock when interacting with map
  */
 
 import { Badge } from '@/components/ui/badge';
@@ -16,10 +23,19 @@ import { APIProvider, InfoWindow, Map, useMap } from '@vis.gl/react-google-maps'
 import { AnimatePresence, motion } from 'framer-motion';
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { FaCalendarAlt } from 'react-icons/fa';
+import { cn } from '@/lib/utils';
 
 /**
- * Color configurations for different chapter statuses
+ * Color configurations for different chapter statuses.
+ * Each status has associated background, text, and badge colors.
+ * 
  * @type {Object.<string, {bg: string, text: string, badge: string}>}
+ * @property {Object} Active - Colors for active chapters (primary blue)
+ * @property {Object} Colony - Colors for colony chapters (light blue)
+ * @property {Object} Inactive - Colors for inactive chapters (gray)
+ * @property {string} *.bg - Background color in hex format
+ * @property {string} *.text - Text color in hex format
+ * @property {string} *.badge - Tailwind CSS class for badge background
  */
 const MARKER_COLORS = {
   Active: { bg: '#234c8b', text: '#ffffff', badge: 'bg-[#234c8b]' },
@@ -28,8 +44,14 @@ const MARKER_COLORS = {
 };
 
 /**
- * Geographic bounds for North America to restrict map panning
+ * Geographic bounds for North America to restrict map panning.
+ * These coordinates create a bounding box that prevents users from panning too far outside North America.
+ * 
  * @type {{north: number, south: number, west: number, east: number}}
+ * @property {number} north - Northern boundary (71.5388001°N)
+ * @property {number} south - Southern boundary (15.7835°N)
+ * @property {number} west - Western boundary (167.2764°W)
+ * @property {number} east - Eastern boundary (52.648°W)
  */
 const NORTH_AMERICA_BOUNDS = {
   north: 71.5388001,
@@ -39,14 +61,24 @@ const NORTH_AMERICA_BOUNDS = {
 };
 
 /**
- * Default center coordinates for the map (center of USA)
+ * Default center coordinates for the map (center of USA).
+ * These coordinates represent the geographic center of the contiguous United States.
+ * 
  * @type {{lat: number, lng: number}}
+ * @property {number} lat - Latitude (39.8283°N)
+ * @property {number} lng - Longitude (98.5795°W)
  */
 const DEFAULT_CENTER = { lat: 39.8283, lng: -98.5795 };
 
 /**
- * Custom styling for the Google Map
+ * Custom styling for the Google Map.
+ * Defines visual appearance of map features like water bodies, landscape, and administrative labels.
+ * 
  * @type {Array<google.maps.MapTypeStyle>}
+ * @property {Object[]} styles - Array of style rules
+ * @property {string} styles[].featureType - The map feature to style
+ * @property {string} styles[].elementType - The element within the feature to style
+ * @property {Object[]} styles[].stylers - Array of style operations to apply
  */
 const MAP_STYLES = [
   {
@@ -67,9 +99,40 @@ const MAP_STYLES = [
 ];
 
 /**
- * Main Google Maps component that displays chapter locations with filtering capabilities
+ * Color configurations for different filter button statuses.
+ * Defines the visual appearance of filter buttons in different states.
+ * 
+ * @type {Object.<string, {bg: string, text: string}>}
+ * @property {Object} All - Colors for "All Chapters" filter
+ * @property {Object} Active - Colors for "Active Chapters" filter
+ * @property {Object} Colony - Colors for "Colony Chapters" filter
+ * @property {Object} Inactive - Colors for "Inactive Chapters" filter
+ * @property {string} *.bg - Tailwind CSS classes for button background
+ * @property {string} *.text - Tailwind CSS classes for button text color
+ */
+const BUTTON_COLORS = {
+  All: { bg: 'bg-white hover:bg-gray-50', text: 'text-gray-900' },
+  Active: { bg: 'bg-white hover:bg-gray-50', text: 'text-[#234c8b]' },
+  Colony: { bg: 'bg-white hover:bg-gray-50', text: 'text-[#8bb9ff]' },
+  Inactive: { bg: 'bg-white hover:bg-gray-50', text: 'text-gray-400' },
+};
+
+/**
+ * Main Google Maps component that displays chapter locations with filtering capabilities.
+ * This component serves as the container for the entire map interface, including:
+ * - Filter buttons for different chapter statuses
+ * - Loading states with skeleton UI
+ * - Map container with scroll lock behavior
+ * - Chapter markers and clustering
+ * - Info windows for chapter details
+ * 
  * @component
- * @returns {JSX.Element} Rendered Google Maps component
+ * @example
+ * ```tsx
+ * <GoogleMaps />
+ * ```
+ * 
+ * @returns {JSX.Element} Rendered Google Maps component with all interactive features
  */
 export const GoogleMaps = memo(() => {
   const { toast } = useToast();
@@ -80,14 +143,22 @@ export const GoogleMaps = memo(() => {
   const [isLoading, setIsLoading] = useState(true);
 
   /**
-   * Disables page scrolling when mouse enters map container
+   * Disables page scrolling when mouse enters map container.
+   * This prevents the page from scrolling while users are interacting with the map.
+   * 
+   * @function
+   * @memberof GoogleMaps
    */
   const disableScroll = useCallback(() => {
     document.body.style.overflow = 'hidden';
   }, []);
 
   /**
-   * Enables page scrolling when mouse leaves map container
+   * Enables page scrolling when mouse leaves map container.
+   * Restores normal page scrolling behavior when map interaction ends.
+   * 
+   * @function
+   * @memberof GoogleMaps
    */
   const enableScroll = useCallback(() => {
     document.body.style.overflow = 'auto';
@@ -123,20 +194,36 @@ export const GoogleMaps = memo(() => {
   }, []);
 
   /**
-   * Memoized map options for Google Maps configuration
+   * Memoized map options for Google Maps configuration.
+   * Defines the map's behavior, controls, and visual settings.
+   * 
+   * @type {google.maps.MapOptions}
+   * @property {string} gestureHandling - Controls how the map handles gestures
+   * @property {Object} restriction - Defines map boundaries
+   * @property {boolean} disableDefaultUI - Controls visibility of default UI elements
+   * @property {boolean} zoomControl - Controls visibility of zoom controls
+   * @property {boolean} mapTypeControl - Controls visibility of map type selector
+   * @property {boolean} streetViewControl - Controls visibility of Street View
+   * @property {boolean} fullscreenControl - Controls visibility of fullscreen button
+   * @property {Array} styles - Custom map styles
+   * @property {number} minZoom - Minimum zoom level
+   * @property {number} maxZoom - Maximum zoom level
    */
   const mapOptions = useMemo(
     () => ({
       gestureHandling: 'cooperative',
-      scrollwheel: false,
-      disableDefaultUI: true,
-      styles: MAP_STYLES,
       restriction: {
         latLngBounds: NORTH_AMERICA_BOUNDS,
-        strictBounds: true,
+        strictBounds: false,
       },
+      disableDefaultUI: false,
+      zoomControl: true,
+      mapTypeControl: false,
+      streetViewControl: false,
+      fullscreenControl: false,
+      styles: MAP_STYLES,
       minZoom: 3,
-      maxZoom: 15,
+      maxZoom: 18,
     }),
     [],
   );
@@ -152,7 +239,7 @@ export const GoogleMaps = memo(() => {
   }, [isLoading, toast]);
 
   return (
-    <Card className="w-full bg-white bg-opacity-80 backdrop-blur-md border-none">
+    <Card className="w-full bg-white border-none shadow-none">
       <CardContent className="p-6 space-y-6">
         {isLoading ? (
           <>
@@ -166,38 +253,21 @@ export const GoogleMaps = memo(() => {
         ) : (
           <>
             <div className="flex flex-wrap justify-center gap-4">
-              {[
-                { label: 'All Chapters', filter: 'All' },
-                { label: 'Active Chapters', filter: 'Active' },
-                { label: 'Colonies', filter: 'Colony' },
-                { label: 'Inactive Chapters', filter: 'Inactive' },
-              ].map((status) => (
-                <motion.button
-                  key={status.label}
-                  className={`flex items-center px-4 py-2 rounded-full shadow-md ${
-                    statusFilter === status.filter
-                      ? 'bg-[#234c8b] text-white'
-                      : 'bg-white text-[#234c8b]'
-                  }`}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => setStatusFilter(status.filter)}
-                >
-                  {status.filter !== 'All' && (
-                    <span
-                      className={`inline-block w-4 h-4 mr-2 rounded-full ${MARKER_COLORS[status.filter as keyof typeof MARKER_COLORS].badge}`}
-                    ></span>
+              {['All', 'Active', 'Colony', 'Inactive'].map((filter) => (
+                <Button
+                  key={filter}
+                  onClick={() => setStatusFilter(filter)}
+                  className={cn(
+                    'rounded-full transition-colors',
+                    BUTTON_COLORS[filter as keyof typeof BUTTON_COLORS].bg,
+                    BUTTON_COLORS[filter as keyof typeof BUTTON_COLORS].text,
+                    statusFilter === filter ? 'ring-2 ring-[#234c8b] ring-offset-2' : ''
                   )}
-                  {status.label} (
-                  {status.filter === 'All'
-                    ? stats.active + stats.colony + stats.inactive
-                    : status.filter === 'Active'
-                      ? stats.active
-                      : status.filter === 'Colony'
-                        ? stats.colony
-                        : stats.inactive}
-                  )
-                </motion.button>
+                  variant="outline"
+                >
+                  {filter} Chapters
+                  {filter !== 'All' && ` (${stats[filter.toLowerCase() as keyof typeof stats]})`}
+                </Button>
               ))}
             </div>
             <div className="relative">
@@ -226,8 +296,13 @@ export const GoogleMaps = memo(() => {
 });
 
 /**
- * Props interface for Markers component
+ * Props interface for Markers component.
+ * Defines the expected properties for the Markers component.
+ * 
  * @interface
+ * @property {typeof chapters} chapters - Chapter data containing active, colony, and inactive chapters
+ * @property {string} statusFilter - Current filter status ('All', 'Active', 'Colony', or 'Inactive')
+ * @property {number} mapZoom - Current zoom level of the map
  */
 type MarkersProps = {
   chapters: typeof chapters;
@@ -236,9 +311,18 @@ type MarkersProps = {
 };
 
 /**
- * Component that handles the rendering and management of map markers and clustering
+ * Component that handles the rendering and management of map markers and clustering.
+ * Responsible for:
+ * - Creating and managing markers for each chapter
+ * - Implementing marker clustering
+ * - Handling marker click events
+ * - Managing info windows
+ * 
  * @component
  * @param {MarkersProps} props - Component props
+ * @param {typeof chapters} props.chapters - Chapter data
+ * @param {string} props.statusFilter - Current filter status
+ * @param {number} props.mapZoom - Current map zoom level
  * @returns {JSX.Element} Rendered markers and info windows
  */
 const Markers: React.FC<MarkersProps> = memo(({ chapters, statusFilter, mapZoom }) => {
@@ -247,7 +331,12 @@ const Markers: React.FC<MarkersProps> = memo(({ chapters, statusFilter, mapZoom 
   const clusterer = useRef<MarkerClusterer | null>(null);
 
   /**
-   * Filtered and processed chapters based on status filter and geographic bounds
+   * Filtered and processed chapters based on status filter and geographic bounds.
+   * Combines all chapter types and filters them based on:
+   * - Current status filter
+   * - Geographic boundaries
+   * 
+   * @type {ChapterInfo[]}
    */
   const allChapters = useMemo(() => {
     const combined = [...chapters.active, ...chapters.colony, ...chapters.inactive];
@@ -265,7 +354,12 @@ const Markers: React.FC<MarkersProps> = memo(({ chapters, statusFilter, mapZoom 
   }, [chapters, statusFilter]);
 
   /**
-   * Handles marker click events and toggles the active marker state
+   * Handles marker click events and toggles the active marker state.
+   * When a marker is clicked:
+   * - If it's not active, it becomes the active marker
+   * - If it's already active, it becomes inactive
+   * 
+   * @function
    * @param {string} markerName - Name of the clicked marker
    */
   const handleMarkerClick = useCallback((markerName: string) => {
@@ -343,11 +437,19 @@ const Markers: React.FC<MarkersProps> = memo(({ chapters, statusFilter, mapZoom 
 });
 
 /**
- * Component that displays detailed information about a chapter in an info window
+ * Component that displays detailed information about a chapter in an info window.
+ * Shows comprehensive chapter details including:
+ * - Chapter status badge
+ * - Founding date
+ * - Chapter name and Greek name
+ * - University and location
+ * - Additional notes
+ * - Link to Google Maps
+ * 
  * @component
  * @param {Object} props - Component props
  * @param {ChapterInfo} props.chapter - Chapter information to display
- * @returns {JSX.Element} Rendered chapter information card
+ * @returns {JSX.Element} Rendered chapter information card with animation
  */
 const ChapterInfo: React.FC<{ chapter: ChapterInfo }> = memo(({ chapter }) => (
   <motion.div
@@ -392,7 +494,13 @@ const ChapterInfo: React.FC<{ chapter: ChapterInfo }> = memo(({ chapter }) => (
 ));
 
 /**
- * Creates a custom marker element with specified background color
+ * Creates a custom marker element with specified background color.
+ * Generates a DOM element representing a map marker with:
+ * - Custom background color
+ * - Drop shadow
+ * - Map pin icon
+ * 
+ * @function
  * @param {string} bgColor - Background color for the marker
  * @returns {Element} Custom marker DOM element
  */
@@ -413,6 +521,17 @@ function createMarkerContent(bgColor: string) {
   return div.firstElementChild;
 }
 
+/**
+ * Creates a custom cluster marker element with a count.
+ * Generates a DOM element representing a cluster marker with:
+ * - Circle background
+ * - Count of clustered markers
+ * - Custom styling
+ * 
+ * @function
+ * @param {number} count - Number of markers in the cluster
+ * @returns {Element} Custom cluster marker DOM element
+ */
 function createClusterMarkerContent(count: number) {
   const div = document.createElement('div');
   div.innerHTML = `

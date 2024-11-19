@@ -4,6 +4,7 @@ import { app } from '@/constants';
 import { Instagram, Linkedin, Mail } from 'lucide-react';
 import Link from 'next/link';
 import { memo } from 'react';
+import { NewsletterSignUpForm } from '../forms';
 
 /**
  * Footer component for the Kappa Theta Pi website
@@ -41,25 +42,29 @@ export const Footer = memo(function Footer() {
   return (
     <footer className="bg-[#234c8b] text-white py-12">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          <FooterSection
-            title="Quick Links"
-            links={[
-              { href: '/about', text: 'About Us' },
-              { href: '/chapters', text: 'Chapters' },
-              { href: '/join', text: 'Join Us' },
-              { href: '/blog', text: 'Blog' },
-            ]}
-          />
-          <FooterSection
-            title="Resources"
-            links={[
-              { href: '/company-portal', text: 'Company Portal' },
-              { href: '/blog', text: 'Student Resources' },
-              { href: '#', text: 'New Company Interest Form' },
-            ]}
-          />
-          <div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8">
+          <div className="lg:col-span-2">
+            <FooterSection
+              title="Quick Links"
+              links={[
+                { href: '/about', text: 'About Us' },
+                { href: '/chapters', text: 'Chapters' },
+                { href: '/join', text: 'Join Us' },
+                { href: '/blog', text: 'Blog' },
+              ]}
+            />
+          </div>
+          <div className="lg:col-span-2">
+            <FooterSection
+              title="Resources"
+              links={[
+                { href: '/company-portal', text: 'Company Portal' },
+                { href: '/blog', text: 'Student Resources' },
+                { href: '#', text: 'New Company Interest Form' },
+              ]}
+            />
+          </div>
+          <div className="lg:col-span-3">
             <h3 className="text-xl font-semibold mb-4">Contact Kappa Theta Pi</h3>
             <div className="flex items-center space-x-2">
               <Mail className="w-5 h-5 text-[#458eff]" />
@@ -68,7 +73,7 @@ export const Footer = memo(function Footer() {
               </a>
             </div>
           </div>
-          <div>
+          <div className="lg:col-span-2">
             <h3 className="text-xl font-semibold mb-4">Follow ΚΘΠ</h3>
             <div className="flex space-x-4">
               <SocialLink
@@ -84,6 +89,10 @@ export const Footer = memo(function Footer() {
                 <Linkedin className="w-6 h-6 text-[#458eff]" />
               </SocialLink>
             </div>
+          </div>
+          <div className="lg:col-span-3">
+            <h3 className="text-xl font-semibold mb-4">Stay Updated</h3>
+            <NewsletterSignUpForm />
           </div>
         </div>
         <div className="mt-12 text-center">

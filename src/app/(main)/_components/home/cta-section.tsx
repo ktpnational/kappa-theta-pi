@@ -1,9 +1,12 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
+import { Suspense } from 'react';
 import type React from 'react';
 
 const containerVariants = {
@@ -28,43 +31,58 @@ const itemVariants = {
   },
 };
 
+const CTASectionSkeleton = () => (
+  <section className="my-16 md:my-24 px-4">
+    <Card className="max-w-4xl mx-auto p-8 md:p-12 bg-gradient-to-br from-[#234c8b] to-[#458eff]">
+      <div className="space-y-6 text-center">
+        <Skeleton className="h-10 w-2/3 mx-auto bg-white/20" />
+        <Skeleton className="h-6 w-3/4 mx-auto bg-white/20" />
+        <Skeleton className="h-11 w-40 mx-auto bg-white/20" />
+      </div>
+    </Card>
+  </section>
+);
+
+const CTAContent = () => (
+  <motion.div
+    className="max-w-4xl mx-auto text-center p-8 md:p-12 rounded-2xl shadow-2xl bg-gradient-to-br from-[#234c8b] to-[#458eff] text-white overflow-hidden relative"
+    variants={containerVariants}
+    initial="hidden"
+    whileInView="visible"
+    viewport={{ once: true, amount: 0.8 }}
+  >
+    <motion.div
+      className="absolute inset-0 bg-[url('/circuit-board.svg')] opacity-10"
+      initial={{ opacity: 0, scale: 1.1 }}
+      animate={{ opacity: 0.1, scale: 1 }}
+      transition={{ duration: 1.5 }}
+    />
+    <motion.h2 className="text-3xl md:text-4xl font-bold mb-6 relative" variants={itemVariants}>
+      Join Kappa Theta Pi
+    </motion.h2>
+    <motion.p className="text-lg md:text-xl mb-8 max-w-2xl mx-auto relative" variants={itemVariants}>
+      Be part of the premier national technology fraternity and shape the future of tech
+    </motion.p>
+    <motion.div variants={itemVariants}>
+      <Link href="/join" passHref>
+        <Button
+          size="lg"
+          className="bg-[#538b52] text-white hover:bg-[#8ddd8d] transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg group"
+        >
+          Apply to ΚΘΠ Now
+          <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 ease-in-out group-hover:translate-x-1" />
+        </Button>
+      </Link>
+    </motion.div>
+  </motion.div>
+);
+
 export const CtaSection: React.FC = () => {
   return (
     <section className="my-16 md:my-24 px-4">
-      <motion.div
-        className="max-w-4xl mx-auto text-center p-8 md:p-12 rounded-2xl shadow-2xl bg-gradient-to-br from-[#234c8b] to-[#458eff] text-white overflow-hidden relative"
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.8 }}
-      >
-        <motion.div
-          className="absolute inset-0 bg-[url('/circuit-board.svg')] opacity-10"
-          initial={{ opacity: 0, scale: 1.1 }}
-          animate={{ opacity: 0.1, scale: 1 }}
-          transition={{ duration: 1.5 }}
-        />
-        <motion.h2 className="text-3xl md:text-4xl font-bold mb-6 relative" variants={itemVariants}>
-          Join Kappa Theta Pi
-        </motion.h2>
-        <motion.p
-          className="text-lg md:text-xl mb-8 max-w-2xl mx-auto relative"
-          variants={itemVariants}
-        >
-          Be part of the premier national technology fraternity and shape the future of tech
-        </motion.p>
-        <motion.div variants={itemVariants}>
-          <Link href="/join" passHref>
-            <Button
-              size="lg"
-              className="bg-[#538b52] text-white hover:bg-[#8ddd8d] transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg group"
-            >
-              Apply to ΚΘΠ Now
-              <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 ease-in-out group-hover:translate-x-1" />
-            </Button>
-          </Link>
-        </motion.div>
-      </motion.div>
+      <Suspense fallback={<CTASectionSkeleton />}>
+        <CTAContent />
+      </Suspense>
     </section>
   );
 };

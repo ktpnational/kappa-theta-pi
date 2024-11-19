@@ -2,7 +2,6 @@
 
 import { Marquee } from '@/components/ui/marquee';
 import { companies } from '@/constants';
-import { motion } from 'framer-motion';
 import Image from 'next/image';
 
 /**
@@ -59,16 +58,11 @@ import Image from 'next/image';
  */
 export const SponsorsSection = () => {
   return (
-    <section className="w-full py-12">
+    <section id="sponsors" className="w-full py-12">
       <div className="container px-4 md:px-6">
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="text-center text-sm font-semibold tracking-wider text-[#234c8b] mb-8"
-        >
+        <h2 className="text-center text-sm font-semibold tracking-wider text-[#234c8b] mb-8 sr-only">
           TRUSTED BY LEADING TEAMS
-        </motion.h2>
+        </h2>
         <div className="relative w-full">
           <Marquee className="py-6 bg-none" pauseOnHover>
             {companies.map((company, idx) => (

@@ -56,76 +56,7 @@ const nextConfig: NextConfig = {
     config.resolve.fallback = config.resolve.fallback || {};
     config.resolve.alias = config.resolve.alias || {};
 
-    // Client-side configuration
-    if (!isServer) {
-      config.resolve.fallback = {
-        ...config.resolve.fallback,
-        fs: false,
-        path: false,
-      };
-    }
-
     // Edge runtime configuration
-    if (nextRuntime === 'edge') {
-      config.resolve.alias = {
-        ...config.resolve.alias,
-        fs: false,
-        path: false,
-        'decode-named-character-reference': false,
-        'micromark-core-commonmark': false,
-        'micromark': false,
-      };
-    }
-
-    // Handle externals as a function
-    const existingExternals = config.externals;
-    config.externals = (context: any, request: any, callback: any) => {
-      if (request === '@opentelemetry/instrumentation') {
-        return callback(null, 'commonjs ' + request);
-      }
-      if (request === 'node:fs') {
-        return callback(null, 'commonjs fs');
-      }
-      if (request === 'node:path') {
-        return callback(null, 'commonjs path');
-      }
-      if (typeof existingExternals === 'function') {
-        return existingExternals(context, request, callback);
-      }
-      callback();
-    };
-
-    // Initialize module rules if not present
-    if (!config.module) {
-      config.module = { rules: [] };
-    }
-
-    // Edge and Node.js runtime specific rules
-    if (nextRuntime === 'edge' || nextRuntime === 'nodejs') {
-      config.module.rules.push({
-        test: /decode-named-character-reference|micromark-core-commonmark|micromark/,
-        loader: 'null-loader',
-      });
-    }
-
-    // Common rules for all environments
-    config.module.rules.push(
-      {
-        test: /\.svg$/i,
-        use: ['@svgr/webpack'],
-      },
-      {
-        test: /\.html$/,
-        loader: 'ignore-loader',
-      }
-    );
-
-    config.module.rules.push({
-      test: /\.(txt|ttf|woff|woffeot|otf)$/,
-      type: 'asset/resource',
-    });
-
-    // Add font handling for edge runtime
     if (nextRuntime === 'edge') {
       config.module.rules.push({
         test: /\.(woff|woff2|eot|ttf|otf)$/,
@@ -134,6 +65,18 @@ const nextConfig: NextConfig = {
           filename: 'static/media/[name].[hash][ext]'
         }
       });
+
+      // Handle problematic packages in edge runtime
+      config.resolve.alias = {
+        ...config.resolve.alias,
+        'decode-named-character-reference': false,
+        'micromark-core-commonmark': false,
+        'micromark': false,
+        'unified': false,
+        'remark-parse': false,
+        'remark-rehype': false,
+        'rehype-stringify': false,
+      };
     }
 
     return config;

@@ -24,7 +24,7 @@ const HeroPill = () => {
       transition={{ duration: 0.8, ease }}
     >
       <div className="rounded-full bg-gradient-to-r from-[#88dddd] to-[#8bb9ff] px-3 py-1.5">
-        <span className="text-xs font-medium text-[#234c8b] sm:text-sm">✨ Announcement</span>
+        <span className="text-xs font-medium text-[#234c8b] sm:text-sm">⚡ Announcement</span>
       </div>
       <div className="flex items-center gap-2 px-2">
         <span className="text-xs font-medium text-[#234c8b] sm:text-sm">Introducing ΚΘΠ</span>

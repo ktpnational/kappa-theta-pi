@@ -35,9 +35,14 @@ export async function GET(request: Request) {
 
   try {
     const fontData = await fetch(
-      new URL('palatino.ttf', 'https://www.kappathetapi.org/assets/fonts/')
-    ).then((res) => {
-      if (!res.ok) throw new Error(`Failed to load font: ${res.status}`);
+      new URL('/assets/fonts/palatino.ttf', process.env.VERCEL_URL
+        ? `https://${process.env.VERCEL_URL}`
+        : 'http://localhost:3000')
+    ).then(async (res) => {
+      if (!res.ok) {
+        console.error(`Font loading failed: ${res.status} ${res.statusText}`);
+        throw new Error(`Failed to load font: ${res.status}`);
+      }
       return res.arrayBuffer();
     });
 

@@ -36,7 +36,7 @@ import type React from 'react';
 export const MapSection: React.FC = () => {
   return (
     <section className="mb-16 md:mb-24 px-4">
-      <h2 className="text-3xl font-bold text-center mb-8 text-[#234c8b]">Our Chapters</h2>
+      <h2 className="text-3xl font-bold text-center mb-8 text-[#234c8b] sr-only">Our Chapters</h2>
       <GoogleMaps />
     </section>
   );

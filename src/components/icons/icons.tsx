@@ -3,6 +3,7 @@ import { LogoIcon, LogoSmallIcon } from './components';
 import {
   ArrowLeftIcon,
   AvatarIcon,
+  CheckIcon,
   PaperplaneIcon,
   PlaceholderIcon,
   SpinnerIcon,
@@ -126,6 +127,14 @@ export const Icons = {
      */
     spinner: ({ className, size, ...props }: IconProps) => (
       <SpinnerIcon className={cn(getSizeClasses(size), className)} {...props} />
+    ),
+    /**
+     * Check icon
+     * @param {IconProps} props - Icon properties including size and className
+     * @returns {JSX.Element} Check icon component
+     */
+    check: ({ className, size, ...props }: IconProps) => (
+      <CheckIcon className={cn(getSizeClasses(size), className)} {...props} />
     ),
   },
 };

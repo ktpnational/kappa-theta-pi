@@ -8,7 +8,7 @@ import { useCallback, useState } from 'react';
 
 /**
  * Individual FAQ item component that displays a question and answer in an expandable format
- * 
+ *
  * @component
  * @param {Object} props - Component props
  * @param {string} props.question - The FAQ question text
@@ -62,16 +62,16 @@ FAQItem.displayName = 'FAQItem';
 /**
  * FAQ Section component that displays a list of frequently asked questions
  * with animated expandable answers
- * 
+ *
  * @component
  * @returns {JSX.Element} Rendered FAQ section with animated title and items
- * 
+ *
  * @example
  * ```tsx
  * // Basic usage
  * <FAQSection />
  * ```
- * 
+ *
  * Features:
  * - Animated entrance for title and FAQ items
  * - Accordion-style expansion where only one item can be open at a time
@@ -90,7 +90,7 @@ export const FAQSection: React.FC = () => {
    * Callback to toggle the expanded state of an FAQ item
    * If the clicked item is already open, it will be closed
    * If a different item is clicked, the previous item will close and the new one will open
-   * 
+   *
    * @param {number} index - The index of the FAQ item to toggle
    */
   const toggleOpen = useCallback((index: number) => {
@@ -98,16 +98,11 @@ export const FAQSection: React.FC = () => {
   }, []);
 
   return (
-    <section className="py-16 bg-none">
+    <section className="py-16 bg-none" id="faq">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.h2
-          className="text-3xl font-extrabold text-foreground text-center mb-12"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
+        <h2 className="text-3xl font-extrabold text-foreground text-center mb-12 sr-only">
           Frequently Asked Questions
-        </motion.h2>
+        </h2>
         <motion.div
           className="space-y-6"
           initial={{ opacity: 0 }}
