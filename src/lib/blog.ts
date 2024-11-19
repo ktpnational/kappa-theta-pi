@@ -4,11 +4,12 @@ import fs from 'fs';
 import path from 'path';
 import { app } from '@/constants';
 import rehypePrettyCode from 'rehype-pretty-code';
-import rehypeStringify from 'rehype-stringify';
+import rehypeStringify, { Options } from 'rehype-stringify';
 import remarkGfm from 'remark-gfm';
 import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
 import { unified } from 'unified';
+import { Root } from 'remark-gfm/lib';
 
 /**
  * @typedef {Object} Post
@@ -82,7 +83,7 @@ export const markdownToHTML = async (markdown: string): Promise<string> => {
       },
       keepBackground: false,
     })
-    .use(rehypeStringify)
+    .use(rehypeStringify as any) // Type assertion to bypass strict typing
     .process(markdown);
 
   return p.toString();

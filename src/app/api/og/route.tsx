@@ -47,7 +47,7 @@ export async function GET(request: Request) {
         style={{
           display: 'flex',
           justifyContent: 'center',
-          alignItems: 'center',
+          alignItems: 'center', 
           width: '100%',
           height: '100%',
         }}
