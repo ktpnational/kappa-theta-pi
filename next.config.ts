@@ -125,6 +125,17 @@ const nextConfig: NextConfig = {
       type: 'asset/resource',
     });
 
+    // Add font handling for edge runtime
+    if (nextRuntime === 'edge') {
+      config.module.rules.push({
+        test: /\.(woff|woff2|eot|ttf|otf)$/,
+        type: 'asset/resource',
+        generator: {
+          filename: 'static/media/[name].[hash][ext]'
+        }
+      });
+    }
+
     return config;
   },
   ignoreWarnings: [
