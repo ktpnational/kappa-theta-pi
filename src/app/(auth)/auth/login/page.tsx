@@ -1,8 +1,6 @@
 import dynamic from 'next/dynamic';
 
-const LoginForm = dynamic(
-  () => import('@/app/(auth)/_components').then((mod) => mod.LoginForm)
-);
+const LoginForm = dynamic(() => import('@/app/(auth)/_components').then((mod) => mod.LoginForm));
 
 /**
  * The main login page component that serves as the entry point for user authentication.

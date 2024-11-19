@@ -1,5 +1,6 @@
 import '@/styles/globals.css';
 
+import { auth } from '@/auth';
 import { Providers } from '@/providers';
 import { Scripts } from '@/scripts';
 import { constructMetadata, constructViewport } from '@/utils';
@@ -28,7 +29,9 @@ export const reportWebVitals = (metric: NextWebVitalsMetric) => {
  * @param {React.ReactNode} props.children - Child components to render
  * @returns {JSX.Element} Root layout structure
  */
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const session = await auth();
+
   return (
     <html
       lang="en"
@@ -48,7 +51,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             style={{ display: 'none', visibility: 'hidden' }}
           ></iframe>
         </noscript>
-        <Providers>
+        <Providers session={session}>
           {children}
           <Analytics />
         </Providers>

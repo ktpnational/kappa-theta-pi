@@ -1,61 +1,58 @@
 import { createClient } from '@/utils';
 import { S3Client } from '@aws-sdk/client-s3';
 
-/**
- * Creates a Supabase client instance for database interactions
- * @constant {ReturnType<typeof createClient>}
- */
-const supabase = createClient();
+/** Singleton instance of the Supabase client */
+let supabase: ReturnType<typeof createClient>;
 
 /**
- * Extracts the access key ID from the Supabase URL environment variable
- * The ID is parsed by splitting on '//' and '.' to get the project ID
- * @constant {string}
- * @throws {Error} If the access key ID cannot be extracted from the URL
+ * Lazily initializes and returns the Supabase client instance.
+ * Creates a new client if one doesn't exist, otherwise returns the existing instance.
+ * 
+ * @returns {ReturnType<typeof createClient>} The Supabase client instance
  */
-const accessKeyId = process.env.NEXT_PUBLIC_SUPABASE_URL.split('//')[1]?.split('.')[0];
-if (!accessKeyId) {
-  throw new Error('Access Key ID is undefined');
-}
+const getSupabase = () => {
+  if (!supabase) {
+    supabase = createClient();
+  }
+  return supabase;
+};
 
 /**
- * Retrieves an AWS S3 client instance configured with Supabase storage credentials and settings.
- *
- * Creates a new S3Client with authentication and configuration for Supabase storage.
- * Uses environment variables and session tokens to setup secure access.
- *
- * @async
- * @function getS3Client
- * @returns {Promise<S3Client>} A promise that resolves to a configured S3 client instance
- * @throws {Error} When there is no active user session
- * @throws {Error} When required environment variables are missing
- *
- * @example
- * try {
- *   const s3Client = await getS3Client();
- *   // Use s3Client for storage operations
- * } catch (error) {
- *   console.error('Failed to get S3 client:', error);
- * }
- *
- * @requires NEXT_PUBLIC_SUPABASE_URL - The Supabase project URL
- * @requires NEXT_PUBLIC_PROJECT_REGION - The AWS/Supabase region
- * @requires NEXT_PUBLIC_SUPABASE_ANON_KEY - The anonymous API key
+ * Creates and configures an S3 client for interacting with Supabase Storage.
+ * 
+ * This function:
+ * 1. Verifies an active user session exists
+ * 2. Extracts the access key ID from the Supabase URL
+ * 3. Configures and returns an S3 client with proper credentials
+ * 
+ * @throws {Error} If there is no active session
+ * @throws {Error} If the access key ID cannot be extracted from the Supabase URL
+ * 
+ * @returns {Promise<S3Client>} A configured S3 client instance
+ * 
+ * Required environment variables:
+ * - NEXT_PUBLIC_SUPABASE_URL: The Supabase project URL
+ * - NEXT_PUBLIC_PROJECT_REGION: The AWS region for S3 operations
+ * - NEXT_PUBLIC_SUPABASE_ANON_KEY: The anonymous API key for Supabase
  */
 async function getS3Client(): Promise<S3Client> {
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
+  const { data: { session } } = await getSupabase().auth.getSession();
 
   if (!session) {
     throw new Error('No active session');
   }
+
+  const accessKeyId = process.env.NEXT_PUBLIC_SUPABASE_URL?.split('//')[1]?.split('.')[0];
+  if (!accessKeyId) {
+    throw new Error('Access Key ID is undefined');
+  }
+
   return new S3Client({
     forcePathStyle: true,
     region: process.env.NEXT_PUBLIC_PROJECT_REGION,
     endpoint: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/s3`,
     credentials: {
-      accessKeyId: accessKeyId || '',
+      accessKeyId,
       secretAccessKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '',
       sessionToken: session?.access_token,
     },

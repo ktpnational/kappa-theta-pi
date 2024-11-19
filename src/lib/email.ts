@@ -25,4 +25,4 @@ import { Resend } from 'resend';
  * @throws {Error} If NEXT_PUBLIC_RESEND_API_KEY environment variable is not set
  * @see {@link https://resend.com/docs/send-email}
  */
-export const resend = new Resend("re_123");
+export const resend = new Resend('re_123');

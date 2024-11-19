@@ -1,8 +1,6 @@
 import dynamic from 'next/dynamic';
 
-const ErrorCard = dynamic(
-  () => import('@/app/(auth)/_components').then((mod) => mod.ErrorCard)
-);
+const ErrorCard = dynamic(() => import('@/app/(auth)/_components').then((mod) => mod.ErrorCard));
 
 /**
  * Authentication Error Page Component

@@ -5,8 +5,8 @@
 
 import dynamic from 'next/dynamic';
 
-const NewVerificationForm = dynamic(
-  () => import('@/app/(auth)/_components').then((mod) => mod.NewVerificationForm)
+const NewVerificationForm = dynamic(() =>
+  import('@/app/(auth)/_components').then((mod) => mod.NewVerificationForm),
 );
 
 /**

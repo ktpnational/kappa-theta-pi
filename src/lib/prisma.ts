@@ -3,29 +3,29 @@
  * @module lib/prisma
  */
 
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from '@prisma/client';
 
 /**
  * Extends the global namespace to include prisma client type
  * This allows for global singleton pattern implementation
  */
 declare global {
-  var prisma: PrismaClient | undefined
+  var prisma: PrismaClient | undefined;
 }
 
-let prisma: PrismaClient
+let prisma: PrismaClient;
 
 if (process.env.NODE_ENV === 'production') {
   prisma = new PrismaClient({
     log: ['error'],
-  })
+  });
 } else {
   if (!global.prisma) {
     global.prisma = new PrismaClient({
       log: ['query', 'error', 'warn'],
-    })
+    });
   }
-  prisma = global.prisma
+  prisma = global.prisma;
 }
 
 /**
@@ -47,9 +47,9 @@ if (process.env.NODE_ENV === 'production') {
  *   where: { id: 1 }
  * })
  */
-export const db = prisma
+export const db = prisma;
 
 /**
  * Re-export PrismaClient type for use in other modules
  */
-export type { PrismaClient }
+export type { PrismaClient };

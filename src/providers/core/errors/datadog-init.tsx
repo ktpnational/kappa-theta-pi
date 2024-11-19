@@ -2,7 +2,14 @@
 
 import { datadogRum } from '@datadog/browser-rum';
 import app from 'next/app';
-import { memo, useEffect, cache } from 'react';
+import { cache, memo, useEffect } from 'react';
+
+// Add type declaration for the global window object
+declare global {
+  interface Window {
+    __datadogRumInitialized?: boolean;
+  }
+}
 
 /**
  * Initializes the Datadog RUM client.
@@ -10,7 +17,7 @@ import { memo, useEffect, cache } from 'react';
  * @returns {void}
  */
 const initDatadog = cache(() => {
-  if (typeof window !== 'undefined') {
+  if (typeof window !== 'undefined' && !window.__datadogRumInitialized) {
     datadogRum.init({
       applicationId: process.env.NEXT_PUBLIC_DATADOG_APPLICATION_ID,
       clientToken: process.env.NEXT_PUBLIC_DATADOG_CLIENT_TOKEN,
@@ -28,6 +35,7 @@ const initDatadog = cache(() => {
     });
 
     datadogRum.startSessionReplayRecording();
+    window.__datadogRumInitialized = true;
   }
 });
 
@@ -38,7 +46,9 @@ const initDatadog = cache(() => {
  */
 export const DatadogInit = memo((): null => {
   useEffect(() => {
-    initDatadog();
+    if (typeof window !== 'undefined') {
+      initDatadog();
+    }
   }, []);
 
   return null;

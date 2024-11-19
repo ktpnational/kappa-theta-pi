@@ -9,7 +9,7 @@ import {
   Section,
   Text,
 } from '@react-email/components';
-import { CSSProperties } from 'react';
+import type { CSSProperties } from 'react';
 
 interface EmailVerificationEmailProps {
   email: string;

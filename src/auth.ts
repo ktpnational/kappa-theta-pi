@@ -14,6 +14,8 @@ export const {
   signIn,
   signOut,
 } = NextAuth({
+  adapter: PrismaAdapter(db),
+  ...authConfig,
   pages: {
     signIn: '/auth/login',
     error: '/auth/error',
@@ -121,11 +123,9 @@ export const {
       return token;
     },
   },
-  adapter: PrismaAdapter(db),
   session: {
     strategy: 'jwt',
     maxAge: 30 * 24 * 60 * 60,
     updateAge: 24 * 60 * 60,
   },
-  ...authConfig,
 });

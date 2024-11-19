@@ -41,7 +41,6 @@ const config: Config = {
         '6.5': '1.625rem',
       },
       zIndex: {
-        '-1': '-1',
         '0': '0',
         '1': '1',
         '10': '10',
@@ -50,6 +49,7 @@ const config: Config = {
         '40': '40',
         '50': '50',
         '60': '60',
+        '-1': '-1',
         auto: 'auto',
       },
       colors: {
@@ -113,6 +113,8 @@ const config: Config = {
         'spin-slow': 'spin 3s linear infinite',
         'bounce-slow': 'bounce 3s infinite',
         'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'shimmer-slide': 'shimmer-slide var(--speed) ease-in-out infinite alternate',
+        'spin-around': 'spin-around calc(var(--speed) * 2) infinite linear',
       },
       keyframes: {
         'shiny-text': {
@@ -140,12 +142,39 @@ const config: Config = {
           },
         },
         'accordion-down': {
-          from: { height: '0' },
-          to: { height: 'var(--radix-accordion-content-height)' },
+          from: {
+            height: '0',
+          },
+          to: {
+            height: 'var(--radix-accordion-content-height)',
+          },
         },
         'accordion-up': {
-          from: { height: 'var(--radix-accordion-content-height)' },
-          to: { height: '0' },
+          from: {
+            height: 'var(--radix-accordion-content-height)',
+          },
+          to: {
+            height: '0',
+          },
+        },
+        'shimmer-slide': {
+          to: {
+            transform: 'translate(calc(100cqw - 100%), 0)',
+          },
+        },
+        'spin-around': {
+          '0%': {
+            transform: 'translateZ(0) rotate(0)',
+          },
+          '15%, 35%': {
+            transform: 'translateZ(0) rotate(90deg)',
+          },
+          '65%, 85%': {
+            transform: 'translateZ(0) rotate(270deg)',
+          },
+          '100%': {
+            transform: 'translateZ(0) rotate(360deg)',
+          },
         },
       },
       container: {
@@ -163,7 +192,6 @@ const config: Config = {
         '9xl': '96rem',
         prose: '65ch',
       },
-      // Best practice: Add line-height scale
       lineHeight: {
         tighter: '1.1',
         relaxed: '1.625',

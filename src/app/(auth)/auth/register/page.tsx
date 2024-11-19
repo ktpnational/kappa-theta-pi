@@ -8,8 +8,8 @@
  */
 import dynamic from 'next/dynamic';
 
-const RegisterForm = dynamic(
-  () => import('@/app/(auth)/_components').then((mod) => mod.RegisterForm)
+const RegisterForm = dynamic(() =>
+  import('@/app/(auth)/_components').then((mod) => mod.RegisterForm),
 );
 
 /**

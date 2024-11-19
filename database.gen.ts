@@ -4,23 +4,60 @@ import { exec } from 'node:child_process';
 import { promisify } from 'node:util';
 
 /**
- * Asynchronously sets up the database by running Prisma migrations and generating Supabase types.
- * This script uses non-interactive commands that work in all environments.
+ * Database Setup and Type Generation Script
  *
  * @description
- * This script performs the following tasks in sequence:
- * 1. Validates the Supabase URL and access token
- * 2. Logs in to Supabase CLI
- * 3. Generates the Prisma client
- * 4. Pushes schema changes to database (dev only)
- * 5. Applies existing migrations
- * 6. Generates Supabase TypeScript types
+ * An immediately invoked async function that handles complete database setup, schema management,
+ * and type generation for both Prisma and Supabase. This script is designed to run as part of
+ * the deployment process or local development setup.
+ *
+ * @process Flow
+ * 1. Environment Validation
+ *    - Validates NEXT_PUBLIC_SUPABASE_URL format and presence
+ *    - Checks for SUPABASE_ACCESS_TOKEN
+ *    - Determines environment (development/production)
+ *
+ * 2. Supabase Authentication
+ *    - Logs in to Supabase CLI using provided access token
+ *    - Enables subsequent Supabase operations
+ *
+ * 3. Prisma Setup
+ *    - Generates Prisma client for type-safe database operations
+ *    - In development: Pushes schema changes directly (with data loss acceptance)
+ *    - Applies pending migrations using prisma migrate
+ *
+ * 4. Type Generation
+ *    - Generates TypeScript types from Supabase schemas
+ *    - Includes public, auth, storage, and next_auth schemas
  *
  * @environment
- * Required environment variables:
- * - NEXT_PUBLIC_SUPABASE_URL: The full URL of your Supabase project
- * - SUPABASE_ACCESS_TOKEN: Your Supabase access token
- * - NODE_ENV: Environment type (development/production)
+ * Required Environment Variables:
+ * - NEXT_PUBLIC_SUPABASE_URL: Complete Supabase project URL
+ *   Format: https://<project-ref>.supabase.co
+ * - SUPABASE_ACCESS_TOKEN: Authentication token for Supabase operations
+ *   Obtain from: Supabase Dashboard > Account > Access Tokens
+ * - NODE_ENV: Deployment environment identifier
+ *   Values: "development" | "production"
+ *
+ * @error Handling
+ * - Provides detailed error logging with full stack traces
+ * - Continues execution on non-critical warnings
+ * - Exits with status code 1 on critical failures
+ *
+ * @output
+ * Generated Files:
+ * - Prisma Client: node_modules/.prisma/client/
+ * - Supabase Types: src/types/supabase.ts
+ *
+ * @dependencies
+ * Required CLI Tools:
+ * - Supabase CLI
+ * - Prisma CLI
+ * - Bun (for bunx execution)
+ *
+ * @security
+ * Note: This script handles sensitive credentials and should only be run in
+ * secure environments with proper access controls.
  */
 (async () => {
   const execPromise = promisify(exec);
@@ -43,7 +80,7 @@ import { promisify } from 'node:util';
     // Login to Supabase CLI first
     console.log('Logging in to Supabase CLI...');
     const { stdout: loginOutput, stderr: loginError } = await execPromise(
-      `bunx supabase login --token ${process.env.SUPABASE_ACCESS_TOKEN}`
+      `bunx supabase login --token ${process.env.SUPABASE_ACCESS_TOKEN}`,
     );
 
     if (loginError) {

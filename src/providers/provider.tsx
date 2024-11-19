@@ -1,11 +1,13 @@
 'use client';
 
+import { TailwindIndicator } from '@/components';
+import type { Session } from 'next-auth';
 import type { JSXElementConstructor, ReactNode } from 'react';
 import {
   AuthProvider,
   Events,
   GlobalStoreProvider,
-  ModeToggle,
+  // ModeToggle,
   QueryProvider,
   SmoothScrollProvider,
   // TelemetryInit,
@@ -22,13 +24,14 @@ import {
 const Providers: React.FC<
   Readonly<{
     children: React.ReactNode;
+    session: Session | null;
   }>
-> = ({ children }) => {
+> = ({ children, session }) => {
   return (
     <>
       <ProviderStack
         providers={[
-          [AuthProvider, {}],
+          [AuthProvider, { session }],
           [QueryProvider, {}],
           [ThemeProvider, {}],
           [SmoothScrollProvider, {}],
@@ -38,7 +41,8 @@ const Providers: React.FC<
       >
         <>
           {children}
-          <ModeToggle />
+          {/* <ModeToggle /> */}
+          <TailwindIndicator />
           {/* <TelemetryInit /> */}
         </>
       </ProviderStack>

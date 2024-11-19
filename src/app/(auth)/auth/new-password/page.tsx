@@ -1,7 +1,7 @@
 import dynamic from 'next/dynamic';
 
-const NewPasswordForm = dynamic(
-  () => import('@/app/(auth)/_components').then((mod) => mod.NewPasswordForm)
+const NewPasswordForm = dynamic(() =>
+  import('@/app/(auth)/_components').then((mod) => mod.NewPasswordForm),
 );
 
 /**

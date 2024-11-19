@@ -15,7 +15,7 @@ import {
   Section,
   Text,
 } from '@react-email/components';
-import { CSSProperties } from 'react';
+import type { CSSProperties } from 'react';
 
 /**
  * Email template component for welcoming new newsletter subscribers
@@ -46,20 +46,20 @@ export function NewsletterWelcomeEmail(): JSX.Element {
       padding: '16px',
     },
     heading: {
-      textAlign: 'center' as 'center', // Explicitly type the value
+      textAlign: 'center' as const, // Explicitly type the value
       fontSize: '24px',
       fontWeight: 'bold',
       color: '#1f2937', // zinc-950
     },
     subHeading: {
-      textAlign: 'center' as 'center', // Explicitly type the value
+      textAlign: 'center' as const, // Explicitly type the value
       fontSize: '28px',
       fontWeight: 'bold',
       color: '#374151', // zinc-800
     },
     text: {
       margin: '24px 0 0',
-      textAlign: 'center' as 'center', // Explicitly type the value
+      textAlign: 'center' as const, // Explicitly type the value
       fontSize: '16px',
     },
     link: {
@@ -68,7 +68,7 @@ export function NewsletterWelcomeEmail(): JSX.Element {
     },
     footerText: {
       margin: '16px 0 0',
-      textAlign: 'center' as 'center', // Explicitly type the value
+      textAlign: 'center' as const, // Explicitly type the value
       color: '#9ca3af', // zinc-400
     },
   };
@@ -89,16 +89,17 @@ export function NewsletterWelcomeEmail(): JSX.Element {
               {`We're`} so glad {`you're`} here. {`We're`} excited to share our passion for online
               startups with you.
             </Text>
-            <Text style={styles.text}>
-              {`We'll`} be sending you a newsletter every month.
-            </Text>
+            <Text style={styles.text}>{`We'll`} be sending you a newsletter every month.</Text>
           </Section>
 
           <Section style={styles.footerText}>
             <Text>
               {`We're`} looking forward to seeing you around! If you have any questions, please{' '}
               {`don't`} hesitate to reach out to us at{' '}
-              <Link href={`mailto:${process.env.NEXT_PUBLIC_RESEND_EMAIL_FROM}`} style={styles.link}>
+              <Link
+                href={`mailto:${process.env.NEXT_PUBLIC_RESEND_EMAIL_FROM}`}
+                style={styles.link}
+              >
                 {process.env.NEXT_PUBLIC_RESEND_EMAIL_FROM}
               </Link>
             </Text>

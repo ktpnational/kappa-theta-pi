@@ -1,218 +1,328 @@
 'use client';
 
-import {
-  type ChapterInfo,
-  // MapStyles,
-  chapters,
-} from '@/data/map';
+/**
+ * @file google-map.tsx
+ * @fileoverview A comprehensive Google Maps component for displaying chapter locations with clustering, filtering, and interactive markers.
+ */
+
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
+import { type ChapterInfo, chapters } from '@/data/map';
+import { useToast } from '@/hooks/use-toast';
 import { MarkerClusterer } from '@googlemaps/markerclusterer';
-import type { Marker } from '@googlemaps/markerclusterer';
-import { APIProvider, AdvancedMarker, InfoWindow, Map, useMap } from '@vis.gl/react-google-maps';
+import { APIProvider, InfoWindow, Map, useMap } from '@vis.gl/react-google-maps';
 import { AnimatePresence, motion } from 'framer-motion';
-import { memo, useEffect, useMemo, useRef, useState } from 'react';
-import { FaMapMarkerAlt } from 'react-icons/fa';
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { FaCalendarAlt } from 'react-icons/fa';
 
 /**
- * Geographic boundaries for North America.
- * Used to restrict map panning and marker placement.
- * @typedef {Object} NorthAmericaBounds
- * @property {number} north - Northern limit (Northern Canada) in decimal degrees
- * @property {number} south - Southern limit (Southern Mexico) in decimal degrees
- * @property {number} west - Western limit (Alaska westernmost point) in decimal degrees
- * @property {number} east - Eastern limit (Newfoundland easternmost point) in decimal degrees
+ * Color configurations for different chapter statuses
+ * @type {Object.<string, {bg: string, text: string, badge: string}>}
+ */
+const MARKER_COLORS = {
+  Active: { bg: '#234c8b', text: '#ffffff', badge: 'bg-[#234c8b]' },
+  Colony: { bg: '#8bb9ff', text: '#234c8b', badge: 'bg-[#8bb9ff]' },
+  Inactive: { bg: '#9ca3af', text: '#ffffff', badge: 'bg-gray-400' },
+};
+
+/**
+ * Geographic bounds for North America to restrict map panning
+ * @type {{north: number, south: number, west: number, east: number}}
  */
 const NORTH_AMERICA_BOUNDS = {
-  /** Northern limit (Northern Canada) */
   north: 71.5388001,
-  /** Southern limit (Southern Mexico) */
   south: 15.7835,
-  /** Western limit (Alaska westernmost point) */
   west: -167.2764,
-  /** Eastern limit (Newfoundland easternmost point) */
   east: -52.648,
 };
 
 /**
- * Approximate center coordinates of North America
- * @typedef {Object} MapCenter
- * @property {number} lat - Latitude in decimal degrees
- * @property {number} lng - Longitude in decimal degrees
+ * Default center coordinates for the map (center of USA)
+ * @type {{lat: number, lng: number}}
  */
-const DEFAULT_CENTER = { lat: 48.1667, lng: -100.1667 };
+const DEFAULT_CENTER = { lat: 39.8283, lng: -98.5795 };
 
 /**
- * Main Google Maps component that renders the map and chapter markers.
- * Uses the Google Maps JavaScript API to display an interactive map of North America
- * with chapter locations marked and clustered.
- *
+ * Custom styling for the Google Map
+ * @type {Array<google.maps.MapTypeStyle>}
+ */
+const MAP_STYLES = [
+  {
+    featureType: 'water',
+    elementType: 'geometry',
+    stylers: [{ color: '#e9e9e9' }, { lightness: 17 }],
+  },
+  {
+    featureType: 'landscape',
+    elementType: 'geometry',
+    stylers: [{ color: '#f5f5f5' }, { lightness: 20 }],
+  },
+  {
+    featureType: 'administrative',
+    elementType: 'labels.text.fill',
+    stylers: [{ color: '#234c8b' }],
+  },
+];
+
+/**
+ * Main Google Maps component that displays chapter locations with filtering capabilities
  * @component
- * @returns {JSX.Element} React component containing the Google Map implementation with markers
- * @example
- * return (
- *   <GoogleMaps />
- * )
+ * @returns {JSX.Element} Rendered Google Maps component
  */
 export const GoogleMaps = memo(() => {
+  const { toast } = useToast();
+  const mapContainerRef = useRef<HTMLDivElement>(null);
+  const [statusFilter, setStatusFilter] = useState('All');
+  const [mapZoom, setMapZoom] = useState(3);
+  const [stats, setStats] = useState({ active: 0, colony: 0, inactive: 0 });
+  const [isLoading, setIsLoading] = useState(true);
+
+  /**
+   * Disables page scrolling when mouse enters map container
+   */
+  const disableScroll = useCallback(() => {
+    document.body.style.overflow = 'hidden';
+  }, []);
+
+  /**
+   * Enables page scrolling when mouse leaves map container
+   */
+  const enableScroll = useCallback(() => {
+    document.body.style.overflow = 'auto';
+  }, []);
+
+  useEffect(() => {
+    const container = mapContainerRef.current;
+    if (!container) return;
+
+    container.addEventListener('mouseenter', disableScroll);
+    container.addEventListener('mouseleave', enableScroll);
+
+    return () => {
+      container.removeEventListener('mouseenter', disableScroll);
+      container.removeEventListener('mouseleave', enableScroll);
+    };
+  }, [disableScroll, enableScroll]);
+
+  useEffect(() => {
+    setStats({
+      active: chapters.active.length,
+      colony: chapters.colony.length,
+      inactive: chapters.inactive.length,
+    });
+  }, []);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  /**
+   * Memoized map options for Google Maps configuration
+   */
+  const mapOptions = useMemo(
+    () => ({
+      gestureHandling: 'cooperative',
+      scrollwheel: false,
+      disableDefaultUI: true,
+      styles: MAP_STYLES,
+      restriction: {
+        latLngBounds: NORTH_AMERICA_BOUNDS,
+        strictBounds: true,
+      },
+      minZoom: 3,
+      maxZoom: 15,
+    }),
+    [],
+  );
+
+  useEffect(() => {
+    if (!isLoading) {
+      toast({
+        title: 'Map Controls',
+        description: 'Use keyboard +/- or left click to zoom',
+        duration: 5000,
+      });
+    }
+  }, [isLoading, toast]);
+
   return (
-    <section className="w-full h-[400px] md:h-[500px] lg:h-[600px] relative rounded-lg overflow-hidden shadow-lg">
-      <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!}>
-        <Map
-          defaultCenter={DEFAULT_CENTER}
-          defaultZoom={3}
-          mapId={process.env.NEXT_PUBLIC_GOOGLE_MAPS_MAP_ID}
-          gestureHandling={'greedy'}
-          disableDefaultUI={true}
-          restriction={{
-            latLngBounds: NORTH_AMERICA_BOUNDS,
-            strictBounds: true,
-          }}
-          minZoom={2}
-          maxZoom={15}
-        >
-          <Markers chapters={chapters} />
-        </Map>
-      </APIProvider>
-    </section>
+    <Card className="w-full bg-white bg-opacity-80 backdrop-blur-md border-none">
+      <CardContent className="p-6 space-y-6">
+        {isLoading ? (
+          <>
+            <div className="flex flex-wrap justify-center gap-4">
+              {[1, 2, 3, 4].map((i) => (
+                <Skeleton key={i} className="h-10 w-[150px] rounded-full" />
+              ))}
+            </div>
+            <Skeleton className="w-full h-[600px] rounded-xl" />
+          </>
+        ) : (
+          <>
+            <div className="flex flex-wrap justify-center gap-4">
+              {[
+                { label: 'All Chapters', filter: 'All' },
+                { label: 'Active Chapters', filter: 'Active' },
+                { label: 'Colonies', filter: 'Colony' },
+                { label: 'Inactive Chapters', filter: 'Inactive' },
+              ].map((status) => (
+                <motion.button
+                  key={status.label}
+                  className={`flex items-center px-4 py-2 rounded-full shadow-md ${
+                    statusFilter === status.filter
+                      ? 'bg-[#234c8b] text-white'
+                      : 'bg-white text-[#234c8b]'
+                  }`}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => setStatusFilter(status.filter)}
+                >
+                  {status.filter !== 'All' && (
+                    <span
+                      className={`inline-block w-4 h-4 mr-2 rounded-full ${MARKER_COLORS[status.filter as keyof typeof MARKER_COLORS].badge}`}
+                    ></span>
+                  )}
+                  {status.label} (
+                  {status.filter === 'All'
+                    ? stats.active + stats.colony + stats.inactive
+                    : status.filter === 'Active'
+                      ? stats.active
+                      : status.filter === 'Colony'
+                        ? stats.colony
+                        : stats.inactive}
+                  )
+                </motion.button>
+              ))}
+            </div>
+            <div className="relative">
+              <div
+                ref={mapContainerRef}
+                className="w-full h-[600px] rounded-xl overflow-hidden shadow-xl border border-gray-200"
+              >
+                <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}>
+                  <Map
+                    defaultCenter={DEFAULT_CENTER}
+                    zoom={mapZoom}
+                    onCameraChanged={(ev) => setMapZoom(ev.detail.zoom)}
+                    mapId={process.env.NEXT_PUBLIC_GOOGLE_MAPS_MAP_ID}
+                    {...mapOptions}
+                  >
+                    <Markers chapters={chapters} statusFilter={statusFilter} mapZoom={mapZoom} />
+                  </Map>
+                </APIProvider>
+              </div>
+            </div>
+          </>
+        )}
+      </CardContent>
+    </Card>
   );
 });
 
 /**
  * Props interface for Markers component
- * @typedef {Object} MarkersProps
- * @property {Object} chapters - Object containing arrays of chapter information
- * @property {ChapterInfo[]} chapters.active - Array of active chapters
- * @property {ChapterInfo[]} chapters.colony - Array of colony chapters
- * @property {ChapterInfo[]} chapters.inactive - Array of inactive chapters
+ * @interface
  */
-type Props = { chapters: typeof chapters };
+type MarkersProps = {
+  chapters: typeof chapters;
+  statusFilter: string;
+  mapZoom: number;
+};
 
 /**
- * Component that handles the rendering and management of map markers.
- * Implements marker clustering and interactive info windows.
- *
+ * Component that handles the rendering and management of map markers and clustering
  * @component
  * @param {MarkersProps} props - Component props
- * @param {Object} props.chapters - Object containing arrays of chapter information
- * @returns {JSX.Element} React component containing marker and info window elements
+ * @returns {JSX.Element} Rendered markers and info windows
  */
-const Markers: React.FC<Props> = ({ chapters }) => {
+const Markers: React.FC<MarkersProps> = memo(({ chapters, statusFilter, mapZoom }) => {
   const map = useMap();
-  const [markers, setMarkers] = useState<{ [key: string]: Marker }>({});
   const [activeMarker, setActiveMarker] = useState<string | null>(null);
   const clusterer = useRef<MarkerClusterer | null>(null);
 
   /**
-   * Combines all chapter types and filters to include only those within North America bounds.
-   * Uses memoization to prevent unnecessary recalculations.
-   *
-   * @type {ChapterInfo[]}
+   * Filtered and processed chapters based on status filter and geographic bounds
    */
   const allChapters = useMemo(() => {
     const combined = [...chapters.active, ...chapters.colony, ...chapters.inactive];
     return combined.filter((chapter) => {
       const [lat, lng] = chapter.coordinates;
+      const matchesFilter = statusFilter === 'All' || chapter.status === statusFilter;
       return (
         lat <= NORTH_AMERICA_BOUNDS.north &&
         lat >= NORTH_AMERICA_BOUNDS.south &&
         lng >= NORTH_AMERICA_BOUNDS.west &&
-        lng <= NORTH_AMERICA_BOUNDS.east
+        lng <= NORTH_AMERICA_BOUNDS.east &&
+        matchesFilter
       );
     });
-  }, [chapters]);
+  }, [chapters, statusFilter]);
 
   /**
-   * Initializes the marker clusterer when map is ready.
-   * Configures cluster appearance and behavior.
-   *
-   * @effect
+   * Handles marker click events and toggles the active marker state
+   * @param {string} markerName - Name of the clicked marker
    */
+  const handleMarkerClick = useCallback((markerName: string) => {
+    setActiveMarker((prev) => (prev === markerName ? null : markerName));
+  }, []);
+
   useEffect(() => {
     if (!map) return;
-    if (!clusterer.current) {
-      clusterer.current = new MarkerClusterer({
-        map,
-        renderer: {
-          render: ({ count, position }) =>
-            new google.maps.Marker({
-              label: {
-                text: String(count),
-                color: '#ffffff',
-                fontSize: '12px',
-                fontWeight: 'bold',
-              },
-              position,
-              icon: {
-                path: google.maps.SymbolPath.CIRCLE,
-                scale: 22,
-                fillColor: '#234c8b',
-                fillOpacity: 0.9,
-                strokeColor: '#8bb9ff',
-                strokeWeight: 2,
-              },
-              zIndex: Number(google.maps.Marker.MAX_ZINDEX) + count,
-            }),
+
+    clusterer.current = new MarkerClusterer({
+      map,
+      markers: [],
+      renderer: {
+        render: ({ count, position }) => {
+          const clusterMarker = new google.maps.marker.AdvancedMarkerElement({
+            position,
+            content: createClusterMarkerContent(count),
+          });
+
+          google.maps.event.addListener(clusterMarker, 'click', () => {
+            const zoom = map.getZoom() || 0;
+            map.setZoom(zoom + 1);
+            map.setCenter(position);
+          });
+
+          return clusterMarker;
         },
-      });
-    }
+      },
+    });
+
+    return () => {
+      if (clusterer.current) {
+        clusterer.current.clearMarkers();
+        clusterer.current = null;
+      }
+    };
   }, [map]);
 
-  /**
-   * Updates clusterer when markers change.
-   * Clears existing markers and adds updated ones.
-   *
-   * @effect
-   */
   useEffect(() => {
-    clusterer.current?.clearMarkers();
-    clusterer.current?.addMarkers(Object.values(markers));
-  }, [markers]);
+    if (!clusterer.current) return;
 
-  /**
-   * Manages marker references for clustering.
-   * Updates marker state while avoiding unnecessary re-renders.
-   *
-   * @param {Marker | null} marker - The marker instance to manage
-   * @param {string} key - Unique identifier for the marker
-   */
-  const setMarkerRef = (marker: Marker | null, key: string) => {
-    if (marker && markers[key]) return;
-    if (!marker && !markers[key]) return;
-
-    setMarkers((prev) => {
-      if (marker) {
-        return { ...prev, [key]: marker };
-      } else {
-        const newMarkers = { ...prev };
-        delete newMarkers[key];
-        return newMarkers;
-      }
+    const markers = allChapters.map((chapter) => {
+      const { bg } = MARKER_COLORS[chapter.status];
+      const marker = new google.maps.marker.AdvancedMarkerElement({
+        position: { lat: chapter.coordinates[0], lng: chapter.coordinates[1] },
+        content: createMarkerContent(bg),
+      });
+      google.maps.event.addListener(marker, 'click', () => handleMarkerClick(chapter.name));
+      return marker;
     });
-  };
+
+    clusterer.current.clearMarkers();
+    clusterer.current.addMarkers(markers);
+  }, [allChapters, mapZoom, handleMarkerClick]);
 
   return (
     <>
-      {allChapters.map((chapter) => (
-        <AdvancedMarker
-          position={{ lat: chapter.coordinates[0], lng: chapter.coordinates[1] }}
-          key={chapter.name}
-          ref={(marker) => setMarkerRef(marker, chapter.name)}
-          onClick={() => setActiveMarker(chapter.name)}
-        >
-          <motion.div
-            style={{
-              backgroundColor: getMarkerColor(chapter.status).split(' ')[0],
-              color: getMarkerColor(chapter.status).split(' ')[1],
-              padding: '0.5rem',
-              borderRadius: '50%',
-              boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
-            }}
-            whileHover={{ scale: 1.2 }}
-            whileTap={{ scale: 0.9 }}
-          >
-            <FaMapMarkerAlt size={20} />
-          </motion.div>
-        </AdvancedMarker>
-      ))}
       <AnimatePresence>
         {activeMarker && (
           <InfoWindow
@@ -230,50 +340,34 @@ const Markers: React.FC<Props> = ({ chapters }) => {
       </AnimatePresence>
     </>
   );
-};
+});
 
 /**
- * Determines marker color based on chapter status.
- * Returns Tailwind CSS classes for styling markers.
- *
- * @param {ChapterInfo['status']} status - Chapter status (Active, Colony, or Inactive)
- * @returns {string} Space-separated string of Tailwind CSS classes for background and text colors
- */
-const getMarkerColor = (status: ChapterInfo['status']) => {
-  switch (status) {
-    case 'Active':
-      return 'bg-[#234c8b] text-[#8bb9ff]';
-    case 'Colony':
-      return 'bg-[#8bb9ff] text-[#234c8b]';
-    case 'Inactive':
-      return 'bg-gray-400 text-white';
-  }
-};
-
-/**
- * Component that displays detailed chapter information in an info window.
- * Uses Framer Motion for animations.
- *
+ * Component that displays detailed information about a chapter in an info window
  * @component
  * @param {Object} props - Component props
- * @param {ChapterInfo} props.chapter - Chapter information object containing details to display
- * @returns {JSX.Element} Animated div containing formatted chapter information
+ * @param {ChapterInfo} props.chapter - Chapter information to display
+ * @returns {JSX.Element} Rendered chapter information card
  */
-const ChapterInfo: React.FC<{ chapter: ChapterInfo }> = ({ chapter }) => (
+const ChapterInfo: React.FC<{ chapter: ChapterInfo }> = memo(({ chapter }) => (
   <motion.div
     initial={{ opacity: 0, y: -20 }}
     animate={{ opacity: 1, y: 0 }}
     exit={{ opacity: 0, y: 20 }}
-    style={{
-      backgroundColor: '#234c8b',
-      color: '#8bb9ff',
-      padding: '1rem',
-      borderRadius: '0.5rem',
-      boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
-      maxWidth: '20rem',
-    }}
+    className="bg-white text-gray-800 p-6 rounded-xl shadow-2xl max-w-sm"
   >
-    <h3 className="text-lg font-bold mb-2">
+    <div className="flex items-center gap-2 mb-4">
+      <Badge
+        className={`${MARKER_COLORS[chapter.status as keyof typeof MARKER_COLORS].badge} text-sm px-3 py-1`}
+      >
+        {chapter.status}
+      </Badge>
+      <span className="text-gray-500 text-sm">
+        <FaCalendarAlt className="inline mr-1" />
+        Founded {chapter.foundingDate}
+      </span>
+    </div>
+    <h3 className="text-xl font-bold mb-2 text-[#234c8b]">
       {chapter.greekName} - {chapter.name} Chapter
     </h3>
     <p className="text-sm mb-1">
@@ -282,12 +376,62 @@ const ChapterInfo: React.FC<{ chapter: ChapterInfo }> = ({ chapter }) => (
     <p className="text-sm mb-1">
       <strong>Location:</strong> {chapter.location}
     </p>
-    <p className="text-sm mb-1">
-      <strong>Founded:</strong> {chapter.foundingDate}
-    </p>
-    <p className="text-sm mb-1">
-      <strong>Status:</strong> {chapter.status}
-    </p>
-    {chapter.notes && <p className="text-sm mt-2 italic">{chapter.notes}</p>}
+    {chapter.notes && <p className="text-sm mt-2 italic text-gray-600">{chapter.notes}</p>}
+    <Button
+      className="mt-4 w-full"
+      onClick={() =>
+        window.open(
+          `https://www.google.com/maps/search/?api=1&query=${chapter.coordinates[0]},${chapter.coordinates[1]}`,
+          '_blank',
+        )
+      }
+    >
+      View on Google Maps
+    </Button>
   </motion.div>
-);
+));
+
+/**
+ * Creates a custom marker element with specified background color
+ * @param {string} bgColor - Background color for the marker
+ * @returns {Element} Custom marker DOM element
+ */
+function createMarkerContent(bgColor: string) {
+  const div = document.createElement('div');
+  div.innerHTML = `
+    <div style="
+      background-color: ${bgColor};
+      padding: 0.5rem;
+      border-radius: 50%;
+      box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    ">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" width="20" height="20" fill="white">
+        <path d="M172.268 501.67C26.97 291.031 0 269.413 0 192 0 85.961 85.961 0 192 0s192 85.961 192 192c0 77.413-26.97 99.031-172.268 309.67-9.535 13.774-29.93 13.773-39.464 0zM192 272c44.183 0 80-35.817 80-80s-35.817-80-80-80-80 35.817-80 80 35.817 80 80 80z"/>
+      </svg>
+    </div>
+  `;
+  return div.firstElementChild;
+}
+
+function createClusterMarkerContent(count: number) {
+  const div = document.createElement('div');
+  div.innerHTML = `
+    <div style="
+      background-color: #234c8b;
+      color: white;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    ">
+      ${count}
+    </div>
+  `;
+  return div.firstElementChild;
+}
+
+export default GoogleMaps;

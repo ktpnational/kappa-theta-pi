@@ -98,7 +98,7 @@ const animationVariants = {
  * @param {string} [props.className] - Additional CSS classes
  * @returns {React.ReactElement} Rendered component
  */
-const HeroVideoDialog = React.memo(
+export const HeroVideoDialog = React.memo(
   ({
     animationStyle = 'from-center',
     videoSrc,

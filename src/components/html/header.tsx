@@ -1,114 +1,90 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { useGlobalStore } from '@/providers/core/global/zustand-provider';
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
+} from '@/components/ui/navigation-menu';
+import { cn } from '@/lib/utils';
 import { Menu, X } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import type React from 'react';
+import * as React from 'react';
 import { memo, useCallback, useEffect, useRef } from 'react';
 
-/**
- * Memoized Button component for performance optimization
- */
 const MemoizedButton = memo(Button);
 
-/**
- * Navigation items configuration array
- * @type {Array<{href: string, label: string}>}
- */
-const navItems = [
-  { href: '/about', label: 'About Us' },
-  { href: '/chapters', label: 'Chapters' },
-  { href: '/join', label: 'Join Us' },
-  { href: '/blog', label: 'Blog' },
-  { href: '/contact', label: 'Contact Us' },
+const components: { title: string; href: string; description: string }[] = [
+  {
+    title: 'Alert Dialog',
+    href: '/docs/primitives/alert-dialog',
+    description:
+      'A modal dialog that interrupts the user with important content and expects a response.',
+  },
+  {
+    title: 'Hover Card',
+    href: '/docs/primitives/hover-card',
+    description: 'For sighted users to preview content available behind a link.',
+  },
+  {
+    title: 'Progress',
+    href: '/docs/primitives/progress',
+    description:
+      'Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.',
+  },
+  {
+    title: 'Scroll-area',
+    href: '/docs/primitives/scroll-area',
+    description: 'Visually or semantically separates content.',
+  },
+  {
+    title: 'Tabs',
+    href: '/docs/primitives/tabs',
+    description:
+      'A set of layered sections of content—known as tab panels—that are displayed one at a time.',
+  },
+  {
+    title: 'Tooltip',
+    href: '/docs/primitives/tooltip',
+    description:
+      'A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.',
+  },
 ];
 
-/**
- * Header component for the website's navigation bar
- *
- * @component
- * @description
- * A responsive header component that provides navigation functionality and adapts to scroll behavior.
- * Features include a collapsible mobile menu, scroll-aware visibility, and smooth transitions.
- * The component is memoized for performance optimization.
- *
- * @example
- * ```tsx
- * <Header />
- * ```
- *
- * @returns {JSX.Element} A memoized header component
- *
- * @features
- * - Responsive design with mobile/desktop layouts
- * - Scroll-aware behavior (hide/show on scroll)
- * - Frosted glass effect on scroll
- * - Collapsible mobile menu
- * - Smooth transitions and animations
- * - Memoized child components for performance
- *
- * @state
- * Uses global Zustand store for:
- * - isMenuOpen: Controls mobile menu visibility
- * - isScrolled: Tracks if page is scrolled
- * - visible: Controls header visibility based on scroll direction
- *
- * @hooks
- * - useCallback: Memoizes event handlers
- * - useEffect: Manages scroll event listeners
- * - useRef: Tracks previous scroll position
- *
- * @styling
- * - Uses Tailwind CSS for styling
- * - Dynamic classes based on scroll state
- * - Smooth transitions with CSS
- * - Consistent spacing and alignment
- * - Brand colors and theming
- *
- * @accessibility
- * - Semantic HTML structure
- * - Keyboard navigation support
- * - ARIA-compliant menu button
- * - Proper heading hierarchy
- *
- * @performance
- * - Memoized component
- * - Memoized event handlers
- * - Optimized scroll listener
- * - Efficient state updates
- *
- * @responsive
- * - Mobile-first design
- * - Breakpoint-based layout changes
- * - Touch-friendly mobile menu
- * - Adaptive spacing and sizing
- */
-export const Header: React.FC = memo(() => {
-  /**
-   * Destructured global store values and setters for header state management
-   */
-  const { isMenuOpen, isScrolled, visible, setIsMenuOpen, setIsScrolled, setVisible } =
-    useGlobalStore((state) => state.header);
+const ListItem = React.forwardRef<React.ElementRef<'a'>, React.ComponentPropsWithoutRef<'a'>>(
+  ({ className, title, children, ...props }, ref) => {
+    return (
+      <li>
+        <NavigationMenuLink asChild>
+          <a
+            ref={ref}
+            className={cn(
+              'block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground',
+              className,
+            )}
+            {...props}
+          >
+            <div className="text-sm font-medium leading-none">{title}</div>
+            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">{children}</p>
+          </a>
+        </NavigationMenuLink>
+      </li>
+    );
+  },
+);
+ListItem.displayName = 'ListItem';
 
-  /**
-   * Ref to store previous scroll position for scroll direction detection
-   */
+export const Header: React.FC = memo(() => {
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const [isScrolled, setIsScrolled] = React.useState(false);
+  const [visible, setVisible] = React.useState(true);
   const prevScrollPosRef = useRef<number>(0);
 
-  /**
-   * Handles scroll events to update header visibility and appearance
-   *
-   * @function
-   * @description
-   * Updates header state based on scroll position and direction:
-   * - Shows header when scrolling up or near top
-   * - Hides header when scrolling down
-   * - Adds frosted glass effect when scrolled
-   *
-   * @listens {Event} scroll
-   */
   const handleScroll = useCallback(() => {
     const currentScrollPos = window.scrollY;
     const isScrolledNow = currentScrollPos > 0;
@@ -125,25 +101,14 @@ export const Header: React.FC = memo(() => {
     }
 
     prevScrollPosRef.current = currentScrollPos;
-  }, [isScrolled, visible, setIsScrolled, setVisible]);
+  }, [isScrolled, visible]);
 
-  /**
-   * Effect to add and remove scroll event listener
-   */
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, [handleScroll]);
 
-  /**
-   * Toggles the mobile menu state
-   *
-   * @function
-   * @description
-   * Toggles the mobile navigation menu visibility state
-   * Memoized to prevent unnecessary re-renders
-   */
-  const toggleMenu = useCallback(() => setIsMenuOpen((prev) => !prev), [setIsMenuOpen]);
+  const toggleMenu = useCallback(() => setIsMenuOpen((prev) => !prev), []);
 
   return (
     <header
@@ -155,15 +120,68 @@ export const Header: React.FC = memo(() => {
         <Link href="/">
           <div className="flex items-center space-x-2">
             <Image src="/assets/images/logo.png" alt="ΚΘΠ Logo" width={50} height={50} />
-            {/* <span className="text-xl md:text-2xl font-bold text-[#234c8b]">International</span> */}
           </div>
         </Link>
         <nav className="hidden md:flex space-x-4">
-          {navItems.map((item) => (
-            <Link key={item.href} href={item.href}>
-              <MemoizedButton variant="ghost">{item.label}</MemoizedButton>
-            </Link>
-          ))}
+          <NavigationMenu>
+            <NavigationMenuList>
+              <NavigationMenuItem>
+                <NavigationMenuTrigger>Getting started</NavigationMenuTrigger>
+                <NavigationMenuContent>
+                  <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
+                    <li className="row-span-3">
+                      <NavigationMenuLink asChild>
+                        <a
+                          className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
+                          href="/"
+                        >
+                          <div className="mb-2 mt-4 text-lg font-medium">Kappa Theta Pi</div>
+                          <p className="text-sm leading-tight text-muted-foreground">
+                            Professional Technology Fraternity
+                          </p>
+                        </a>
+                      </NavigationMenuLink>
+                    </li>
+                    <ListItem href="/about" title="About Us">
+                      Learn about our mission, values, and history.
+                    </ListItem>
+                    <ListItem href="/chapters" title="Chapters">
+                      Explore our chapters across different universities.
+                    </ListItem>
+                    <ListItem href="/join" title="Join Us">
+                      Find out how to become a member of Kappa Theta Pi.
+                    </ListItem>
+                  </ul>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <NavigationMenuTrigger>Resources</NavigationMenuTrigger>
+                <NavigationMenuContent>
+                  <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
+                    {components.map((component) => (
+                      <ListItem key={component.title} title={component.title} href={component.href}>
+                        {component.description}
+                      </ListItem>
+                    ))}
+                  </ul>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <Link href="/blog" legacyBehavior passHref>
+                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                    Blog
+                  </NavigationMenuLink>
+                </Link>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <Link href="/contact" legacyBehavior passHref>
+                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                    Contact Us
+                  </NavigationMenuLink>
+                </Link>
+              </NavigationMenuItem>
+            </NavigationMenuList>
+          </NavigationMenu>
           <Link href="/company-portal">
             <MemoizedButton
               variant="default"
@@ -184,13 +202,31 @@ export const Header: React.FC = memo(() => {
       {isMenuOpen && (
         <div className="md:hidden bg-white py-4">
           <nav className="flex flex-col items-center space-y-4">
-            {navItems.map((item) => (
-              <Link key={item.href} href={item.href}>
-                <MemoizedButton variant="ghost" className="w-full">
-                  {item.label}
-                </MemoizedButton>
-              </Link>
-            ))}
+            <Link href="/about">
+              <MemoizedButton variant="ghost" className="w-full">
+                About Us
+              </MemoizedButton>
+            </Link>
+            <Link href="/chapters">
+              <MemoizedButton variant="ghost" className="w-full">
+                Chapters
+              </MemoizedButton>
+            </Link>
+            <Link href="/join">
+              <MemoizedButton variant="ghost" className="w-full">
+                Join Us
+              </MemoizedButton>
+            </Link>
+            <Link href="/blog">
+              <MemoizedButton variant="ghost" className="w-full">
+                Blog
+              </MemoizedButton>
+            </Link>
+            <Link href="/contact">
+              <MemoizedButton variant="ghost" className="w-full">
+                Contact Us
+              </MemoizedButton>
+            </Link>
             <Link href="/company-portal">
               <MemoizedButton
                 variant="default"
@@ -207,3 +243,5 @@ export const Header: React.FC = memo(() => {
 });
 
 Header.displayName = 'Header';
+
+export default Header;
