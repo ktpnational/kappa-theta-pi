@@ -39,7 +39,9 @@ export async function GET(request: Request) {
      * @type {ArrayBuffer}
      */
     const fontData = await fetch(
-      new URL('../../../../public/assets/fonts/palatino.ttf', import.meta.url),
+      new URL('/assets/fonts/palatino.ttf', process.env.VERCEL_URL
+        ? `https://${process.env.VERCEL_URL}`
+        : 'http://localhost:3000')
     ).then((res) => res.arrayBuffer());
 
     return new ImageResponse(
@@ -47,7 +49,7 @@ export async function GET(request: Request) {
         style={{
           display: 'flex',
           justifyContent: 'center',
-          alignItems: 'center', 
+          alignItems: 'center',
           width: '100%',
           height: '100%',
         }}

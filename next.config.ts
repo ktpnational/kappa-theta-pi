@@ -120,6 +120,11 @@ const nextConfig: NextConfig = {
       }
     );
 
+    config.module.rules.push({
+      test: /\.(txt|ttf|woff|woffeot|otf)$/,
+      type: 'asset/resource',
+    });
+
     return config;
   },
   ignoreWarnings: [
