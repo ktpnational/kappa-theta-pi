@@ -1,6 +1,5 @@
 import { Footer, Header } from '@/components';
 import type React from 'react';
-import { LegalHeader } from './_client';
 
 /**
  * Layout component for legal pages that provides consistent header, footer and styling

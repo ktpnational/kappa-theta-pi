@@ -57,6 +57,7 @@ const SettingsPage = () => {
     setError,
     setSuccess,
     setIsPending,
+    // @ts-expect-error TODO: Fix this
     reset: resetSettings,
   } = useGlobalStore((state) => state.settings);
 

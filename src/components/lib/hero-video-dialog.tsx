@@ -1,6 +1,6 @@
 'use client';
 
-import { AnimatePresence, type HTMLMotionProps, motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { Play, XIcon } from 'lucide-react';
 import React from 'react';
 import { useState } from 'react';
