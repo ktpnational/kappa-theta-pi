@@ -169,8 +169,8 @@ export const HeroSection = () => {
         <HeroPill />
         <HeroTitles />
         <HeroCTA />
-        <HeroImage />
         <div className="pointer-events-none absolute inset-x-0 -bottom-12 h-1/3 bg-gradient-to-t from-white via-white to-transparent lg:h-1/4" />
+        <HeroImage />
       </div>
     </section>
   );

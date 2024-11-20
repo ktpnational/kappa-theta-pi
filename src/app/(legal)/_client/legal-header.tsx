@@ -14,7 +14,7 @@ export const LegalHeader: React.FC<{
         alignItems: 'center',
         width: '100%',
         height: '100%',
-        aspectRatio: '3/2'
+        aspectRatio: '3/2',
       }}
       className={cn('w-full h-full', className)}
     >
@@ -100,9 +100,7 @@ export const LegalHeader: React.FC<{
           transform: 'translate(-50%, -50%)',
         }}
       >
-        <h1
-          className={'text-6xl font-bold text-white mb-[20px] max-w-[1000px] text-clip'}
-        >
+        <h1 className={'text-6xl font-bold text-white mb-[20px] max-w-[1000px] text-clip'}>
           {title}
         </h1>
       </div>

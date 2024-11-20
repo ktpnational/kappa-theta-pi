@@ -259,8 +259,8 @@ export const GoogleMaps = memo(() => {
   }, [isLoading, toast]);
 
   return (
-    <Card className="w-full bg-white border-none shadow-none">
-      <CardContent className="p-6 space-y-6">
+    <Card className="w-full bg-white border shadow-none p-0 m-0">
+      <CardContent className="p-0 space-y-6 border border-red-400">
         {isLoading ? (
           <>
             <div className="flex flex-wrap justify-center gap-4">

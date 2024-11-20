@@ -103,6 +103,24 @@ const standaloneLinks: NavItem[] = [
 ];
 
 /**
+ * Navigation links for accessing various legal documents
+ */
+export const standaloneLegalLinks: NavItem[] = [
+  {
+    title: 'Terms of Service',
+    href: '/terms',
+  },
+  {
+    title: 'Privacy Policy',
+    href: '/privacy',
+  },
+  {
+    title: 'Copyright Policy',
+    href: '/copyright',
+  },
+];
+
+/**
  * Navigation links for accessing various user portals
  * Includes portals for company and member access
  */

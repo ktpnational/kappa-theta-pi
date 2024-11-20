@@ -140,6 +140,9 @@
   "devDependencies": {
     "@contentlayer/core": "^0.3.4",
     "@react-email/tailwind": "^1.0.2",
+    "jotai": "^2.10.0",
+    "jotai-effect": "^1.0.3",
+    "jotai-tanstack-query": "^0.9.0",
     "@supabase/auth-helpers-nextjs": "^0.10.0",
     "@types/bcryptjs": "^2.4.6",
     "ignore-loader": "^0.1.2",

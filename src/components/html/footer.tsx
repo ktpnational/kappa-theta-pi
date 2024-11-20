@@ -2,7 +2,7 @@
 
 import { Icons, NewsletterSignUpForm } from '@/components';
 import { app } from '@/constants';
-import { navigationSections, standaloneLinks } from '@/constants/nav';
+import { navigationSections, standaloneLegalLinks } from '@/constants/nav';
 import { Instagram, Linkedin, Mail } from 'lucide-react';
 import Link from 'next/link';
 import { memo } from 'react';
@@ -124,7 +124,7 @@ export const Footer = memo(function Footer() {
             © {currentYear} {app.name}. All rights reserved.
           </p>
           <div className="mt-4 flex justify-center space-x-4 text-sm">
-            {standaloneLinks.map((link) => (
+            {standaloneLegalLinks.map((link) => (
               <FooterLink key={link.href} href={link.href} text={link.title} />
             ))}
           </div>
