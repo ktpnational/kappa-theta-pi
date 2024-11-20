@@ -1,4 +1,10 @@
+import { constructMetadata } from '@/utils';
 import React from 'react';
+import { LegalPrivacy } from '../_components';
+
+export const metadata = constructMetadata({
+  title: 'Privacy',
+});
 
 /**
  * Privacy component that displays the privacy policy page.
@@ -20,11 +26,7 @@ import React from 'react';
  * @subcategory Pages
  */
 const Privacy = () => {
-  return (
-    <div>
-      <h1>Privacy</h1>
-    </div>
-  );
+  return <LegalPrivacy />;
 };
 
 Privacy.displayName = 'Privacy';

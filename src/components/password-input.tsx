@@ -7,7 +7,7 @@ import { cn } from '@/lib/utils';
 
 import { Button } from '@/components/ui/button';
 import { Input, type InputProps } from '@/components/ui/input';
-
+import { useGlobalStore } from '@/providers';
 /**
  * A password input component that allows toggling password visibility.
  *
@@ -34,7 +34,7 @@ import { Input, type InputProps } from '@/components/ui/input';
  */
 const PasswordInput = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, ...props }, ref) => {
-    const [showPassword, setShowPassword] = React.useState(false);
+    const { showPassword, setShowPassword } = useGlobalStore((state) => state.passwordInput);
 
     return (
       <div className="relative">
@@ -49,7 +49,7 @@ const PasswordInput = React.forwardRef<HTMLInputElement, InputProps>(
           variant="ghost"
           size="sm"
           className="absolute right-0 top-0 h-full px-3 py-1 hover:bg-transparent"
-          onClick={() => setShowPassword((prev) => !prev)}
+          onClick={() => setShowPassword(!showPassword)}
           disabled={props.value === '' || props.disabled}
         >
           {showPassword ? (

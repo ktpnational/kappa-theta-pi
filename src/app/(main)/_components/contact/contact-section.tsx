@@ -4,10 +4,11 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ArrowLeft, ArrowRight, Clock, Mail, MapPin, Phone } from 'lucide-react';
 import type React from 'react';
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
+import { FormError } from '@/components/form-error';
+import { FormSucess } from '@/components/form-sucess';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
@@ -20,6 +21,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { useGlobalStore } from '@/providers';
 
 const formSchema = z.object({
   name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
@@ -99,7 +101,19 @@ const carouselItems = [
 ];
 
 export const ContactSection: React.FC = () => {
-  const [currentSlide, setCurrentSlide] = useState(0);
+  const {
+    currentSlide,
+    error,
+    success,
+    isPending,
+    setCurrentSlide,
+    setError,
+    setSuccess,
+    setIsPending,
+    // @ts-expect-error - TODO: fix this
+    reset: resetContact,
+  } = useGlobalStore((state) => state.contact);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -110,19 +124,37 @@ export const ContactSection: React.FC = () => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    // Here you would typically send the form data to your backend
-    alert('Form submitted successfully!');
-    form.reset();
+  /**
+   * Handles form submission
+   * @param {z.infer<typeof formSchema>} values - Form values matching the formSchema
+   * @returns {void}
+   */
+  async function onSubmit(
+    // @ts-expect-error - TODO: fix this
+    values: z.infer<typeof formSchema>,
+  ) {
+    setError(undefined);
+    setSuccess(undefined);
+    setIsPending(true);
+
+    try {
+      // Here you would typically send the form data to your backend
+      await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate API call
+      setSuccess('Message sent successfully!');
+      form.reset();
+    } catch (err) {
+      setError('Failed to send message. Please try again.');
+    } finally {
+      setIsPending(false);
+    }
   }
 
   const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % carouselItems.length);
+    setCurrentSlide((currentSlide + 1) % carouselItems.length);
   };
 
   const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + carouselItems.length) % carouselItems.length);
+    setCurrentSlide((currentSlide - 1 + carouselItems.length) % carouselItems.length);
   };
 
   return (
@@ -193,8 +225,10 @@ export const ContactSection: React.FC = () => {
                       </FormItem>
                     )}
                   />
-                  <Button type="submit" className="w-full">
-                    Send Message
+                  <FormError message={error} />
+                  <FormSucess message={success} />
+                  <Button disabled={isPending} type="submit" className="w-full">
+                    {isPending ? 'Sending...' : 'Send Message'}
                   </Button>
                 </form>
               </Form>
@@ -214,9 +248,9 @@ export const ContactSection: React.FC = () => {
               >
                 <Card className="h-full">
                   <CardHeader>
-                    <CardTitle>{carouselItems[currentSlide as number]?.title}</CardTitle>
+                    <CardTitle>{carouselItems[currentSlide]?.title}</CardTitle>
                   </CardHeader>
-                  <CardContent>{carouselItems[currentSlide as number]?.content}</CardContent>
+                  <CardContent>{carouselItems[currentSlide]?.content}</CardContent>
                 </Card>
               </motion.div>
             </AnimatePresence>

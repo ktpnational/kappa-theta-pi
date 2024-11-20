@@ -1,238 +1,258 @@
-"use client"
+'use client';
 
-import { Button } from "@/components/ui/button"
+import { Button } from '@/components/ui/button';
 import {
   NavigationMenu,
   NavigationMenuContent,
-  NavigationMenuIndicator,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
   NavigationMenuViewport,
-} from "@/components/ui/navigation-menu"
-import { navigationSections, NavItem, NavSection, portalLinks, standaloneLinks } from "@/constants"
-import { cn } from "@/lib/utils"
-import { Menu, X } from 'lucide-react'
-import Image from "next/image"
-import Link from "next/link"
-import { ScrollIntoCenterView } from "@/utils"
-import * as React from "react"
-import { useGlobalStore } from "@/providers"
+} from '@/components/ui/navigation-menu';
+import { cn } from '@/lib/utils';
+import { useGlobalStore } from '@/providers';
+import { ScrollIntoCenterView } from '@/utils';
+import { Menu, X } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
+import * as React from 'react';
+
+import {
+  type NavItem,
+  type NavSection,
+  navigationSections,
+  portalLinks,
+  standaloneLinks,
+} from '@/constants';
+
 /**
- * A custom list item component for use within navigation menus
+ * A custom list item component for use within the navigation menu.
  *
  * @component
- * @param {Object} props - Component props
+ * @param {Object} props - The component props
  * @param {string} [props.className] - Additional CSS classes to apply
  * @param {string} props.title - The title text to display
- * @param {React.ReactNode} props.children - Child content to render
- * @param {string} [props.href] - URL to navigate to when clicked
- * @param {React.Ref<HTMLAnchorElement>} ref - Forwarded ref
- * @returns {JSX.Element} A styled list item with navigation functionality
+ * @param {React.ReactNode} props.children - The description content
+ * @param {string} [props.href] - The link destination
+ * @param {React.Ref<HTMLAnchorElement>} ref - Forwarded ref for the anchor element
+ * @returns {JSX.Element} A styled list item with title and description
  */
-const ListItem = React.forwardRef<
-  React.ElementRef<"a">,
-  React.ComponentPropsWithoutRef<"a">
->(({ className, title, children, href, ...props }, ref) => {
-  const handleClick = (e: React.MouseEvent) => {
-    if (href?.startsWith('#')) {
-      e.preventDefault()
-      ScrollIntoCenterView(href)
-    }
-  }
+const ListItem = React.forwardRef<React.ElementRef<'a'>, React.ComponentPropsWithoutRef<'a'>>(
+  ({ className, title, children, href, ...props }, ref) => {
+    const handleClick = (e: React.MouseEvent) => {
+      if (href?.startsWith('#')) {
+        e.preventDefault();
+        ScrollIntoCenterView(href);
+      }
+    };
 
-  return (
-    <li>
-      <NavigationMenuLink asChild>
-        <Link
-          href={href || '#'}
-          ref={ref}
-          onClick={handleClick}
-          className={cn(
-            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-            className
-          )}
-          {...props}
-        >
-          <div className="text-sm font-medium leading-none">{title}</div>
-          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-            {children}
-          </p>
-        </Link>
-      </NavigationMenuLink>
-    </li>
-  )
-})
-ListItem.displayName = "ListItem"
+    return (
+      <li>
+        <NavigationMenuLink asChild>
+          <Link
+            href={href || '#'}
+            ref={ref}
+            onClick={handleClick}
+            className={cn(
+              'block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground',
+              className,
+            )}
+            {...props}
+          >
+            <div className="text-sm font-medium leading-none">{title}</div>
+            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">{children}</p>
+          </Link>
+        </NavigationMenuLink>
+      </li>
+    );
+  },
+);
+ListItem.displayName = 'ListItem';
 
 /**
- * A dropdown section component for the navigation menu
+ * Renders a dropdown section in the navigation menu.
  *
  * @component
- * @param {Object} props - Component props
- * @param {NavSection} props.section - Navigation section data containing title and items
- * @returns {JSX.Element} A dropdown menu section with list items
+ * @param {Object} props - The component props
+ * @param {NavSection} props.section - The navigation section data containing title and items
+ * @returns {JSX.Element} A dropdown menu section with a trigger and content
  */
 const DropdownSection: React.FC<{ section: NavSection }> = ({ section }) => (
   <NavigationMenuItem>
-    <NavigationMenuTrigger>{section.title}</NavigationMenuTrigger>
+    <NavigationMenuTrigger className="text-primary hover:text-primary-foreground">
+      {section.title}
+    </NavigationMenuTrigger>
     <NavigationMenuContent>
-      <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
+      <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
         {section.items.map((item) => (
-          <ListItem
-            key={item.href}
-            href={item.href}
-            title={item.title}
-          >
+          <ListItem key={item.href} title={item.title} href={item.href}>
             {item.description}
           </ListItem>
         ))}
       </ul>
     </NavigationMenuContent>
   </NavigationMenuItem>
-)
+);
 
 /**
- * A standalone navigation link component
+ * Renders a standalone navigation link item.
  *
  * @component
- * @param {Object} props - Component props
- * @param {NavItem} props.item - Navigation item data containing href and title
+ * @param {Object} props - The component props
+ * @param {NavItem} props.item - The navigation item data containing title and href
  * @returns {JSX.Element} A styled navigation link
  */
 const StandaloneNavLink: React.FC<{ item: NavItem }> = ({ item }) => {
   const handleClick = (e: React.MouseEvent) => {
     if (item.href.startsWith('#')) {
-      e.preventDefault()
-      ScrollIntoCenterView(item.href)
+      e.preventDefault();
+      ScrollIntoCenterView(item.href);
     }
-  }
+  };
 
   return (
     <NavigationMenuItem>
-      <NavigationMenuLink asChild>
-        <Link
-          href={item.href}
-          onClick={handleClick}
-          className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50"
-        >
-          {item.title}
-        </Link>
-      </NavigationMenuLink>
+      <Link
+        href={item.href}
+        onClick={handleClick}
+        className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50"
+      >
+        {item.title}
+      </Link>
     </NavigationMenuItem>
-  )
-}
+  );
+};
 
 /**
- * A portal button component for special navigation actions
+ * Renders a portal button link.
  *
  * @component
- * @param {Object} props - Component props
- * @param {NavItem} props.item - Navigation item data containing href and title
- * @returns {JSX.Element} A styled button that acts as a portal link
+ * @param {Object} props - The component props
+ * @param {NavItem} props.item - The navigation item data containing title and href
+ * @returns {JSX.Element} A styled button link that's hidden on mobile
  */
 const PortalButton: React.FC<{ item: NavItem }> = ({ item }) => {
   const handleClick = (e: React.MouseEvent) => {
     if (item.href.startsWith('#')) {
-      e.preventDefault()
-      ScrollIntoCenterView(item.href)
+      e.preventDefault();
+      ScrollIntoCenterView(item.href);
     }
-  }
+  };
 
   return (
     <Link href={item.href} className="hidden sm:block" onClick={handleClick}>
-      <Button className="bg-[#234c8b] text-white hover:bg-[#458eff]">
-        {item.title}
-      </Button>
+      <Button className="bg-[#234C8B] text-white hover:bg-[#1E4378]">{item.title}</Button>
     </Link>
-  )
-}
+  );
+};
 
 /**
- * A mobile menu item component for responsive navigation
+ * Renders a mobile menu item.
+ *
+ * @component
+ * @param {Object} props - The component props
+ * @param {NavItem} props.item - The navigation item data containing title and href
+ * @returns {JSX.Element} A styled link for mobile navigation
  */
 const MobileMenuItem: React.FC<{ item: NavItem }> = ({ item }) => {
-  const setIsMenuOpen = useGlobalStore((state) => state.header.setIsMenuOpen)
+  const setIsMenuOpen = useGlobalStore((state) => state.header.setIsMenuOpen);
 
   const handleClick = (e: React.MouseEvent) => {
     if (item.href.startsWith('#')) {
-      e.preventDefault()
-      ScrollIntoCenterView(item.href)
-      setIsMenuOpen(false)
+      e.preventDefault();
+      ScrollIntoCenterView(item.href);
+      setIsMenuOpen(false);
     }
-  }
+  };
 
   return (
     <Link
       href={item.href}
-      className="py-2 text-sm hover:text-primary"
+      className="block py-2 text-sm text-gray-700 hover:text-primary transition-colors duration-200"
       onClick={handleClick}
     >
       {item.title}
     </Link>
-  )
-}
+  );
+};
 
 /**
- * The main header component that provides site-wide navigation
+ * The main header component for the application.
+ * Features a responsive design with:
+ * - Logo and branding
+ * - Desktop navigation menu with dropdowns
+ * - Mobile hamburger menu
+ * - Portal links
+ * - Auto-hide on scroll down behavior
+ *
+ * @component
+ * @returns {JSX.Element} The complete header component with navigation
+ *
+ * @example
+ * ```tsx
+ * <Header />
+ * ```
  */
 export const Header = () => {
-  const {
-    isMenuOpen,
-    setIsMenuOpen,
-    visible,
-    setVisible,
-    prevScrollPos,
-  } = useGlobalStore((state) => state.header)
+  const { isMenuOpen, setIsMenuOpen, visible, setVisible, prevScrollPos } = useGlobalStore(
+    (state) => state.header,
+  );
 
+  // Handle scroll behavior to show/hide header
   React.useEffect(() => {
     const handleScroll = () => {
-      const currentScrollY = window.scrollY
-
+      const currentScrollY = window.scrollY;
       if (currentScrollY === 0) {
-        setVisible(true)
-        return
+        setVisible(true);
+        return;
       }
-
       if (currentScrollY < prevScrollPos) {
-        setVisible(true)
+        setVisible(true);
       } else if (currentScrollY > prevScrollPos) {
-        setVisible(false)
+        setVisible(false);
       }
-    }
+    };
 
-    window.addEventListener("scroll", handleScroll, { passive: true })
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [setVisible, prevScrollPos])
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [setVisible, prevScrollPos]);
 
   return (
     <header
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 bg-white shadow-md transition-transform duration-300",
-        visible ? 'translate-y-0' : '-translate-y-full'
+        'fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md shadow-sm transition-transform duration-300',
+        visible ? 'translate-y-0' : '-translate-y-full',
       )}
     >
-      <div className="container flex h-16 items-center px-4">
-        <Link href="/" className="flex items-center space-x-2">
-          <Image src="/assets/images/logo.png" alt="ΚΘΠ Logo" width={40} height={40} />
-        </Link>
-        <div className="ml-auto flex items-center space-x-4">
-          <NavigationMenu className="hidden lg:flex">
-            <NavigationMenuList>
-              {navigationSections.map((section) => (
-                <DropdownSection key={section.title} section={section} />
-              ))}
-              {standaloneLinks.map((item) => (
-                <StandaloneNavLink key={item.href} item={item} />
-              ))}
-            </NavigationMenuList>
-            <NavigationMenuIndicator />
-            <NavigationMenuViewport />
-          </NavigationMenu>
-          {portalLinks.map((item) => (
-            <PortalButton key={item.href} item={item} />
-          ))}
+      <div className="container mx-auto px-4">
+        <div className="flex h-16 items-center justify-between">
+          <Link href="/" className="flex items-center space-x-2">
+            <Image
+              src="/assets/images/logo.png"
+              alt="ΚΘΠ Logo"
+              width={40}
+              height={40}
+              className="w-10 h-10"
+            />
+            <span className="font-bold text-xl text-[#234C8B]">ΚΘΠ</span>
+          </Link>
+          <nav className="hidden lg:flex items-center space-x-4">
+            <NavigationMenu>
+              <NavigationMenuList>
+                {navigationSections.map((section) => (
+                  <DropdownSection key={section.title} section={section} />
+                ))}
+                {standaloneLinks.map((item) => (
+                  <StandaloneNavLink key={item.href} item={item} />
+                ))}
+              </NavigationMenuList>
+              <NavigationMenuViewport />
+            </NavigationMenu>
+            {portalLinks.map((item) => (
+              <PortalButton key={item.href} item={item} />
+            ))}
+          </nav>
           <Button
             variant="ghost"
             size="icon"
@@ -246,17 +266,17 @@ export const Header = () => {
       </div>
       {isMenuOpen && (
         <div className="lg:hidden bg-white border-t">
-          <nav className="flex flex-col p-6 space-y-4">
+          <nav className="container mx-auto px-4 py-4 space-y-4">
             {navigationSections.map((section) => (
               <div key={section.title} className="space-y-2">
-                <h3 className="font-semibold text-lg text-primary">{section.title}</h3>
+                <h3 className="font-semibold text-lg text-[#234C8B]">{section.title}</h3>
                 {section.items.map((item) => (
                   <MobileMenuItem key={item.href} item={item} />
                 ))}
               </div>
             ))}
             <div className="space-y-2">
-              <h3 className="font-semibold text-lg text-primary">Links</h3>
+              <h3 className="font-semibold text-lg text-[#234C8B]">Links</h3>
               {standaloneLinks.map((item) => (
                 <MobileMenuItem key={item.href} item={item} />
               ))}
@@ -264,7 +284,7 @@ export const Header = () => {
             <div className="pt-4 space-y-2 sm:hidden">
               {portalLinks.map((item) => (
                 <Link key={item.href} href={item.href} className="block w-full">
-                  <Button className="w-full bg-[#234c8b] text-white hover:bg-[#458eff]">
+                  <Button className="w-full bg-[#234C8B] text-white hover:bg-[#1E4378]">
                     {item.title}
                   </Button>
                 </Link>
@@ -274,8 +294,8 @@ export const Header = () => {
         </div>
       )}
     </header>
-  )
-}
+  );
+};
 
 Header.displayName = 'Header';
-export default Header
+export default Header;

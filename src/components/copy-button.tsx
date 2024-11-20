@@ -4,6 +4,7 @@ import { CheckIcon, CopyIcon } from '@radix-ui/react-icons';
 import * as React from 'react';
 
 import { Button, type ButtonProps } from '@/components/ui/button';
+import { useGlobalStore } from '@/providers';
 
 /**
  * A button component that copies text to the clipboard when clicked.
@@ -27,7 +28,7 @@ import { Button, type ButtonProps } from '@/components/ui/button';
  * - Positioned absolutely by default with right-5 top-4 placement
  */
 export function CopyButton({ value, ...props }: ButtonProps): JSX.Element {
-  const [isCopied, setIsCopied] = React.useState(false);
+  const { isCopied, setIsCopied } = useGlobalStore((state) => state.copyButton);
 
   return (
     <Button

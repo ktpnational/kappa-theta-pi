@@ -35,9 +35,10 @@ export async function GET(request: Request) {
 
   try {
     const fontData = await fetch(
-      new URL('/assets/fonts/palatino.ttf', process.env.VERCEL_URL
-        ? `https://${process.env.VERCEL_URL}`
-        : 'http://localhost:3000')
+      new URL(
+        '/assets/fonts/palatino.ttf',
+        process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000',
+      ),
     ).then(async (res) => {
       if (!res.ok) {
         console.error(`Font loading failed: ${res.status} ${res.statusText}`);

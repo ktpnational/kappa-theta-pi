@@ -1,10 +1,10 @@
 'use client';
 
 import { cn } from '@/lib/utils';
+import { useGlobalStore } from '@/providers';
 import { AnimatePresence, motion, useAnimation } from 'framer-motion';
 import { nanoid } from 'nanoid';
-import React, { useEffect, useState, useRef } from 'react';
-
+import React, { useEffect, useRef } from 'react';
 /**
  * Props for the Slider component
  * @interface SliderProps
@@ -55,20 +55,20 @@ const Slider: React.FC<SliderProps> & { Slide: React.FC<SlideProps> } = ({
   blurBorderColor = '#fff',
   infiniteRepeat = false,
 }) => {
-  const [idNanoid, setIdNanoid] = useState('');
+  const { id, setId } = useGlobalStore((state) => state.idNanoid);
   const controls = useAnimation();
   const containerRef = useRef<HTMLDivElement>(null);
-  const [containerWidth, setContainerWidth] = useState(0);
+  const { width: containerWidth, setWidth } = useGlobalStore((state) => state.containerWidth);
 
   // Generate unique ID for slider wrapper
   useEffect(() => {
-    setIdNanoid(nanoid());
+    setId(nanoid());
   }, []);
 
   // Update container width when children change
   useEffect(() => {
     if (containerRef.current) {
-      setContainerWidth(containerRef.current.offsetWidth);
+      setWidth(containerRef.current.offsetWidth);
     }
   }, [children]);
 
@@ -134,7 +134,7 @@ const Slider: React.FC<SliderProps> & { Slide: React.FC<SlideProps> } = ({
         className="w-full h-auto mx-auto overflow-hidden"
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        id={`slider_wrapper_${idNanoid}`}
+        id={`slider_wrapper_${id}`}
         ref={containerRef}
       >
         <motion.div

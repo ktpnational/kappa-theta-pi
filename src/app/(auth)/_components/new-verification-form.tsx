@@ -1,13 +1,14 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect } from 'react';
 import { BeatLoader } from 'react-spinners';
 
 import { newVerification } from '@/actions/new-verification';
 import { CardWrapper } from '@/app/(auth)/_components';
 import { FormError } from '@/components/form-error';
 import { FormSucess } from '@/components/form-sucess';
+import { useGlobalStore } from '@/providers';
 
 /**
  * A form component that handles email verification confirmations.
@@ -20,11 +21,13 @@ import { FormSucess } from '@/components/form-sucess';
  * ```
  */
 const NewVerificationForm = () => {
-  /** Error message state if verification fails */
-  const [error, setError] = useState<string | undefined>();
-
-  /** Success message state if verification succeeds */
-  const [success, setSuccess] = useState<string | undefined>();
+  const {
+    error,
+    success,
+    setError,
+    setSuccess,
+    reset: resetAuth,
+  } = useGlobalStore((state) => state.auth);
 
   /** Hook to access URL search parameters */
   const searchParams = useSearchParams();
@@ -55,14 +58,19 @@ const NewVerificationForm = () => {
       .catch(() => {
         setError('Something went wrong!');
       });
-  }, [token, success, error]);
+  }, [token, success, error, setError, setSuccess]);
 
   /**
    * Effect hook that triggers verification on component mount
+   * and cleans up state on unmount
    */
   useEffect(() => {
+    resetAuth(); // Reset state on mount
     onSubmit();
-  }, [onSubmit]);
+
+    // Cleanup on unmount
+    return () => resetAuth();
+  }, [onSubmit, resetAuth]);
 
   return (
     <CardWrapper

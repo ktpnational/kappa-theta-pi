@@ -1,4 +1,8 @@
+import { constructMetadata } from '@/utils';
 import React from 'react';
+import { LegalTerms } from '../_components';
+
+export const metadata = constructMetadata({ title: 'Terms' });
 
 /**
  * Terms Component
@@ -21,11 +25,7 @@ import React from 'react';
  * @version 1.0.0
  */
 const Terms = (): JSX.Element => {
-  return (
-    <div>
-      <h1>Terms</h1>
-    </div>
-  );
+  return <LegalTerms />;
 };
 
 Terms.displayName = 'Terms';

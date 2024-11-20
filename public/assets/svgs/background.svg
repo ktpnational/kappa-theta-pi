@@ -13,8 +13,8 @@
 <path d="M1245.92 121.278C1246.71 121.278 1247.49 121.278 1248.3 121.278C1249.09 122.869 1249.87 124.46 1250.68 126.098C1252.79 126.229 1254.89 126.322 1257 126.4C1258.18 126.456 1259.35 126.511 1260.56 126.569C1263.94 126.438 1263.94 126.438 1265.83 123.67C1266.58 122.486 1266.58 122.486 1267.34 121.278C1268.12 121.278 1268.91 121.278 1269.72 121.278C1269.72 128.834 1269.72 136.389 1269.72 144.173C1268.93 144.173 1268.15 144.173 1267.34 144.173C1266.95 143.179 1266.55 142.185 1266.15 141.161C1264.1 137.915 1264.1 137.915 1261.02 137.536C1257.8 137.394 1255.02 137.447 1251.87 138.148C1249.39 140.986 1249.39 140.986 1248.3 144.173C1247.52 144.173 1246.73 144.173 1245.92 144.173C1245.92 136.618 1245.92 129.063 1245.92 121.278Z" fill="#F7F8FB"/>
 </g>
 <defs>
-<filter id="filter0_f_348_767" x="-679" y="-831" width="2703" height="2741" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<filter id="filter0_f_348_767" x="-679" y="-831" width="2703" height="2741" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+<feFlood floodOpacity="0" result="BackgroundImageFix"/>
 <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
 <feGaussianBlur stdDeviation="130" result="effect1_foregroundBlur_348_767"/>
 </filter>

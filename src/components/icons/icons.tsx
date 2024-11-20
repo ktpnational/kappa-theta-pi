@@ -1,19 +1,34 @@
 import { cn } from '@/lib';
 import { LogoIcon, LogoSmallIcon } from './components';
 import {
+  AndroidIcon,
+  AppleIcon,
   ArrowLeftIcon,
   AvatarIcon,
   CheckIcon,
+  CoutKtp,
   PaperplaneIcon,
+  Phone1,
+  Phone2,
+  Phone3,
+  Phone4,
   PlaceholderIcon,
   SpinnerIcon,
 } from './individual';
 import type { IconProps } from './types';
 
 /**
- * Maps icon size prop values to corresponding Tailwind CSS classes for width and height
- * @param {IconProps['size']} size - The desired icon size, matching available Tailwind sizes
- * @returns {string} The corresponding Tailwind CSS classes for the icon dimensions
+ * Maps icon size prop values to corresponding Tailwind CSS classes for width and height.
+ * This function provides consistent sizing across all icon components by mapping numeric
+ * size values to Tailwind's width and height utility classes.
+ *
+ * @param {IconProps['size']} size - The desired icon size value, corresponding to Tailwind's spacing scale
+ * @returns {string} Tailwind CSS classes for width and height (e.g., 'w-4 h-4')
+ * @default Returns 'w-4 h-4' if no size is provided
+ *
+ * @example
+ * getSizeClasses('6') // returns 'w-6 h-6'
+ * getSizeClasses() // returns 'w-4 h-4'
  */
 const getSizeClasses = (size?: IconProps['size']) => {
   const sizeMapping: Record<NonNullable<IconProps['size']>, string> = {
@@ -53,88 +68,203 @@ const getSizeClasses = (size?: IconProps['size']) => {
 };
 
 /**
- * Collection of icon components organized by category
- * Each icon is a React component that accepts IconProps for customization
- * All icons support consistent sizing through the size prop and className for additional styling
+ * A comprehensive collection of icon components organized by functional categories.
+ * Each icon component accepts standard IconProps for consistent styling and behavior.
+ * Icons are grouped into logical categories like logos, navigation, user, etc.
+ *
+ * @namespace
+ * @property {Object} logos - Collection of logo-related icons
+ * @property {Object} navigation - Collection of navigation-related icons
+ * @property {Object} user - Collection of user-related icons
+ * @property {Object} communication - Collection of communication-related icons
+ * @property {Object} miscellaneous - Collection of utility and general purpose icons
+ * @property {Object} phones - Collection of phone-related icons
  */
 export const Icons = {
-  /** Logo-related icons */
+  /**
+   * Logo-related icons including company logos and platform-specific logos
+   * @memberof Icons
+   */
   logos: {
     /**
-     * Small version of the logo icon
-     * @param {IconProps} props - Icon properties including size and className
+     * Renders a compact version of the logo icon
+     * @param {IconProps} props - Icon configuration properties
+     * @param {string} [props.className] - Additional CSS classes to apply
+     * @param {IconProps['size']} [props.size] - Size of the icon using Tailwind's spacing scale
      * @returns {JSX.Element} Small logo icon component
      */
     small: ({ className, size, ...props }: IconProps) => (
       <LogoSmallIcon className={cn(getSizeClasses(size), className)} {...props} />
     ),
     /**
-     * Default/full version of the logo icon
-     * @param {IconProps} props - Icon properties including size and className
+     * Renders the full/default version of the logo icon
+     * @param {IconProps} props - Icon configuration properties
+     * @param {string} [props.className] - Additional CSS classes to apply
+     * @param {IconProps['size']} [props.size] - Size of the icon using Tailwind's spacing scale
      * @returns {JSX.Element} Default logo icon component
      */
     default: ({ className, size, ...props }: IconProps) => (
       <LogoIcon className={cn(getSizeClasses(size), className)} {...props} />
     ),
+    /**
+     * Renders the Apple platform logo
+     * @param {IconProps} props - Icon configuration properties
+     * @param {string} [props.className] - Additional CSS classes to apply
+     * @param {IconProps['size']} [props.size] - Size of the icon using Tailwind's spacing scale
+     * @returns {JSX.Element} Apple logo icon component
+     */
+    apple: ({ className, size, ...props }: IconProps) => (
+      <AppleIcon className={cn(getSizeClasses(size), className)} {...props} />
+    ),
+    /**
+     * Renders the Android platform logo
+     * @param {IconProps} props - Icon configuration properties
+     * @param {string} [props.className] - Additional CSS classes to apply
+     * @param {IconProps['size']} [props.size] - Size of the icon using Tailwind's spacing scale
+     * @returns {JSX.Element} Android logo icon component
+     */
+    android: ({ className, size, ...props }: IconProps) => (
+      <AndroidIcon className={cn(getSizeClasses(size), className)} {...props} />
+    ),
   },
-  /** Navigation-related icons */
+  /**
+   * Navigation-related icons for user interface navigation elements
+   * @memberof Icons
+   */
   navigation: {
     /**
-     * Left-pointing arrow icon for navigation
-     * @param {IconProps} props - Icon properties including size and className
+     * Renders a left-pointing arrow icon for navigation/back actions
+     * @param {IconProps} props - Icon configuration properties
+     * @param {string} [props.className] - Additional CSS classes to apply
+     * @param {IconProps['size']} [props.size] - Size of the icon using Tailwind's spacing scale
      * @returns {JSX.Element} Arrow left icon component
      */
     arrowLeft: ({ className, size, ...props }: IconProps) => (
       <ArrowLeftIcon className={cn(getSizeClasses(size), className)} {...props} />
     ),
   },
-  /** User-related icons */
+  /**
+   * User-related icons for profile and user management features
+   * @memberof Icons
+   */
   user: {
     /**
-     * User avatar placeholder icon
-     * @param {IconProps} props - Icon properties including size and className
+     * Renders a user avatar placeholder icon
+     * @param {IconProps} props - Icon configuration properties
+     * @param {string} [props.className] - Additional CSS classes to apply
+     * @param {IconProps['size']} [props.size] - Size of the icon using Tailwind's spacing scale
      * @returns {JSX.Element} Avatar icon component
      */
     avatar: ({ className, size, ...props }: IconProps) => (
       <AvatarIcon className={cn(getSizeClasses(size), className)} {...props} />
     ),
   },
-  /** Communication-related icons */
+  /**
+   * Communication-related icons for messaging and interaction features
+   * @memberof Icons
+   */
   communication: {
     /**
-     * Paper airplane icon, commonly used for send actions
-     * @param {IconProps} props - Icon properties including size and className
+     * Renders a paper airplane icon, commonly used for send/submit actions
+     * @param {IconProps} props - Icon configuration properties
+     * @param {string} [props.className] - Additional CSS classes to apply
+     * @param {IconProps['size']} [props.size] - Size of the icon using Tailwind's spacing scale
      * @returns {JSX.Element} Paper plane icon component
      */
     paperplane: ({ className, size, ...props }: IconProps) => (
       <PaperplaneIcon className={cn(getSizeClasses(size), className)} {...props} />
     ),
   },
-  /** Miscellaneous utility icons */
+  /**
+   * Miscellaneous utility icons for general purpose use
+   * @memberof Icons
+   */
   miscellaneous: {
     /**
-     * Generic placeholder icon
-     * @param {IconProps} props - Icon properties including size and className
+     * Renders a generic placeholder icon for temporary or fallback use
+     * @param {IconProps} props - Icon configuration properties
+     * @param {string} [props.className] - Additional CSS classes to apply
+     * @param {IconProps['size']} [props.size] - Size of the icon using Tailwind's spacing scale
      * @returns {JSX.Element} Placeholder icon component
      */
     placeholder: ({ className, size, ...props }: IconProps) => (
       <PlaceholderIcon className={cn(getSizeClasses(size), className)} {...props} />
     ),
     /**
-     * Animated spinner icon for loading states
-     * @param {IconProps} props - Icon properties including size and className
-     * @returns {JSX.Element} Spinner icon component
+     * Renders an animated spinner icon for loading states
+     * @param {IconProps} props - Icon configuration properties
+     * @param {string} [props.className] - Additional CSS classes to apply
+     * @param {IconProps['size']} [props.size] - Size of the icon using Tailwind's spacing scale
+     * @returns {JSX.Element} Spinner icon component for loading indicators
      */
     spinner: ({ className, size, ...props }: IconProps) => (
       <SpinnerIcon className={cn(getSizeClasses(size), className)} {...props} />
     ),
     /**
-     * Check icon
-     * @param {IconProps} props - Icon properties including size and className
+     * Renders a checkmark icon for success/completion states
+     * @param {IconProps} props - Icon configuration properties
+     * @param {string} [props.className] - Additional CSS classes to apply
+     * @param {IconProps['size']} [props.size] - Size of the icon using Tailwind's spacing scale
      * @returns {JSX.Element} Check icon component
      */
     check: ({ className, size, ...props }: IconProps) => (
       <CheckIcon className={cn(getSizeClasses(size), className)} {...props} />
+    ),
+    /**
+     * Renders a KTP (Indonesian ID card) icon
+     * @param {IconProps} props - Icon configuration properties
+     * @param {string} [props.className] - Additional CSS classes to apply
+     * @param {IconProps['size']} [props.size] - Size of the icon using Tailwind's spacing scale
+     * @returns {JSX.Element} KTP icon component
+     */
+    coutKtp: ({ className, size, ...props }: IconProps) => (
+      <CoutKtp className={cn(getSizeClasses(size), className)} {...props} />
+    ),
+  },
+  /**
+   * Collection of phone-related icons for different device representations
+   * @memberof Icons
+   */
+  phones: {
+    /**
+     * Renders the first phone device icon variant
+     * @param {IconProps} props - Icon configuration properties
+     * @param {string} [props.className] - Additional CSS classes to apply
+     * @param {IconProps['size']} [props.size] - Size of the icon using Tailwind's spacing scale
+     * @returns {JSX.Element} Phone variant 1 icon component
+     */
+    phone1: ({ className, size, ...props }: IconProps) => (
+      <Phone1 className={cn(getSizeClasses(size), className)} {...props} />
+    ),
+    /**
+     * Renders the second phone device icon variant
+     * @param {IconProps} props - Icon configuration properties
+     * @param {string} [props.className] - Additional CSS classes to apply
+     * @param {IconProps['size']} [props.size] - Size of the icon using Tailwind's spacing scale
+     * @returns {JSX.Element} Phone variant 2 icon component
+     */
+    phone2: ({ className, size, ...props }: IconProps) => (
+      <Phone2 className={cn(getSizeClasses(size), className)} {...props} />
+    ),
+    /**
+     * Renders the third phone device icon variant
+     * @param {IconProps} props - Icon configuration properties
+     * @param {string} [props.className] - Additional CSS classes to apply
+     * @param {IconProps['size']} [props.size] - Size of the icon using Tailwind's spacing scale
+     * @returns {JSX.Element} Phone variant 3 icon component
+     */
+    phone3: ({ className, size, ...props }: IconProps) => (
+      <Phone3 className={cn(getSizeClasses(size), className)} {...props} />
+    ),
+    /**
+     * Renders the fourth phone device icon variant
+     * @param {IconProps} props - Icon configuration properties
+     * @param {string} [props.className] - Additional CSS classes to apply
+     * @param {IconProps['size']} [props.size] - Size of the icon using Tailwind's spacing scale
+     * @returns {JSX.Element} Phone variant 4 icon component
+     */
+    phone4: ({ className, size, ...props }: IconProps) => (
+      <Phone4 className={cn(getSizeClasses(size), className)} {...props} />
     ),
   },
 };

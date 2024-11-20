@@ -3,7 +3,8 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import React, { useState } from 'react';
+import { useGlobalStore } from '@/providers';
+import React from 'react';
 import { FaMicrophone, FaStop } from 'react-icons/fa';
 import { toast } from 'sonner';
 import { useIsomorphicLayoutEffect } from 'usehooks-ts';
@@ -41,7 +42,7 @@ export const SpeechToText = React.memo(
     /**
      * Tracks whether speech recognition is currently active
      */
-    const [isRecording, setIsRecording] = useState(false);
+    const { isRecording, setIsRecording } = useGlobalStore((state) => state.speechToText);
 
     /**
      * Reference to the start/stop button element

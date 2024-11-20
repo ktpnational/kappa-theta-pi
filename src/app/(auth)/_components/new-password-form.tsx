@@ -2,10 +2,11 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useSearchParams } from 'next/navigation';
-import { useState, useTransition } from 'react';
+import { useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import type * as z from 'zod';
 
+import { useGlobalStore } from '@/providers';
 import { NewPasswordSchema } from '@/schemas';
 
 import { CardWrapper } from '@/app/(auth)/_components';
@@ -42,16 +43,18 @@ import { newPassword } from '@/actions/new-password';
  * - Integrates with Next.js client-side navigation
  */
 export const NewPasswordForm = () => {
-  /** Error message state for form submission failures */
-  const [error, setError] = useState<string | undefined>('');
+  const {
+    error,
+    success,
+    isPending,
+    setError,
+    setSuccess,
+    setIsPending,
+    // @ts-expect-error - TODO: fix this
+    reset: resetAuth,
+  } = useGlobalStore((state) => state.auth);
 
-  /** Success message state for successful password updates */
-  const [success, setSuccess] = useState<string | undefined>('');
-
-  /** Loading state indicator during form submission */
-  const [isPending, startTransition] = useTransition();
-
-  /** Access URL search parameters to get reset token */
+  const [, startTransition] = useTransition();
   const searchParams = useSearchParams();
   const token = searchParams.get('token');
 
@@ -71,16 +74,19 @@ export const NewPasswordForm = () => {
    * @param {z.infer<typeof NewPasswordSchema>} values - Form values containing new password
    */
   const onSubmit = (values: z.infer<typeof NewPasswordSchema>) => {
-    setError('');
-    setSuccess('');
+    setError(undefined);
+    setSuccess(undefined);
 
     startTransition(() => {
-      newPassword(values, token).then((data) => {
-        setError(data?.error);
-        setSuccess(data?.success);
-      });
+      setIsPending(true);
+      newPassword(values, token)
+        .then((data) => {
+          setError(data?.error);
+          setSuccess(data?.success);
+        })
+        .catch(() => setError('Something went wrong'))
+        .finally(() => setIsPending(false));
     });
-    console.log(values);
   };
 
   return (

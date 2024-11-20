@@ -1,10 +1,11 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useState, useTransition } from 'react';
+import { useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import type * as z from 'zod';
 
+import { useGlobalStore } from '@/providers';
 import { RegisterSchema } from '@/schemas';
 
 import {
@@ -36,14 +37,18 @@ import { Input } from '@/components/ui/input';
  * ```
  */
 const RegisterForm = () => {
-  /** Error message state for form submission failures */
-  const [error, setError] = useState<string | undefined>('');
+  const {
+    error,
+    success,
+    isPending,
+    setError,
+    setSuccess,
+    setIsPending,
+    // @ts-expect-error - TODO: fix this
+    reset: resetAuth,
+  } = useGlobalStore((state) => state.auth);
 
-  /** Success message state for successful registrations */
-  const [sucess, setSucess] = useState<string | undefined>('');
-
-  /** Loading state indicator for form submission */
-  const [isPending, startTransition] = useTransition();
+  const [, startTransition] = useTransition();
 
   /**
    * Form initialization with Zod schema validation
@@ -64,14 +69,21 @@ const RegisterForm = () => {
    * @returns {void}
    */
   const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
-    setError('');
-    setSucess('');
+    setError(undefined);
+    setSuccess(undefined);
 
     startTransition(() => {
-      register(values).then((data) => {
-        setError(data.error);
-        setSucess(data.sucess);
-      });
+      setIsPending(true);
+      register(values)
+        .then((data) => {
+          setError(data.error);
+          setSuccess(data.sucess); // Note: API returns 'sucess' (typo)
+          if (data.sucess) {
+            form.reset();
+          }
+        })
+        .catch(() => setError('Something went wrong'))
+        .finally(() => setIsPending(false));
     });
   };
 
@@ -136,7 +148,7 @@ const RegisterForm = () => {
             />
           </div>
           <FormError message={error} />
-          <FormSucess message={sucess} />
+          <FormSucess message={success} />
           <Button disabled={isPending} type="submit" className="w-full">
             Create an account
           </Button>

@@ -1,10 +1,11 @@
 'use client';
 
+import { Icons, NewsletterSignUpForm } from '@/components';
 import { app } from '@/constants';
+import { navigationSections, standaloneLinks } from '@/constants/nav';
 import { Instagram, Linkedin, Mail } from 'lucide-react';
 import Link from 'next/link';
 import { memo } from 'react';
-import { NewsletterSignUpForm } from '../forms';
 
 /**
  * Footer component for the Kappa Theta Pi website
@@ -43,66 +44,89 @@ export const Footer = memo(function Footer() {
     <footer className="bg-[#234c8b] text-white py-12">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8">
-          <div className="lg:col-span-2">
-            <FooterSection
-              title="Quick Links"
-              links={[
-                { href: '/about', text: 'About Us' },
-                { href: '/chapters', text: 'Chapters' },
-                { href: '/join', text: 'Join Us' },
-                { href: '/blog', text: 'Blog' },
-              ]}
-            />
-          </div>
-          <div className="lg:col-span-2">
-            <FooterSection
-              title="Resources"
-              links={[
-                { href: '/company-portal', text: 'Company Portal' },
-                { href: '/blog', text: 'Student Resources' },
-                { href: '#', text: 'New Company Interest Form' },
-              ]}
-            />
-          </div>
-          <div className="lg:col-span-3">
-            <h3 className="text-xl font-semibold mb-4">Contact Kappa Theta Pi</h3>
-            <div className="flex items-center space-x-2">
-              <Mail className="w-5 h-5 text-[#458eff]" />
-              <a href={`mailto:${app.email}`} className="text-lg font-medium hover:underline">
-                {app.email}
+          {navigationSections.map((section) => (
+            <div key={section.title} className="lg:col-span-2">
+              <FooterSection
+                title={section.title}
+                links={section.items.map((item) => ({
+                  href: item.href,
+                  text: item.title,
+                }))}
+              />
+            </div>
+          ))}
+
+          <div className="lg:col-span-3 space-y-8">
+            <div>
+              <h3 className="text-xl font-semibold mb-4">Contact {app.name}</h3>
+              <a
+                href={`mailto:${app.email}`}
+                className="flex items-center space-x-2 hover:text-[#8BB9FF] transition-colors"
+              >
+                <Mail className="w-5 h-5" />
+                <span>{app.email}</span>
               </a>
             </div>
-          </div>
-          <div className="lg:col-span-2">
-            <h3 className="text-xl font-semibold mb-4">Follow ΚΘΠ</h3>
-            <div className="flex space-x-4">
-              <SocialLink
-                href="https://www.instagram.com/ktpnational?igsh=MWJkcGt2dDN1NHRzNQ=="
-                aria-label="Instagram"
-              >
-                <Instagram className="w-6 h-6 text-[#458eff]" />
-              </SocialLink>
-              <SocialLink
-                href="https://www.linkedin.com/company/kappa-theta-pi-national/"
-                aria-label="LinkedIn"
-              >
-                <Linkedin className="w-6 h-6 text-[#458eff]" />
-              </SocialLink>
+            <div>
+              <h3 className="text-xl font-semibold mb-4">Follow ΚΘΠ</h3>
+              <div className="flex space-x-4">
+                <SocialLink href="https://www.instagram.com/ktpnational" aria-label="Instagram">
+                  <Instagram className="w-6 h-6" />
+                </SocialLink>
+                <SocialLink
+                  href="https://www.linkedin.com/company/kappa-theta-pi-national"
+                  aria-label="LinkedIn"
+                >
+                  <Linkedin className="w-6 h-6" />
+                </SocialLink>
+              </div>
             </div>
           </div>
-          <div className="lg:col-span-3">
-            <h3 className="text-xl font-semibold mb-4">Stay Updated</h3>
-            <NewsletterSignUpForm />
+
+          <div className="lg:col-span-3 space-y-8">
+            <div>
+              <h3 className="text-xl font-semibold mb-4">Stay Updated</h3>
+              <NewsletterSignUpForm />
+            </div>
+            <div>
+              <h3 className="text-xl font-semibold mb-4">Kappa Theta Pi Life App</h3>
+              <div className="flex flex-col space-y-4">
+                <div className="flex flex-col sm:flex-row sm:flex-wrap gap-4 justify-center">
+                  <SocialLink
+                    href="https://apps.apple.com/us/app/kappa-theta-pi-life/id1641588942"
+                    aria-label="Download on App Store"
+                  >
+                    <Icons.logos.apple
+                      className="w-[100px] sm:w-[120px] md:w-[140px] h-auto text-white hover:text-[#8BB9FF] transition-transform hover:scale-105"
+                      style={{ aspectRatio: '3/1' }}
+                    />
+                  </SocialLink>
+                  <SocialLink
+                    href="https://play.google.com/store/apps/details?id=com.ktpumich.ktp_rush"
+                    aria-label="Get it on Google Play"
+                  >
+                    <Icons.logos.android
+                      className="w-[100px] sm:w-[120px] md:w-[140px] h-auto text-white hover:text-[#8BB9FF] transition-transform hover:scale-105"
+                      style={{ aspectRatio: '3/1' }}
+                    />
+                  </SocialLink>
+                </div>
+                <div className="flex justify-center">
+                  <Icons.miscellaneous.coutKtp className="w-[100px] sm:w-[120px] md:w-[140px] h-auto text-[#8BB9FF]" />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        <div className="mt-12 text-center">
-          <p>
-            &copy; {currentYear} Kappa Theta Pi National Technology Fraternity. All rights reserved.
+
+        <div className="mt-12 pt-8 border-t border-white/20 text-center">
+          <p className="text-sm">
+            © {currentYear} {app.name}. All rights reserved.
           </p>
-          <div className="mt-4 space-x-4">
-            <FooterLink href="/terms" text="Terms of Service" />
-            <FooterLink href="/privacy" text="Privacy Policy" />
-            <FooterLink href="/copyright" text="Copyright Notice" />
+          <div className="mt-4 flex justify-center space-x-4 text-sm">
+            {standaloneLinks.map((link) => (
+              <FooterLink key={link.href} href={link.href} text={link.title} />
+            ))}
           </div>
         </div>
       </div>

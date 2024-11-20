@@ -1,16 +1,7 @@
-import { Loader } from '@/components';
-import { constructMetadata } from '@/utils';
+'use client';
 
-/**
- * Metadata object for the loading page using constructMetadata utility
- * @constant {Object} metadata
- * @property {string} title - Page title showing loading state
- * @property {string} description - Page description showing loading state
- */
-export const metadata = constructMetadata({
-  title: 'Loading...',
-  description: 'Loading...',
-});
+import { Loader } from '@/components';
+import { memo } from 'react';
 
 /**
  * Loading component that displays during page/component transitions
@@ -21,12 +12,12 @@ export const metadata = constructMetadata({
  *   <Loading />
  * )
  */
-const Loading = () => {
+const Loading = memo(() => {
   return (
     <>
       <Loader />
     </>
   );
-};
+});
 
 export default Loading;

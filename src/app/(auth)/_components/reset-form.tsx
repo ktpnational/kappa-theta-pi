@@ -1,10 +1,11 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useState, useTransition } from 'react';
+import { useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import type * as z from 'zod';
 
+import { useGlobalStore } from '@/providers';
 import { ResetSchema } from '@/schemas';
 
 import { CardWrapper } from '@/app/(auth)/_components';
@@ -33,23 +34,18 @@ import { reset } from '@/actions/reset';
  * @returns {JSX.Element} The rendered password reset form
  */
 const ResetForm = () => {
-  /**
-   * State for handling form error messages
-   * @type {[string | undefined, React.Dispatch<React.SetStateAction<string | undefined>>]}
-   */
-  const [error, setError] = useState<string | undefined>('');
+  const {
+    error,
+    success,
+    isPending,
+    setError,
+    setSuccess,
+    setIsPending,
+    // @ts-expect-error - TODO: fix this
+    reset: resetAuth,
+  } = useGlobalStore((state) => state.auth);
 
-  /**
-   * State for handling success messages
-   * @type {[string | undefined, React.Dispatch<React.SetStateAction<string | undefined>>]}
-   */
-  const [success, setSuccess] = useState<string | undefined>('');
-
-  /**
-   * Transition state for handling form submission
-   * @type {[boolean, (callback: () => void) => void]}
-   */
-  const [isPending, startTransition] = useTransition();
+  const [, startTransition] = useTransition();
 
   /**
    * Form instance created using react-hook-form
@@ -69,16 +65,22 @@ const ResetForm = () => {
    * @param {z.infer<typeof ResetSchema>} values - Form values containing email
    */
   const onSubmit = (values: z.infer<typeof ResetSchema>) => {
-    setError('');
-    setSuccess('');
+    setError(undefined);
+    setSuccess(undefined);
 
     startTransition(() => {
-      reset(values).then((data) => {
-        setError(data?.error);
-        setSuccess(data?.success);
-      });
+      setIsPending(true);
+      reset(values)
+        .then((data) => {
+          setError(data?.error);
+          setSuccess(data?.success);
+          if (data?.success) {
+            form.reset();
+          }
+        })
+        .catch(() => setError('Something went wrong'))
+        .finally(() => setIsPending(false));
     });
-    console.log(values);
   };
 
   return (

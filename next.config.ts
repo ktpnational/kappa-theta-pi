@@ -1,6 +1,6 @@
 import withPwa from '@ducanh2912/next-pwa';
 import MillionLint from '@million/lint';
-import { SentryBuildOptions, withSentryConfig } from '@sentry/nextjs';
+import { type SentryBuildOptions, withSentryConfig } from '@sentry/nextjs';
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
@@ -50,29 +50,27 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  // @ts-expect-error - Next.js types are not updated yet
   webpack: (config, { isServer, nextRuntime }) => {
-    // Initialize config.resolve if needed
     config.resolve = config.resolve || {};
     config.resolve.fallback = config.resolve.fallback || {};
     config.resolve.alias = config.resolve.alias || {};
 
-    // Edge runtime configuration
     if (nextRuntime === 'edge') {
       config.module.rules.push({
         test: /\.(woff|woff2|eot|ttf|otf)$/,
         type: 'asset/resource',
         generator: {
-          filename: 'static/media/[name].[hash][ext]'
-        }
+          filename: 'static/media/[name].[hash][ext]',
+        },
       });
 
-      // Handle problematic packages in edge runtime
       config.resolve.alias = {
         ...config.resolve.alias,
         'decode-named-character-reference': false,
         'micromark-core-commonmark': false,
-        'micromark': false,
-        'unified': false,
+        micromark: false,
+        unified: false,
         'remark-parse': false,
         'remark-rehype': false,
         'rehype-stringify': false,
@@ -89,7 +87,6 @@ const nextConfig: NextConfig = {
   ],
 };
 
-// Plugin configurations
 const millionConfig = {
   rsc: true,
   filter: {
@@ -98,39 +95,39 @@ const millionConfig = {
   },
 };
 
-const sentryConfig = process.env.NODE_ENV === 'production' && process.env.NEXT_PUBLIC_SENTRY_AUTH_TOKEN
-  ? {
-      org: 'womb0comb0',
-      project: 'ktp',
-      authToken: process.env.NEXT_PUBLIC_SENTRY_AUTH_TOKEN,
-      silent: true,
-      release: {
-        name: process.env.VERCEL_GIT_COMMIT_SHA || `local-${Date.now()}`,
-        create: true,
-        setCommits: {
-          auto: true,
-          ignoreMissing: true,
+const sentryConfig =
+  process.env.NODE_ENV === 'production' && process.env.NEXT_PUBLIC_SENTRY_AUTH_TOKEN
+    ? {
+        org: 'womb0comb0',
+        project: 'ktp',
+        authToken: process.env.NEXT_PUBLIC_SENTRY_AUTH_TOKEN,
+        silent: true,
+        release: {
+          name: process.env.VERCEL_GIT_COMMIT_SHA || `local-${Date.now()}`,
+          create: true,
+          setCommits: {
+            auto: true,
+            ignoreMissing: true,
+          },
         },
-      },
-      sourcemaps: {
-        assets: './**/*.{js,map}',
-        ignore: ['node_modules/**/*'],
-      },
-      hideSourceMaps: true,
-      widenClientFileUpload: true,
-      autoInstrumentServerFunctions: true,
-      autoInstrumentMiddleware: true,
-      autoInstrumentAppDirectory: true,
-      tunnelRoute: '/monitoring',
-      disableLogger: true,
-      automaticVercelMonitors: true,
-      reactComponentAnnotation: {
-        enabled: true,
-      },
-    }
-  : null;
+        sourcemaps: {
+          assets: './**/*.{js,map}',
+          ignore: ['node_modules/**/*'],
+        },
+        hideSourceMaps: true,
+        widenClientFileUpload: true,
+        autoInstrumentServerFunctions: true,
+        autoInstrumentMiddleware: true,
+        autoInstrumentAppDirectory: true,
+        tunnelRoute: '/monitoring',
+        disableLogger: true,
+        automaticVercelMonitors: true,
+        reactComponentAnnotation: {
+          enabled: true,
+        },
+      }
+    : null;
 
-// Compose configuration with plugins
 let config = nextConfig;
 config = MillionLint.next(millionConfig)(config);
 config = withPwa({ ...config, dest: 'public' });

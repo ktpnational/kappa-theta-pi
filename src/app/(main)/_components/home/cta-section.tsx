@@ -9,6 +9,10 @@ import Link from 'next/link';
 import { Suspense } from 'react';
 import type React from 'react';
 
+/**
+ * Animation variants for the container element.
+ * Controls the staggered animation of child elements.
+ */
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
@@ -19,6 +23,10 @@ const containerVariants = {
   },
 };
 
+/**
+ * Animation variants for individual items within the container.
+ * Defines spring animation for y-axis movement and opacity.
+ */
 const itemVariants = {
   hidden: { y: 20, opacity: 0 },
   visible: {
@@ -31,6 +39,12 @@ const itemVariants = {
   },
 };
 
+/**
+ * Skeleton loading component for the CTA section.
+ * Displays placeholder content while the main content is loading.
+ *
+ * @returns {React.ReactElement} A skeleton UI with animated loading states
+ */
 const CTASectionSkeleton = () => (
   <section className="my-16 md:my-24 px-4">
     <Card className="max-w-4xl mx-auto p-8 md:p-12 bg-gradient-to-br from-[#234c8b] to-[#458eff]">
@@ -43,6 +57,12 @@ const CTASectionSkeleton = () => (
   </section>
 );
 
+/**
+ * Main content component for the CTA (Call-to-Action) section.
+ * Features animated entrance effects and interactive elements.
+ *
+ * @returns {React.ReactElement} The main CTA content with animations and styling
+ */
 const CTAContent = () => (
   <motion.div
     className="max-w-4xl mx-auto text-center p-8 md:p-12 rounded-2xl shadow-2xl bg-gradient-to-br from-[#234c8b] to-[#458eff] text-white overflow-hidden relative"
@@ -60,7 +80,10 @@ const CTAContent = () => (
     <motion.h2 className="text-3xl md:text-4xl font-bold mb-6 relative" variants={itemVariants}>
       Join Kappa Theta Pi
     </motion.h2>
-    <motion.p className="text-lg md:text-xl mb-8 max-w-2xl mx-auto relative" variants={itemVariants}>
+    <motion.p
+      className="text-lg md:text-xl mb-8 max-w-2xl mx-auto relative"
+      variants={itemVariants}
+    >
       Be part of the premier national technology fraternity and shape the future of tech
     </motion.p>
     <motion.div variants={itemVariants}>
@@ -77,6 +100,25 @@ const CTAContent = () => (
   </motion.div>
 );
 
+/**
+ * The main CTA Section component that wraps the content with Suspense.
+ * Provides a loading fallback while the main content is being rendered.
+ *
+ * @component
+ * @example
+ * ```tsx
+ * <CtaSection />
+ * ```
+ *
+ * Features:
+ * - Responsive design with different spacing on mobile and desktop
+ * - Animated entrance effects using Framer Motion
+ * - Loading skeleton fallback
+ * - Interactive button with hover effects
+ * - Background pattern with gradient overlay
+ *
+ * @returns {React.ReactElement} The complete CTA section with loading handling
+ */
 export const CtaSection: React.FC = () => {
   return (
     <section className="my-16 md:my-24 px-4">

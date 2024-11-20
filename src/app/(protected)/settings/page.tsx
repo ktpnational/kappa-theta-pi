@@ -1,13 +1,14 @@
 'use client';
 
 import { useSession } from 'next-auth/react';
-import { useState, useTransition } from 'react';
+import { useTransition } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import type * as z from 'zod';
 
 import { useCurrentUser } from '@/hooks/use-current-user';
+import { useGlobalStore } from '@/providers';
 import { SettingsSchema } from '@/schemas';
 import { Role } from '@prisma/client';
 
@@ -49,14 +50,17 @@ import { Switch } from '@/components/ui/switch';
  * @returns {JSX.Element} The rendered settings page component
  */
 const SettingsPage = () => {
-  /** State for displaying error messages */
-  const [error, setError] = useState<string | undefined>();
+  const {
+    error,
+    success,
+    isPending,
+    setError,
+    setSuccess,
+    setIsPending,
+    reset: resetSettings,
+  } = useGlobalStore((state) => state.settings);
 
-  /** State for displaying success messages */
-  const [success, setSuccess] = useState<string | undefined>();
-
-  /** State for handling loading states during form submission */
-  const [isPending, startTransition] = useTransition();
+  const [, startTransition] = useTransition();
 
   /** Hook to access and update session data */
   const { update } = useSession();
@@ -87,19 +91,21 @@ const SettingsPage = () => {
    * @param {z.infer<typeof SettingsSchema>} values - The form values to be submitted
    */
   const onSubmit = (values: z.infer<typeof SettingsSchema>) => {
+    setError(undefined);
+    setSuccess(undefined);
+
     startTransition(() => {
+      setIsPending(true);
       settings(values)
         .then((data) => {
-          if (data.error) {
-            setError(data.error);
-          }
-
+          setError(data.error);
           if (data.success) {
             update();
             setSuccess(data.success);
           }
         })
-        .catch(() => setError('Something went wrong!'));
+        .catch(() => setError('Something went wrong!'))
+        .finally(() => setIsPending(false));
     });
   };
 
@@ -241,7 +247,7 @@ const SettingsPage = () => {
             <FormError message={error} />
             <FormSucess message={success} />
             <Button type="submit" disabled={isPending}>
-              Save
+              {isPending ? 'Saving...' : 'Save'}
             </Button>
           </form>
         </Form>

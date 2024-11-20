@@ -1,4 +1,8 @@
+import { constructMetadata } from '@/utils';
 import React from 'react';
+import { LegalCopyright } from '../_components';
+
+export const metadata = constructMetadata({ title: 'Copyright' });
 
 /**
  * @component Copyright
@@ -24,11 +28,7 @@ import React from 'react';
  * ```
  */
 const Copyright = () => {
-  return (
-    <div>
-      <h1>Copyright</h1>
-    </div>
-  );
+  return <LegalCopyright />;
 };
 
 Copyright.displayName = 'Copyright';

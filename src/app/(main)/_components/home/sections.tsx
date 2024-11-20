@@ -5,6 +5,7 @@ import {
   FAQSection,
   HeroSection,
   MapSection,
+  MobileSection,
   SponsorsSection,
 } from '.';
 
@@ -38,6 +39,7 @@ export const HomeSections = () => {
       <FAQSection />
       {/* <BlogSection /> */}
       <CtaSection />
+      <MobileSection />
     </>
   );
 };

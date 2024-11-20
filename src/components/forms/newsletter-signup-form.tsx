@@ -2,7 +2,7 @@
 
 import { subscribeToNewsletter } from '@/actions/newsletter';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import * as React from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -22,11 +22,32 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 
+/**
+ * Newsletter signup form component that allows users to subscribe to a newsletter.
+ *
+ * @component
+ * @returns {JSX.Element} A form component for newsletter signup
+ *
+ * @example
+ * ```tsx
+ * <NewsletterSignUpForm />
+ * ```
+ *
+ * Features:
+ * - Email validation using Zod schema
+ * - Loading state during submission
+ * - Success state after successful subscription
+ * - Error handling with toast notifications
+ * - Animated transitions using Framer Motion
+ */
 export const NewsletterSignUpForm = (): JSX.Element => {
   const { toast } = useToast();
   const [isPending, startTransition] = React.useTransition();
   const [isSuccess, setIsSuccess] = React.useState(false);
 
+  /**
+   * Initialize react-hook-form with Zod schema validation
+   */
   const form = useForm<NewsletterSignUpFormInput>({
     resolver: zodResolver(newsletterSignUpSchema),
     defaultValues: {
@@ -34,6 +55,17 @@ export const NewsletterSignUpForm = (): JSX.Element => {
     },
   });
 
+  /**
+   * Handles the form submission process
+   *
+   * @param {NewsletterSignUpFormInput} formData - The form data containing the email
+   * @returns {void}
+   *
+   * Response handling:
+   * - 'exists': User is already subscribed
+   * - 'success': Successfully subscribed
+   * - default: Error occurred
+   */
   function onSubmit(formData: NewsletterSignUpFormInput): void {
     startTransition(async () => {
       try {
@@ -75,10 +107,7 @@ export const NewsletterSignUpForm = (): JSX.Element => {
 
   return (
     <Form {...form}>
-      <form
-        className="relative w-full max-w-md mx-auto"
-        onSubmit={(...args) => void form.handleSubmit(onSubmit)(...args)}
-      >
+      <form className="w-full" onSubmit={(...args) => void form.handleSubmit(onSubmit)(...args)}>
         <AnimatePresence>
           {!isSuccess && (
             <motion.div
@@ -86,7 +115,7 @@ export const NewsletterSignUpForm = (): JSX.Element => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3 }}
-              className="flex flex-col space-y-4"
+              className="flex flex-col space-y-2"
             >
               <FormField
                 control={form.control}
@@ -95,29 +124,33 @@ export const NewsletterSignUpForm = (): JSX.Element => {
                   <FormItem>
                     <FormLabel className="sr-only">Email</FormLabel>
                     <FormControl>
-                      <Input
-                        type="email"
-                        placeholder="Enter your email"
-                        className="h-12 text-base placeholder:text-muted-foreground/60"
-                        {...field}
-                      />
+                      <div className="flex">
+                        <Input
+                          type="email"
+                          placeholder="Enter your email"
+                          className="rounded-r-none bg-white/10 border-white/20 text-white placeholder:text-white/50"
+                          {...field}
+                        />
+                        <Button
+                          type="submit"
+                          size="icon"
+                          variant="secondary"
+                          className="rounded-l-none hover:bg-white/10"
+                          disabled={isPending}
+                        >
+                          {isPending ? (
+                            <Icons.miscellaneous.spinner className="h-4 w-4 animate-spin" />
+                          ) : (
+                            <Icons.communication.paperplane className="h-4 w-4" />
+                          )}
+                          <span className="sr-only">Subscribe to Newsletter</span>
+                        </Button>
+                      </div>
                     </FormControl>
-                    <FormMessage className="absolute mt-1 text-xs" />
+                    <FormMessage className="text-xs text-red-300" />
                   </FormItem>
                 )}
               />
-              <Button
-                type="submit"
-                className="w-full h-12 text-base font-semibold transition-all duration-200 ease-in-out transform hover:scale-105"
-                disabled={isPending}
-              >
-                {isPending ? (
-                  <Icons.miscellaneous.spinner className="w-5 h-5 mr-2 animate-spin" aria-hidden="true" />
-                ) : (
-                  <Icons.communication.paperplane className="w-5 h-5 mr-2" aria-hidden="true" />
-                )}
-                {isPending ? 'Subscribing...' : 'Subscribe to Newsletter'}
-              </Button>
             </motion.div>
           )}
           {isSuccess && (
@@ -125,11 +158,10 @@ export const NewsletterSignUpForm = (): JSX.Element => {
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5, type: 'spring' }}
-              className="text-center"      
+              className="text-center"
             >
-              <Icons.miscellaneous.check className="w-16 h-16 mx-auto text-green-500 mb-4" />
-              <h3 className="text-2xl font-bold mb-2">Thank You!</h3>
-              <p className="text-muted-foreground">You're now subscribed to our newsletter.</p>
+              <Icons.miscellaneous.check className="w-6 h-6 mx-auto text-green-500 mb-2" />
+              <p className="text-sm">You're now subscribed to our newsletter.</p>
             </motion.div>
           )}
         </AnimatePresence>

@@ -4,6 +4,8 @@ import { FormError } from '@/components/form-error';
 import { useCurrentRole } from '@/hooks/use-current-role';
 import type { Role } from '@prisma/client';
 
+// TODO: Implement admin (if needed, hard if )
+
 /**
  * Interface defining the props accepted by the RoleGate component
  * @interface RoleGateProps

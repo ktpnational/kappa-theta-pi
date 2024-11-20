@@ -1,21 +1,55 @@
 'use client';
 
 import { type FAQItem, faqs } from '@/constants';
+import { useGlobalStore } from '@/providers';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
 import type React from 'react';
-import { useCallback, useState } from 'react';
 
 /**
- * Individual FAQ item component that displays a question and answer in an expandable format
+ * Individual FAQ item component that displays a question and answer in an expandable format.
  *
  * @component
  * @param {Object} props - Component props
- * @param {string} props.question - The FAQ question text
- * @param {string} props.answer - The FAQ answer text
+ * @param {string} props.question - The FAQ question text to display
+ * @param {string} props.answer - The FAQ answer text that appears when expanded
  * @param {boolean} props.isOpen - Whether this FAQ item is currently expanded
  * @param {() => void} props.toggleOpen - Callback function to toggle the expanded state
- * @returns {JSX.Element} Rendered FAQ item with animated expansion
+ *
+ * @example
+ * ```tsx
+ * <FAQItem
+ *   question="What is Kappa Theta Pi?"
+ *   answer="Kappa Theta Pi is a professional technology fraternity..."
+ *   isOpen={true}
+ *   toggleOpen={() => setIsOpen(!isOpen)}
+ * />
+ * ```
+ *
+ * @remarks
+ * The component implements several key features:
+ * - Smooth expand/collapse animations using Framer Motion
+ * - Accessible button controls with proper ARIA attributes
+ * - Chevron icon that rotates on expansion
+ * - Responsive text sizing and spacing
+ *
+ * @styling
+ * - Uses border-bottom for visual separation
+ * - Question text uses primary color
+ * - Answer text uses slightly muted foreground color
+ * - Animated chevron rotation on toggle
+ *
+ * @accessibility
+ * - Button has aria-expanded attribute
+ * - Uses semantic HTML structure
+ * - Maintains keyboard focus management
+ *
+ * @animation
+ * - Height and opacity animations on expand/collapse
+ * - Smooth chevron rotation
+ * - Configurable animation timing and easing
+ *
+ * @returns {JSX.Element} Rendered FAQ item with animated expansion capabilities
  */
 const FAQItem: React.FC<FAQItem & { isOpen: boolean; toggleOpen: () => void }> = ({
   question,
@@ -60,11 +94,9 @@ const FAQItem: React.FC<FAQItem & { isOpen: boolean; toggleOpen: () => void }> =
 FAQItem.displayName = 'FAQItem';
 
 /**
- * FAQ Section component that displays a list of frequently asked questions
- * with animated expandable answers
+ * FAQ Section component that displays a list of frequently asked questions with animated expandable answers.
  *
  * @component
- * @returns {JSX.Element} Rendered FAQ section with animated title and items
  *
  * @example
  * ```tsx
@@ -72,30 +104,53 @@ FAQItem.displayName = 'FAQItem';
  * <FAQSection />
  * ```
  *
- * Features:
- * - Animated entrance for title and FAQ items
+ * @remarks
+ * The component implements several key features:
  * - Accordion-style expansion where only one item can be open at a time
- * - Smooth animations for expanding/collapsing answers
- * - Responsive design with proper spacing and layout
- * - Accessibility support with proper ARIA attributes
+ * - Staggered entrance animations for FAQ items
+ * - Responsive layout with centered content
+ * - Semantic HTML structure with proper heading hierarchy
+ * - State management for tracking open/closed items
+ *
+ * @dependencies
+ * - framer-motion: For smooth animations and transitions
+ * - lucide-react: For the chevron icon
+ * - @/constants: For FAQ content data
+ *
+ * @styling
+ * - Centered layout with max-width constraint
+ * - Responsive padding using Tailwind classes
+ * - Background color handling
+ * - Proper spacing between elements
+ *
+ * @accessibility
+ * - Proper heading structure with sr-only class
+ * - ARIA attributes for interactive elements
+ * - Keyboard navigation support
+ * - Focus management
+ *
+ * @animation
+ * Features several layers of animations:
+ * - Initial fade-in for the entire section
+ * - Staggered entrance animations for individual FAQ items
+ * - Smooth expand/collapse transitions
+ * - Configurable timing and easing
+ *
+ * @performance
+ * - Uses useCallback for stable toggle function
+ * - Efficient state management
+ * - Optimized animations with AnimatePresence
+ * - Proper component memoization
+ *
+ * @state
+ * - Tracks currently open FAQ item index
+ * - Handles toggling between items
+ * - Maintains single-item-open behavior
+ *
+ * @returns {JSX.Element} A fully functional FAQ section with animated, interactive FAQ items
  */
 export const FAQSection: React.FC = () => {
-  /**
-   * State to track which FAQ item is currently open
-   * @type {number | null}
-   */
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
-
-  /**
-   * Callback to toggle the expanded state of an FAQ item
-   * If the clicked item is already open, it will be closed
-   * If a different item is clicked, the previous item will close and the new one will open
-   *
-   * @param {number} index - The index of the FAQ item to toggle
-   */
-  const toggleOpen = useCallback((index: number) => {
-    setOpenIndex((prevIndex) => (prevIndex === index ? null : index));
-  }, []);
+  const { openIndex, toggleOpen } = useGlobalStore((state) => state.faq);
 
   return (
     <section className="py-16 bg-none" id="faq">

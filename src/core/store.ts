@@ -61,6 +61,104 @@ interface StoreState {
      */
     toggleFilter: (filter: ChapterInfo['status']) => void;
   };
+
+  /** Auth section containing login form state and functions */
+  auth: {
+    /** Controls visibility of two-factor authentication form */
+    showTwoFactor: boolean;
+    /** Stores error messages from form submission */
+    error: string | undefined;
+    /** Stores success messages from form submission */
+    success: string | undefined;
+    /** Indicates if form submission is in progress */
+    isPending: boolean;
+
+    /** Sets the two-factor authentication visibility */
+    setShowTwoFactor: (value: boolean) => void;
+    /** Sets the error message */
+    setError: (value: string | undefined) => void;
+    /** Sets the success message */
+    setSuccess: (value: string | undefined) => void;
+    /** Sets the pending state */
+    setIsPending: (value: boolean) => void;
+    /** Resets all auth state */
+    reset: () => void;
+  };
+
+  /** Contact section containing form and carousel state */
+  contact: {
+    /** Current slide index in the carousel */
+    currentSlide: number;
+    /** Error message from form submission */
+    error: string | undefined;
+    /** Success message from form submission */
+    success: string | undefined;
+    /** Loading state for form submission */
+    isPending: boolean;
+
+    /** Sets the current slide index */
+    setCurrentSlide: (value: number) => void;
+    /** Sets the error message */
+    setError: (value: string | undefined) => void;
+    /** Sets the success message */
+    setSuccess: (value: string | undefined) => void;
+    /** Sets the loading state */
+    setIsPending: (value: boolean) => void;
+    /** Resets all contact state */
+    reset: () => void;
+  };
+
+  /** FAQ section containing accordion state */
+  faq: {
+    /** Index of currently open FAQ item */
+    openIndex: number | null;
+    /** Sets the open FAQ item index */
+    setOpenIndex: (value: number | null) => void;
+    /** Toggles an FAQ item open/closed */
+    toggleOpen: (index: number) => void;
+  };
+
+  /** Settings section containing form state */
+  settings: {
+    /** Error message from form submission */
+    error: string | undefined;
+    /** Success message from form submission */
+    success: string | undefined;
+    /** Loading state for form submission */
+    isPending: boolean;
+    /** Sets the error message */
+    setError: (value: string | undefined) => void;
+    /** Sets the success message */
+    setSuccess: (value: string | undefined) => void;
+    /** Sets the loading state */
+    setIsPending: (value: boolean) => void;
+    /** Resets all settings state */
+    reset: () => void;
+  };
+  copyButton: {
+    isCopied: boolean;
+    setIsCopied: (value: boolean) => void;
+  };
+  passwordInput: {
+    showPassword: boolean;
+    setShowPassword: (value: boolean) => void;
+  };
+  speechToText: {
+    isRecording: boolean;
+    setIsRecording: (value: boolean) => void;
+  };
+  idNanoid: {
+    id: string;
+    setId: (value: string) => void;
+  };
+  containerWidth: {
+    width: number;
+    setWidth: (value: number) => void;
+  };
+  legal: {
+    title: string;
+    setTitle: (value: string) => void;
+  };
 }
 
 /**
@@ -115,6 +213,151 @@ const createGlobalStore = () =>
               ? state.map.activeFilters.filter((f) => f !== filter)
               : [...state.map.activeFilters, filter],
           },
+        })),
+    },
+    auth: {
+      showTwoFactor: false,
+      error: undefined,
+      success: undefined,
+      isPending: false,
+      setShowTwoFactor: (value) =>
+        set((state) => ({
+          auth: { ...state.auth, showTwoFactor: value },
+        })),
+      setError: (value) =>
+        set((state) => ({
+          auth: { ...state.auth, error: value },
+        })),
+      setSuccess: (value) =>
+        set((state) => ({
+          auth: { ...state.auth, success: value },
+        })),
+      setIsPending: (value) =>
+        set((state) => ({
+          auth: { ...state.auth, isPending: value },
+        })),
+      reset: () =>
+        set((state) => ({
+          auth: {
+            ...state.auth,
+            showTwoFactor: false,
+            error: undefined,
+            success: undefined,
+            isPending: false,
+          },
+        })),
+    },
+    contact: {
+      currentSlide: 0,
+      error: undefined,
+      success: undefined,
+      isPending: false,
+      setCurrentSlide: (value) =>
+        set((state) => ({
+          contact: { ...state.contact, currentSlide: value },
+        })),
+      setError: (value) =>
+        set((state) => ({
+          contact: { ...state.contact, error: value },
+        })),
+      setSuccess: (value) =>
+        set((state) => ({
+          contact: { ...state.contact, success: value },
+        })),
+      setIsPending: (value) =>
+        set((state) => ({
+          contact: { ...state.contact, isPending: value },
+        })),
+      reset: () =>
+        set((state) => ({
+          contact: {
+            ...state.contact,
+            error: undefined,
+            success: undefined,
+            isPending: false,
+          },
+        })),
+    },
+    faq: {
+      openIndex: null,
+      setOpenIndex: (value) =>
+        set((state) => ({
+          faq: { ...state.faq, openIndex: value },
+        })),
+      toggleOpen: (index) =>
+        set((state) => ({
+          faq: {
+            ...state.faq,
+            openIndex: state.faq.openIndex === index ? null : index,
+          },
+        })),
+    },
+    settings: {
+      error: undefined,
+      success: undefined,
+      isPending: false,
+      setError: (value) =>
+        set((state) => ({
+          settings: { ...state.settings, error: value },
+        })),
+      setSuccess: (value) =>
+        set((state) => ({
+          settings: { ...state.settings, success: value },
+        })),
+      setIsPending: (value) =>
+        set((state) => ({
+          settings: { ...state.settings, isPending: value },
+        })),
+      reset: () =>
+        set((state) => ({
+          settings: {
+            ...state.settings,
+            error: undefined,
+            success: undefined,
+            isPending: false,
+          },
+        })),
+    },
+    copyButton: {
+      isCopied: false,
+      setIsCopied: (value) =>
+        set((state) => ({
+          copyButton: { ...state.copyButton, isCopied: value },
+        })),
+    },
+    passwordInput: {
+      showPassword: false,
+      setShowPassword: (value) =>
+        set((state) => ({
+          passwordInput: { ...state.passwordInput, showPassword: value },
+        })),
+    },
+    speechToText: {
+      isRecording: false,
+      setIsRecording: (value) =>
+        set((state) => ({
+          speechToText: { ...state.speechToText, isRecording: value },
+        })),
+    },
+    idNanoid: {
+      id: '',
+      setId: (value) =>
+        set((state) => ({
+          idNanoid: { ...state.idNanoid, id: value },
+        })),
+    },
+    containerWidth: {
+      width: 0,
+      setWidth: (value) =>
+        set((state) => ({
+          containerWidth: { ...state.containerWidth, width: value },
+        })),
+    },
+    legal: {
+      title: '',
+      setTitle: (value) =>
+        set((state) => ({
+          legal: { ...state.legal, title: value },
         })),
     },
   }));
