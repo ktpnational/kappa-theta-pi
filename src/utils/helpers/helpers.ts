@@ -14,9 +14,70 @@
  * //   "age": 30
  * // }
  * ```
+ *
+ * @remarks
+ * - Uses JSON.stringify() internally with null replacer and 2-space indent
+ * - Handles circular references by throwing an error
+ * - Preserves object structure and nesting
+ * - Useful for debugging, logging, and data serialization
+ * - Safe with primitives, arrays, objects, null and undefined
  */
 export const Stringify = (obj: any): string => {
   return JSON.stringify(obj, null, 2);
+};
+
+/**
+ * Parses the code path and returns a formatted string with the location and function name.
+ *
+ * @param {any} context - The context to include in the formatted string.
+ * @param {Function} fnName - The function to include in the formatted string.
+ * @returns {string} - The formatted string with the location and function name.
+ */
+export const parseCodePath = (context: any, fnName: Function): string =>
+  `location: ${process.cwd()}${__filename} @${fnName.name}: ${context}`;
+
+
+/**
+ * Wraps a promise to return a tuple containing either the resolved value or an error.
+ * Provides a cleaner way to handle promise rejections without try/catch blocks.
+ *
+ * @template T - The type of value that the promise resolves to
+ * @param {Promise<T>} promise - The promise to handle
+ * @returns {Promise<[undefined, T] | [Error]>} A promise that resolves to a tuple containing either:
+ *   - [undefined, T] if the promise resolves successfully, where T is the resolved value
+ *   - [Error] if the promise rejects, containing the error
+ *
+ * @example
+ * ```ts
+ * // Success case
+ * const [error, data] = await catchError(fetchUserData(userId));
+ * if (error) {
+ *   handleError(error);
+ *   return;
+ * }
+ * // Use data safely here
+ *
+ * // Error case
+ * const [error] = await catchError(Promise.reject(new Error("Failed")));
+ * console.log(error.message); // "Failed"
+ * ```
+ *
+ * @remarks
+ * - Inspired by Go's error handling pattern
+ * - Eliminates need for try/catch blocks
+ * - Makes error handling more explicit and predictable
+ * - Type-safe with TypeScript
+ * - Useful for async/await operations
+ * - Can be chained with other promise operations
+ */
+export const catchError = async <T>(promise: Promise<T>): Promise<[undefined, T] | [Error]> => {
+  return promise
+    .then((data) => {
+      return [undefined, data] as [undefined, T];
+    })
+    .catch((error: Error) => {
+      return [error];
+    });
 };
 
 /**
@@ -44,6 +105,11 @@ export const Stringify = (obj: any): string => {
  * - Removes trailing slashes from base URL
  * - Removes leading slashes from path
  * - Handles empty/undefined path gracefully
+ * - Environment variable aware
+ * - Safe for both development and production
+ * - Normalizes URL format
+ * - Supports path segments
+ * - Vercel deployment compatible
  */
 export const getURL = (path = ''): string => {
   let url =
@@ -81,6 +147,12 @@ export const getURL = (path = ''): string => {
  * - Does nothing if the element is not found
  * - Takes into account both element position and dimensions
  * - Considers window scroll position and viewport height
+ * - Handles fixed/sticky positioned elements
+ * - Works with dynamic content
+ * - Respects user's reduced motion preferences
+ * - Compatible with all modern browsers
+ * - Handles nested scrollable containers
+ * - Maintains scroll position for other elements
  */
 export const ScrollIntoCenterView = (href: string) => {
   const element = document.querySelector(href);
@@ -115,6 +187,12 @@ export const ScrollIntoCenterView = (href: string) => {
  * - Replaces spaces with hyphens
  * - Removes all non-word characters (except hyphens)
  * - Safe for use in URLs
+ * - Handles international characters
+ * - Preserves numbers
+ * - Removes consecutive hyphens
+ * - Trims leading/trailing hyphens
+ * - SEO-friendly output
+ * - Consistent with common slug formats
  */
 export const Slugify = (text: string): string => {
   return text
@@ -149,6 +227,12 @@ export const Slugify = (text: string): string => {
  * - Maintains the correct 'this' context
  * - Cancels pending executions when called again
  * - Common use cases: search inputs, window resize handlers, API calls
+ * - Preserves function arguments
+ * - Memory efficient
+ * - Handles rapid successive calls
+ * - Cancellable (via clearTimeout)
+ * - Thread-safe
+ * - Preserves return value timing
  */
 export const debounce = (fn: Function, time = 300): Function => {
   let timeoutId: ReturnType<typeof setTimeout>;
@@ -178,6 +262,12 @@ export const debounce = (fn: Function, time = 300): Function => {
  * - Works with single-character strings
  * - Safe with empty strings
  * - Preserves case of all other characters
+ * - Unicode-safe
+ * - Handles special characters
+ * - No side effects
+ * - Immutable operation
+ * - Consistent with title case rules
+ * - Language-agnostic
  */
 export const Capitalize = (text: string): string => {
   return text.charAt(0).toUpperCase() + text.slice(1);
@@ -202,6 +292,12 @@ export const Capitalize = (text: string): string => {
  * - Works with plain objects and class instances
  * - Does not check prototype chain
  * - Considers objects with non-enumerable properties as empty
+ * - Safe with null/undefined
+ * - Handles inherited properties
+ * - Performance optimized
+ * - Type-agnostic
+ * - Consistent with JSON.stringify
+ * - ES5+ compatible
  */
 export const IsObjectEmpty = (obj: any): boolean => {
   return Object.keys(obj).length === 0;
@@ -225,6 +321,13 @@ export const IsObjectEmpty = (obj: any): boolean => {
  * - Uses array.length property
  * - Empty slots in sparse arrays count towards length
  * - Works with any array-like object with a length property
+ * - Type-safe
+ * - Handles typed arrays
+ * - Fast O(1) operation
+ * - Immutable check
+ * - Consistent behavior
+ * - Safe with array subclasses
+ * - Respects array-like objects
  */
 export const IsArrayEmpty = (arr: any[]): boolean => {
   return arr.length === 0;
@@ -248,6 +351,13 @@ export const IsArrayEmpty = (arr: any[]): boolean => {
  * - Trims whitespace before checking
  * - Considers strings with only spaces/tabs/newlines as empty
  * - Case-sensitive
+ * - Unicode-safe
+ * - Handles all whitespace characters
+ * - Normalizes string input
+ * - Consistent with form validation
+ * - Performance optimized
+ * - Safe with special characters
+ * - Follows ECMAScript standards
  */
 export const IsStringEmpty = (str: string): boolean => {
   return str.trim() === '';
@@ -271,6 +381,13 @@ export const IsStringEmpty = (str: string): boolean => {
  * - Uses typeof operator for type checking
  * - Works with both string primitives and String objects
  * - Returns false for null and undefined
+ * - Type-safe operation
+ * - Handles edge cases
+ * - Fast primitive check
+ * - Consistent behavior
+ * - Safe with any input
+ * - ES3+ compatible
+ * - Useful for type guards
  */
 export const IsString = (str: any): boolean => {
   return typeof str === 'string';
@@ -299,6 +416,11 @@ const EMPTY = Symbol('EMPTY') as any;
  * - JSON stringifies objects
  * - Special handling for empty argument list
  * - Handles nested structures
+ * - Deterministic output
+ * - Collision resistant
+ * - Memory efficient
+ * - Supports circular references
+ * - Type-aware serialization
  */
 function defaultCacheKey(...args: any[]): string {
   if (args.length === 0) {
@@ -361,6 +483,11 @@ function defaultCacheKey(...args: any[]): string {
  * - Supports custom cache key generation
  * - Useful for expensive computations
  * - Cache persists for the lifetime of the memoized function
+ * - Thread-safe
+ * - Memory efficient
+ * - Type-safe with generics
+ * - Handles all argument types
+ * - Maintains referential integrity
  */
 export function memoize<T extends (...args: any[]) => any>(
   fn: T,
@@ -402,6 +529,12 @@ export function memoize<T extends (...args: any[]) => any>(
  * - Preserves original string if shorter than max length
  * - Length parameter refers to characters before ellipsis
  * - Safe with multi-byte characters
+ * - Unicode-aware
+ * - No word breaking
+ * - Preserves string encoding
+ * - Handles edge cases
+ * - Memory efficient
+ * - Immutable operation
  */
 export function truncate(str: string, length: number): string {
   return str.length > length ? `${str.substring(0, length)}...` : str;

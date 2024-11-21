@@ -1,7 +1,9 @@
-import React from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { ClientError, Loader } from '@/components'
 import { fetcher } from "@/lib"
-import { Loader } from '@/components'
+import { useQuery } from '@tanstack/react-query';
+import type React from 'react';
+import { catchError, parseCodePath } from '@/utils';
+import { client_api } from '@/providers';
 
 export const DataLoader: React.FC<{
   url: string,
@@ -10,23 +12,23 @@ export const DataLoader: React.FC<{
 }> = ({ url, params, children }) => {
   const { data, error, isLoading } = useQuery({
     queryKey: [url, params],
-    queryFn: async () => await fetcher(`${url}${new URLSearchParams(params)}`)
-      .then((response) => { 
-        if (!response.ok) { 
-          throw new Error(`${}`)
+    queryFn: async () => await fetcher<any>(`${url}${new URLSearchParams(params)}`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`${response.statusText} at DataLoader`)
         }
         return response.json()
       })
-      .catch((error) => { 
-        throw new Error(`${error instanceof Error ? error.message : 'Unknown error at }`)
+      .catch((error) => {
+        throw new Error(`${error instanceof Error ? error.message : 'Unknown error at DataLoader'}`)
       })
-      .finally(() => isLoading)
+      .finally(() => isLoading),
     staleTime: 1000 * 60 * 5,
     refetchInterval: 1000 * 60 * 5
   });
-  if (isLoadin) return <Loader />
-  if (error) return <ClientError />
-  
+  if (isLoading) return <Loader />
+  if (error) return <ClientError error={error} />
+
   return children(data);
 };
 
