@@ -1,13 +1,193 @@
-import axios, { type AxiosRequestConfig } from 'axios';
+import axios, {
+  type AxiosRequestConfig,
+  AxiosError
+} from 'axios';
+import { parseCodePath, catchError } from '@/utils/helpers/helpers';
 
-export async function fetcher<T>(input: string, init?: AxiosRequestConfig): Promise<T> {
-  const res = await axios.get<T>(input, init);
-  // console.log('fetcher', {
-  //   type: typeof res.data,
-  //   data: res.data,
-  // });
-  return res.data;
+/**
+ * Configuration options for enhanced fetching that extends the base Axios request config
+ *
+ * @interface FetcherOptions
+ * @extends {AxiosRequestConfig}
+ * @property {number} [retries=0] - Number of retry attempts in case of failure. Defaults to 0 (no retries)
+ * @property {number} [retryDelay=1000] - Base delay between retry attempts in milliseconds. Actual delay increases exponentially with each retry
+ * @property {(error: AxiosError) => void} [onError] - Optional callback for custom error handling. Called before throwing on final retry
+ * @property {number} [timeout=10000] - Request timeout in milliseconds. Defaults to 10 seconds
+ *
+ * @example
+ * ```ts
+ * const options: FetcherOptions = {
+ *   retries: 3,
+ *   retryDelay: 2000,
+ *   onError: (error) => console.error(error),
+ *   timeout: 5000
+ * };
+ * ```
+ */
+export interface FetcherOptions extends AxiosRequestConfig {
+  retries?: number;
+  retryDelay?: number;
+  onError?: (error: AxiosError) => void;
+  timeout?: number;
 }
 
-fetcher.displayName = 'fetcher';
-export default fetcher;
+/**
+ * Custom error class for handling fetcher-specific errors with additional context
+ *
+ * @class FetcherError
+ * @extends {Error}
+ * @property {string} url - The URL that was being fetched when the error occurred
+ * @property {number} [status] - HTTP status code of the failed response, if available
+ * @property {unknown} [responseData] - Response data from the failed request, if available
+ * @property {number} [attempt] - The retry attempt number when the error occurred
+ *
+ * @example
+ * ```ts
+ * throw new FetcherError(
+ *   'Request failed',
+ *   'https://api.example.com/data',
+ *   404,
+ *   { message: 'Not found' },
+ *   2
+ * );
+ * ```
+ */
+export class FetcherError extends Error {
+  constructor(
+    message: string,
+    public readonly url: string,
+    public readonly status?: number,
+    public readonly responseData?: unknown,
+    public readonly attempt?: number
+  ) {
+    super(message);
+    this.name = 'FetcherError';
+    Object.setPrototypeOf(this, FetcherError.prototype);
+  }
+
+  toString(): string {
+    return `FetcherError: ${this.message} (URL: ${this.url}${this.status ? `, Status: ${this.status}` : ''}${this.attempt ? `, Attempt: ${this.attempt}` : ''})`;
+  }
+}
+
+/**
+ * Enhanced data fetching utility that provides advanced error handling, retry mechanism, and type safety.
+ * Built on top of Axios with additional features for robust API interactions.
+ *
+ * @template T - The expected type of the successful response data
+ * @template E - The expected type of the error response data
+ *
+ * @param {string} input - The URL or endpoint to fetch from
+ * @param {FetcherOptions} [options={}] - Configuration options for the request
+ * @returns {Promise<T>} A promise that resolves to the response data
+ *
+ * @throws {FetcherError}
+ * - When max retries are exceeded
+ * - When an Axios error occurs
+ * - When an unexpected error occurs
+ *
+ * @example
+ * ```ts
+ * interface UserData {
+ *   id: number;
+ *   name: string;
+ * }
+ *
+ * interface ErrorResponse {
+ *   message: string;
+ * }
+ *
+ * try {
+ *   const userData = await fetcher<UserData, ErrorResponse>('/api/user', {
+ *     retries: 3,
+ *     retryDelay: 1000,
+ *     timeout: 5000
+ *   });
+ *   console.log(userData.name);
+ * } catch (error) {
+ *   if (error instanceof FetcherError) {
+ *     console.error(`Failed to fetch: ${error.message}`);
+ *   }
+ * }
+ * ```
+ *
+ * @remarks
+ * - Implements exponential backoff for retries
+ * - Provides detailed error context through FetcherError
+ * - Supports custom error handling through onError callback
+ * - Preserves type safety throughout the request lifecycle
+ * - Integrates with Axios interceptors for request/response processing
+ */
+export async function fetcher<T, E = unknown>(
+  input: string,
+  options: FetcherOptions = {}
+): Promise<T> {
+  const {
+    retries = 0,
+    retryDelay = 1000,
+    onError,
+    timeout = 10000,
+    ...axiosConfig
+  } = options;
+
+  const instance = axios.create({
+    timeout,
+    ...axiosConfig
+  });
+
+  instance.interceptors.request.use(
+    (config) => {
+      return config;
+    },
+    (error) => Promise.reject(error)
+  );
+
+  instance.interceptors.response.use(
+    (response) => response,
+    (error) => Promise.reject(error)
+  );
+
+  try {
+    let attempt = 0;
+    while (attempt <= retries) {
+      const path = parseCodePath(input, fetcher);
+      const [error, response] = await catchError(instance.get<T>(path));
+
+      if (!error) {
+        return response.data;
+      }
+
+      if (attempt === retries) {
+        if (onError && error instanceof AxiosError) onError(error);
+        throw new FetcherError(
+          error.message,
+          path,
+          error instanceof AxiosError ? error.response?.status : undefined,
+          error instanceof AxiosError ? error.response?.data : undefined,
+          attempt
+        );
+      }
+
+      await new Promise(resolve =>
+        setTimeout(resolve, retryDelay * Math.pow(2, attempt))
+      );
+      attempt++;
+    }
+
+    throw new FetcherError(`Max retries exceeded`, input, undefined, undefined, retries);
+  } catch (error) {
+    if (error instanceof FetcherError) {
+      throw error;
+    }
+    if (axios.isAxiosError(error)) {
+      const axiosError = error as AxiosError<E>;
+      throw new FetcherError(
+        axiosError.message,
+        input,
+        axiosError.response?.status,
+        axiosError.response?.data
+      );
+    }
+    throw new FetcherError(error instanceof Error ? error.message : 'Unknown error', input);
+  }
+}
