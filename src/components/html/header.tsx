@@ -1,5 +1,6 @@
 'use client';
 
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import {
   NavigationMenu,
@@ -8,23 +9,40 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  NavigationMenuViewport,
+  navigationMenuTriggerStyle,
+  // NavigationMenuViewport,
 } from '@/components/ui/navigation-menu';
 import { cn } from '@/lib/utils';
 import { useGlobalStore } from '@/providers';
 import { ScrollIntoCenterView } from '@/utils';
+import { throttle } from 'lodash';
 import { Menu, X } from 'lucide-react';
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
 import * as React from 'react';
+import { memo, useCallback, useEffect } from 'react';
 
 import {
   type NavItem,
-  type NavSection,
+  authLinks,
+  dashboardLinks,
+  legalLinks,
   navigationSections,
-  portalLinks,
-  standaloneLinks,
+  utilityLinks,
 } from '@/constants';
+import { useSession } from 'next-auth/react';
+
+const UserNav = dynamic(() => import('@/components/user-nav').then((mod) => mod.UserNav), {
+  loading: () => (
+    <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+      <Avatar className="h-8 w-8">
+        <AvatarFallback>...</AvatarFallback>
+      </Avatar>
+    </Button>
+  ),
+  ssr: false,
+});
 
 /**
  * A custom list item component for use within the navigation menu.
@@ -71,83 +89,6 @@ const ListItem = React.forwardRef<React.ElementRef<'a'>, React.ComponentPropsWit
 ListItem.displayName = 'ListItem';
 
 /**
- * Renders a dropdown section in the navigation menu.
- *
- * @component
- * @param {Object} props - The component props
- * @param {NavSection} props.section - The navigation section data containing title and items
- * @returns {JSX.Element} A dropdown menu section with a trigger and content
- */
-const DropdownSection: React.FC<{ section: NavSection }> = ({ section }) => (
-  <NavigationMenuItem>
-    <NavigationMenuTrigger className="text-primary hover:text-primary-foreground">
-      {section.title}
-    </NavigationMenuTrigger>
-    <NavigationMenuContent>
-      <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
-        {section.items.map((item) => (
-          <ListItem key={item.href} title={item.title} href={item.href}>
-            {item.description}
-          </ListItem>
-        ))}
-      </ul>
-    </NavigationMenuContent>
-  </NavigationMenuItem>
-);
-
-/**
- * Renders a standalone navigation link item.
- *
- * @component
- * @param {Object} props - The component props
- * @param {NavItem} props.item - The navigation item data containing title and href
- * @returns {JSX.Element} A styled navigation link
- */
-const StandaloneNavLink: React.FC<{ item: NavItem }> = ({ item }) => {
-  const handleClick = (e: React.MouseEvent) => {
-    if (item.href.startsWith('#')) {
-      e.preventDefault();
-      ScrollIntoCenterView(item.href);
-    }
-  };
-
-  return (
-    <NavigationMenuItem>
-      <Link
-        href={item.href}
-        onClick={handleClick}
-        className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50"
-      >
-        {item.title}
-      </Link>
-    </NavigationMenuItem>
-  );
-};
-
-/**
- * Renders a portal button link.
- *
- * @component
- * @param {Object} props - The component props
- * @param {NavItem} props.item - The navigation item data containing title and href
- * @returns {JSX.Element} A styled button link that's hidden on mobile
- */
-const PortalButton: React.FC<{ item: NavItem }> = ({ item }) => {
-  const handleClick = (e: React.MouseEvent) => {
-    if (item.href.startsWith('#')) {
-      e.preventDefault();
-      ScrollIntoCenterView(item.href);
-    }
-  };
-
-  return (
-    <Link href={item.href} className="hidden sm:block" onClick={handleClick}>
-      <Button className="bg-[#234C8B] text-white hover:bg-[#1E4378]">{item.title}</Button>
-    </Link>
-  );
-};
-
-/**
  * Renders a mobile menu item.
  *
  * @component
@@ -155,16 +96,19 @@ const PortalButton: React.FC<{ item: NavItem }> = ({ item }) => {
  * @param {NavItem} props.item - The navigation item data containing title and href
  * @returns {JSX.Element} A styled link for mobile navigation
  */
-const MobileMenuItem: React.FC<{ item: NavItem }> = ({ item }) => {
+const MobileMenuItem = memo<{ item: NavItem }>(({ item }) => {
   const setIsMenuOpen = useGlobalStore((state) => state.header.setIsMenuOpen);
 
-  const handleClick = (e: React.MouseEvent) => {
-    if (item.href.startsWith('#')) {
-      e.preventDefault();
-      ScrollIntoCenterView(item.href);
-      setIsMenuOpen(false);
-    }
-  };
+  const handleClick = useCallback(
+    (e: React.MouseEvent) => {
+      if (item.href.startsWith('#')) {
+        e.preventDefault();
+        ScrollIntoCenterView(item.href);
+        setIsMenuOpen(false);
+      }
+    },
+    [item.href, setIsMenuOpen],
+  );
 
   return (
     <Link
@@ -175,7 +119,8 @@ const MobileMenuItem: React.FC<{ item: NavItem }> = ({ item }) => {
       {item.title}
     </Link>
   );
-};
+});
+MobileMenuItem.displayName = 'MobileMenuItem';
 
 /**
  * The main header component for the application.
@@ -194,29 +139,56 @@ const MobileMenuItem: React.FC<{ item: NavItem }> = ({ item }) => {
  * <Header />
  * ```
  */
-export const Header = () => {
+export const Header = memo(() => {
+  const { data: session, status } = useSession();
   const { isMenuOpen, setIsMenuOpen, visible, setVisible, prevScrollPos } = useGlobalStore(
     (state) => state.header,
   );
 
-  // Handle scroll behavior to show/hide header
-  React.useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      if (currentScrollY === 0) {
-        setVisible(true);
-        return;
-      }
-      if (currentScrollY < prevScrollPos) {
-        setVisible(true);
-      } else if (currentScrollY > prevScrollPos) {
-        setVisible(false);
-      }
-    };
+  const handleScroll = useCallback(() => {
+    const currentScrollY = window.scrollY;
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [setVisible, prevScrollPos]);
+    if (currentScrollY === 0) {
+      setVisible(true);
+      return;
+    }
+
+    if (currentScrollY < prevScrollPos) {
+      setVisible(true);
+    } else if (currentScrollY > prevScrollPos) {
+      setVisible(false);
+    }
+  }, [prevScrollPos, setVisible]);
+
+  useEffect(() => {
+    const throttledScroll = throttle(handleScroll, 100);
+    window.addEventListener('scroll', throttledScroll, { passive: true });
+    return () => window.removeEventListener('scroll', throttledScroll);
+  }, [handleScroll]);
+
+  const renderAuthSection = () => {
+    if (status === 'loading') {
+      return null;
+    }
+
+    if (session?.user) {
+      return <UserNav user={session.user} />;
+    }
+
+    return (
+      <div className="flex items-center gap-4">
+        {authLinks.map((item) => (
+          <Button
+            key={item.href}
+            variant={item.href === '/auth/login' ? 'default' : 'outline'}
+            asChild
+          >
+            <Link href={item.href}>{item.title}</Link>
+          </Button>
+        ))}
+      </div>
+    );
+  };
 
   return (
     <header
@@ -237,22 +209,57 @@ export const Header = () => {
             />
             <span className="font-bold text-xl text-[#234C8B]">ΚΘΠ</span>
           </Link>
-          <nav className="hidden lg:flex items-center space-x-4">
+          <nav className="hidden lg:flex lg:items-center lg:gap-6">
             <NavigationMenu>
               <NavigationMenuList>
                 {navigationSections.map((section) => (
-                  <DropdownSection key={section.title} section={section} />
+                  <NavigationMenuItem key={section.title}>
+                    <NavigationMenuTrigger>{section.title}</NavigationMenuTrigger>
+                    <NavigationMenuContent>
+                      <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
+                        {section.items.map((item) => (
+                          <ListItem key={item.href} title={item.title} href={item.href}>
+                            {item.description}
+                          </ListItem>
+                        ))}
+                      </ul>
+                    </NavigationMenuContent>
+                  </NavigationMenuItem>
                 ))}
-                {standaloneLinks.map((item) => (
-                  <StandaloneNavLink key={item.href} item={item} />
+
+                {/* Conditional Dashboard Links */}
+                {session?.user && (
+                  <NavigationMenuItem>
+                    <NavigationMenuTrigger>Dashboard</NavigationMenuTrigger>
+                    <NavigationMenuContent>
+                      <ul className="grid w-[400px] gap-3 p-4">
+                        {dashboardLinks.map((item) => (
+                          <ListItem key={item.href} title={item.title} href={item.href}>
+                            {item.description}
+                          </ListItem>
+                        ))}
+                      </ul>
+                    </NavigationMenuContent>
+                  </NavigationMenuItem>
+                )}
+
+                {/* Utility Links */}
+                {utilityLinks.map((item) => (
+                  <NavigationMenuItem key={item.href}>
+                    <Link href={item.href} legacyBehavior passHref>
+                      <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                        {item.title}
+                      </NavigationMenuLink>
+                    </Link>
+                  </NavigationMenuItem>
                 ))}
               </NavigationMenuList>
-              <NavigationMenuViewport />
             </NavigationMenu>
-            {portalLinks.map((item) => (
-              <PortalButton key={item.href} item={item} />
-            ))}
           </nav>
+
+          {/* Auth Section */}
+          <div className="hidden lg:block">{renderAuthSection()}</div>
+
           <Button
             variant="ghost"
             size="icon"
@@ -267,6 +274,7 @@ export const Header = () => {
       {isMenuOpen && (
         <div className="lg:hidden bg-white border-t">
           <nav className="container mx-auto px-4 py-4 space-y-4">
+            {/* Main Navigation Sections */}
             {navigationSections.map((section) => (
               <div key={section.title} className="space-y-2">
                 <h3 className="font-semibold text-lg text-[#234C8B]">{section.title}</h3>
@@ -275,19 +283,40 @@ export const Header = () => {
                 ))}
               </div>
             ))}
+
+            {/* Conditional Dashboard Section */}
+            {session?.user && (
+              <div className="space-y-2">
+                <h3 className="font-semibold text-lg text-[#234C8B]">Dashboard</h3>
+                {dashboardLinks.map((item) => (
+                  <MobileMenuItem key={item.href} item={item} />
+                ))}
+              </div>
+            )}
+
+            {/* Auth Section for Mobile */}
+            {!session?.user && (
+              <div className="space-y-2">
+                <h3 className="font-semibold text-lg text-[#234C8B]">Account</h3>
+                {authLinks.map((item) => (
+                  <MobileMenuItem key={item.href} item={item} />
+                ))}
+              </div>
+            )}
+
+            {/* Utility Links Section */}
             <div className="space-y-2">
-              <h3 className="font-semibold text-lg text-[#234C8B]">Links</h3>
-              {standaloneLinks.map((item) => (
+              <h3 className="font-semibold text-lg text-[#234C8B]">Quick Links</h3>
+              {utilityLinks.map((item) => (
                 <MobileMenuItem key={item.href} item={item} />
               ))}
             </div>
-            <div className="pt-4 space-y-2 sm:hidden">
-              {portalLinks.map((item) => (
-                <Link key={item.href} href={item.href} className="block w-full">
-                  <Button className="w-full bg-[#234C8B] text-white hover:bg-[#1E4378]">
-                    {item.title}
-                  </Button>
-                </Link>
+
+            {/* Legal Links Section */}
+            <div className="space-y-2">
+              <h3 className="font-semibold text-lg text-[#234C8B]">Legal</h3>
+              {legalLinks.map((item) => (
+                <MobileMenuItem key={item.href} item={item} />
               ))}
             </div>
           </nav>
@@ -295,7 +324,7 @@ export const Header = () => {
       )}
     </header>
   );
-};
+});
 
 Header.displayName = 'Header';
 export default Header;

@@ -29,11 +29,6 @@ const navigationSections: NavSection[] = [
     title: 'About Us',
     items: [
       {
-        title: 'Overview',
-        href: '#hero',
-        description: 'Learn about our mission and values',
-      },
-      {
         title: 'National Board',
         href: '/about/board',
         description: 'Meet our national board members',
@@ -42,11 +37,6 @@ const navigationSections: NavSection[] = [
         title: 'Our History',
         href: '/about/history',
         description: 'Explore our founding and growth',
-      },
-      {
-        title: 'FAQ',
-        href: '#faq',
-        description: 'Frequently asked questions',
       },
     ],
   },
@@ -93,44 +83,78 @@ const navigationSections: NavSection[] = [
 ];
 
 /**
- * Individual navigation links that are not part of any section
- * Contains links to sponsors, blog and contact pages
+ * Authentication related navigation links
  */
-const standaloneLinks: NavItem[] = [
-  { title: 'Sponsors', href: '#sponsors' },
-  { title: 'Blog', href: '/blog' },
-  { title: 'Contact', href: '/contact' },
+export const authLinks: NavItem[] = [
+  {
+    title: 'Login',
+    href: '/auth/login',
+    description: 'Sign in to your account',
+  },
+  {
+    title: 'Register',
+    href: '/auth/register',
+    description: 'Create a new account',
+  },
 ];
 
 /**
- * Navigation links for accessing various legal documents
+ * Dashboard navigation links based on user role
  */
-export const standaloneLegalLinks: NavItem[] = [
+export const dashboardLinks: NavItem[] = [
+  {
+    title: 'Dashboard',
+    href: '/dashboard',
+    description: 'View your dashboard',
+  },
+  {
+    title: 'Company Portal',
+    href: '/dashboard/company',
+    description: 'Access company management tools',
+  },
+  {
+    title: 'Member Portal',
+    href: '/dashboard/member',
+    description: 'Access member resources',
+  },
+  {
+    title: 'Settings',
+    href: '/settings',
+    description: 'Manage your account settings',
+  },
+];
+
+/**
+ * Legal and policy related navigation links
+ */
+export const legalLinks: NavItem[] = [
   {
     title: 'Terms of Service',
     href: '/terms',
+    description: 'Read our terms of service',
   },
   {
     title: 'Privacy Policy',
     href: '/privacy',
+    description: 'View our privacy policy',
   },
   {
     title: 'Copyright Policy',
     href: '/copyright',
+    description: 'Learn about our copyright policy',
   },
 ];
 
 /**
- * Navigation links for accessing various user portals
- * Includes portals for company and member access
+ * Utility navigation links
  */
-const portalLinks: NavItem[] = [
-  { title: 'Company Portal', href: '/dashboard/company' },
-  { title: 'Member Portal', href: '/dashboard/member' },
+export const utilityLinks: NavItem[] = [
+  {
+    title: 'Contact',
+    href: '/contact',
+    description: 'Get in touch with us',
+  },
 ];
 
-/**
- * Export navigation-related constants and types
- */
-export { navigationSections, standaloneLinks, portalLinks };
+export { navigationSections };
 export type { NavItem, NavSection };

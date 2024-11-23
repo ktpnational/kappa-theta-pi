@@ -1,3 +1,4 @@
+import { constructMetadata } from '@/utils';
 /**
  * @module RegisterPage
  * @description A page component responsible for rendering the user registration interface
@@ -7,6 +8,10 @@
  * <Route path="/register" component={RegisterPage} />
  */
 import dynamic from 'next/dynamic';
+
+export const metadata = constructMetadata({
+  title: 'Register',
+});
 
 const RegisterForm = dynamic(() =>
   import('@/app/(auth)/_components').then((mod) => mod.RegisterForm),
@@ -25,4 +30,5 @@ const RegisterPage = () => {
   return <RegisterForm />;
 };
 
+RegisterPage.displayName = 'RegisterPage';
 export default RegisterPage;

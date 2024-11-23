@@ -510,7 +510,7 @@ const ChapterInfo: React.FC<{ chapter: ChapterInfo }> = memo(({ chapter }) => (
     initial={{ opacity: 0, y: -20 }}
     animate={{ opacity: 1, y: 0 }}
     exit={{ opacity: 0, y: 20 }}
-    className="bg-white text-gray-800 p-6 rounded-xl shadow-2xl max-w-sm"
+    className="bg-white text-gray-800 p-6 rounded-xl border-none max-w-sm"
   >
     <div className="flex items-center gap-2 mb-4">
       <Badge

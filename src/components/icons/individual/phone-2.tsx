@@ -1,7 +1,7 @@
 import { cn } from '@/lib';
-import type { IconProps } from '../types';
+import type { SVGProps } from '../types';
 
-export const Phone2 = ({ className, ...props }: IconProps) => {
+export const Phone2 = ({ className, ...props }: SVGProps) => {
   return (
     <>
       <svg

@@ -1,6 +1,11 @@
 import { AppSidebar } from '@/components';
 import { SidebarInset, SidebarProvider } from '@/components/ui';
+import { constructMetadata } from '@/utils';
 import type React from 'react';
+
+export const metadata = constructMetadata({
+  title: 'Dashboard',
+});
 
 /**
  * Layout component that provides the main dashboard structure with sidebar navigation.

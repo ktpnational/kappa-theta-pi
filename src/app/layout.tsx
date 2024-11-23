@@ -1,6 +1,7 @@
 import '@/styles/globals.css';
 
 import { auth } from '@/auth';
+import { PageTransition } from '@/components';
 import { Providers } from '@/providers';
 import { Scripts } from '@/scripts';
 import { constructMetadata, constructViewport } from '@/utils';
@@ -52,7 +53,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           ></iframe>
         </noscript>
         <Providers session={session}>
-          {children}
+          <PageTransition>{children}</PageTransition>
           <Analytics />
         </Providers>
       </body>

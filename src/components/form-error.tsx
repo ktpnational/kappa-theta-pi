@@ -1,5 +1,4 @@
 import { ExclamationTriangleIcon } from '@radix-ui/react-icons';
-
 /**
  * Interface for FormError component props
  * @interface FormErrorProps

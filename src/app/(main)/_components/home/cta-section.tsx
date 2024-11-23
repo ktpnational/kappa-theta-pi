@@ -71,12 +71,12 @@ const CTAContent = () => (
     whileInView="visible"
     viewport={{ once: true, amount: 0.8 }}
   >
-    <motion.div
+    {/* <motion.div
       className="absolute inset-0 bg-[url('/circuit-board.svg')] opacity-10"
       initial={{ opacity: 0, scale: 1.1 }}
       animate={{ opacity: 0.1, scale: 1 }}
       transition={{ duration: 1.5 }}
-    />
+    /> */}
     <motion.h2 className="text-3xl md:text-4xl font-bold mb-6 relative" variants={itemVariants}>
       Join Kappa Theta Pi
     </motion.h2>

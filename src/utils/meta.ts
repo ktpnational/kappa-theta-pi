@@ -37,7 +37,7 @@ export function constructMetadata({
   return {
     title: {
       default: title,
-      template: `${title} - %s`,
+      template: `${title} | %s`,
     },
     description: description,
     openGraph: {

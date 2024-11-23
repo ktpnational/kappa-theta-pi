@@ -1,11 +1,12 @@
 import React from 'react';
 
-export default function Page() {
+const ContactPage = () => {
   return (
     <div>
       <h1>Contact Us</h1>
     </div>
   );
-}
+};
 
-Page.displayName = 'ContactPage';
+ContactPage.displayName = 'ContactPage';
+export default ContactPage;

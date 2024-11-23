@@ -1,7 +1,7 @@
 import { cn } from '@/lib';
-import type { IconProps } from '../types';
+import type { SVGProps } from '../types';
 
-export const SpinnerIcon: React.FC<IconProps> = ({ className, size, ...props }): JSX.Element => {
+export const SpinnerIcon: React.FC<SVGProps> = ({ className, size, ...props }): JSX.Element => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

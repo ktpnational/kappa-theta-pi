@@ -1,4 +1,9 @@
+import { constructMetadata } from '@/utils';
 import dynamic from 'next/dynamic';
+
+export const metadata = constructMetadata({
+  title: 'Reset',
+});
 
 const ResetForm = dynamic(() => import('@/app/(auth)/_components').then((mod) => mod.ResetForm));
 
@@ -22,4 +27,5 @@ const ResetPage = (): JSX.Element => {
   return <ResetForm />;
 };
 
+ResetPage.displayName = 'ResetPage';
 export default ResetPage;

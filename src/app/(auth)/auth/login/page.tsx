@@ -1,4 +1,9 @@
+import { constructMetadata } from '@/utils';
 import dynamic from 'next/dynamic';
+
+export const metadata = constructMetadata({
+  title: 'Login',
+});
 
 const LoginForm = dynamic(() => import('@/app/(auth)/_components').then((mod) => mod.LoginForm));
 
@@ -13,8 +18,7 @@ const LoginForm = dynamic(() => import('@/app/(auth)/_components').then((mod) =>
  * @example
  * ```tsx
  * // Usage in router
- * import LoginPag
- e from './LoginPage';
+ * import LoginPage from './LoginPage';
  *
  * // Route definition
  * <Route path="/login" element={<LoginPage />} />
@@ -24,4 +28,5 @@ const LoginPage = () => {
   return <LoginForm />;
 };
 
+LoginPage.displayName = 'LoginPage';
 export default LoginPage;

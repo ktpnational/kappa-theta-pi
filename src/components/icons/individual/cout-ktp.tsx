@@ -1,7 +1,7 @@
 import { cn } from '@/lib';
-import type { IconProps } from '../types';
+import type { SVGProps } from '../types';
 
-export const CoutKtp: React.FC<IconProps> = ({ className, size, ...props }) => {
+export const CoutKtp: React.FC<SVGProps> = ({ className, size, ...props }) => {
   return (
     <svg
       width="161"

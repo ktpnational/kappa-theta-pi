@@ -36,7 +36,6 @@ export const Stringify = (obj: any): string => {
 export const parseCodePath = (context: any, fnName: Function): string =>
   `location: ${process.cwd()}${__filename} @${fnName.name}: ${context}`;
 
-
 /**
  * Wraps a promise to return a tuple containing either the resolved value or an error.
  * Provides a cleaner way to handle promise rejections without try/catch blocks.

@@ -2,7 +2,7 @@ type NumberRange<T extends number, R extends number[] = []> = R['length'] extend
   ? R[number]
   : NumberRange<T, [...R, R['length']]>;
 
-type sizes = `${
+export type sizes = `${
   | NumberRange<13>
   | 14
   | 16
@@ -21,7 +21,3 @@ type sizes = `${
   | 72
   | 80
   | 96}`;
-
-export interface IconProps extends React.HTMLAttributes<SVGElement> {
-  size?: sizes;
-}

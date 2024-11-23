@@ -19,7 +19,7 @@ model User {
   emailVerificationToken  String?                @unique @map("email_verification_token")
   image                   String?
   password                String?
-  role                    Role                   @default(USER)
+  role                    Role                   @default(GUEST)
   accounts                Account[]
   sessions                Session[]
   isTwoFactorEnabled      Boolean                @default(false)
@@ -112,7 +112,7 @@ model Profile {
   id        String   @id @default(uuid())
   userId    String   @unique
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  role      Role     @default(USER)
+  role      Role     @default(GUEST)
   active    Boolean  @default(true)
   version   String?
   photoUrl  String?
@@ -130,7 +130,6 @@ model Profile {
 
 enum Role {
   GUEST
-  USER
   ADMIN
   COMPANY
 

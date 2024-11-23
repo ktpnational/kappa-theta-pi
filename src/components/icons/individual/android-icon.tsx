@@ -1,7 +1,7 @@
 import { cn } from '@/lib';
-import type { IconProps } from '../types';
+import type { SVGProps } from '../types';
 
-export const AndroidIcon = ({ className, ...props }: IconProps) => {
+export const AndroidIcon = ({ className, ...props }: SVGProps) => {
   return (
     <svg
       width="540"

@@ -1,11 +1,12 @@
 'use client';
 
-import React, { Suspense } from 'react';
-import { ClientError, Loader } from '@/components'
-import { client_api } from "@/providers/core/server/react"
-import { fetcher } from "@/lib"
-import { useSuspenseQuery } from '@tanstack/react-query';
+import { ClientError, Loader } from '@/components';
+import { fetcher } from '@/lib';
+import { client_api } from '@/providers/core/server/react';
 import { catchError, parseCodePath } from '@/utils';
+import { useSuspenseQuery } from '@tanstack/react-query';
+import type React from 'react';
+import { Suspense } from 'react';
 
 /**
  * Type representing valid API method names from the client_api object
@@ -118,22 +119,23 @@ export const DataLoader = <T,>({ children, params, ...props }: DataLoaderProps<T
         const [fetchError, response] = await catchError(
           typeof apiMethod === 'function'
             ? Promise.resolve(apiMethod(params as Extract<typeof params, { id: string | number }>))
-            : Promise.reject(new Error('Invalid API method'))
+            : Promise.reject(new Error('Invalid API method')),
         );
         if (fetchError) throw fetchError;
         return response as T;
       } else {
-        const searchParams = params ? `?${new URLSearchParams(params as Record<string, string>)}` : '';
+        const searchParams = params
+          ? `?${new URLSearchParams(params as Record<string, string>)}`
+          : '';
         const fullUrl = `${props.url}${searchParams}`;
 
         const [fetchError, response] = await catchError(
-          fetcher<FetchResponse<T>>(fullUrl, props.config)
-            .then((res) => {
-              if (!res.status.toString().startsWith('2')) {
-                throw new Error(`${res.statusText} at DataLoader ${parseCodePath(fullUrl, fetcher)}`);
-              }
-              return res.data;
-            })
+          fetcher<FetchResponse<T>>(fullUrl, props.config).then((res) => {
+            if (!res.status.toString().startsWith('2')) {
+              throw new Error(`${res.statusText} at DataLoader ${parseCodePath(fullUrl, fetcher)}`);
+            }
+            return res.data;
+          }),
         );
 
         if (fetchError) throw fetchError;
@@ -141,7 +143,7 @@ export const DataLoader = <T,>({ children, params, ...props }: DataLoaderProps<T
       }
     },
     staleTime: 1000 * 60 * 5,
-    refetchInterval: 1000 * 60 * 5
+    refetchInterval: 1000 * 60 * 5,
   });
 
   return (

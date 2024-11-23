@@ -1,4 +1,9 @@
+import { constructMetadata } from '@/utils';
 import dynamic from 'next/dynamic';
+
+export const metadata = constructMetadata({
+  title: 'New Password',
+});
 
 const NewPasswordForm = dynamic(() =>
   import('@/app/(auth)/_components').then((mod) => mod.NewPasswordForm),

@@ -1,9 +1,10 @@
 import { constructMetadata } from '@/utils';
+import dynamic from 'next/dynamic';
 import React from 'react';
-import { LegalCopyright } from '../_components';
 
 export const metadata = constructMetadata({ title: 'Copyright' });
 
+const LegalCopyright = dynamic(() => import('../_components').then((mod) => mod.LegalCopyright));
 /**
  * @component Copyright
  * @description A React component that displays a copyright notice or statement.

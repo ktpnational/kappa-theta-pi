@@ -1,5 +1,10 @@
 import { Footer, Header } from '@/components';
+import { constructMetadata } from '@/utils';
 import type React from 'react';
+
+export const metadata = constructMetadata({
+  title: 'Legal',
+});
 
 /**
  * Layout component for legal pages that provides consistent header, footer and styling

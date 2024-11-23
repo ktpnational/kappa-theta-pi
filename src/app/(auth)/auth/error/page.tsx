@@ -19,11 +19,8 @@ const ErrorCard = dynamic(() => import('@/app/(auth)/_components').then((mod) =>
  * @see {@link ErrorCard} For the actual error message display implementation
  */
 const AuthErrorPage = () => {
-  return (
-    <div>
-      <ErrorCard />
-    </div>
-  );
+  return <ErrorCard />;
 };
 
+AuthErrorPage.displayName = 'AuthErrorPage';
 export default AuthErrorPage;

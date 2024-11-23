@@ -15,14 +15,14 @@ import {
   PlaceholderIcon,
   SpinnerIcon,
 } from './individual';
-import type { IconProps } from './types';
+import type { SVGProps } from './types';
 
 /**
  * Maps icon size prop values to corresponding Tailwind CSS classes for width and height.
  * This function provides consistent sizing across all icon components by mapping numeric
  * size values to Tailwind's width and height utility classes.
  *
- * @param {IconProps['size']} size - The desired icon size value, corresponding to Tailwind's spacing scale
+ * @param {SVGProps['size']} size - The desired icon size value, corresponding to Tailwind's spacing scale
  * @returns {string} Tailwind CSS classes for width and height (e.g., 'w-4 h-4')
  * @default Returns 'w-4 h-4' if no size is provided
  *
@@ -30,8 +30,8 @@ import type { IconProps } from './types';
  * getSizeClasses('6') // returns 'w-6 h-6'
  * getSizeClasses() // returns 'w-4 h-4'
  */
-const getSizeClasses = (size?: IconProps['size']) => {
-  const sizeMapping: Record<NonNullable<IconProps['size']>, string> = {
+const getSizeClasses = (size?: SVGProps['size']) => {
+  const sizeMapping: Record<NonNullable<SVGProps['size']>, string> = {
     '0': 'w-0 h-0',
     '1': 'w-1 h-1',
     '2': 'w-2 h-2',
@@ -69,7 +69,7 @@ const getSizeClasses = (size?: IconProps['size']) => {
 
 /**
  * A comprehensive collection of icon components organized by functional categories.
- * Each icon component accepts standard IconProps for consistent styling and behavior.
+ * Each icon component accepts standard SVGProps for consistent styling and behavior.
  * Icons are grouped into logical categories like logos, navigation, user, etc.
  *
  * @namespace
@@ -88,42 +88,42 @@ export const Icons = {
   logos: {
     /**
      * Renders a compact version of the logo icon
-     * @param {IconProps} props - Icon configuration properties
+     * @param {SVGProps} props - Icon configuration properties
      * @param {string} [props.className] - Additional CSS classes to apply
-     * @param {IconProps['size']} [props.size] - Size of the icon using Tailwind's spacing scale
+     * @param {SVGProps['size']} [props.size] - Size of the icon using Tailwind's spacing scale
      * @returns {JSX.Element} Small logo icon component
      */
-    small: ({ className, size, ...props }: IconProps) => (
+    small: ({ className, size, ...props }: SVGProps) => (
       <LogoSmallIcon className={cn(getSizeClasses(size), className)} {...props} />
     ),
     /**
      * Renders the full/default version of the logo icon
-     * @param {IconProps} props - Icon configuration properties
+     * @param {SVGProps} props - Icon configuration properties
      * @param {string} [props.className] - Additional CSS classes to apply
-     * @param {IconProps['size']} [props.size] - Size of the icon using Tailwind's spacing scale
+     * @param {SVGProps['size']} [props.size] - Size of the icon using Tailwind's spacing scale
      * @returns {JSX.Element} Default logo icon component
      */
-    default: ({ className, size, ...props }: IconProps) => (
+    default: ({ className, size, ...props }: SVGProps) => (
       <LogoIcon className={cn(getSizeClasses(size), className)} {...props} />
     ),
     /**
      * Renders the Apple platform logo
-     * @param {IconProps} props - Icon configuration properties
+     * @param {SVGProps} props - Icon configuration properties
      * @param {string} [props.className] - Additional CSS classes to apply
-     * @param {IconProps['size']} [props.size] - Size of the icon using Tailwind's spacing scale
+     * @param {SVGProps['size']} [props.size] - Size of the icon using Tailwind's spacing scale
      * @returns {JSX.Element} Apple logo icon component
      */
-    apple: ({ className, size, ...props }: IconProps) => (
+    apple: ({ className, size, ...props }: SVGProps) => (
       <AppleIcon className={cn(getSizeClasses(size), className)} {...props} />
     ),
     /**
      * Renders the Android platform logo
-     * @param {IconProps} props - Icon configuration properties
+     * @param {SVGProps} props - Icon configuration properties
      * @param {string} [props.className] - Additional CSS classes to apply
-     * @param {IconProps['size']} [props.size] - Size of the icon using Tailwind's spacing scale
+     * @param {SVGProps['size']} [props.size] - Size of the icon using Tailwind's spacing scale
      * @returns {JSX.Element} Android logo icon component
      */
-    android: ({ className, size, ...props }: IconProps) => (
+    android: ({ className, size, ...props }: SVGProps) => (
       <AndroidIcon className={cn(getSizeClasses(size), className)} {...props} />
     ),
   },
@@ -134,12 +134,12 @@ export const Icons = {
   navigation: {
     /**
      * Renders a left-pointing arrow icon for navigation/back actions
-     * @param {IconProps} props - Icon configuration properties
+     * @param {SVGProps} props - Icon configuration properties
      * @param {string} [props.className] - Additional CSS classes to apply
-     * @param {IconProps['size']} [props.size] - Size of the icon using Tailwind's spacing scale
+     * @param {SVGProps['size']} [props.size] - Size of the icon using Tailwind's spacing scale
      * @returns {JSX.Element} Arrow left icon component
      */
-    arrowLeft: ({ className, size, ...props }: IconProps) => (
+    arrowLeft: ({ className, size, ...props }: SVGProps) => (
       <ArrowLeftIcon className={cn(getSizeClasses(size), className)} {...props} />
     ),
   },
@@ -150,12 +150,12 @@ export const Icons = {
   user: {
     /**
      * Renders a user avatar placeholder icon
-     * @param {IconProps} props - Icon configuration properties
+     * @param {SVGProps} props - Icon configuration properties
      * @param {string} [props.className] - Additional CSS classes to apply
-     * @param {IconProps['size']} [props.size] - Size of the icon using Tailwind's spacing scale
+     * @param {SVGProps['size']} [props.size] - Size of the icon using Tailwind's spacing scale
      * @returns {JSX.Element} Avatar icon component
      */
-    avatar: ({ className, size, ...props }: IconProps) => (
+    avatar: ({ className, size, ...props }: SVGProps) => (
       <AvatarIcon className={cn(getSizeClasses(size), className)} {...props} />
     ),
   },
@@ -166,12 +166,12 @@ export const Icons = {
   communication: {
     /**
      * Renders a paper airplane icon, commonly used for send/submit actions
-     * @param {IconProps} props - Icon configuration properties
+     * @param {SVGProps} props - Icon configuration properties
      * @param {string} [props.className] - Additional CSS classes to apply
-     * @param {IconProps['size']} [props.size] - Size of the icon using Tailwind's spacing scale
+     * @param {SVGProps['size']} [props.size] - Size of the icon using Tailwind's spacing scale
      * @returns {JSX.Element} Paper plane icon component
      */
-    paperplane: ({ className, size, ...props }: IconProps) => (
+    paperplane: ({ className, size, ...props }: SVGProps) => (
       <PaperplaneIcon className={cn(getSizeClasses(size), className)} {...props} />
     ),
   },
@@ -182,42 +182,42 @@ export const Icons = {
   miscellaneous: {
     /**
      * Renders a generic placeholder icon for temporary or fallback use
-     * @param {IconProps} props - Icon configuration properties
+     * @param {SVGProps} props - Icon configuration properties
      * @param {string} [props.className] - Additional CSS classes to apply
-     * @param {IconProps['size']} [props.size] - Size of the icon using Tailwind's spacing scale
+     * @param {SVGProps['size']} [props.size] - Size of the icon using Tailwind's spacing scale
      * @returns {JSX.Element} Placeholder icon component
      */
-    placeholder: ({ className, size, ...props }: IconProps) => (
+    placeholder: ({ className, size, ...props }: SVGProps) => (
       <PlaceholderIcon className={cn(getSizeClasses(size), className)} {...props} />
     ),
     /**
      * Renders an animated spinner icon for loading states
-     * @param {IconProps} props - Icon configuration properties
+     * @param {SVGProps} props - Icon configuration properties
      * @param {string} [props.className] - Additional CSS classes to apply
-     * @param {IconProps['size']} [props.size] - Size of the icon using Tailwind's spacing scale
+     * @param {SVGProps['size']} [props.size] - Size of the icon using Tailwind's spacing scale
      * @returns {JSX.Element} Spinner icon component for loading indicators
      */
-    spinner: ({ className, size, ...props }: IconProps) => (
+    spinner: ({ className, size, ...props }: SVGProps) => (
       <SpinnerIcon className={cn(getSizeClasses(size), className)} {...props} />
     ),
     /**
      * Renders a checkmark icon for success/completion states
-     * @param {IconProps} props - Icon configuration properties
+     * @param {SVGProps} props - Icon configuration properties
      * @param {string} [props.className] - Additional CSS classes to apply
-     * @param {IconProps['size']} [props.size] - Size of the icon using Tailwind's spacing scale
+     * @param {SVGProps['size']} [props.size] - Size of the icon using Tailwind's spacing scale
      * @returns {JSX.Element} Check icon component
      */
-    check: ({ className, size, ...props }: IconProps) => (
+    check: ({ className, size, ...props }: SVGProps) => (
       <CheckIcon className={cn(getSizeClasses(size), className)} {...props} />
     ),
     /**
      * Renders a KTP (Indonesian ID card) icon
-     * @param {IconProps} props - Icon configuration properties
+     * @param {SVGProps} props - Icon configuration properties
      * @param {string} [props.className] - Additional CSS classes to apply
-     * @param {IconProps['size']} [props.size] - Size of the icon using Tailwind's spacing scale
+     * @param {SVGProps['size']} [props.size] - Size of the icon using Tailwind's spacing scale
      * @returns {JSX.Element} KTP icon component
      */
-    coutKtp: ({ className, size, ...props }: IconProps) => (
+    coutKtp: ({ className, size, ...props }: SVGProps) => (
       <CoutKtp className={cn(getSizeClasses(size), className)} {...props} />
     ),
   },
@@ -228,42 +228,42 @@ export const Icons = {
   phones: {
     /**
      * Renders the first phone device icon variant
-     * @param {IconProps} props - Icon configuration properties
+     * @param {SVGProps} props - Icon configuration properties
      * @param {string} [props.className] - Additional CSS classes to apply
-     * @param {IconProps['size']} [props.size] - Size of the icon using Tailwind's spacing scale
+     * @param {SVGProps['size']} [props.size] - Size of the icon using Tailwind's spacing scale
      * @returns {JSX.Element} Phone variant 1 icon component
      */
-    phone1: ({ className, size, ...props }: IconProps) => (
+    phone1: ({ className, size, ...props }: SVGProps) => (
       <Phone1 className={cn(getSizeClasses(size), className)} {...props} />
     ),
     /**
      * Renders the second phone device icon variant
-     * @param {IconProps} props - Icon configuration properties
+     * @param {SVGProps} props - Icon configuration properties
      * @param {string} [props.className] - Additional CSS classes to apply
-     * @param {IconProps['size']} [props.size] - Size of the icon using Tailwind's spacing scale
+     * @param {SVGProps['size']} [props.size] - Size of the icon using Tailwind's spacing scale
      * @returns {JSX.Element} Phone variant 2 icon component
      */
-    phone2: ({ className, size, ...props }: IconProps) => (
+    phone2: ({ className, size, ...props }: SVGProps) => (
       <Phone2 className={cn(getSizeClasses(size), className)} {...props} />
     ),
     /**
      * Renders the third phone device icon variant
-     * @param {IconProps} props - Icon configuration properties
+     * @param {SVGProps} props - Icon configuration properties
      * @param {string} [props.className] - Additional CSS classes to apply
-     * @param {IconProps['size']} [props.size] - Size of the icon using Tailwind's spacing scale
+     * @param {SVGProps['size']} [props.size] - Size of the icon using Tailwind's spacing scale
      * @returns {JSX.Element} Phone variant 3 icon component
      */
-    phone3: ({ className, size, ...props }: IconProps) => (
+    phone3: ({ className, size, ...props }: SVGProps) => (
       <Phone3 className={cn(getSizeClasses(size), className)} {...props} />
     ),
     /**
      * Renders the fourth phone device icon variant
-     * @param {IconProps} props - Icon configuration properties
+     * @param {SVGProps} props - Icon configuration properties
      * @param {string} [props.className] - Additional CSS classes to apply
-     * @param {IconProps['size']} [props.size] - Size of the icon using Tailwind's spacing scale
+     * @param {SVGProps['size']} [props.size] - Size of the icon using Tailwind's spacing scale
      * @returns {JSX.Element} Phone variant 4 icon component
      */
-    phone4: ({ className, size, ...props }: IconProps) => (
+    phone4: ({ className, size, ...props }: SVGProps) => (
       <Phone4 className={cn(getSizeClasses(size), className)} {...props} />
     ),
   },

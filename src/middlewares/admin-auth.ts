@@ -1,10 +1,10 @@
 import { auth } from '@/auth';
+import { Role } from '@prisma/client';
 import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import SuperJSON from 'superjson';
 import { z } from 'zod';
-import { Role } from '@prisma/client';
 
 /**
  * Zod schema to validate the session object structure and user role.

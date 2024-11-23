@@ -168,3 +168,8 @@ type IsEqual<T, U> = (<G>() => G extends T ? 1 : 2) extends <G>() => G extends U
 type UnionToTuple<T> = UnionToIntersection<T extends any ? () => T : never> extends () => infer A
   ? [...UnionToTuple<Exclude<T, A>>, A]
   : [];
+
+// SVGProps - Props for SVG elements
+interface SVGProps<T extends SVGElement> extends React.HTMLAttributes<T> {
+  size?: import('@/components/icons/types').sizes;
+}

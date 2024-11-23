@@ -40,17 +40,17 @@ const CardWrapper = ({
   showSocial,
 }: CardWrapperProps) => {
   return (
-    <Card className="w-[400px] shadow-md">
-      <CardHeader>
+    <Card className="w-full max-w-[400px] bg-white/95 shadow-xl backdrop-blur-sm z-10">
+      <CardHeader className="space-y-3 pb-2">
         <Header label={headerLabel} />
       </CardHeader>
-      <CardContent>{children}</CardContent>
+      <CardContent className="pb-6">{children}</CardContent>
       {showSocial && (
-        <CardFooter>
+        <CardFooter className="flex flex-col space-y-4 px-6 py-4">
           <Social />
         </CardFooter>
       )}
-      <CardFooter>
+      <CardFooter className="flex justify-center px-6 py-4">
         <BackButton label={backButtonLabel} href={backButtonHref} />
       </CardFooter>
     </Card>

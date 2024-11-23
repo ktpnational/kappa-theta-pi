@@ -1,11 +1,12 @@
 import React from 'react';
 
-export default function Page() {
+const ChaptersPage = () => {
   return (
     <div>
       <h1>Chapters</h1>
     </div>
   );
-}
+};
 
-Page.displayName = 'ChaptersPage';
+ChaptersPage.displayName = 'ChaptersPage';
+export default ChaptersPage;

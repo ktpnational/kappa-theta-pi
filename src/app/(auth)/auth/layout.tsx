@@ -1,3 +1,10 @@
+import { AnimatedBackground } from '@/components';
+import { constructMetadata } from '@/utils';
+
+export const metadata = constructMetadata({
+  title: 'Auth',
+});
+
 /**
  * Layout component for authentication-related pages
  *
@@ -22,15 +29,16 @@
  */
 const AuthLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div
+    <main
       className="
-          h-full flex items-center justify-center
-          bg-[conic-gradient(at_top,_var(--tw-gradient-stops))] from-neutral-900 via-neutral-600 to-neutral-900
+          min-h-screen flex items-center justify-center container mx-auto
         "
     >
       {children}
-    </div>
+      <AnimatedBackground />
+    </main>
   );
 };
 
+AuthLayout.displayName = 'AuthLayout';
 export default AuthLayout;

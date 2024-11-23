@@ -16,13 +16,13 @@ export const LegalHeader: React.FC<{
         height: '100%',
         aspectRatio: '3/2',
       }}
-      className={cn('w-full h-full', className)}
+      className={cn('w-full h-full rounded-lg', className)}
     >
       <svg
         width="1200"
         height="640"
         viewBox="0 0 1200 640"
-        className="w-[1000px] md:w-[800px] sm:w-[600px]"
+        className="w-[1000px] md:w-[800px] sm:w-[600px] h-[500px] md:h-[400px] sm:h-[300px]"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >

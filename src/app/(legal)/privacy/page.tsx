@@ -1,10 +1,12 @@
 import { constructMetadata } from '@/utils';
+import dynamic from 'next/dynamic';
 import React from 'react';
-import { LegalPrivacy } from '../_components';
 
 export const metadata = constructMetadata({
   title: 'Privacy',
 });
+
+const LegalPrivacy = dynamic(() => import('../_components').then((mod) => mod.LegalPrivacy));
 
 /**
  * Privacy component that displays the privacy policy page.

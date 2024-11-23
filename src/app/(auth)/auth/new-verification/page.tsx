@@ -3,7 +3,12 @@
  * for user email/account verification processes.
  */
 
+import { constructMetadata } from '@/utils';
 import dynamic from 'next/dynamic';
+
+export const metadata = constructMetadata({
+  title: 'New Verification',
+});
 
 const NewVerificationForm = dynamic(() =>
   import('@/app/(auth)/_components').then((mod) => mod.NewVerificationForm),
@@ -24,4 +29,5 @@ const NewVerificationPage = () => {
   return <NewVerificationForm />;
 };
 
+NewVerificationPage.displayName = 'NewVerificationPage';
 export default NewVerificationPage;

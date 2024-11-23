@@ -1,5 +1,9 @@
+'use client';
+
+import { cn } from '@/lib';
 import { motion } from 'framer-motion';
 import React from 'react';
+import type { TrueSVGProps } from '../types';
 
 /**
  * An animated background component that displays floating shapes and fraternity branding
@@ -12,7 +16,7 @@ import React from 'react';
  *   <AnimatedBackground />
  * )
  */
-export const AnimatedBackground = () => {
+export const AnimatedBackground = ({ className, ...props }: TrueSVGProps) => {
   /**
    * Generates random movement parameters for animated shapes
    *
@@ -38,6 +42,8 @@ export const AnimatedBackground = () => {
         preserveAspectRatio="xMidYMid slice"
         style={{ position: 'absolute', top: 0, left: 0, zIndex: -1 }}
         aria-hidden="true"
+        className={cn('w-full h-full', className)}
+        {...props}
       >
         <g clipPath="url(#clip0_348_767)">
           <g filter="url(#filter0_f_348_767)">
@@ -124,3 +130,4 @@ export const AnimatedBackground = () => {
 };
 
 AnimatedBackground.displayName = 'AnimatedBackground';
+export default AnimatedBackground;

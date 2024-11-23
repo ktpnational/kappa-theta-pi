@@ -1,7 +1,7 @@
 import { cn } from '@/lib';
-import type { IconProps } from '../types';
+import type { SVGProps } from '../types';
 
-export const ArrowLeftIcon: React.FC<IconProps> = ({ className, size, ...props }): JSX.Element => (
+export const ArrowLeftIcon: React.FC<SVGProps> = ({ className, size, ...props }): JSX.Element => (
   <svg
     width="15"
     height="15"

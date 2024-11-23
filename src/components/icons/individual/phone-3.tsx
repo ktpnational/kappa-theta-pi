@@ -1,7 +1,7 @@
 import { cn } from '@/lib';
-import type { IconProps } from '../types';
+import type { SVGProps } from '../types';
 
-export const Phone3: React.FC<IconProps> = ({ className, ...props }: IconProps) => {
+export const Phone3: React.FC<SVGProps> = ({ className, ...props }: SVGProps) => {
   return (
     <svg
       width="555"

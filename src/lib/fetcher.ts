@@ -1,8 +1,5 @@
-import axios, {
-  type AxiosRequestConfig,
-  AxiosError
-} from 'axios';
-import { parseCodePath, catchError } from '@/utils/helpers/helpers';
+import { catchError, parseCodePath } from '@/utils/helpers/helpers';
+import axios, { type AxiosRequestConfig, AxiosError } from 'axios';
 
 /**
  * Configuration options for enhanced fetching that extends the base Axios request config
@@ -58,7 +55,7 @@ export class FetcherError extends Error {
     public readonly url: string,
     public readonly status?: number,
     public readonly responseData?: unknown,
-    public readonly attempt?: number
+    public readonly attempt?: number,
   ) {
     super(message);
     this.name = 'FetcherError';
@@ -120,31 +117,25 @@ export class FetcherError extends Error {
  */
 export async function fetcher<T, E = unknown>(
   input: string,
-  options: FetcherOptions = {}
+  options: FetcherOptions = {},
 ): Promise<T> {
-  const {
-    retries = 0,
-    retryDelay = 1000,
-    onError,
-    timeout = 10000,
-    ...axiosConfig
-  } = options;
+  const { retries = 0, retryDelay = 1000, onError, timeout = 10000, ...axiosConfig } = options;
 
   const instance = axios.create({
     timeout,
-    ...axiosConfig
+    ...axiosConfig,
   });
 
   instance.interceptors.request.use(
     (config) => {
       return config;
     },
-    (error) => Promise.reject(error)
+    (error) => Promise.reject(error),
   );
 
   instance.interceptors.response.use(
     (response) => response,
-    (error) => Promise.reject(error)
+    (error) => Promise.reject(error),
   );
 
   try {
@@ -164,13 +155,11 @@ export async function fetcher<T, E = unknown>(
           path,
           error instanceof AxiosError ? error.response?.status : undefined,
           error instanceof AxiosError ? error.response?.data : undefined,
-          attempt
+          attempt,
         );
       }
 
-      await new Promise(resolve =>
-        setTimeout(resolve, retryDelay * Math.pow(2, attempt))
-      );
+      await new Promise((resolve) => setTimeout(resolve, retryDelay * Math.pow(2, attempt)));
       attempt++;
     }
 
@@ -185,7 +174,7 @@ export async function fetcher<T, E = unknown>(
         axiosError.message,
         input,
         axiosError.response?.status,
-        axiosError.response?.data
+        axiosError.response?.data,
       );
     }
     throw new FetcherError(error instanceof Error ? error.message : 'Unknown error', input);
