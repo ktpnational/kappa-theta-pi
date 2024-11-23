@@ -45,6 +45,7 @@ declare global {
       NEXT_PUBLIC_GA_MEASUREMENT_ID: string;
       NEXT_PUBLIC_GA_TRACKING_ID: string;
       NEXT_PUBLIC_GTM_ID: string;
+      NEXT_PUBLIC_ADSENSE_ID: string;
 
       // Sentry
       NEXT_PUBLIC_SENTRY_DSN: string;

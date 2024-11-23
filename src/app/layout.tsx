@@ -41,6 +41,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       data-a11y-link-underlines="false"
     >
       <head>
+        <meta name="google-adsense-account" content={process.env.NEXT_PUBLIC_ADSENSE_ID} />
         <Scripts />
       </head>
       <body className={`min-h-screen bg-white overflow-x-hidden`}>

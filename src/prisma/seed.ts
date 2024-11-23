@@ -111,7 +111,7 @@ async function main() {
               image: `https://avatars.dicebear.com/api/human/${index}.svg`,
               profile: {
                 create: {
-                  role: Role.USER,
+                  role: Role.MEMBER,
                   active: true,
                   version: '1.0',
                 },
@@ -219,7 +219,7 @@ async function main() {
       (
         await prisma.user.findMany({
           include: { profile: true },
-          where: { profile: { role: Role.USER } },
+          where: { profile: { role: Role.MEMBER } },
         })
       ).map(async (user, index) => {
         const chapter = chapters[index % chapters.length] as Chapter;

@@ -5,9 +5,9 @@ import { emailSchema } from '@/schemas/email';
 
 export const userSchema = z.object({
   role: z
-    .enum(['USER', 'ADMIN', 'COMPANY'], {
+    .enum(['USER', 'GUEST', 'COMPANY'], {
       required_error: 'Role is required',
-      invalid_type_error: 'Role must be one of the following: user, admin, company',
+      invalid_type_error: 'Role must be one of the following: user, guest, company',
     })
     .default('USER'),
   email: emailSchema,
@@ -29,24 +29,6 @@ export const getUserByResetPasswordTokenSchema = z.object({
 export const getUserByEmailVerificationTokenSchema = z.object({
   token: z.string(),
 });
-
-export const addUserAsAdminSchema = userSchema
-  .extend({
-    confirmPassword: basePasswordSchema,
-  })
-  .refine((schema) => schema.password === schema.confirmPassword, {
-    message: 'Passwords do not match',
-    path: ['confirmPassword'],
-  });
-
-export const updateUserAsAdminSchema = userSchema
-  .omit({
-    password: true,
-  })
-  .extend({
-    id: userIdSchema,
-    createdAt: z.date(),
-  });
 
 export const updateUserSchema = userSchema
   .omit({

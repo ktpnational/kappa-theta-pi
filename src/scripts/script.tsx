@@ -266,6 +266,14 @@ export function Scripts() {
           `,
         }}
       />
+
+      <Script
+        async
+        strategy="afterInteractive"
+        src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.NEXT_PUBLIC_ADSENSE_ID}`}
+        crossOrigin="anonymous"
+        id="google-adsense"
+      />
     </>
   );
 }

@@ -130,7 +130,7 @@ model Profile {
 
 enum Role {
   GUEST
-  ADMIN
+  MEMBER
   COMPANY
 
   @@schema("next_auth")

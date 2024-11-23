@@ -210,8 +210,7 @@ const SettingsPage = () => {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value={Role.ADMIN}>Admin</SelectItem>
-                        <SelectItem value={Role.USER}>User</SelectItem>
+                        <SelectItem value={Role.MEMBER}>Member</SelectItem>
                         <SelectItem value={Role.COMPANY}>Company</SelectItem>
                       </SelectContent>
                     </Select>

@@ -1,11 +1,11 @@
 'use client';
 
+import { AnimatedBackground } from '@/components';
 import { Button } from '@/components/ui/button';
 import { Home } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
 import { memo } from 'react';
-import { AnimatedBackground } from '.';
 
 /**
  * The NotFound component renders a 404 error page with an animated background.
