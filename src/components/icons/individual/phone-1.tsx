@@ -1,7 +1,6 @@
 import { cn } from '@/lib';
-import type { SVGProps } from '../types';
 
-export const Phone1 = ({ className, ...props }: SVGProps) => {
+export const Phone1: React.FC<SVGProps<SVGSVGElement>> = ({ className, ...props }) => {
   return (
     <>
       <svg

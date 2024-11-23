@@ -1,7 +1,6 @@
 import { cn } from '@/lib';
-import type { SVGProps } from '../types';
 
-export const AppleIcon = ({ className, ...props }: SVGProps) => {
+export const AppleIcon = ({ className, ...props }: SVGProps<SVGSVGElement>) => {
   return (
     <svg
       width="540"

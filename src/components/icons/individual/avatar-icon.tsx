@@ -1,7 +1,6 @@
 import { cn } from '@/lib';
-import type { SVGProps } from '../types';
 
-export const AvatarIcon: React.FC<SVGProps> = ({ className, size, ...props }): JSX.Element => (
+export const AvatarIcon: React.FC<SVGProps<SVGSVGElement>> = ({ className, size, ...props }): JSX.Element => (
   <svg
     width="15"
     height="15"

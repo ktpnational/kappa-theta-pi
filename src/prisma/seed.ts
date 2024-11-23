@@ -42,7 +42,7 @@ async function main() {
           image: 'https://avatars.githubusercontent.com/u/1234567',
           profile: {
             create: {
-              role: Role.ADMIN,
+              role: Role.GUEST,
               active: true,
               version: '1.0',
               address: {

@@ -1,7 +1,6 @@
 import { cn } from '@/lib';
-import type { SVGProps } from '../types';
 
-export const PlaceholderIcon: React.FC<SVGProps> = ({ className, size, ...props }): JSX.Element => {
+export const PlaceholderIcon: React.FC<SVGProps<SVGSVGElement>> = ({ className, size, ...props }) => {
   return (
     <svg
       width="15"
