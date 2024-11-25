@@ -281,7 +281,7 @@
     "jotai-tanstack-query": "^0.9.0",
     "jsonwebtoken": "^9.0.2",
     "lint-staged": "^15.2.10",
-    "lucide-react": "^0.456.0",
+    "lucide-react": "^0.461.0",
     "markdownlint": "^0.36.1",
     "markdownlint-cli": "^0.43.0",
     "micromark-util-classify-character": "^2.0.1",
