@@ -2,6 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { UrlObject } from 'url';
 
 /**
  * Interface defining the props for the BackButton component
@@ -10,7 +11,7 @@ import Link from 'next/link';
  * @property {string} label - The text content that will be displayed on the button
  */
 interface BackButtonProps {
-  href: string;
+  href: string | UrlObject;
   label: string;
 }
 
