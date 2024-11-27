@@ -5,7 +5,7 @@ import { catchError } from '@/utils';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import type { InferRequestType, InferResponseType } from 'hono';
 import { useRouter } from 'next/navigation';
-import { toast } from 'sonner';
+import { toast } from 'sonner'; 
 
 /**
  * Configuration options for RPC mutation hook
