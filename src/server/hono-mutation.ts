@@ -1,3 +1,5 @@
+'use client';
+
 import { hono_api } from '@/providers/core/server/react';
 import { catchError } from '@/utils';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
