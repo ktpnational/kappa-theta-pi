@@ -64,6 +64,7 @@ const timmingMiddleware = new Elysia()
   )
   .as('plugin');
 
+// @ts-expect-error
 const apolloMiddleware = apollo({
   typeDefs,
   resolvers,
@@ -90,4 +91,4 @@ export const createElysia = <P extends string, S extends boolean>(options?: Elys
   })
     .use(createContext)
     .use(timmingMiddleware)
-    .use(apolloMiddleware);
+    // .use(apolloMiddleware);
