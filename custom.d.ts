@@ -144,4 +144,7 @@ declare global {
   interface Document {
     startViewTransition: (callback: () => void) => void;
   }
+  interface AppRouterInstance {
+    push(href: Parameters<typeof import('next/link')['default']>[0]['href'], options?: { scroll?: boolean }): void;
+  }
 }
