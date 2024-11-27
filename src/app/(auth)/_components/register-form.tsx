@@ -77,8 +77,8 @@ const RegisterForm = () => {
       register(values)
         .then((data) => {
           setError(data.error);
-          setSuccess(data.sucess); // Note: API returns 'sucess' (typo)
-          if (data.sucess) {
+          setSuccess(data.success);
+          if (data.success) {
             form.reset();
           }
         })
