@@ -2,7 +2,6 @@
 
 import { BackButton, Header, Social } from '@/app/(auth)/_components';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
-
 /**
  * Interface defining the props for the CardWrapper component
  * @interface CardWrapperProps
@@ -16,7 +15,7 @@ interface CardWrapperProps {
   children: React.ReactNode;
   headerLabel: string;
   backButtonLabel: string;
-  backButtonHref: string;
+  backButtonHref: Parameters<typeof import('next/link')['default']>[0]['href'];
   showSocial?: boolean;
 }
 
