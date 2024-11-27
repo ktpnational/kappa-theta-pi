@@ -7,7 +7,7 @@ import { Hono } from 'hono';
  * Base Hono application instance configured with /api base path
  * @type {Hono}
  */
-const app = new Hono().basePath('/api');
+const app = new Hono().basePath('/api/client');
 
 /**
  * Initializes and configures Prometheus metrics collectors
