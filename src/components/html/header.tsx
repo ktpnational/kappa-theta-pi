@@ -201,7 +201,7 @@ export const Header = memo(() => {
         <div className="flex h-16 items-center justify-between">
           <Link href="/" className="flex items-center space-x-2">
             <Image
-              src="/assets/images/logo.png"
+              src="/assets/svgs/logo.svg"
               alt="ΚΘΠ Logo"
               width={40}
               height={40}

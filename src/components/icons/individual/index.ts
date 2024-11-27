@@ -6,8 +6,4 @@ export * from './arrow-left-icon';
 export * from './check-icon';
 export * from './apple-icon';
 export * from './android-icon';
-export * from './phone-1';
-export * from './phone-2';
-export * from './phone-3';
-export * from './phone-4';
 export * from './cout-ktp';

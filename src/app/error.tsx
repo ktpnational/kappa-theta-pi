@@ -2,8 +2,8 @@
 
 import { AnimatedBackground } from '@/components';
 import { Button } from '@/components/ui/button';
-import { motion } from 'framer-motion';
 import { AlertTriangle, Home, RotateCw } from 'lucide-react';
+import { motion } from 'motion/react';
 
 /**
  * Error boundary component that displays a user-friendly error page.

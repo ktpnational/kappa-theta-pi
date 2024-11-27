@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 
 /**
  * A component that provides a smooth entrance animation for its children using Framer Motion.

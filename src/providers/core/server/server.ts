@@ -1,5 +1,5 @@
 import 'server-only';
-import { appRouter } from '@/server/api/root';
+import { elysiaRouter } from '@/server/api/root';
 import { treaty } from '@elysiajs/eden';
 
 /**
@@ -12,11 +12,11 @@ import { treaty } from '@elysiajs/eden';
  * @example
  * ```ts
  * // Usage in server-side code:
- * const result = await server_api.someEndpoint.get()
+ * const result = await elysia_server_api.someEndpoint.get()
  * ```
  *
  * @see {@link https://elysiajs.com/eden/treaty.html Eden Treaty Documentation}
  *
  * @returns A type-safe API client instance with endpoints matching the app router structure
  */
-export const server_api = treaty(appRouter)[''].api;
+export const elysia_server_api = treaty(elysiaRouter)[''].api;

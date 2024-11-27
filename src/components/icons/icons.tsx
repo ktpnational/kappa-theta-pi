@@ -8,10 +8,6 @@ import {
   CheckIcon,
   CoutKtp,
   PaperplaneIcon,
-  Phone1,
-  Phone2,
-  Phone3,
-  Phone4,
   PlaceholderIcon,
   SpinnerIcon,
 } from './individual';
@@ -93,7 +89,9 @@ export const Icons = {
      * @returns {JSX.Element} Small logo icon component
      */
     small: ({ className, size, ...props }: SVGProps<SVGSVGElement>) => (
-      <LogoSmallIcon className={cn(getSizeClasses(size), className)} {...props} />
+      <i>
+        <LogoSmallIcon className={cn(getSizeClasses(size), className)} {...props} />
+      </i>
     ),
     /**
      * Renders the full/default version of the logo icon
@@ -103,7 +101,9 @@ export const Icons = {
      * @returns {JSX.Element} Default logo icon component
      */
     default: ({ className, size, ...props }: SVGProps<SVGSVGElement>) => (
-      <LogoIcon className={cn(getSizeClasses(size), className)} {...props} />
+      <i>
+        <LogoIcon className={cn(getSizeClasses(size), className)} {...props} />
+      </i>
     ),
     /**
      * Renders the Apple platform logo
@@ -113,7 +113,9 @@ export const Icons = {
      * @returns {JSX.Element} Apple logo icon component
      */
     apple: ({ className, size, ...props }: SVGProps<SVGSVGElement>) => (
-      <AppleIcon className={cn(getSizeClasses(size), className)} {...props} />
+      <i>
+        <AppleIcon className={cn(getSizeClasses(size), className)} {...props} />
+      </i>
     ),
     /**
      * Renders the Android platform logo
@@ -123,7 +125,9 @@ export const Icons = {
      * @returns {JSX.Element} Android logo icon component
      */
     android: ({ className, size, ...props }: SVGProps<SVGSVGElement>) => (
-      <AndroidIcon className={cn(getSizeClasses(size), className)} {...props} />
+      <i>
+        <AndroidIcon className={cn(getSizeClasses(size), className)} {...props} />
+      </i>
     ),
   },
   /**
@@ -139,7 +143,9 @@ export const Icons = {
      * @returns {JSX.Element} Arrow left icon component
      */
     arrowLeft: ({ className, size, ...props }: SVGProps<SVGSVGElement>) => (
-      <ArrowLeftIcon className={cn(getSizeClasses(size), className)} {...props} />
+      <i>
+        <ArrowLeftIcon className={cn(getSizeClasses(size), className)} {...props} />
+      </i>
     ),
   },
   /**
@@ -155,7 +161,9 @@ export const Icons = {
      * @returns {JSX.Element} Avatar icon component
      */
     avatar: ({ className, size, ...props }: SVGProps<SVGSVGElement>) => (
-      <AvatarIcon className={cn(getSizeClasses(size), className)} {...props} />
+      <i>
+        <AvatarIcon className={cn(getSizeClasses(size), className)} {...props} />
+      </i>
     ),
   },
   /**
@@ -171,7 +179,9 @@ export const Icons = {
      * @returns {JSX.Element} Paper plane icon component
      */
     paperplane: ({ className, size, ...props }: SVGProps<SVGSVGElement>) => (
-      <PaperplaneIcon className={cn(getSizeClasses(size), className)} {...props} />
+      <i>
+        <PaperplaneIcon className={cn(getSizeClasses(size), className)} {...props} />
+      </i>
     ),
   },
   /**
@@ -187,7 +197,9 @@ export const Icons = {
      * @returns {JSX.Element} Placeholder icon component
      */
     placeholder: ({ className, size, ...props }: SVGProps<SVGSVGElement>) => (
-      <PlaceholderIcon className={cn(getSizeClasses(size), className)} {...props} />
+      <i>
+        <PlaceholderIcon className={cn(getSizeClasses(size), className)} {...props} />
+      </i>
     ),
     /**
      * Renders an animated spinner icon for loading states
@@ -197,7 +209,9 @@ export const Icons = {
      * @returns {JSX.Element} Spinner icon component for loading indicators
      */
     spinner: ({ className, size, ...props }: SVGProps<SVGSVGElement>) => (
-      <SpinnerIcon className={cn(getSizeClasses(size), className)} {...props} />
+      <i>
+        <SpinnerIcon className={cn(getSizeClasses(size), className)} {...props} />
+      </i>
     ),
     /**
      * Renders a checkmark icon for success/completion states
@@ -207,7 +221,9 @@ export const Icons = {
      * @returns {JSX.Element} Check icon component
      */
     check: ({ className, size, ...props }: SVGProps<SVGSVGElement>) => (
-      <CheckIcon className={cn(getSizeClasses(size), className)} {...props} />
+      <i>
+        <CheckIcon className={cn(getSizeClasses(size), className)} {...props} />
+      </i>
     ),
     /**
      * Renders a KTP (Indonesian ID card) icon
@@ -217,53 +233,9 @@ export const Icons = {
      * @returns {JSX.Element} KTP icon component
      */
     coutKtp: ({ className, size, ...props }: SVGProps<SVGSVGElement>) => (
-      <CoutKtp className={cn(getSizeClasses(size), className)} {...props} />
-    ),
-  },
-  /**
-   * Collection of phone-related icons for different device representations
-   * @memberof Icons
-   */
-  phones: {
-    /**
-     * Renders the first phone device icon variant
-     * @param {SVGProps<SVGSVGElement>} props - Icon configuration properties
-     * @param {string} [props.className] - Additional CSS classes to apply
-     * @param {SVGProps<SVGSVGElement>['size']} [props.size] - Size of the icon using Tailwind's spacing scale
-     * @returns {JSX.Element} Phone variant 1 icon component
-     */
-    phone1: ({ className, size, ...props }: SVGProps<SVGSVGElement>) => (
-      <Phone1 className={cn(getSizeClasses(size), className)} {...props} />
-    ),
-    /**
-     * Renders the second phone device icon variant
-     * @param {SVGProps<SVGSVGElement>} props - Icon configuration properties
-     * @param {string} [props.className] - Additional CSS classes to apply
-     * @param {SVGProps<SVGSVGElement>['size']} [props.size] - Size of the icon using Tailwind's spacing scale
-     * @returns {JSX.Element} Phone variant 2 icon component
-     */
-    phone2: ({ className, size, ...props }: SVGProps<SVGSVGElement>) => (
-      <Phone2 className={cn(getSizeClasses(size), className)} {...props} />
-    ),
-    /**
-     * Renders the third phone device icon variant
-     * @param {SVGProps<SVGSVGElement>} props - Icon configuration properties
-     * @param {string} [props.className] - Additional CSS classes to apply
-     * @param {SVGProps<SVGSVGElement>['size']} [props.size] - Size of the icon using Tailwind's spacing scale
-     * @returns {JSX.Element} Phone variant 3 icon component
-     */
-    phone3: ({ className, size, ...props }: SVGProps<SVGSVGElement>) => (
-      <Phone3 className={cn(getSizeClasses(size), className)} {...props} />
-    ),
-    /**
-     * Renders the fourth phone device icon variant
-     * @param {SVGProps<SVGSVGElement>} props - Icon configuration properties
-     * @param {string} [props.className] - Additional CSS classes to apply
-     * @param {SVGProps<SVGSVGElement>['size']} [props.size] - Size of the icon using Tailwind's spacing scale
-     * @returns {JSX.Element} Phone variant 4 icon component
-     */
-    phone4: ({ className, size, ...props }: SVGProps<SVGSVGElement>) => (
-      <Phone4 className={cn(getSizeClasses(size), className)} {...props} />
+      <i>
+        <CoutKtp className={cn(getSizeClasses(size), className)} {...props} />
+      </i>
     ),
   },
 };

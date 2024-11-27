@@ -206,7 +206,6 @@ export function Scripts() {
 
   return (
     <>
-      {/* Base Speculation Rules */}
       <Script
         id="speculation-rules"
         strategy="beforeInteractive"

@@ -1,3 +1,8 @@
+import { auth } from '@/auth';
+import { typeDefs } from '@/graphql';
+import { resolvers } from '@/graphql/resolvers';
+import { db } from '@/lib';
+import { apollo } from '@elysiajs/apollo';
 /**
  * Core server configuration file for the Elysia backend API.
  * This file handles the setup of contexts, middleware, and server initialization.
@@ -10,10 +15,6 @@
  */
 import type { ElysiaConfig } from 'elysia';
 import Elysia from 'elysia';
-
-import { auth } from '@/auth';
-import { db } from '@/lib';
-
 /**
  * Creates and configures the request context available throughout the API.
  * The context provides access to core services and state needed during request processing.
@@ -34,6 +35,11 @@ const createContext = new Elysia()
     return { db, session };
   })
   .as('plugin');
+
+export type Context = {
+  db: typeof db;
+  session: Awaited<ReturnType<typeof auth>>;
+};
 
 /**
  * Request timing middleware that measures execution duration of each request.
@@ -58,6 +64,11 @@ const timmingMiddleware = new Elysia()
   )
   .as('plugin');
 
+const apolloMiddleware = apollo({
+  typeDefs,
+  resolvers,
+});
+
 /**
  * Creates and configures the main Elysia server instance.
  * Combines all middleware, context providers, and configuration into a complete server.
@@ -78,4 +89,5 @@ export const createElysia = <P extends string, S extends boolean>(options?: Elys
     aot: true,
   })
     .use(createContext)
-    .use(timmingMiddleware);
+    .use(timmingMiddleware)
+    .use(apolloMiddleware);

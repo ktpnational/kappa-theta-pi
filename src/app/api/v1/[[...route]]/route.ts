@@ -3,7 +3,7 @@
  * and their corresponding handlers. This router is typically defined in the root API
  * configuration file.
  */
-import { appRouter } from '@/server/api/root';
+import { elysiaRouter } from '@/server';
 
 /**
  * Create a unified request handler from the application router that processes
@@ -13,7 +13,7 @@ import { appRouter } from '@/server/api/root';
  * This handler implements the tRPC protocol for typesafe API communication between
  * the client and server.
  */
-const handler = appRouter.handle;
+const handler = elysiaRouter.handle;
 
 /**
  * Export the unified handler to handle different HTTP methods:

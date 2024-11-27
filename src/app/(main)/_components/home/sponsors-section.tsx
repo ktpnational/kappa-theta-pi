@@ -32,7 +32,7 @@ import Image from 'next/image';
  * - @/components/ui/marquee - Provides the scrolling marquee functionality
  * - @/constants - Contains the companies array with company names
  * - next/image - Next.js Image component for optimized image loading
- * - framer-motion - Animation library for heading motion effects
+ * - motion/react - Animation library for heading motion effects
  *
  * @styling
  * The component uses Tailwind CSS classes for styling:

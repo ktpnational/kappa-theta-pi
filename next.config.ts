@@ -1,7 +1,19 @@
-import withPwa from '@ducanh2912/next-pwa';
+import pwa from '@ducanh2912/next-pwa';
 import MillionLint from '@million/lint';
+import withBundleAnalyzer from '@next/bundle-analyzer';
 import { type SentryBuildOptions, withSentryConfig } from '@sentry/nextjs';
 import type { NextConfig } from 'next';
+
+const withPwa = pwa({
+  dest: 'public',
+});
+
+const withBundleAnalyzerConfig = withBundleAnalyzer({
+  enabled: process.env.ANALYZE === 'true',
+  openAnalyzer: false,
+  analyzerMode: 'static',
+  logLevel: 'error',
+});
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
@@ -21,7 +33,6 @@ const nextConfig: NextConfig = {
       { protocol: 'https', hostname: 'maps.googleapis.com' },
     ],
   },
-  serverComponentsExternalPackages: ['@supabase/ssr'],
   experimental: {
     optimizeCss: true,
     serverActions: {
@@ -79,60 +90,54 @@ const nextConfig: NextConfig = {
 
     return config;
   },
-  ignoreWarnings: [
-    {
-      module: /node_modules\/@opentelemetry/,
-      message: /the request of a dependency is an expression/,
-    },
-  ],
 };
 
-const millionConfig = {
+const millionConfig = MillionLint.next({
   rsc: true,
   filter: {
     include: '**/components/**/*.{mtsx,mjsx,tsx,jsx}',
     exclude: ['**/api/**/*.{ts,tsx}', '**/components/html/**/*.{ts,tsx}'],
   },
+});
+
+const sentryConfig: SentryBuildOptions = {
+  org: 'womb0comb0',
+  project: 'ktp',
+  authToken: process.env.NEXT_PUBLIC_SENTRY_AUTH_TOKEN,
+  silent: true,
+  release: {
+    name: process.env.VERCEL_GIT_COMMIT_SHA || `local-${Date.now()}`,
+    create: true,
+    setCommits: {
+      auto: true,
+      ignoreMissing: true,
+    },
+  },
+  sourcemaps: {
+    assets: './**/*.{js,map}',
+    ignore: ['node_modules/**/*'],
+  },
+  hideSourceMaps: true,
+  widenClientFileUpload: true,
+  autoInstrumentServerFunctions: true,
+  autoInstrumentMiddleware: true,
+  autoInstrumentAppDirectory: true,
+  tunnelRoute: '/monitoring',
+  disableLogger: true,
+  automaticVercelMonitors: true,
+  reactComponentAnnotation: {
+    enabled: true,
+  },
 };
 
-const sentryConfig =
-  process.env.NODE_ENV === 'production' && process.env.NEXT_PUBLIC_SENTRY_AUTH_TOKEN
-    ? {
-        org: 'womb0comb0',
-        project: 'ktp',
-        authToken: process.env.NEXT_PUBLIC_SENTRY_AUTH_TOKEN,
-        silent: true,
-        release: {
-          name: process.env.VERCEL_GIT_COMMIT_SHA || `local-${Date.now()}`,
-          create: true,
-          setCommits: {
-            auto: true,
-            ignoreMissing: true,
-          },
-        },
-        sourcemaps: {
-          assets: './**/*.{js,map}',
-          ignore: ['node_modules/**/*'],
-        },
-        hideSourceMaps: true,
-        widenClientFileUpload: true,
-        autoInstrumentServerFunctions: true,
-        autoInstrumentMiddleware: true,
-        autoInstrumentAppDirectory: true,
-        tunnelRoute: '/monitoring',
-        disableLogger: true,
-        automaticVercelMonitors: true,
-        reactComponentAnnotation: {
-          enabled: true,
-        },
-      }
-    : null;
+const finalConfig = withPwa(nextConfig);
 
-let config = nextConfig;
-config = MillionLint.next(millionConfig)(config);
-config = withPwa({ ...config, dest: 'public' });
-if (sentryConfig) {
-  config = withSentryConfig(config, sentryConfig as SentryBuildOptions);
+let combinedConfig = millionConfig(withBundleAnalyzerConfig(finalConfig));
+
+if (require.main === module) {
+  if (sentryConfig) {
+    combinedConfig = withSentryConfig(combinedConfig, sentryConfig);
+  }
 }
 
-export default config;
+export default combinedConfig;

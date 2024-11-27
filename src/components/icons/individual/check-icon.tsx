@@ -1,6 +1,10 @@
 import { cn } from '@/lib';
 
-export const CheckIcon: React.FC<SVGProps<SVGSVGElement>> = ({ className, size, ...props }): JSX.Element => (
+export const CheckIcon: React.FC<SVGProps<SVGSVGElement>> = ({
+  className,
+  size,
+  ...props
+}): JSX.Element => (
   <svg
     width="15"
     height="15"

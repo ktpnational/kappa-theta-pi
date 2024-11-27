@@ -3,8 +3,8 @@
 import { HeroVideoDialog } from '@/components/lib/hero-video-dialog';
 import { app } from '@/constants';
 import { cn } from '@/lib/utils';
-import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
+import { motion } from 'motion/react';
 import Link from 'next/link';
 
 /** Custom easing function for animations */

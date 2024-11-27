@@ -7,7 +7,7 @@ import {
   motion,
   useMotionValue,
   useSpring,
-} from 'framer-motion';
+} from 'motion/react';
 import Image, { type ImageProps } from 'next/image';
 import Link from 'next/link';
 import { encode } from 'qss';

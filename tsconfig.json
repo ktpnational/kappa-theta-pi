@@ -42,8 +42,8 @@
     "forceConsistentCasingInFileNames": true,
     "paths": {
       "@testing": ["./test-fixtures.ts"],
-      "@/*": ["./src/*"],
-      "contentlayer/generated": ["./.contentlayer/generated"]
+      "@/*": ["./src/*"]
+      // "contentlayer/generated": ["./.contentlayer/generated"]
     }
   },
   "include": [

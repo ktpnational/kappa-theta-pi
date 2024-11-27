@@ -6,7 +6,7 @@ import {
   Role,
   type User,
 } from '@prisma/client';
-import { hash } from 'bcryptjs';
+import bcrypt from 'bcryptjs';
 
 const prisma = new PrismaClient();
 
@@ -14,6 +14,10 @@ async function main() {
   try {
     // Clean up existing data
     await prisma.$transaction([
+      prisma.newsletterSubscriber.deleteMany(),
+      prisma.event.deleteMany(),
+      prisma.resource.deleteMany(),
+      prisma.rSVP.deleteMany(),
       prisma.candidate.deleteMany(),
       prisma.company.deleteMany(),
       prisma.member.deleteMany(),
@@ -37,9 +41,11 @@ async function main() {
         data: {
           email: 'admin@example.com',
           name: 'Admin User',
-          password: await hash('password123', 10),
+          password: await bcrypt.hash('password123', 10),
           emailVerified: new Date(),
           image: 'https://avatars.githubusercontent.com/u/1234567',
+          role: Role.GUEST,
+          isTwoFactorEnabled: false,
           profile: {
             create: {
               role: Role.GUEST,
@@ -66,8 +72,10 @@ async function main() {
           data: {
             email: `company@${companyName.toLowerCase().replace(/\s+/g, '')}.com`,
             name: `${companyName} Manager`,
-            password: await hash('password123', 10),
+            password: await bcrypt.hash('password123', 10),
             emailVerified: new Date(),
+            role: Role.COMPANY,
+            isTwoFactorEnabled: false,
             image: `https://logo.clearbit.com/${companyName.toLowerCase().replace(/\s+/g, '')}.com`,
             profile: {
               create: {
@@ -106,8 +114,10 @@ async function main() {
             data: {
               email: `user${index + 1}@example.com`,
               name: `Test User ${index + 1}`,
-              password: await hash('password123', 10),
+              password: await bcrypt.hash('password123', 10),
               emailVerified: new Date(),
+              role: Role.MEMBER,
+              isTwoFactorEnabled: false,
               image: `https://avatars.dicebear.com/api/human/${index}.svg`,
               profile: {
                 create: {
@@ -223,8 +233,11 @@ async function main() {
         })
       ).map(async (user, index) => {
         const chapter = chapters[index % chapters.length] as Chapter;
-        if (!user.id || !chapter.id) {
-          throw new Error('Missing required profile or chapter data');
+        if (!user.id) {
+          throw new Error('Missing required user id');
+        }
+        if (!chapter.id) {
+          throw new Error('Missing required chapter id');
         }
 
         const resume = await prisma.resume.create({
@@ -251,9 +264,21 @@ async function main() {
           },
         });
 
+        let profile = user.profile;
+        if (!profile) {
+          profile = await prisma.profile.create({
+            data: {
+              role: Role.MEMBER,
+              active: true,
+              version: '1.0',
+              userId: user.id,
+            },
+          });
+        }
+
         return prisma.member.create({
           data: {
-            profileId: user.id,
+            profileId: profile.id,
             chapterId: chapter.id,
             resumeId: resume.id,
           },
@@ -292,7 +317,7 @@ async function main() {
 
     // Create 2FA tokens for testing
     await Promise.all(
-      users.slice(0, 3).map((user: User) => {
+      users.slice(0, 3).map((user: User, index) => {
         if (!user.email) {
           throw new Error('User email is required');
         }
@@ -300,7 +325,7 @@ async function main() {
         return prisma.twoFactorToken.create({
           data: {
             email: user.email,
-            token: '123456',
+            token: `123456${index}`,
             expires: new Date(Date.now() + 5 * 60 * 1000),
           },
         });
@@ -309,7 +334,7 @@ async function main() {
 
     // Create verification tokens
     await Promise.all(
-      users.slice(0, 3).map((user: User) => {
+      users.slice(0, 3).map((user: User, index) => {
         if (!user.email) {
           throw new Error('User email is required');
         }
@@ -317,7 +342,7 @@ async function main() {
         return prisma.verificationToken.create({
           data: {
             email: user.email,
-            token: '123456',
+            token: `123456${index}`,
             expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
           },
         });

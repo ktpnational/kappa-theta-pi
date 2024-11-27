@@ -1,8 +1,8 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { AnimatePresence, motion } from 'framer-motion';
 import { ArrowLeft, ArrowRight, Clock, Mail, MapPin, Phone } from 'lucide-react';
+import { AnimatePresence, motion } from 'motion/react';
 import type React from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';

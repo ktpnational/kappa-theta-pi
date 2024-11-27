@@ -1,7 +1,7 @@
 'use client';
 
 import { navigationSections } from '@/constants/nav';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'motion/react';
 import { usePathname } from 'next/navigation';
 import { type ReactNode, useEffect } from 'react';
 

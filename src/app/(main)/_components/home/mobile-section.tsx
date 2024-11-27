@@ -1,7 +1,8 @@
 'use client';
 
 import { Icons } from '@/components';
-import { motion } from 'framer-motion';
+import Iphone15Pro from '@/components/lib/iphone-15-pro';
+import { motion } from 'motion/react';
 import { memo } from 'react';
 
 /**
@@ -132,15 +133,15 @@ export const MobileSection = memo(() => {
             className="relative flex justify-center items-center h-[400px] sm:h-[450px] md:h-[500px] lg:h-[600px] mt-8"
           >
             <div className="relative h-full w-full flex items-center justify-center">
-              <Icons.phones.phone3
-                size="96"
+              <Iphone15Pro
+                src="/assets/images/phone-3.jpg"
                 className="absolute -translate-y-16 sm:-translate-y-20 md:-translate-y-24 lg:-translate-y-32
                           -translate-x-4 sm:-translate-x-6 md:-translate-x-8 lg:-translate-x-12
                           z-10 w-40 sm:w-48 md:w-56 lg:w-64
                           transform hover:scale-105 transition-transform duration-300"
               />
-              <Icons.phones.phone4
-                size="96"
+              <Iphone15Pro
+                src="/assets/images/phone-4.jpg"
                 className="absolute translate-y-16 sm:translate-y-20 md:translate-y-24 lg:translate-y-32
                           translate-x-4 sm:translate-x-6 md:translate-x-8 lg:translate-x-12
                           z-20 w-40 sm:w-48 md:w-56 lg:w-64

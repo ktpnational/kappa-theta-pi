@@ -922,7 +922,7 @@ export type Database = {
       [_ in never]: never;
     };
     Enums: {
-      Role: 'GUEST' | 'USER' | 'ADMIN' | 'COMPANY';
+      Role: 'GUEST' | 'MEMBER' | 'COMPANY';
     };
     CompositeTypes: {
       [_ in never]: never;

@@ -1,7 +1,7 @@
 'use client';
 
 import { cn } from '@/lib/utils';
-import { AnimatePresence, type HTMLMotionProps, motion } from 'framer-motion';
+import { AnimatePresence, type HTMLMotionProps, motion } from 'motion/react';
 import Image from 'next/image';
 import { useCallback, useRef, useState } from 'react';
 import React from 'react';

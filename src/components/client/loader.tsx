@@ -1,8 +1,8 @@
 'use client';
 
 import { AnimatedBackground } from '@/components';
-import { motion } from 'framer-motion';
 import { Loader2 } from 'lucide-react';
+import { motion } from 'motion/react';
 import React from 'react';
 
 /**

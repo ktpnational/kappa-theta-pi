@@ -2,8 +2,8 @@
 
 import { type FAQItem, faqs } from '@/constants';
 import { useGlobalStore } from '@/providers';
-import { AnimatePresence, motion } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
+import { AnimatePresence, motion } from 'motion/react';
 import type React from 'react';
 
 /**
@@ -113,7 +113,7 @@ FAQItem.displayName = 'FAQItem';
  * - State management for tracking open/closed items
  *
  * @dependencies
- * - framer-motion: For smooth animations and transitions
+ * - motion/react: For smooth animations and transitions
  * - lucide-react: For the chevron icon
  * - @/constants: For FAQ content data
  *

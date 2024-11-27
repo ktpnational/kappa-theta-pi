@@ -6,3 +6,4 @@ export * from './s3';
 export * from './tokens';
 export * from './utils';
 export * from './fetcher';
+export * from './password';

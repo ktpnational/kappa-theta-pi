@@ -1,5 +1,5 @@
-import { catchError, parseCodePath } from '@/utils/helpers/helpers';
-import axios, { type AxiosRequestConfig, AxiosError } from 'axios';
+import { catchError, getURL } from '@/utils/helpers/helpers';
+import axios, { type AxiosRequestConfig, AxiosError, type Method } from 'axios';
 
 /**
  * Configuration options for enhanced fetching that extends the base Axios request config
@@ -117,7 +117,9 @@ export class FetcherError extends Error {
  */
 export async function fetcher<T, E = unknown>(
   input: string,
-  options: FetcherOptions = {},
+  method: Uppercase<Method> = 'GET',
+  options: Omit<FetcherOptions, 'method'> = {},
+  params?: Record<string, string>,
 ): Promise<T> {
   const { retries = 0, retryDelay = 1000, onError, timeout = 10000, ...axiosConfig } = options;
 
@@ -141,8 +143,44 @@ export async function fetcher<T, E = unknown>(
   try {
     let attempt = 0;
     while (attempt <= retries) {
-      const path = parseCodePath(input, fetcher);
-      const [error, response] = await catchError(instance.get<T>(path));
+      const path = getURL(input);
+      const [error, response] = await catchError(
+        method === 'GET'
+          ? instance.get<T>(params ? `${path}?${buildQueryString(params)}` : `${path}`, {
+              ...axiosConfig,
+            })
+          : method === 'DELETE'
+            ? instance.delete<T>(params ? `${path}?${buildQueryString(params)}` : `${path}`, {
+                ...axiosConfig,
+              })
+            : method === 'HEAD'
+              ? instance.head<T>(params ? `${path}?${buildQueryString(params)}` : `${path}`, {
+                  ...axiosConfig,
+                })
+              : method === 'OPTIONS'
+                ? instance.options<T>(params ? `${path}?${buildQueryString(params)}` : `${path}`, {
+                    ...axiosConfig,
+                  })
+                : method === 'POST'
+                  ? instance.post<T>(
+                      params ? `${path}?${buildQueryString(params)}` : `${path}`,
+                      null,
+                      { ...axiosConfig },
+                    )
+                  : method === 'PUT'
+                    ? instance.put<T>(
+                        params ? `${path}?${buildQueryString(params)}` : `${path}`,
+                        null,
+                        { ...axiosConfig },
+                      )
+                    : method === 'PATCH'
+                      ? instance.patch<T>(
+                          params ? `${path}?${buildQueryString(params)}` : `${path}`,
+                          null,
+                          { ...axiosConfig },
+                        )
+                      : Promise.reject(new Error(`Unsupported HTTP method: ${method}`)),
+      );
 
       if (!error) {
         return response.data;
@@ -180,3 +218,21 @@ export async function fetcher<T, E = unknown>(
     throw new FetcherError(error instanceof Error ? error.message : 'Unknown error', input);
   }
 }
+
+const buildQueryString = (params: Record<string, any>): string => {
+  if (!params) return '';
+
+  const urlParams = new URLSearchParams();
+
+  Object.entries(params).forEach(([key, value]) => {
+    if (value == null) return;
+
+    if (Array.isArray(value)) {
+      value.filter((item) => item != null).forEach((item) => urlParams.append(key, String(item)));
+    } else {
+      urlParams.append(key, String(value));
+    }
+  });
+
+  return urlParams.toString();
+};

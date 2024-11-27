@@ -2,7 +2,7 @@
 
 import { cn } from '@/lib/utils';
 import { useGlobalStore } from '@/providers';
-import { AnimatePresence, motion, useAnimation } from 'framer-motion';
+import { AnimatePresence, motion, useAnimation } from 'motion/react';
 import { nanoid } from 'nanoid';
 import React, { useEffect, useRef } from 'react';
 /**

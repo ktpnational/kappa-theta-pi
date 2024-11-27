@@ -21,6 +21,7 @@ declare global {
       NEXT_PUBLIC_DATADOG_SITE: string;
 
       // App
+      ANALYZE: string;
       NODE_ENV: NodeEnv;
       NEXT_PUBLIC_APP_VERSION: string;
       NEXT_PUBLIC_APP_URL: string;
@@ -71,6 +72,9 @@ declare global {
       NEXT_PUBLIC_RESEND_USERNAME: string;
       NEXT_PUBLIC_RESEND_EMAIL_FROM: string;
       NEXT_PUBLIC_RESEND_EMAIL_TO: string;
+
+      // Password
+      PASSWORD_PEPPER: string;
     }
   }
 }

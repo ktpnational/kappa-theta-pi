@@ -22,7 +22,7 @@ import { cn } from '@/lib/utils';
 import { useGlobalStore } from '@/providers';
 import { MarkerClusterer } from '@googlemaps/markerclusterer';
 import { APIProvider, InfoWindow, Map, useMap } from '@vis.gl/react-google-maps';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'motion/react';
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { FaCalendarAlt } from 'react-icons/fa';
 

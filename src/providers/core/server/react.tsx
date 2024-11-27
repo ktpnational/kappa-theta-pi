@@ -1,8 +1,9 @@
 'use client';
 
-import type { AppRouter } from '@/server/api/root';
+import type { ElysiaRouter, HonoRouter } from '@/server/api/root';
 import { getURL } from '@/utils';
 import { treaty } from '@elysiajs/eden';
+import { hc } from 'hono/client';
 
 import type { QueryClient } from '@tanstack/react-query';
 import { QueryClientProvider } from '@tanstack/react-query';
@@ -11,18 +12,21 @@ import { createQueryClient } from '.';
 
 /**
  * Client API instance created using Elysia's treaty.
- * This provides type-safe API endpoints based on the AppRouter type.
+ * This provides type-safe API endpoints based on the ElysiaRouter type.
  *
  * @remarks
  * The API instance is initialized with different base URLs depending on the environment:
  * - In server-side context (window undefined): Uses getURL()
  * - In client-side context: Uses the current window.location.origin
  *
- * @type {AppRouter} - The typed API router instance
+ * @type {elysiaRouter} - The typed API router instance
  */
-export const client_api = treaty<AppRouter>(
+export const elysia_api = treaty<ElysiaRouter>(
   typeof window === 'undefined' ? getURL() : window.location.origin,
 )[''].api;
+export const hono_api = hc<HonoRouter>(
+  typeof window === 'undefined' ? getURL() : window.location.origin,
+);
 
 /**
  * Singleton instance of QueryClient to ensure consistent caching across the application.

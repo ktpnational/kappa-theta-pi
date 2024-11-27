@@ -10,7 +10,6 @@ datasource db {
   schemas   = ["public", "next_auth"]
 }
 
-// NextAuth.js Models (next_auth schema)
 model User {
   id                      String                 @id @default(uuid())
   name                    String?
@@ -107,7 +106,6 @@ model TwoFactorConfirmation {
   @@schema("next_auth")
 }
 
-// Application Models (public schema)
 model Profile {
   id        String   @id @default(uuid())
   userId    String   @unique
@@ -119,7 +117,6 @@ model Profile {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  // Related entities
   address Address?
   member  Member?
   company Company?

@@ -2,36 +2,50 @@
 
 import { ClientError, Loader } from '@/components';
 import { fetcher } from '@/lib';
-import { client_api } from '@/providers/core/server/react';
+import { elysia_api } from '@/providers/core/server/react';
 import { catchError, parseCodePath } from '@/utils';
-import { useSuspenseQuery } from '@tanstack/react-query';
-import type React from 'react';
+import {
+  type QueryOptions,
+  type UseSuspenseQueryOptions,
+  useSuspenseQuery,
+} from '@tanstack/react-query';
+import type { QueryKey } from '@tanstack/react-query';
+import type { Method } from 'axios';
+import React from 'react';
 import { Suspense } from 'react';
 
 /**
- * Type representing valid API method names from the client_api object
- * @typedef {keyof typeof client_api} ApiMethod
+ * Type representing valid API method names from the elysia_api object.
+ * These methods are used to make API calls to Elysia endpoints.
+ *
+ * @typedef {keyof typeof elysia_api} ElysiaApiMethod
+ * @category Types
  */
-type ApiMethod = keyof typeof client_api;
-
+type ElysiaApiMethod = keyof typeof elysia_api;
 /**
- * Configuration options for fetch requests
+ * Configuration options for fetch requests.
+ * Used to customize the HTTP request behavior.
+ *
  * @typedef {Object} FetchConfig
- * @property {Request['method']} [method] - HTTP method to use for the request
+ * @property {Request['method']} [method] - HTTP method to use for the request (GET, POST, PUT, etc.)
  * @property {Record<string, string>} [headers] - Custom headers to include with the request
+ * @category Types
  */
 type FetchConfig = {
-  method?: Request['method'];
+  method?: Uppercase<Method>;
   headers?: Record<string, string>;
 };
 
 /**
- * Structure of a successful fetch response
+ * Structure of a successful fetch response.
+ * Represents the standardized format for API responses.
+ *
  * @typedef {Object} FetchResponse
- * @template T - Type of the response data
- * @property {number} status - HTTP status code
- * @property {string} statusText - HTTP status message
- * @property {T} data - Response payload
+ * @template T - Type of the response data payload
+ * @property {number} status - HTTP status code (e.g., 200, 201, etc.)
+ * @property {string} statusText - HTTP status message (e.g., "OK", "Created")
+ * @property {T} data - Response payload of type T
+ * @category Types
  */
 type FetchResponse<T> = {
   status: number;
@@ -40,55 +54,86 @@ type FetchResponse<T> = {
 };
 
 /**
- * Props specific to Elysia API endpoints
+ * Props specific to Elysia API endpoints.
+ * Used when making requests to Elysia backend services.
+ *
  * @typedef {Object} ElysiaProp
- * @property {'elysia'} type - Identifier for Elysia endpoint type
- * @property {ApiMethod} apiPath - Path to the Elysia API method
+ * @property {'elysia'} type - Identifier specifying this is an Elysia endpoint
+ * @property {ElysiaApiMethod} apiPath - Path to the Elysia API method in elysia_api
+ * @category Props
  */
 type ElysiaProp = {
   type: 'elysia';
-  apiPath: ApiMethod;
+  apiPath: ElysiaApiMethod;
 };
 
 /**
- * Props specific to NextJS API endpoints
+ * Props specific to NextJS API endpoints.
+ * Used when making requests to NextJS API routes.
+ *
  * @typedef {Object} NextJSProp
- * @property {'nextjs'} type - Identifier for NextJS endpoint type
- * @property {string} url - URL of the NextJS API endpoint
- * @property {FetchConfig} [config] - Optional fetch configuration
+ * @property {'nextjs'} type - Identifier specifying this is a NextJS endpoint
+ * @property {string} [url] - URL of a single NextJS API endpoint
+ * @property {string[]} [urls] - Array of URLs for batch requests to NextJS API endpoints
+ * @property {FetchConfig} [config] - Optional fetch configuration for the request
+ * @category Props
  */
 type NextJSProp = {
   type: 'nextjs';
-  url: string;
+  url?: string;
+  urls?: string[];
   config?: FetchConfig;
 };
 
 /**
- * Props for the DataLoader component
+ * Props for the DataLoader component.
+ * Combines common props with either Elysia or NextJS specific props.
+ *
  * @typedef {Object} DataLoaderProps
  * @template T - Type of the data being loaded
- * @property {(data: T) => React.ReactNode} children - Render function that receives the loaded data
- * @property {Record<string, unknown> | { id: string | number }} [params] - Optional query parameters or ID object
- * @property {ElysiaProp | NextJSProp} props - API endpoint configuration (either Elysia or NextJS)
+ * @property {(data: T) => React.ReactNode} children - Render function that receives and renders the loaded data
+ * @property {Record<string, unknown> | { id: string | number }} [params] - Query parameters or ID object for the request
+ * @property {QueryOptions} [queryOptions] - Additional options for React Query
+ * @property {React.ReactNode} [LoadingComponent] - Component to show during loading state
+ * @property {React.ComponentType<{ error: Error }> | React.ReactElement} [ErrorComponent] - Component to render errors
+ * @property {number} [waitForAll] - Number of parallel requests to wait for when using multiple URLs
+ * @category Props
  */
 type DataLoaderProps<T> = {
   children: (data: T) => React.ReactNode;
   params?: Record<string, unknown> | { id: string | number };
+  queryOptions?: QueryOptions;
+  LoadingComponent?: React.ReactNode;
+  ErrorComponent?: React.ComponentType<{ error: Error }> | React.ReactElement;
+  waitForAll?: number;
 } & (ElysiaProp | NextJSProp);
 
 /**
  * A versatile data loading component that supports both Elysia and NextJS API endpoints.
- * Handles data fetching, loading states, and error handling with React Suspense.
+ * Provides a unified interface for data fetching with built-in loading states, error handling,
+ * and React Suspense integration.
+ *
+ * Features:
+ * - Supports both Elysia and NextJS API endpoints
+ * - Handles single and multiple URL requests
+ * - Built-in loading and error states
+ * - Type-safe data fetching
+ * - Configurable caching and refetching
+ * - Parallel request support with waitForAll option
  *
  * @template T - Type of the data being loaded
  * @component
  * @param {DataLoaderProps<T>} props - Component props
  * @param {(data: T) => React.ReactNode} props.children - Render function that receives the loaded data
- * @param {Record<string, unknown> | { id: string | number }} [props.params] - Optional query parameters or ID object
+ * @param {Record<string, unknown> | { id: string | number }} [props.params] - Query parameters or ID object
+ * @param {QueryOptions} [props.queryOptions] - Additional React Query options
+ * @param {React.ReactNode} [props.LoadingComponent=<Loader />] - Custom loading component
+ * @param {React.ComponentType<{ error: Error }> | React.ReactElement} [props.ErrorComponent=ClientError] - Custom error component
+ * @param {number} [props.waitForAll] - Number of parallel requests to wait for
  * @param {ElysiaProp | NextJSProp} props.type - API endpoint configuration
  *
  * @example
- * // Using with Elysia endpoint
+ * // Using with Elysia endpoint for user data
  * <DataLoader<UserData>
  *   type="elysia"
  *   apiPath="users.getById"
@@ -98,23 +143,87 @@ type DataLoaderProps<T> = {
  * </DataLoader>
  *
  * @example
- * // Using with NextJS endpoint
+ * // Using with NextJS endpoint for product data with custom loading
  * <DataLoader<ProductData>
  *   type="nextjs"
  *   url="/api/products"
  *   params={{ category: "electronics" }}
+ *   LoadingComponent={<CustomSpinner />}
  * >
  *   {(data) => <ProductList products={data} />}
  * </DataLoader>
  *
+ * @example
+ * // Using with multiple URLs and waiting for specific number of responses
+ * <DataLoader<ProductData[]>
+ *   type="nextjs"
+ *   urls={['/api/products/featured', '/api/products/new', '/api/products/sale']}
+ *   waitForAll={2}
+ * >
+ *   {(data) => <ProductGrid products={data} />}
+ * </DataLoader>
+ *
  * @returns {JSX.Element} Rendered component with loading, error, or data states
+ * @category Components
  */
-export const DataLoader = <T,>({ children, params, ...props }: DataLoaderProps<T>) => {
-  const { data, error } = useSuspenseQuery<T, Error>({
-    queryKey: [props.type === 'elysia' ? props.apiPath : props.url, params],
-    queryFn: async () => {
+export const DataLoader = <T,>({
+  children,
+  params,
+  queryOptions,
+  LoadingComponent = <Loader />,
+  ErrorComponent = ClientError,
+  waitForAll,
+  ...props
+}: DataLoaderProps<T>): React.ReactElement => {
+  if (props.type === 'nextjs' && props.urls) {
+    const { data, error } = useSuspenseQuery<T[]>({
+      queryKey: queryOptions?.queryKey ?? ['multiple-urls', props.urls, params],
+      queryFn: async (): Promise<T[]> => {
+        const requests = props.urls!.map(async (url) => {
+          const searchParams = params
+            ? `?${new URLSearchParams(params as Record<string, string>)}`
+            : '';
+          const fullUrl = `${url}${searchParams}`;
+
+          const [fetchError, response] = await catchError(
+            fetcher<FetchResponse<T>>(fullUrl, props.config?.method, props.config).then((res) => {
+              if (!res.status.toString().startsWith('2')) {
+                throw new Error(
+                  `${res.statusText} at DataLoader ${parseCodePath(fullUrl, fetcher)}`,
+                );
+              }
+              return res.data;
+            }),
+          );
+
+          if (fetchError) throw fetchError;
+          return response;
+        });
+
+        if (waitForAll) return await Promise.all(requests.slice(0, waitForAll));
+        return await Promise.all(requests);
+      },
+      ...queryOptions,
+      staleTime: 1000 * 60 * 5,
+      refetchInterval: 1000 * 60 * 5,
+    } as UseSuspenseQueryOptions<T[], Error, T[], QueryKey>);
+
+    return (
+      <Suspense fallback={LoadingComponent}>
+        {error && renderError(ErrorComponent, error)}
+        {children(data as T)}
+      </Suspense>
+    );
+  }
+
+  const { data, error } = useSuspenseQuery<T>({
+    queryKey: queryOptions?.queryKey ?? [
+      props.type === 'elysia' ? props.apiPath : props.url,
+      params,
+    ],
+    queryFn: async (): Promise<T> => {
       if (props.type === 'elysia') {
-        const apiMethod = client_api[props.apiPath as ApiMethod];
+        const apiMethod = elysia_api[props.apiPath as ElysiaApiMethod];
 
         const [fetchError, response] = await catchError(
           typeof apiMethod === 'function'
@@ -130,7 +239,7 @@ export const DataLoader = <T,>({ children, params, ...props }: DataLoaderProps<T
         const fullUrl = `${props.url}${searchParams}`;
 
         const [fetchError, response] = await catchError(
-          fetcher<FetchResponse<T>>(fullUrl, props.config).then((res) => {
+          fetcher<FetchResponse<T>>(fullUrl, props.config?.method, props.config).then((res) => {
             if (!res.status.toString().startsWith('2')) {
               throw new Error(`${res.statusText} at DataLoader ${parseCodePath(fullUrl, fetcher)}`);
             }
@@ -142,13 +251,14 @@ export const DataLoader = <T,>({ children, params, ...props }: DataLoaderProps<T
         return response;
       }
     },
+    ...queryOptions,
     staleTime: 1000 * 60 * 5,
     refetchInterval: 1000 * 60 * 5,
-  });
+  } as UseSuspenseQueryOptions<T, Error, T, QueryKey>);
 
   return (
-    <Suspense fallback={<Loader />}>
-      {error && <ClientError error={error} />}
+    <Suspense fallback={LoadingComponent}>
+      {error && renderError(ErrorComponent, error)}
       {children(data as T)}
     </Suspense>
   );
@@ -156,3 +266,25 @@ export const DataLoader = <T,>({ children, params, ...props }: DataLoaderProps<T
 
 DataLoader.displayName = 'DataLoader';
 export default DataLoader;
+
+/**
+ * Helper function to render error components consistently.
+ * Handles both React elements and component types for error display.
+ *
+ * @param {React.ComponentType<{ error: Error }> | React.ReactElement} ErrorComponent - Component to render the error
+ * @param {Error} error - Error object to display
+ * @returns {React.ReactElement} Rendered error component
+ * @private
+ */
+const renderError = (
+  ErrorComponent: React.ComponentType<{ error: Error }> | React.ReactElement,
+  error: Error,
+): React.ReactElement => {
+  if (React.isValidElement(ErrorComponent)) {
+    return React.cloneElement(ErrorComponent as React.ReactElement<{ error: Error }>, {
+      error,
+    });
+  }
+  const Component = ErrorComponent as React.ComponentType<{ error: Error }>;
+  return <Component error={error} />;
+};

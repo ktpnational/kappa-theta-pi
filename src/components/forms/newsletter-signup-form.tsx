@@ -2,7 +2,7 @@
 
 import { subscribeToNewsletter } from '@/actions/newsletter';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'motion/react';
 import * as React from 'react';
 import { useForm } from 'react-hook-form';
 

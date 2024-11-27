@@ -1,10 +1,9 @@
 'use server';
 
-import bcrypt from 'bcryptjs';
 import type * as z from 'zod';
 
 import { getUserByEmail } from '@/data';
-import { db, generateVerificationToken, sendVerificationEmail } from '@/lib';
+import { db, generateVerificationToken, hashPassword, sendVerificationEmail } from '@/lib';
 import { RegisterSchema } from '@/schemas';
 
 /**
@@ -76,24 +75,30 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
   }
 
   const { email, name, password } = validatedFields.data;
-  const hashedPassword = await bcrypt.hash(password, 10);
 
-  const existingUser = await getUserByEmail(email);
+  try {
+    const hashedPassword = await hashPassword(password);
 
-  if (existingUser) {
-    return { error: 'Email already in use!' };
+    const existingUser = await getUserByEmail(email);
+
+    if (existingUser) {
+      return { error: 'Email already in use!' };
+    }
+
+    await db.user.create({
+      data: {
+        name,
+        email,
+        password: hashedPassword,
+      },
+    });
+
+    const verificationToken = await generateVerificationToken(email);
+    await sendVerificationEmail(verificationToken.email, verificationToken.token);
+
+    return { success: 'Confirmation email sent!' };
+  } catch (error) {
+    console.error('Registration error:', error);
+    return { error: 'Error during registration!' };
   }
-
-  await db.user.create({
-    data: {
-      name,
-      email,
-      password: hashedPassword,
-    },
-  });
-
-  const verificationToken = await generateVerificationToken(email);
-  await sendVerificationEmail(verificationToken.email, verificationToken.token);
-
-  return { sucess: 'Confirmation email sent!' };
 };
