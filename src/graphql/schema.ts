@@ -188,6 +188,47 @@ export const typeDefs = gql`
       status: String
     ): Event!
   }
+
+  """
+  Address type representing a physical address
+  """
+  type Address {
+    id: ID!
+    street: String!
+    city: String!
+    state: String!
+    zipCode: String!
+  }
+
+  """
+  Member type representing a member of a company
+  """
+  type Member {
+    id: ID!
+    name: String!
+    email: String!
+    address: Address
+  }
+
+  """
+  Company type representing a company
+  """
+  type Company {
+    id: ID!
+    name: String!
+    address: Address
+    members: [Member!]
+  }
+
+  """
+  Resource type representing a resource
+  """
+  type Resource {
+    id: ID!
+    title: String!
+    description: String
+    url: String
+  }
 `;
 
 export default typeDefs;

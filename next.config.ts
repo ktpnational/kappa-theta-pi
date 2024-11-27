@@ -39,6 +39,7 @@ const nextConfig: NextConfig = {
       allowedOrigins: ['localhost:3000', process.env.NEXT_PUBLIC_APP_URL || ''],
       bodySizeLimit: '2mb',
     },
+    typedRoutes: true,
   },
   async headers() {
     return [
