@@ -5,6 +5,9 @@
  */
 import { elysiaRouter } from '@/server';
 
+export const dynamic = 'force-dynamic';
+
+
 /**
  * Create a unified request handler from the application router that processes
  * incoming HTTP requests and executes the appropriate route handler based on
