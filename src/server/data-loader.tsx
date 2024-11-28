@@ -227,7 +227,7 @@ export const DataLoader = <T,>({
 
         const [fetchError, response] = await catchError(
           typeof apiMethod === 'function'
-            ? Promise.resolve(apiMethod(params as Extract<typeof params, { id: string | number }>))
+            ? Promise.resolve((apiMethod as (...args: any[]) => any)(params))
             : Promise.reject(new Error('Invalid API method')),
         );
         if (fetchError) throw fetchError;
