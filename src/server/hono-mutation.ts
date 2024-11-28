@@ -5,7 +5,7 @@ import { catchError } from '@/utils';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import type { InferRequestType, InferResponseType } from 'hono';
 import { useRouter } from 'next/navigation';
-import { toast } from 'sonner'; 
+import { toast } from 'sonner';
 
 /**
  * Configuration options for RPC mutation hook
@@ -63,7 +63,7 @@ type MutationOptions<TRoute extends keyof typeof hono_api> = {
  * });
  * ```
  */
-export const useRpcMutation = <TRoute extends keyof typeof hono_api.api>({
+export const useRpcMutation = <TRoute extends keyof typeof hono_api.api.client>({
   route,
   method,
   successMessage = 'Operation successful',
@@ -75,16 +75,16 @@ export const useRpcMutation = <TRoute extends keyof typeof hono_api.api>({
   const router = useRouter();
 
   type ResponseType = InferResponseType<
-    (typeof hono_api.api)[TRoute][keyof (typeof hono_api.api)[TRoute]]
+    (typeof hono_api.api.client)[TRoute][keyof (typeof hono_api.api.client)[TRoute]]
   >;
   type RequestType = InferRequestType<
-    (typeof hono_api.api)[TRoute][keyof (typeof hono_api.api)[TRoute]]
+    (typeof hono_api.api.client)[TRoute][keyof (typeof hono_api.api.client)[TRoute]]
   >;
 
   const mutation = useMutation<ResponseType, Error, { json: RequestType }>({
     mutationFn: async ({ json }) => {
       // @ts-ignore - Dynamic route and method handling
-      const [error, response] = await catchError(hono_api.api[route][method]({ json }));
+      const [error, response] = await catchError(hono_api.api.client[route][method]({ json }));
 
       if (error) {
         errorMessage = error.message;
