@@ -23,7 +23,7 @@ import { createQueryClient } from '.';
  */
 export const elysia_api = treaty<ElysiaRouter>(
   typeof window === 'undefined' ? getURL() : window.location.origin,
-)['api']['v1'];
+).api.v1;
 export const hono_api = hc<HonoRouter>(
   typeof window === 'undefined' ? getURL() : window.location.origin,
 );

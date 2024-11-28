@@ -171,7 +171,7 @@ const rsvpSchema = t.Object({
  * API router with rate limiting and authentication
  * @type {import('elysia').Elysia}
  */
-export const elysia_api = createElysia({ prefix: '/' })
+export const elysiaApi = createElysia({ prefix: '/' })
   .use(
     rateLimit({
       duration: 60000,
@@ -857,5 +857,3 @@ export const elysia_api = createElysia({ prefix: '/' })
     },
     { body: rsvpSchema },
   );
-
-export default elysia_api;

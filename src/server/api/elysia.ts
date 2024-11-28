@@ -92,3 +92,11 @@ export const createElysia = <P extends string, S extends boolean>(options?: Elys
     .use(createContext)
     .use(timmingMiddleware)
     // .use(apolloMiddleware);
+    .onError(({ code, error, set }) => {
+      console.error(`[Elysia Error] ${code}:`, error);
+      set.status = code === 'NOT_FOUND' ? 404 : 500;
+      return {
+        error: error.message,
+        status: set.status,
+      };
+    });

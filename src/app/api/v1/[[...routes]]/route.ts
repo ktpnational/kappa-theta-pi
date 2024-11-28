@@ -20,3 +20,4 @@ export const GET = elysiaRouter.handle;
 export const POST = elysiaRouter.handle;
 export const PUT = elysiaRouter.handle;
 export const DELETE = elysiaRouter.handle;
+export const PATCH = elysiaRouter.handle;
