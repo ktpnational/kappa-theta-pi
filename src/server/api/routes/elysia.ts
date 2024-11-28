@@ -171,7 +171,7 @@ const rsvpSchema = t.Object({
  * API router with rate limiting and authentication
  * @type {import('elysia').Elysia}
  */
-export const elysia_api = createElysia({ prefix: '/api' })
+export const elysia_api = createElysia({ prefix: '/' })
   .use(
     rateLimit({
       duration: 60000,
@@ -179,14 +179,14 @@ export const elysia_api = createElysia({ prefix: '/api' })
       headers: true,
       scoping: 'scoped',
       countFailedRequest: true,
-      skip: (req) => {
-        const path = new URL(req.url).pathname;
-        return (
-          path.startsWith('/api/metrics') ||
-          path.startsWith('/api/health') ||
-          path.startsWith('/api/og')
-        );
-      },
+      // skip: (req) => {
+      //   const path = new URL(req.url).pathname;
+      //   return (
+      //     path.startsWith('/api/metrics') ||
+      //     path.startsWith('/api/health') ||
+      //     path.startsWith('/api/og')
+      //   );
+      // },
       errorResponse: new Response(
         JSON.stringify({
           error: 'Too many requests',

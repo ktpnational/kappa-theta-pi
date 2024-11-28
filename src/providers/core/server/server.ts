@@ -19,4 +19,4 @@ import { treaty } from '@elysiajs/eden';
  *
  * @returns A type-safe API client instance with endpoints matching the app router structure
  */
-export const elysia_server_api = treaty(elysiaRouter)[''].api;
+export const elysia_server_api = treaty(elysiaRouter)['api']['v1'];
