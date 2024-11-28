@@ -26,7 +26,7 @@ import { createElysia, createHono } from '.';
  * 'http://your-domain.com/api/users' or similar.
  */
 export const elysiaRouter = createElysia({ prefix: '/' }).use(elysia_api).compile();
-export const honoRouter = createHono({ strict: false }).route('/api', hono_api);
+export const honoRouter = createHono({ strict: false }).route('/api/client', hono_api);
 /**
  * Type definition for the application router.
  * Represents the complete type structure of the compiled router including all its routes,
