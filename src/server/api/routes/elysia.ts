@@ -1,6 +1,6 @@
 import { handleEden } from '@/utils';
 import type { EdenFetchError } from 'custom';
-import { t } from 'elysia';
+import Elysia, { t } from 'elysia';
 import { createElysia } from '../elysia';
 
 /**
@@ -170,7 +170,7 @@ const rsvpSchema = t.Object({
  * API router with rate limiting and authentication
  * @type {import('elysia').Elysia}
  */
-export const elysiaApi = createElysia({ prefix: '/' })
+export const elysiaApi = new Elysia()
   // Members
   /**
    * Searches for members based on query parameters
