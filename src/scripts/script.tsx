@@ -204,7 +204,7 @@ export function Scripts() {
       },
     ],
   };
-
+  console.log(Redacted.make(process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY).getValue());
   return (
     <>
       <Script
@@ -221,7 +221,7 @@ export function Scripts() {
         strategy="beforeInteractive"
         src={`https://maps.googleapis.com/maps/api/js?key=${Redacted.make(
           process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
-        )}&libraries=maps,marker&v=beta&callback=Function.prototype`}
+        ).getValue()}&libraries=maps,marker&v=beta&callback=Function.prototype`}
         id="google-maps"
       />
 

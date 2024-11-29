@@ -32,6 +32,9 @@ const nextConfig: NextConfig = {
       { protocol: 'https', hostname: 'res.cloudinary.com' },
       { protocol: 'https', hostname: 'maps.googleapis.com' },
       { protocol: 'https', hostname: 'cdn.magicui.design' },
+      { protocol: 'https', hostname: 'www.googletagmanager.com' },
+      { protocol: 'https', hostname: 'va.vercel-scripts.com' },
+      { protocol: 'https', hostname: 'www.gstatic.com' },
       { protocol: 'https', hostname: 'pagead2.googlesyndication.com' },
     ],
   },
@@ -49,30 +52,8 @@ const nextConfig: NextConfig = {
         source: '/:path*',
         headers: [
           {
-            key: 'Content-Security-Policy',
-            value: [
-              "default-src 'self' 'unsafe-inline' 'unsafe-eval'",
-              "script-src 'self' 'unsafe-inline' 'unsafe-eval' *",
-              "connect-src 'self' *",
-              "img-src 'self' data: blob: *",
-              "style-src 'self' 'unsafe-inline' *",
-              "font-src 'self' data: *",
-              "frame-src 'self' *",
-              "worker-src 'self' blob:",
-              "manifest-src 'self'",
-            ].join('; '),
-          },
-          {
             key: 'X-Content-Type-Options',
             value: 'nosniff',
-          },
-          {
-            key: 'X-Frame-Options',
-            value: 'DENY',
-          },
-          {
-            key: 'X-XSS-Protection',
-            value: '1; mode=block',
           },
           {
             key: 'Referrer-Policy',
@@ -132,6 +113,25 @@ const nextConfig: NextConfig = {
 
     return config;
   },
+  async rewrites() {
+    return {
+      beforeFiles: [
+        {
+          source: '/api/:path*',
+          destination: '/api/:path*',
+          has: [
+            {
+              type: 'header',
+              key: 'x-skip-error-handling',
+              value: '(?<skip>.*)',
+            },
+          ],
+        },
+      ],
+      afterFiles: [],
+      fallback: [],
+    };
+  },
 };
 
 const millionConfig = MillionLint.next({
@@ -169,6 +169,12 @@ const sentryConfig: SentryBuildOptions = {
   automaticVercelMonitors: true,
   reactComponentAnnotation: {
     enabled: true,
+  },
+  bundleSizeOptimizations: {
+    excludeDebugStatements: true,
+    excludeReplayShadowDom: true,
+    excludeReplayIframe: true,
+    excludeReplayWorker: true,
   },
 };
 

@@ -1,24 +1,54 @@
 export class Redacted<T = string> {
-  private constructor(private readonly _value: T) {}
-  public static make<T>(value: T) {
-    if (!value) {
-      throw new Error('Value is required');
+  private readonly _value: T;
+  private static readonly REDACTED_MARKER = '[REDACTED]';
+
+  private constructor(value: T) {
+    this.validateValue(value);
+    this._value = value;
+  }
+
+  private validateValue(value: T): void {
+    if (value === null || value === undefined) {
+      throw new Error('Value cannot be null or undefined');
     }
+  }
+
+  public static make<T>(value: T): Redacted<T> {
     return new Redacted(value);
   }
-  public static value<T>(redacted: Redacted<T>): T {
-    return redacted._value;
+
+  public getValue(): T {
+    return this._value;
   }
-  toString(): string {
-    return `<redacted>`;
+
+  public toString(): string {
+    return Redacted.REDACTED_MARKER;
   }
-  toJSON(): string {
-    return `<redacted>`;
+
+  public toJSON(): string {
+    return Redacted.REDACTED_MARKER;
   }
+
   [Symbol.for('nodejs.util.inspect.custom')](): string {
-    return `<redacted>`;
+    return Redacted.REDACTED_MARKER;
   }
-  inspect(): string {
-    return `<redacted>`;
+
+  public inspect(): string {
+    return Redacted.REDACTED_MARKER;
+  }
+
+  public equals(other: Redacted<T>): boolean {
+    if (!(other instanceof Redacted)) {
+      return false;
+    }
+    return this._value === other._value;
+  }
+
+  public static isRedacted<T>(value: unknown): value is Redacted<T> {
+    return value instanceof Redacted;
+  }
+
+  public valueOf(): T {
+    return this._value;
   }
 }
