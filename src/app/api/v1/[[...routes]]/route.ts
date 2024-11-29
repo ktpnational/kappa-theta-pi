@@ -14,15 +14,16 @@ const createContext = new Elysia()
 
 // Create timing middleware
 const timingMiddleware = new Elysia()
-  .state({ start: 0 })
-  .onBeforeHandle(({ store }) => (store.start = Date.now()))
-  .onAfterHandle(({ path, store: { start } }) =>
-    console.log(`[Elysia] ${path} took ${Date.now() - start}ms to execute`),
-  )
-  .as('plugin');
+.state({ start: 0 })
+.onBeforeHandle(({ store }) => (store.start = Date.now()))
+.onAfterHandle(({ path, store: { start } }) =>
+  console.log(`[Elysia] ${path} took ${Date.now() - start}ms to execute`),
+)
+.as('plugin');
 
 // Create base app with all middleware and error handling
 const app = new Elysia({ prefix: '/api/v1' })
+  .use(elysiaApi)
   .use(createContext)
   .use(timingMiddleware)
   .use(
@@ -49,7 +50,6 @@ const app = new Elysia({ prefix: '/api/v1' })
       status: set.status,
     };
   })
-  .use(elysiaApi)
 
 // Export handlers
 export const GET = app.handle;
