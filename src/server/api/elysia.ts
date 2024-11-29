@@ -117,14 +117,6 @@ export const createElysia = <P extends string, S extends boolean>(options?: Elys
       headers: true,
       scoping: 'scoped',
       countFailedRequest: true,
-      // skip: (req) => {
-      //   const path = new URL(req.url).pathname;
-      //   return (
-      //     path.startsWith('/api/metrics') ||
-      //     path.startsWith('/api/health') ||
-      //     path.startsWith('/api/og')
-      //   );
-      // },
       errorResponse: new Response(
         JSON.stringify({
           error: 'Too many requests',
