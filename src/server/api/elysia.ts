@@ -3,6 +3,7 @@ import { typeDefs } from '@/graphql';
 import { resolvers } from '@/graphql/resolvers';
 import { db } from '@/lib';
 import { apollo } from '@elysiajs/apollo';
+import { rateLimit } from 'elysia-rate-limit';
 /**
  * Core server configuration file for the Elysia backend API.
  * This file handles the setup of contexts, middleware, and server initialization.
@@ -84,14 +85,23 @@ const apolloMiddleware = apollo({
  * @typeparam S - Schema boolean flag
  * @returns {Elysia} Fully configured Elysia server instance
  */
-export const createElysia = <P extends string, S extends boolean>(options?: ElysiaConfig<P, S>) =>
-  new Elysia({
+
+const initializeApi = <P extends string, S extends boolean>(
+  options?: ElysiaConfig<P, S>
+) => {
+  const app = new Elysia({
     ...options,
     aot: true,
-  })
+  });
+
+  return app;
+};
+
+export const createElysia = <P extends string, S extends boolean>(options?: ElysiaConfig<P, S>) => {
+  const app = initializeApi(options)
+  return app
     .use(createContext)
     .use(timmingMiddleware)
-    // .use(apolloMiddleware);
     .onError(({ code, error, set }) => {
       console.error(`[Elysia Error] ${code}:`, error);
       set.status = code === 'NOT_FOUND' ? 404 : 500;
@@ -99,4 +109,30 @@ export const createElysia = <P extends string, S extends boolean>(options?: Elys
         error: error.message,
         status: set.status,
       };
-    });
+    })
+    .use(
+      rateLimit({
+        duration: 60000,
+      max: 100,
+      headers: true,
+      scoping: 'scoped',
+      countFailedRequest: true,
+      // skip: (req) => {
+      //   const path = new URL(req.url).pathname;
+      //   return (
+      //     path.startsWith('/api/metrics') ||
+      //     path.startsWith('/api/health') ||
+      //     path.startsWith('/api/og')
+      //   );
+      // },
+      errorResponse: new Response(
+        JSON.stringify({
+          error: 'Too many requests',
+          status: 429,
+        }),
+        { status: 429 },
+      ),
+    })
+  )
+// .use(apolloMiddleware);
+};

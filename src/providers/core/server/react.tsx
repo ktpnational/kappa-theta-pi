@@ -1,8 +1,9 @@
 'use client';
 
-import type { ElysiaRouter, HonoRouter } from '@/server/api/root';
+import type { HonoRouter } from '@/server/api/root';
+import type { App } from '@/app/api/v1/[[...routes]]/route';
 import { getURL } from '@/utils';
-import { treaty } from '@elysiajs/eden';
+import { edenFetch } from '@elysiajs/eden';
 import { hc } from 'hono/client';
 
 import type { QueryClient } from '@tanstack/react-query';
@@ -19,11 +20,11 @@ import { createQueryClient } from '.';
  * - In server-side context (window undefined): Uses getURL()
  * - In client-side context: Uses the current window.location.origin
  *
- * @type {elysiaRouter} - The typed API router instance
+ * @type {App} - The typed API router instance
  */
-export const elysia_api = treaty<ElysiaRouter>(
+export const elysia_api = edenFetch<App>(
   typeof window === 'undefined' ? getURL() : window.location.origin,
-).api.v1;
+);
 export const hono_api = hc<HonoRouter>(
   typeof window === 'undefined' ? getURL() : window.location.origin,
 );

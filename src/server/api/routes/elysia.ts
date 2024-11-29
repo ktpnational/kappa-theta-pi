@@ -1,7 +1,6 @@
 import { handleEden } from '@/utils';
 import type { EdenFetchError } from 'custom';
 import { t } from 'elysia';
-import { rateLimit } from 'elysia-rate-limit';
 import { createElysia } from '../elysia';
 
 /**
@@ -172,31 +171,6 @@ const rsvpSchema = t.Object({
  * @type {import('elysia').Elysia}
  */
 export const elysiaApi = createElysia({ prefix: '/' })
-  .use(
-    rateLimit({
-      duration: 60000,
-      max: 100,
-      headers: true,
-      scoping: 'scoped',
-      countFailedRequest: true,
-      // skip: (req) => {
-      //   const path = new URL(req.url).pathname;
-      //   return (
-      //     path.startsWith('/api/metrics') ||
-      //     path.startsWith('/api/health') ||
-      //     path.startsWith('/api/og')
-      //   );
-      // },
-      errorResponse: new Response(
-        JSON.stringify({
-          error: 'Too many requests',
-          status: 429,
-        }),
-        { status: 429 },
-      ),
-    }),
-  )
-
   // Members
   /**
    * Searches for members based on query parameters
