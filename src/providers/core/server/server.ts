@@ -1,6 +1,7 @@
 import 'server-only';
-import { elysiaRouter } from '@/server/api/root';
-import { treaty } from '@elysiajs/eden';
+import { edenTreaty } from '@elysiajs/eden';
+import { App } from '@/app/api/v1/[[...routes]]/route';
+import { getURL } from '@/utils';
 
 /**
  * Server-side API client instance created using Elysia's Eden treaty pattern.
@@ -19,4 +20,4 @@ import { treaty } from '@elysiajs/eden';
  *
  * @returns A type-safe API client instance with endpoints matching the app router structure
  */
-export const elysia_server_api = treaty(elysiaRouter).api.v1;
+export const elysia_server_api = edenTreaty<App>(getURL());

@@ -1,6 +1,5 @@
-import { elysiaApi } from '@/server/api/routes/elysia';
 import { hono_api } from '@/server/api/routes/hono';
-import { createElysia, createHono } from '.';
+import { createHono } from '.';
 
 /**
  * Creates and compiles the application router with the specified prefix and API routes.
@@ -25,7 +24,6 @@ import { createElysia, createHono } from '.';
  * '/users', it will be accessible at 'http://your-domain.com/users' rather than
  * 'http://your-domain.com/api/users' or similar.
  */
-export const elysiaRouter = createElysia({ prefix: '/api/v1' }).use(elysiaApi).compile();
 export const honoRouter = createHono({ strict: false }).route('/api/client', hono_api);
 /**
  * Type definition for the application router.
@@ -41,5 +39,4 @@ export const honoRouter = createHono({ strict: false }).route('/api/client', hon
  * @property {Object} routes - Contains all registered route handlers
  * @property {Object} middleware - Contains all registered middleware functions
  */
-export type ElysiaRouter = typeof elysiaRouter;
 export type HonoRouter = typeof honoRouter;
