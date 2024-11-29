@@ -3,7 +3,6 @@ import { typeDefs } from '@/graphql';
 import { resolvers } from '@/graphql/resolvers';
 import { db } from '@/lib';
 import { apollo } from '@elysiajs/apollo';
-import { rateLimit } from 'elysia-rate-limit';
 /**
  * Core server configuration file for the Elysia backend API.
  * This file handles the setup of contexts, middleware, and server initialization.
@@ -16,6 +15,7 @@ import { rateLimit } from 'elysia-rate-limit';
  */
 import type { ElysiaConfig } from 'elysia';
 import Elysia from 'elysia';
+import { rateLimit } from 'elysia-rate-limit';
 /**
  * Creates and configures the request context available throughout the API.
  * The context provides access to core services and state needed during request processing.
@@ -86,9 +86,7 @@ const apolloMiddleware = apollo({
  * @returns {Elysia} Fully configured Elysia server instance
  */
 
-const initializeApi = <P extends string, S extends boolean>(
-  options?: ElysiaConfig<P, S>
-) => {
+const initializeApi = <P extends string, S extends boolean>(options?: ElysiaConfig<P, S>) => {
   const app = new Elysia({
     ...options,
     aot: true,
@@ -98,7 +96,7 @@ const initializeApi = <P extends string, S extends boolean>(
 };
 
 export const createElysia = <P extends string, S extends boolean>(options?: ElysiaConfig<P, S>) => {
-  const app = initializeApi(options)
+  const app = initializeApi(options);
   return app
     .use(createContext)
     .use(timmingMiddleware)
@@ -113,18 +111,18 @@ export const createElysia = <P extends string, S extends boolean>(options?: Elys
     .use(
       rateLimit({
         duration: 60000,
-      max: 100,
-      headers: true,
-      scoping: 'scoped',
-      countFailedRequest: true,
-      errorResponse: new Response(
-        JSON.stringify({
-          error: 'Too many requests',
-          status: 429,
-        }),
-        { status: 429 },
-      ),
-    })
-  )
-// .use(apolloMiddleware);
+        max: 100,
+        headers: true,
+        scoping: 'scoped',
+        countFailedRequest: true,
+        errorResponse: new Response(
+          JSON.stringify({
+            error: 'Too many requests',
+            status: 429,
+          }),
+          { status: 429 },
+        ),
+      }),
+    );
+  // .use(apolloMiddleware);
 };

@@ -12,17 +12,6 @@ import {
   navigationMenuTriggerStyle,
   // NavigationMenuViewport,
 } from '@/components/ui/navigation-menu';
-import { cn } from '@/lib/utils';
-import { useGlobalStore } from '@/providers';
-import { ScrollIntoCenterView } from '@/utils';
-import { throttle } from 'lodash';
-import { Menu, X } from 'lucide-react';
-import dynamic from 'next/dynamic';
-import Image from 'next/image';
-import Link from 'next/link';
-import * as React from 'react';
-import { memo, useCallback, useEffect } from 'react';
-
 import {
   type NavItem,
   authLinks,
@@ -31,7 +20,18 @@ import {
   navigationSections,
   utilityLinks,
 } from '@/constants';
+import { handleScrollAtom, isMenuOpenAtom, visibleAtom } from '@/core/atoms';
+import { cn } from '@/lib/utils';
+import { ScrollIntoCenterView } from '@/utils';
+import { useAtom } from 'jotai';
+import { throttle } from 'lodash';
+import { Menu, X } from 'lucide-react';
 import { useSession } from 'next-auth/react';
+import dynamic from 'next/dynamic';
+import Image from 'next/image';
+import Link from 'next/link';
+import * as React from 'react';
+import { memo, useCallback, useEffect } from 'react';
 
 const UserNav = dynamic(() => import('@/components/user-nav').then((mod) => mod.UserNav), {
   loading: () => (
@@ -97,7 +97,7 @@ ListItem.displayName = 'ListItem';
  * @returns {JSX.Element} A styled link for mobile navigation
  */
 const MobileMenuItem = memo<{ item: NavItem }>(({ item }) => {
-  const setIsMenuOpen = useGlobalStore((state) => state.header.setIsMenuOpen);
+  const [, setIsMenuOpen] = useAtom(isMenuOpenAtom);
 
   const handleClick = useCallback(
     (e: React.MouseEvent) => {
@@ -141,24 +141,9 @@ MobileMenuItem.displayName = 'MobileMenuItem';
  */
 export const Header = memo(() => {
   const { data: session, status } = useSession();
-  const { isMenuOpen, setIsMenuOpen, visible, setVisible, prevScrollPos } = useGlobalStore(
-    (state) => state.header,
-  );
-
-  const handleScroll = useCallback(() => {
-    const currentScrollY = window.scrollY;
-
-    if (currentScrollY === 0) {
-      setVisible(true);
-      return;
-    }
-
-    if (currentScrollY < prevScrollPos) {
-      setVisible(true);
-    } else if (currentScrollY > prevScrollPos) {
-      setVisible(false);
-    }
-  }, [prevScrollPos, setVisible]);
+  const [isMenuOpen, setIsMenuOpen] = useAtom(isMenuOpenAtom);
+  const [visible] = useAtom(visibleAtom);
+  const [, handleScroll] = useAtom(handleScrollAtom);
 
   useEffect(() => {
     const throttledScroll = throttle(handleScroll, 100);
@@ -264,7 +249,7 @@ export const Header = memo(() => {
             variant="ghost"
             size="icon"
             className="lg:hidden"
-            onClick={() => setIsMenuOpen((prev) => !prev)}
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             <span className="sr-only">Toggle navigation menu</span>

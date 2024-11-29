@@ -1,5 +1,6 @@
 'use client';
 
+import { Redacted } from '@/classes';
 import Script from 'next/script';
 import { useCallback, useEffect, useRef } from 'react';
 import { flushSync } from 'react-dom';
@@ -218,17 +219,17 @@ export function Scripts() {
       {/* External Scripts */}
       <Script
         strategy="beforeInteractive"
-        src={`https://maps.googleapis.com/maps/api/js?key=${
-          process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
-        }&libraries=maps,marker&v=beta&callback=Function.prototype`}
+        src={`https://maps.googleapis.com/maps/api/js?key=${Redacted.make(
+          process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
+        )}&libraries=maps,marker&v=beta&callback=Function.prototype`}
         id="google-maps"
       />
 
       <Script
         strategy="afterInteractive"
-        src={`https://www.googletagmanager.com/gtag/js?id=${
-          process.env.NEXT_PUBLIC_GA_TRACKING_ID
-        }`}
+        src={`https://www.googletagmanager.com/gtag/js?id=${Redacted.make(
+          process.env.NEXT_PUBLIC_GA_TRACKING_ID,
+        )}`}
         id="google-analytics-script"
       />
 
@@ -240,7 +241,7 @@ export function Scripts() {
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', '${process.env.NEXT_PUBLIC_GA_TRACKING_ID}', {
+            gtag('config', '${Redacted.make(process.env.NEXT_PUBLIC_GA_TRACKING_ID)}', {
               page_path: window.location.pathname,
             });
           `,
@@ -261,7 +262,7 @@ export function Scripts() {
               j.async=true;
               j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
               f.parentNode.insertBefore(j,f);
-            })(window,document,'script','dataLayer','${process.env.NEXT_PUBLIC_GTM_ID}');
+            })(window,document,'script','dataLayer','${Redacted.make(process.env.NEXT_PUBLIC_GTM_ID)}');
           `,
         }}
       />
@@ -269,7 +270,7 @@ export function Scripts() {
       <Script
         async
         strategy="afterInteractive"
-        src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.NEXT_PUBLIC_ADSENSE_ID}`}
+        src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${Redacted.make(process.env.NEXT_PUBLIC_ADSENSE_ID)}`}
         crossOrigin="anonymous"
         id="google-adsense"
       />

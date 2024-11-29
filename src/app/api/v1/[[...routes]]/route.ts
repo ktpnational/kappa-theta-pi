@@ -1,9 +1,9 @@
 import { auth } from '@/auth';
 import { db } from '@/lib';
-import { rateLimit } from 'elysia-rate-limit';
-import { Elysia, t } from 'elysia';
 import { handleEden } from '@/utils';
-import { EdenFetchError } from 'custom';
+import type { EdenFetchError } from 'custom';
+import { Elysia, t } from 'elysia';
+import { rateLimit } from 'elysia-rate-limit';
 
 /**
  * Schema for creating a new member
@@ -870,7 +870,6 @@ const app = new Elysia({ prefix: '/api/v1' })
     },
     { body: rsvpSchema },
   );
-
 
 export const GET = app.handle;
 export const POST = app.handle;

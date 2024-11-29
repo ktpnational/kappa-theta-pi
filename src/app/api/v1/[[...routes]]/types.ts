@@ -1,4 +1,4 @@
-import { t } from "elysia";
+import { t } from 'elysia';
 
 /**
  * Schema for creating a new member
@@ -163,4 +163,14 @@ const rsvpSchema = t.Object({
   status: t.String(),
 });
 
-export type { memberSchema, eventSchema, resourceSchema, chapterSchema, memberUpdateSchema, eventUpdateSchema, resourceUpdateSchema, chapterUpdateSchema, rsvpSchema };
+export type {
+  memberSchema,
+  eventSchema,
+  resourceSchema,
+  chapterSchema,
+  memberUpdateSchema,
+  eventUpdateSchema,
+  resourceUpdateSchema,
+  chapterUpdateSchema,
+  rsvpSchema,
+};

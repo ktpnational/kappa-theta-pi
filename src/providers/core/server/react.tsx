@@ -1,7 +1,7 @@
 'use client';
 
-import type { HonoRouter } from '@/server/api/root';
 import type { App } from '@/app/api/v1/[[...routes]]/route';
+import type { HonoRouter } from '@/server/api/root';
 import { getURL } from '@/utils';
 import { edenFetch } from '@elysiajs/eden';
 import { hc } from 'hono/client';
