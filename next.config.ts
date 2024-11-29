@@ -60,6 +60,15 @@ const nextConfig: NextConfig = {
         source: '/(.*).png',
         headers: [{ key: 'Content-Type', value: 'image/png' }],
       },
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'Content-Security-Policy',
+            value: "default-src 'self'; script-src 'self' 'unsafe-inline'"
+          }
+        ],
+      },
     ];
   },
   // @ts-expect-error - Next.js types are not updated yet

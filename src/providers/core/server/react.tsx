@@ -1,9 +1,8 @@
 'use client';
 
-import type { ElysiaRouter, HonoRouter } from '@/server/api/root';
+import type { ElysiaRouter } from '@/server/api/root';
 import { getURL } from '@/utils';
 import { treaty } from '@elysiajs/eden';
-import { hc } from 'hono/client';
 
 import type { QueryClient } from '@tanstack/react-query';
 import { QueryClientProvider } from '@tanstack/react-query';
@@ -24,9 +23,6 @@ import { createQueryClient } from '.';
 export const elysia_api = treaty<ElysiaRouter>(
   typeof window === 'undefined' ? getURL() : window.location.origin,
 ).api.v1;
-export const hono_api = hc<HonoRouter>(
-  typeof window === 'undefined' ? getURL() : window.location.origin,
-);
 
 /**
  * Singleton instance of QueryClient to ensure consistent caching across the application.

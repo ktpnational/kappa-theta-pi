@@ -133,12 +133,12 @@
     ]
   },
   "dependencies": {
+    "dompurify": "^3.2.1",
     "next": "^15.0.2",
     "react": "^19.0.0-rc-02c0e824-20241028",
     "react-dom": "^19.0.0-rc-02c0e824-20241028"
   },
   "devDependencies": {
-    "motion": "^11.12.0",
     "@antfu/ni": "^0.23.0",
     "@apollo/server": "^4.11.2",
     "@auth/core": "^0.37.3",
@@ -278,6 +278,7 @@
     "graphql": "^16.9.0",
     "graphql-iso-date": "^3.6.1",
     "gzip-size": "^7.0.0",
+    "hono": "^4.6.12",
     "husky": "^9.1.6",
     "ignore-loader": "^0.1.2",
     "input-otp": "^1.4.1",
@@ -294,6 +295,7 @@
     "micromark-util-classify-character": "^2.0.1",
     "million": "^3.1.11",
     "mkdirp": "^3.0.1",
+    "motion": "^11.12.0",
     "next-auth": "^5.0.0-beta.25",
     "next-compose-plugins": "^2.2.1",
     "next-pwa": "^5.6.0",
