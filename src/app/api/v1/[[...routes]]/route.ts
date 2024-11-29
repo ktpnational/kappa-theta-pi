@@ -2,6 +2,7 @@ import { auth } from '@/auth';
 import { db } from '@/lib';
 import { rateLimit } from 'elysia-rate-limit';
 import { Elysia } from 'elysia';
+import { elysiaApi } from '@/server';
 
 // Create context plugin
 const createContext = new Elysia()
@@ -48,9 +49,8 @@ const app = new Elysia({ prefix: '/api/v1' })
       status: set.status,
     };
   })
-  // Add your API routes here
-  .get('/', () => ({ message: 'Hello World' }))
-  
+  .use(elysiaApi)
+
 // Export handlers
 export const GET = app.handle;
 export const POST = app.handle;
