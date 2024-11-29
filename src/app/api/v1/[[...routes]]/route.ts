@@ -4,7 +4,7 @@
  * configuration file.
  */
 import { elysiaRouter } from '@/server';
-
+import { Elysia } from 'elysia';
 /**
  * Export the unified handler to handle different HTTP methods:
  * - GET: For retrieving data
@@ -16,8 +16,10 @@ import { elysiaRouter } from '@/server';
  * requests based on the procedure definitions in the router.
  */
 
-export const GET = elysiaRouter.handle;
-export const POST = elysiaRouter.handle;
-export const PUT = elysiaRouter.handle;
-export const DELETE = elysiaRouter.handle;
-export const PATCH = elysiaRouter.handle;
+const app = new Elysia().use(elysiaRouter).get('/', () => ({ message: 'Hello World' }));
+
+export const GET = app.handle;
+export const POST = app.handle;
+export const PUT = app.handle;
+export const DELETE = app.handle;
+export const PATCH = app.handle;
