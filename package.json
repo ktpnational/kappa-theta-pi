@@ -332,7 +332,7 @@
     "sonner": "^1.7.0",
     "standard-version": "^9.5.0",
     "stylelint": "^16.10.0",
-    "stylelint-config-standard-scss": "^13.1.0",
+    "stylelint-config-standard-scss": "^14.0.0",
     "supabase": "^1.215.0",
     "superjson": "2.2.1",
     "tailwind-merge": "^2.5.4",
