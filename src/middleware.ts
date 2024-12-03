@@ -1,5 +1,5 @@
-import { type CookieOptions, createServerClient } from '@supabase/ssr';
-import { type NextRequest, NextResponse } from 'next/server';
+import { type CookieOptions, createServerClient } from "@supabase/ssr";
+import { type NextRequest, NextResponse } from "next/server";
 
 /**
  * Middleware function to handle authentication and session management for incoming requests.
@@ -60,7 +60,7 @@ export async function middleware(request: NextRequest): Promise<NextResponse> {
         remove(name: string, options: CookieOptions) {
           request.cookies.set({
             name,
-            value: '',
+            value: "",
             ...options,
           });
           response = NextResponse.next({
@@ -70,12 +70,12 @@ export async function middleware(request: NextRequest): Promise<NextResponse> {
           });
           response.cookies.set({
             name,
-            value: '',
+            value: "",
             ...options,
           });
         },
       },
-    },
+    }
   );
 
   await supabase.auth.getUser();
@@ -106,22 +106,24 @@ export async function middleware(request: NextRequest): Promise<NextResponse> {
  */
 function isPublicAsset(request: NextRequest): boolean {
   const publicAssetPaths: string[] = [
-    '/assets/',
-    '/pwa/',
-    '/images/',
-    '/favicon.ico',
-    '/favicon-16x16.png',
-    '/favicon-32x32.png',
-    '/apple-touch-icon.png',
-    '/android-chrome-192x192.png',
-    '/android-chrome-512x512.png',
-    '/robots.txt',
-    '/sitemap.xml',
-    '/manifest.webmanifest',
-    '/sw.js',
+    "/assets/",
+    "/pwa/",
+    "/images/",
+    "/favicon.ico",
+    "/favicon-16x16.png",
+    "/favicon-32x32.png",
+    "/apple-touch-icon.png",
+    "/android-chrome-192x192.png",
+    "/android-chrome-512x512.png",
+    "/robots.txt",
+    "/sitemap.xml",
+    "/manifest.webmanifest",
+    "/sw.js",
   ];
 
-  return publicAssetPaths.some((path) => request.nextUrl.pathname.startsWith(path));
+  return publicAssetPaths.some((path) =>
+    request.nextUrl.pathname.startsWith(path)
+  );
 }
 
 /**
@@ -155,7 +157,10 @@ export const config = {
      * - favicon.ico (favicon file)
      * Feel free to modify this pattern to include more paths.
      */
-    '/((?!_next/static|_next/image|favicon.ico).*)',
+    "/((?!_next/static|_next/image|favicon.ico).*)",
   ],
-  runtime: 'nodejs',
+  runtime: "nodejs",
 };
+
+console.log("Supabase URL:", process.env.NEXT_PUBLIC_SUPABASE_URL);
+console.log("Supabase Key:", process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
