@@ -1,7 +1,7 @@
-import { Provider } from 'jotai';
-import type React from 'react';
+import { Provider } from 'jotai/react';
+import type { ReactNode } from 'react';
 
-type ComponentWithChildren<P = {}> = React.ComponentType<P>;
+type ComponentWithChildren<P = {}> = React.ComponentType<P & { children?: ReactNode }>;
 
 interface JotaiProviderProps<T extends ComponentWithChildren> {
   Component: T;

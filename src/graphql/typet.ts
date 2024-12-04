@@ -1,7 +1,7 @@
 export type Resolver<TResult, TParent = unknown, TArgs = unknown> = (
   parent: TParent,
   args: TArgs,
-  ctx: import('@/server/api/elysia').Context,
+  ctx: import('@/app/api/v1/[[...routes]]/route').App['derive'],
   info: import('graphql').GraphQLResolveInfo,
 ) => Promise<TResult> | TResult;
 

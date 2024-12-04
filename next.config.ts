@@ -45,9 +45,39 @@ const nextConfig: NextConfig = {
       bodySizeLimit: '2mb',
     },
     typedRoutes: false,
+    turbo: {
+      resolveAlias: {
+        '@/*': './src/*'
+      },
+      rules: {
+        '**/*.{ts,tsx}': ['typescript']
+      }
+    },
   },
   async headers() {
     return [
+            {
+        source: '/api/og',
+        headers: [
+          {
+            key: 'Content-Type',
+            value: 'image/png',
+          },
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
+        source: '/_next/static/media/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
       {
         source: '/:path*',
         headers: [
@@ -69,8 +99,11 @@ const nextConfig: NextConfig = {
         source: '/api/:path*',
         headers: [
           { key: 'Access-Control-Allow-Credentials', value: 'true' },
-          { key: 'Access-Control-Allow-Origin', value: '*' },
-          { key: 'Access-Control-Allow-Methods', value: 'GET,DELETE,PATCH,POST,PUT' },
+          {
+            key: 'Access-Control-Allow-Origin',
+            value: process.env.NODE_ENV === 'production' ? 'https://www.kappathetapi.org' : '*',
+          },
+          { key: 'Access-Control-Allow-Methods', value: 'GET,DELETE,PATCH,POST,PUT,OPTIONS' },
           {
             key: 'Access-Control-Allow-Headers',
             value:
@@ -118,7 +151,7 @@ const nextConfig: NextConfig = {
       beforeFiles: [
         {
           source: '/api/:path*',
-          destination: '/api/:path*',
+          destination: '/api/client/:path*',
           has: [
             {
               type: 'header',

@@ -52,6 +52,7 @@
     "**/*.tsx",
     "**/*.cjs",
     "**/*.js",
+    "./src/types/python.d.ts",
     ".next/types/**/*.ts",
     "next.config.mjs",
     "custom.d.ts",

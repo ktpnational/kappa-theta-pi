@@ -1,7 +1,16 @@
-import { catchError } from '@/utils';
+// import { catchError } from '@/utils';
 import type { Chapter, Event, Member, Profile, Resource, User } from '@prisma/client';
 import { GraphQLDateTime } from 'graphql-iso-date';
 import type { ChapterQueryArgs, CreateEventArgs, Resolver, UpdateEventArgs } from './typet';
+
+export const catchError = async <T>(promise: Promise<T>): Promise<[Error | null, T | null]> => {
+  try {
+    const data = await promise;
+    return [null, data];
+  } catch (error) {
+    return [error as Error, null];
+  }
+};
 
 export const resolvers: {
   DateTime: typeof GraphQLDateTime;
@@ -12,12 +21,13 @@ export const resolvers: {
   Event: { [key: string]: Resolver<any> };
 } = {
   DateTime: GraphQLDateTime,
-
   Query: {
-    users: (): Resolver<User[]> => async (_parent, _args, ctx) => {
-      const [error, users] = await catchError(ctx.db.user.findMany());
+    users: (): Resolver<User[]> => async (_parent, _args, ctx): Promise<User[]> => {
+      const [error, users] = await catchError<User[]>(ctx.db.user.findMany());
 
       if (error) throw error;
+
+      if (!users) throw new Error('Users not found');
 
       return users;
     },
@@ -25,7 +35,7 @@ export const resolvers: {
     user:
       (): Resolver<User | null, unknown, { id: string }> =>
       async (_parent, { id }, ctx) => {
-        const [error, user] = await catchError(
+        const [error, user] = await catchError<User | null>(
           ctx.db.user.findUnique({
             where: { id },
           }),
@@ -38,8 +48,8 @@ export const resolvers: {
 
     chapters:
       (): Resolver<Chapter[], unknown, ChapterQueryArgs> =>
-      async (_parent, { status, search }, ctx) => {
-        const [error, chapters] = await catchError(
+      async (_parent, { status, search }, ctx): Promise<Chapter[]> => {
+        const [error, chapters] = await catchError<Chapter[]>(
           ctx.db.chapter.findMany({
             where: {
               AND: [
@@ -56,13 +66,15 @@ export const resolvers: {
 
         if (error) throw error;
 
+        if (!chapters) throw new Error('Chapters not found');
+
         return chapters;
       },
 
     chapter:
       (): Resolver<Chapter | null, unknown, { id: string }> =>
       async (_parent, { id }, ctx) => {
-        const [error, chapter] = await catchError(
+        const [error, chapter] = await catchError<Chapter | null>(
           ctx.db.chapter.findUnique({
             where: { id },
           }),
@@ -73,18 +85,22 @@ export const resolvers: {
         return chapter;
       },
 
-    events: (): Resolver<Event[]> => async (_parent, _args, ctx) => {
-      const [error, events] = await catchError(ctx.db.event.findMany());
+    events:
+      (): Resolver<Event[]> =>
+      async (_parent, _args, ctx): Promise<Event[]> => {
+        const [error, events] = await catchError<Event[]>(ctx.db.event.findMany());
 
-      if (error) throw error;
+        if (error) throw error;
 
-      return events;
-    },
+        if (!events) throw new Error('Events not found');
+
+        return events;
+      },
 
     event:
       (): Resolver<Event | null, unknown, { id: string }> =>
       async (_parent, { id }, ctx) => {
-        const [error, event] = await catchError(
+        const [error, event] = await catchError<Event | null>(
           ctx.db.event.findUnique({
             where: { id },
           }),
@@ -99,8 +115,8 @@ export const resolvers: {
   Mutation: {
     createEvent:
       (): Resolver<Event, unknown, CreateEventArgs> =>
-      async (_parent, { chapterId, ...eventData }, ctx) => {
-        const [error, event] = await catchError(
+      async (_parent, { chapterId, ...eventData }, ctx): Promise<Event> => {
+        const [error, event] = await catchError<Event | null>(
           ctx.db.event.create({
             data: {
               ...eventData,
@@ -110,14 +126,14 @@ export const resolvers: {
         );
 
         if (error) throw error;
-
+        if (!event) throw new Error('Event not created');
         return event;
       },
 
     updateEvent:
       (): Resolver<Event, unknown, UpdateEventArgs> =>
-      async (_parent, { id, ...args }, ctx) => {
-        const [error, event] = await catchError(
+      async (_parent, { id, ...args }, ctx): Promise<Event> => {
+        const [error, event] = await catchError<Event | null>(
           ctx.db.event.update({
             where: { id },
             data: args,
@@ -126,13 +142,15 @@ export const resolvers: {
 
         if (error) throw error;
 
+        if (!event) throw new Error('Event not updated');
+
         return event;
       },
   },
 
   User: {
     profile: (): Resolver<Profile | null, User> => async (parent, _args, ctx) => {
-      const [error, profile] = await catchError(
+      const [error, profile] = await catchError<Profile | null>(
         ctx.db.profile.findUnique({
           where: { userId: parent.id },
         }),
@@ -145,8 +163,8 @@ export const resolvers: {
   },
 
   Chapter: {
-    members: (): Resolver<Member[], Chapter> => async (parent, _args, ctx) => {
-      const [error, members] = await catchError(
+    members: (): Resolver<Member[], Chapter> => async (parent, _args, ctx): Promise<Member[]> => {
+      const [error, members] = await catchError<Member[]>(
         ctx.db.member.findMany({
           where: { chapterId: parent.id },
         }),
@@ -154,11 +172,13 @@ export const resolvers: {
 
       if (error) throw error;
 
+      if (!members) throw new Error('Members not found');
+
       return members;
     },
 
-    events: (): Resolver<Event[], Chapter> => async (parent, _args, ctx) => {
-      const [error, events] = await catchError(
+    events: (): Resolver<Event[], Chapter> => async (parent, _args, ctx): Promise<Event[]> => {
+      const [error, events] = await catchError<Event[]>(
         ctx.db.event.findMany({
           where: { chapterId: parent.id },
         }),
@@ -166,11 +186,13 @@ export const resolvers: {
 
       if (error) throw error;
 
+      if (!events) throw new Error('Events not found');
+
       return events;
     },
 
-    resources: (): Resolver<Resource[], Chapter> => async (parent, _args, ctx) => {
-      const [error, resources] = await catchError(
+    resources: (): Resolver<Resource[], Chapter> => async (parent, _args, ctx): Promise<Resource[]> => {
+      const [error, resources] = await catchError<Resource[]>(
         ctx.db.resource.findMany({
           where: { chapterId: parent.id },
         }),
@@ -178,13 +200,15 @@ export const resolvers: {
 
       if (error) throw error;
 
+      if (!resources) throw new Error('Resources not found');
+
       return resources;
     },
   },
 
   Event: {
-    chapter: (): Resolver<Chapter | null, Event> => async (parent, _args, ctx) => {
-      const [error, chapter] = await catchError(
+    chapter: (): Resolver<Chapter | null, Event> => async (parent, _args, ctx): Promise<Chapter | null> => {
+      const [error, chapter] = await catchError<Chapter | null>(
         ctx.db.chapter.findUnique({
           where: { id: parent.chapterId ?? undefined },
         }),

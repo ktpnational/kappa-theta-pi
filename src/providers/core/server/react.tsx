@@ -1,7 +1,7 @@
 'use client';
 
 import type { App } from '@/app/api/v1/[[...routes]]/route';
-import type { HonoRouter } from '@/server/api/root';
+import type { HonoApp } from '@/app/api/[[...route]]/route';
 import { getURL } from '@/utils';
 import { edenFetch } from '@elysiajs/eden';
 import { hc } from 'hono/client';
@@ -25,7 +25,7 @@ import { createQueryClient } from '.';
 export const elysia_api = edenFetch<App>(
   typeof window === 'undefined' ? getURL() : window.location.origin,
 );
-export const hono_api = hc<HonoRouter>(
+export const hono_api = hc<HonoApp>(
   typeof window === 'undefined' ? getURL() : window.location.origin,
 );
 

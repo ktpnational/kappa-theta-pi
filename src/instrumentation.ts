@@ -1,3 +1,5 @@
+'use server';
+
 import * as Sentry from '@sentry/nextjs';
 import { registerOTel } from '@vercel/otel';
 
@@ -24,14 +26,25 @@ import { registerOTel } from '@vercel/otel';
  * @throws {Error} May throw if Sentry config imports fail or if OTel registration fails
  */
 export async function register() {
-  registerOTel({ serviceName: 'ktp-national' });
+  const runtime = process.env.NEXT_RUNTIME;
 
-  if (process.env.NEXT_RUNTIME === 'nodejs') {
-    await import('../sentry.server.config');
-  }
+  try {
+    if (process.env.NEXT_PUBLIC_VERCEL_ENV) {
+      registerOTel({
+        serviceName: 'ktp-national',
+        instrumentations: runtime === 'edge' ? [] : undefined,
+      });
+    }
 
-  if (process.env.NEXT_RUNTIME === 'edge') {
-    await import('../sentry.edge.config');
+    if (process.env.NEXT_PUBLIC_SENTRY_DSN) {
+      if (runtime === 'edge') {
+        await import('../sentry.edge.config');
+      } else if (runtime === 'nodejs') {
+        await import('../sentry.server.config');
+      }
+    }
+  } catch (error) {
+    console.error(`[${runtime} Instrumentation] Initialization error:`, error);
   }
 }
 
@@ -58,4 +71,4 @@ export async function register() {
  * - Preserves error stack traces and metadata
  * - Should be used for handling request-specific errors
  */
-export const onRequestError = Sentry.captureRequestError;
+export const onRequestError = Sentry.captureException;

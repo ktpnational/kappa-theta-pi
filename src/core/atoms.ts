@@ -1,4 +1,4 @@
-import { atom } from 'jotai';
+import { atom } from 'jotai/vanilla';
 
 export const isMenuOpenAtom = atom(false);
 export const visibleAtom = atom(true);

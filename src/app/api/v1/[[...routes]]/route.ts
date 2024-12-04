@@ -1,6 +1,7 @@
 import { auth } from '@/auth';
 import { db } from '@/lib';
 import { handleEden } from '@/utils';
+import { Session } from '@auth/core/types';
 import type { EdenFetchError } from 'custom';
 import { Elysia, t } from 'elysia';
 import { rateLimit } from 'elysia-rate-limit';
@@ -168,14 +169,21 @@ const rsvpSchema = t.Object({
   status: t.String(),
 });
 
-const createContext = new Elysia()
-  .derive(async () => {
-    const session = await auth();
+export const createContext = new Elysia()
+  .derive(async (): Promise<{
+    db: typeof db;
+    session: Session;
+  }> => {
+    const session = await auth().then((res) => {
+      if (!res) throw new Error('Unauthorized');
+      return res;
+    });
+
     return { db, session };
   })
-  .as('plugin');
+  .as("plugin");
 
-const timingMiddleware = new Elysia()
+  const timingMiddleware = new Elysia()
   .state({ start: 0 })
   .onBeforeHandle(({ store }) => (store.start = Date.now()))
   .onAfterHandle(({ path, store: { start } }) =>
@@ -381,8 +389,9 @@ const app = new Elysia({ prefix: '/api/v1' })
   .post(
     '/resources',
     async ({ db, body, session, error }) => {
-      if (!session) return error('Unauthorized', 'You must be logged in to create a resource');
+      if (!session.user?.id) return error('Unauthorized', 'You must be logged in to create a resource');
 
+      // TODO: Check if user is a member of the chapter
       const resource = await db.resource.create({
         data: {
           ...body,
@@ -845,7 +854,7 @@ const app = new Elysia({ prefix: '/api/v1' })
   .post(
     '/events/:id/rsvp',
     async ({ db, params, body, session, error }) => {
-      if (!session) return error('Unauthorized', 'You must be logged in to RSVP');
+      if (!session || !session.user?.id) return error('Unauthorized', 'You must be logged in to RSVP');
 
       try {
         const rsvp = await db.rSVP.create({

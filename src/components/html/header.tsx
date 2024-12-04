@@ -23,7 +23,7 @@ import {
 import { handleScrollAtom, isMenuOpenAtom, visibleAtom } from '@/core/atoms';
 import { cn } from '@/lib/utils';
 import { ScrollIntoCenterView } from '@/utils';
-import { useAtom } from 'jotai';
+import { useAtom } from 'jotai/react';
 import { throttle } from 'lodash';
 import { Menu, X } from 'lucide-react';
 import { useSession } from 'next-auth/react';

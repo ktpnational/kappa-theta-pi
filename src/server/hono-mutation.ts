@@ -18,9 +18,9 @@ import { toast } from 'sonner';
  * @property {(data: any) => void} [onSuccessCallback] - Optional callback to run after successful mutation
  * @property {string[]} [invalidateQueries=[]] - Query keys to invalidate after successful mutation
  */
-type MutationOptions<TRoute extends keyof typeof hono_api> = {
+type MutationOptions<TRoute extends keyof typeof hono_api.api> = {
   route: TRoute;
-  method: keyof (typeof hono_api)[TRoute];
+  method: keyof (typeof hono_api.api)[TRoute];
   successMessage?: string;
   errorMessage?: string;
   onSuccessCallback?: (data: any) => void;
@@ -63,7 +63,7 @@ type MutationOptions<TRoute extends keyof typeof hono_api> = {
  * });
  * ```
  */
-export const useRpcMutation = <TRoute extends keyof typeof hono_api.api.client>({
+export const useRpcMutation = <TRoute extends keyof typeof hono_api.api>({
   route,
   method,
   successMessage = 'Operation successful',
@@ -75,16 +75,16 @@ export const useRpcMutation = <TRoute extends keyof typeof hono_api.api.client>(
   const router = useRouter();
 
   type ResponseType = InferResponseType<
-    (typeof hono_api.api.client)[TRoute][keyof (typeof hono_api.api.client)[TRoute]]
+    (typeof hono_api.api)[TRoute][keyof (typeof hono_api.api)[TRoute]]
   >;
   type RequestType = InferRequestType<
-    (typeof hono_api.api.client)[TRoute][keyof (typeof hono_api.api.client)[TRoute]]
+    (typeof hono_api.api)[TRoute][keyof (typeof hono_api.api)[TRoute]]
   >;
 
   const mutation = useMutation<ResponseType, Error, { json: RequestType }>({
     mutationFn: async ({ json }) => {
       // @ts-ignore - Dynamic route and method handling
-      const [error, response] = await catchError(hono_api.api.client[route][method]({ json }));
+      const [error, response] = await catchError(hono_api.api[route][method]({ json }));
 
       if (error) {
         errorMessage = error.message;
