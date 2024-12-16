@@ -1,18 +1,16 @@
-'use client';
+"use client";
 
-import { TailwindIndicator } from '@/components';
-import type { Session } from 'next-auth';
-import type { JSXElementConstructor, ReactNode } from 'react';
+import { TailwindIndicator } from "@/components";
+import type { Session } from "next-auth";
+import type { ReactNode } from "react";
 import {
   AuthProvider,
   Events,
   GlobalStoreProvider,
-  // ModeToggle,
   QueryProvider,
-  SmoothScrollProvider,
-  // TelemetryInit,
+  ScrollProvider, // Using ScrollProvider for regular scrolling
   ThemeProvider,
-} from '.';
+} from ".";
 
 /**
  * Provider wrapper component that composes multiple context providers
@@ -21,12 +19,10 @@ import {
  * @param {React.ReactNode} props.children - Child elements to be wrapped by the providers
  * @returns {JSX.Element} Composed provider stack with children
  */
-const Providers: React.FC<
-  Readonly<{
-    children: React.ReactNode;
-    session: Session | null;
-  }>
-> = ({ children, session }) => {
+const Providers: React.FC<{
+  children: ReactNode;
+  session: Session | null;
+}> = ({ children, session }) => {
   return (
     <>
       <ProviderStack
@@ -34,7 +30,7 @@ const Providers: React.FC<
           [AuthProvider, { session }],
           [QueryProvider, {}],
           [ThemeProvider, {}],
-          [SmoothScrollProvider, {}],
+          [ScrollProvider, {}], // Replaced SmoothScrollProvider with ScrollProvider
           [GlobalStoreProvider, {}],
           [Events, {}],
         ]}
@@ -63,7 +59,7 @@ type NoInfer<T> = [T][T extends any ? 0 : 1];
  * @interface
  */
 type ContainsChildren = {
-  children?: React.ReactNode;
+  children?: ReactNode;
 };
 
 /**
@@ -74,23 +70,23 @@ type ContainsChildren = {
  * @param {ReactNode} props.children - Child elements to be wrapped by the providers
  * @returns {ReactNode} Nested provider structure containing children
  */
-function ProviderStack<Providers extends [ContainsChildren, ...ContainsChildren[]]>({
+function ProviderStack({
   providers,
   children,
 }: {
-  providers: {
-    [k in keyof Providers]: [
-      JSXElementConstructor<Providers[k]>,
-      Omit<NoInfer<Providers[k]>, 'children'>,
-    ];
-  };
+  providers: Array<
+    [
+      React.JSXElementConstructor<any>, // Corrected type to React.JSXElementConstructor
+      Record<string, any> // Allow dynamic props
+    ]
+  >;
   children: ReactNode;
 }) {
-  let node = children;
+  let node: ReactNode = children || null;
 
   for (const [Provider, props] of providers) {
     node = <Provider {...props}>{node}</Provider>;
   }
 
-  return node;
+  return node as JSX.Element; // Ensure the final node is a JSX element
 }
