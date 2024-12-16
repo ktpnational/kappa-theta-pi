@@ -290,7 +290,7 @@
     "lint-staged": "^15.2.10",
     "lodash": "^4.17.21",
     "lucide-react": "^0.468.0",
-    "markdownlint": "^0.36.1",
+    "markdownlint": "^0.37.1",
     "markdownlint-cli": "^0.43.0",
     "micromark-util-classify-character": "^2.0.1",
     "million": "^3.1.11",
