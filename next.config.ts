@@ -1,7 +1,10 @@
 import pwa from '@ducanh2912/next-pwa';
 import MillionLint from '@million/lint';
 import withBundleAnalyzer from '@next/bundle-analyzer';
-import { type SentryBuildOptions, withSentryConfig } from '@sentry/nextjs';
+// import { 
+  // type SentryBuildOptions, 
+  // withSentryConfig 
+// } from '@sentry/nextjs';
 import type { NextConfig } from 'next';
 
 const withPwa = pwa({
@@ -175,50 +178,50 @@ const millionConfig = MillionLint.next({
   },
 });
 
-const sentryConfig: SentryBuildOptions = {
-  org: 'womb0comb0',
-  project: 'ktp',
-  authToken: process.env.NEXT_PUBLIC_SENTRY_AUTH_TOKEN,
-  silent: true,
-  release: {
-    name: process.env.VERCEL_GIT_COMMIT_SHA || `local-${Date.now()}`,
-    create: true,
-    setCommits: {
-      auto: true,
-      ignoreMissing: true,
-    },
-  },
-  sourcemaps: {
-    assets: './**/*.{js,map}',
-    ignore: ['node_modules/**/*'],
-  },
-  hideSourceMaps: true,
-  widenClientFileUpload: true,
-  autoInstrumentServerFunctions: true,
-  autoInstrumentMiddleware: true,
-  autoInstrumentAppDirectory: true,
-  tunnelRoute: '/monitoring',
-  disableLogger: true,
-  automaticVercelMonitors: true,
-  reactComponentAnnotation: {
-    enabled: true,
-  },
-  bundleSizeOptimizations: {
-    excludeDebugStatements: true,
-    excludeReplayShadowDom: true,
-    excludeReplayIframe: true,
-    excludeReplayWorker: true,
-  },
-};
+// const sentryConfig: SentryBuildOptions = {
+//   org: 'womb0comb0',
+//   project: 'ktp',
+//   authToken: process.env.NEXT_PUBLIC_SENTRY_AUTH_TOKEN,
+//   silent: true,
+//   release: {
+//     name: process.env.VERCEL_GIT_COMMIT_SHA || `local-${Date.now()}`,
+//     create: true,
+//     setCommits: {
+//       auto: true,
+//       ignoreMissing: true,
+//     },
+//   },
+//   sourcemaps: {
+//     assets: './**/*.{js,map}',
+//     ignore: ['node_modules/**/*'],
+//   },
+//   hideSourceMaps: true,
+//   widenClientFileUpload: true,
+//   autoInstrumentServerFunctions: true,
+//   autoInstrumentMiddleware: true,
+//   autoInstrumentAppDirectory: true,
+//   tunnelRoute: '/monitoring',
+//   disableLogger: true,
+//   automaticVercelMonitors: true,
+//   reactComponentAnnotation: {
+//     enabled: true,
+//   },
+//   bundleSizeOptimizations: {
+//     excludeDebugStatements: true,
+//     excludeReplayShadowDom: true,
+//     excludeReplayIframe: true,
+//     excludeReplayWorker: true,
+//   },
+// };
 
 const finalConfig = withPwa(nextConfig);
 
 let combinedConfig = millionConfig(withBundleAnalyzerConfig(finalConfig));
 
-if (require.main === module) {
-  if (sentryConfig) {
-    combinedConfig = withSentryConfig(combinedConfig, sentryConfig);
-  }
-}
+// if (require.main === module) {
+  // if (sentryConfig) {
+  //   combinedConfig = withSentryConfig(combinedConfig, sentryConfig);
+  // }
+// }
 
 export default combinedConfig;
