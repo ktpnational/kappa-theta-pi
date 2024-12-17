@@ -549,15 +549,15 @@ export const tail = <T>(arr: T[]): Tail<T[]> => arr.tail();
 export const flatten = <T>(arr: T[][]): Flatten<T[][]> => arr.flatten();
 
 // @ts-ignore
-export const merge = <T extends object, U extends object>(obj1: T, obj2: U): Merge<T, U> =>
-  obj1.merge(obj2);
+export const merge = <T extends object, U extends object>(obj1: T, obj2: U): Merge<T, U> => obj1.merge(obj2) as Merge<T, U>;
 
 // @ts-ignore
-export const mergeAll = <T extends object[]>(objects: T): MergeAll<T> => Object.mergeAll(objects);
+export const mergeAll = <T extends object[]>(objects: T): MergeAll<T> => objects.mergeAll();
 
 // @ts-ignore
-export const split = <S extends string, D extends string>(str: S, delimiter: D): Split<S, D> =>
-  str.split(delimiter);
+export const split = <S extends string, D extends string>(str: S, delimiter: D): Split<S, D> => {
+  return str.split(delimiter) as Split<S, D>;
+};
 
 // @ts-ignore
 export const join = <T extends string[]>(arr: T): Join<T> => arr.join();
@@ -566,8 +566,7 @@ export const join = <T extends string[]>(arr: T): Join<T> => arr.join();
 export const isNonEmptyArray = <T>(arr: T[]): arr is NonEmptyArray<T> => arr.isNonEmpty();
 
 // @ts-ignore
-export const zip = <T extends any[], U extends any[]>(arr1: T, arr2: U): Zip<T, U> =>
-  arr1.zip(arr2);
+export const zip = <T extends any[], U extends any[]>(arr1: T, arr2: U): Zip<T, U> => arr1.zip(arr2) as Zip<T, U>;
 
 // @ts-ignore
 export const omitByType = <T extends object, U>(obj: T): OmitByType<T, U> => obj.omitByType<U>();
@@ -591,29 +590,25 @@ export const paths = <T extends Record<string, any>>(obj: T) => obj.paths();
 export const valueOf = <T extends object>(obj: T): ValueOf<T> => obj.valueOf();
 
 // @ts-ignore
-export const requireAtLeastOne = <T extends object, K extends keyof T>(obj: T, keys: K[]) =>
-  Object.requireAtLeastOne(obj, keys);
+export const requireAtLeastOne = <T extends object, K extends keyof T>(obj: T, keys: K[]): T => obj.requireAtLeastOne(keys);
 
 // @ts-ignore
-export const requireOnlyOne = <T extends object, K extends keyof T>(obj: T, keys: K[]) =>
-  Object.requireOnlyOne(obj, keys);
+export const requireOnlyOne = <T extends object, K extends keyof T>(obj: T, keys: K[]): T => obj.requireOnlyOne(keys);
 
 // @ts-ignore
-export const without = <T extends object, U extends object>(obj: T, exclude: U) =>
-  Object.without(obj, exclude);
+export const without = <T extends object, U extends object>(obj: T, exclude: U): T => obj.without(exclude);
 
 // @ts-ignore
-export const xor = <T extends object, U extends object>(a: T, b: U) => Object.xor(a, b);
+export const xor = <T extends object, U extends object>(a: T, b: U): Xor<T, U> => obj.xor(a, b);
 
 // @ts-ignore
-export const deepPick = <T extends object, P extends string>(obj: T, paths: P[]) =>
-  Object.deepPick(obj, paths);
+export const deepPick = <T extends object, P extends string>(obj: T, paths: P[]): DeepPick<T, P[]> => obj.deepPick(paths);
 
 // @ts-ignore
-export const unionToTuple = <T>(union: T) => Object.unionToTuple(union);
+export const unionToTuple = <T>(union: T): UnionToTuple<T> => obj.unionToTuple(union);
 
 // @ts-ignore
-export const isEqual = <T, U>(a: T, b: U) => Object.isEqual(a, b);
+export const isEqual = <T, U>(a: T, b: U): IsEqual<T, U> => obj.isEqual(a, b);
 
 // @ts-ignore
-export const arrayOfLength = <N extends number>(length: N) => Array.ofLength(length);
+export const arrayOfLength = <N extends number>(length: N): ArrayOfLength<N> => obj.ofLength(length);
