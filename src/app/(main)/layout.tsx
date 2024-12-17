@@ -5,7 +5,7 @@ const HomeLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       <JotaiProvider Component={Header} />
-      <main className="container mx-auto px-4 py-8 md:py-12 lg:py-16 mt-20 min-h-screen">
+      <main className="container mx-auto px-4 py-8 md:py-12 lg:py-16 mt-20 min-h-screen w-[100dvw]">
         {children}
       </main>
       <Footer />

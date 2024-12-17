@@ -41,7 +41,7 @@ export const Footer = memo(function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-[#234c8b] text-white py-12">
+    <footer className="bg-[#234c8b] text-white py-12 w-[100dvw]">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8">
           {navigationSections.map((section) => (
