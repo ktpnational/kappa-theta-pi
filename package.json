@@ -75,6 +75,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "postinstall": "bunx prisma generate",
     "analyze": "cross-env ANALYZE=true next build && bun report-bundle-size.js",
     "analyze:browser": "cross-env BUNDLE_ANALYZE=browser next build",
     "analyze:server": "cross-env BUNDLE_ANALYZE=server next build",
