@@ -163,7 +163,7 @@ type DataLoaderProps<T> = {
  *   {(data) => <ProductGrid products={data} />}
  * </DataLoader>
  *
- * @returns {JSX.Element} Rendered component with loading, error, or data states
+ * @returns {React.JSX.Element} Rendered component with loading, error, or data states
  * @category Components
  */
 export const DataLoader = <T,>({

@@ -4,7 +4,7 @@
  * during development and testing.
  *
  * @component
- * @returns {JSX.Element|null} Returns the breakpoint indicator component in development,
+ * @returns {React.JSX.Element|null} Returns the breakpoint indicator component in development,
  *                            or null in production
  *
  * @example

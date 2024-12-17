@@ -25,7 +25,7 @@ interface RoleGateProps {
  * @param {React.ReactNode} props.children - The content to be rendered if role check passes
  * @param {Role} props.allowedRole - The role required to view the content
  *
- * @returns {JSX.Element} Either the children content if role matches, or an error message if access denied
+ * @returns {React.JSX.Element} Either the children content if role matches, or an error message if access denied
  *
  * @example
  * ```tsx

@@ -14,7 +14,7 @@ import React, { useEffect, useState } from 'react';
  * @param {boolean} [props.pauseOnHover=true] - Whether to pause the animation on hover
  * @param {string} [props.className] - Additional CSS classes to apply to the container
  *
- * @returns {JSX.Element} The rendered component
+ * @returns {React.JSX.Element} The rendered component
  */
 export const InfiniteMovingCards = ({
   items,

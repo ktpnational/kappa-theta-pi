@@ -38,9 +38,9 @@ interface NewEnquiryEmailProps {
  * @param {string} props.email - The email address of the enquirer
  * @param {string} props.message - The content of the enquiry message
  *
- * @returns {JSX.Element} A fully formatted email template for new enquiry notifications
+ * @returns {React.JSX.Element} A fully formatted email template for new enquiry notifications
  */
-export function NewEnquiryEmail({ name, email, message }: NewEnquiryEmailProps): JSX.Element {
+export function NewEnquiryEmail({ name, email, message }: NewEnquiryEmailProps): React.JSX.Element {
   const previewText = `${app.name} new enquiry from ${email}!`;
 
   // Define your styles here

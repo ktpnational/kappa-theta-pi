@@ -31,7 +31,7 @@ import { Input } from '@/components/ui/input';
  * The form validates the email input using Zod schema validation and handles
  * the submission process with proper error handling and user feedback.
  *
- * @returns {JSX.Element} A React component representing the email verification form
+ * @returns {React.JSX.Element} A React component representing the email verification form
  *
  * @example
  * ```tsx
@@ -82,7 +82,7 @@ import { Input } from '@/components/ui/input';
  * - Navigation state via Next.js router
  * - Toast notifications for user feedback
  */
-export const EmailVerificationForm = (): JSX.Element => {
+export const EmailVerificationForm = (): React.JSX.Element => {
   const router = useRouter();
   const { toast } = useToast();
   const [isPending, startTransition] = React.useTransition();

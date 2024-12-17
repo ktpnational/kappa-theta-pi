@@ -14,7 +14,7 @@ const LoginForm = dynamic(() => import('@/app/(auth)/_components').then((mod) =>
  * It's designed to be used as a page component in the application's routing structure.
  *
  * @component LoginPage
- * @returns {JSX.Element} A React component that renders the LoginForm
+ * @returns {React.JSX.Element} A React component that renders the LoginForm
  * @example
  * ```tsx
  * // Usage in router

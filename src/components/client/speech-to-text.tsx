@@ -19,7 +19,7 @@ import { useIsomorphicLayoutEffect } from 'usehooks-ts';
  * @component
  * @param {Object} props - The component props
  * @param {React.Dispatch<React.SetStateAction<string>>} props.setContent - State setter function to update the transcribed text
- * @returns {JSX.Element} A button to toggle speech recognition and a hidden results div
+ * @returns {React.JSX.Element} A button to toggle speech recognition and a hidden results div
  *
  * @example
  * ```jsx

@@ -204,7 +204,6 @@ export function Scripts() {
       },
     ],
   };
-  console.log(Redacted.make(process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY).getValue());
   return (
     <>
       <Script
@@ -229,7 +228,7 @@ export function Scripts() {
         strategy="afterInteractive"
         src={`https://www.googletagmanager.com/gtag/js?id=${Redacted.make(
           process.env.NEXT_PUBLIC_GA_TRACKING_ID,
-        )}`}
+        ).getValue()}`}
         id="google-analytics-script"
       />
 
@@ -241,7 +240,7 @@ export function Scripts() {
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', '${Redacted.make(process.env.NEXT_PUBLIC_GA_TRACKING_ID)}', {
+            gtag('config', '${Redacted.make(process.env.NEXT_PUBLIC_GA_TRACKING_ID).getValue()}', {
               page_path: window.location.pathname,
             });
           `,
@@ -262,7 +261,9 @@ export function Scripts() {
               j.async=true;
               j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
               f.parentNode.insertBefore(j,f);
-            })(window,document,'script','dataLayer','${Redacted.make(process.env.NEXT_PUBLIC_GTM_ID)}');
+            })(window,document,'script','dataLayer','${Redacted.make(
+              process.env.NEXT_PUBLIC_GTM_ID,
+            ).getValue()}');
           `,
         }}
       />
@@ -270,7 +271,9 @@ export function Scripts() {
       <Script
         async
         strategy="afterInteractive"
-        src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${Redacted.make(process.env.NEXT_PUBLIC_ADSENSE_ID)}`}
+        src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${Redacted.make(
+          process.env.NEXT_PUBLIC_ADSENSE_ID,
+        ).getValue()}`}
         crossOrigin="anonymous"
         id="google-adsense"
       />

@@ -19,7 +19,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
  * <ModeToggle />
  * ```
  *
- * @returns {JSX.Element} A button component with theme toggling functionality
+ * @returns {React.JSX.Element} A button component with theme toggling functionality
  *
  * @remarks
  * The component renders different icons based on the current theme:

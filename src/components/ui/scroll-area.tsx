@@ -14,7 +14,7 @@ import { cn } from '@/lib/utils';
  * @param {string} [props.className] - Additional CSS class names
  * @param {React.ReactNode} props.children - The content to be scrolled
  * @param {React.Ref<HTMLDivElement>} ref - Forwarded ref to the root element
- * @returns {JSX.Element} A scrollable container with custom scrollbars
+ * @returns {React.JSX.Element} A scrollable container with custom scrollbars
  *
  * @example
  * ```tsx
@@ -50,7 +50,7 @@ ScrollArea.displayName = ScrollAreaPrimitive.Root.displayName;
  * @param {string} [props.className] - Additional CSS class names
  * @param {('vertical'|'horizontal')} [props.orientation='vertical'] - The scrollbar orientation
  * @param {React.Ref<HTMLDivElement>} ref - Forwarded ref to the scrollbar element
- * @returns {JSX.Element} A styled scrollbar component
+ * @returns {React.JSX.Element} A styled scrollbar component
  *
  * @example
  * ```tsx

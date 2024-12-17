@@ -1,7 +1,7 @@
 'use client';
 
-import type { App } from '@/app/api/v1/[[...routes]]/route';
 import type { HonoApp } from '@/app/api/[[...route]]/route';
+import type { App } from '@/app/api/v1/[[...routes]]/route';
 import { getURL } from '@/utils';
 import { edenFetch } from '@elysiajs/eden';
 import { hc } from 'hono/client';
@@ -83,7 +83,7 @@ const getQueryClient = (): QueryClient => {
  *
  * @param {Object} props - Component props
  * @param {React.ReactNode} props.children - Child components to be wrapped with the QueryClient context
- * @returns {JSX.Element} A QueryClientProvider component with configured QueryClient and dev tools
+ * @returns {React.JSX.Element} A QueryClientProvider component with configured QueryClient and dev tools
  */
 export const QueryProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
   const queryClient = getQueryClient();

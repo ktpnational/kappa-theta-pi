@@ -55,13 +55,13 @@ export const wrap = (min: number, max: number, v: number) => {
 /**
  * A component that creates a velocity-based scrolling text effect
  * @param {VelocityScrollProps} props - The component props
- * @returns {JSX.Element} The rendered VelocityScroll component
+ * @returns {React.JSX.Element} The rendered VelocityScroll component
  */
 export function VelocityScroll({ text, default_velocity = 5, className }: VelocityScrollProps) {
   /**
    * Inner component that handles the parallax text animation
    * @param {ParallaxProps} props - The component props
-   * @returns {JSX.Element} The rendered ParallaxText component
+   * @returns {React.JSX.Element} The rendered ParallaxText component
    */
   function ParallaxText({ children, baseVelocity = 100, className }: ParallaxProps) {
     const baseX = useMotionValue(0);

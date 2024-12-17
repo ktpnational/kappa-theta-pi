@@ -13,7 +13,7 @@ import { motion } from 'motion/react';
  * @param {Error & { digest?: string }} props.error - The error object that was caught
  * @param {() => void} props.reset - Function to reset the error boundary and retry rendering
  *
- * @returns {JSX.Element} Rendered error page with animated background and error details
+ * @returns {React.JSX.Element} Rendered error page with animated background and error details
  *
  * @example
  * ```tsx

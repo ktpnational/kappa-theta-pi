@@ -18,7 +18,7 @@ import { cn } from '@/lib/utils';
  * @param {string} [props.className] - Additional CSS classes to apply to the component
  * @param {number} [props.decimalPlaces=0] - Number of decimal places to display
  *
- * @returns {JSX.Element} A span element containing the animated number
+ * @returns {React.JSX.Element} A span element containing the animated number
  *
  * @example
  * // Basic usage counting up to 100

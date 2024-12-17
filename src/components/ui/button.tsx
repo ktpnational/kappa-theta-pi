@@ -70,7 +70,7 @@ export interface ButtonProps
  * @param {string} [props.size] - Size variant
  * @param {boolean} [props.asChild=false] - Whether to render children directly
  * @param {React.Ref<HTMLButtonElement>} ref - Forwarded ref
- * @returns {JSX.Element} Rendered button component
+ * @returns {React.JSX.Element} Rendered button component
  */
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, ...props }, ref) => {

@@ -9,7 +9,7 @@ import { FcGoogle } from 'react-icons/fc';
 /**
  * Social authentication component that provides OAuth login options
  * @component
- * @returns {JSX.Element} A button component for social login
+ * @returns {React.JSX.Element} A button component for social login
  */
 const Social = () => {
   /**

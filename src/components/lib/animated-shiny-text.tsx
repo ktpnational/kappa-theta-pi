@@ -25,7 +25,7 @@ interface AnimatedShinyTextProps {
  * @param {string} [props.className] - Additional CSS classes to apply
  * @param {number} [props.shimmerWidth=100] - Width of the shimmer effect in pixels
  *
- * @returns {JSX.Element} A paragraph element with animated shimmer effect applied to its text
+ * @returns {React.JSX.Element} A paragraph element with animated shimmer effect applied to its text
  *
  * @example
  * ```tsx

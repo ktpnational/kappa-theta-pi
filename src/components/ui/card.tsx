@@ -9,7 +9,7 @@ import { cn } from '@/lib/utils';
  * @param {Object} props - Component props
  * @param {string} [props.className] - Additional CSS classes to apply
  * @param {React.Ref<HTMLDivElement>} ref - Forwarded ref
- * @returns {JSX.Element} Card component
+ * @returns {React.JSX.Element} Card component
  */
 const Card = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
@@ -29,7 +29,7 @@ Card.displayName = 'Card';
  * @param {Object} props - Component props
  * @param {string} [props.className] - Additional CSS classes to apply
  * @param {React.Ref<HTMLDivElement>} ref - Forwarded ref
- * @returns {JSX.Element} CardHeader component
+ * @returns {React.JSX.Element} CardHeader component
  */
 const CardHeader = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
@@ -45,7 +45,7 @@ CardHeader.displayName = 'CardHeader';
  * @param {Object} props - Component props
  * @param {string} [props.className] - Additional CSS classes to apply
  * @param {React.Ref<HTMLDivElement>} ref - Forwarded ref
- * @returns {JSX.Element} CardTitle component
+ * @returns {React.JSX.Element} CardTitle component
  */
 const CardTitle = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
@@ -65,7 +65,7 @@ CardTitle.displayName = 'CardTitle';
  * @param {Object} props - Component props
  * @param {string} [props.className] - Additional CSS classes to apply
  * @param {React.Ref<HTMLDivElement>} ref - Forwarded ref
- * @returns {JSX.Element} CardDescription component
+ * @returns {React.JSX.Element} CardDescription component
  */
 const CardDescription = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
@@ -81,7 +81,7 @@ CardDescription.displayName = 'CardDescription';
  * @param {Object} props - Component props
  * @param {string} [props.className] - Additional CSS classes to apply
  * @param {React.Ref<HTMLDivElement>} ref - Forwarded ref
- * @returns {JSX.Element} CardContent component
+ * @returns {React.JSX.Element} CardContent component
  */
 const CardContent = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
@@ -97,7 +97,7 @@ CardContent.displayName = 'CardContent';
  * @param {Object} props - Component props
  * @param {string} [props.className] - Additional CSS classes to apply
  * @param {React.Ref<HTMLDivElement>} ref - Forwarded ref
- * @returns {JSX.Element} CardFooter component
+ * @returns {React.JSX.Element} CardFooter component
  */
 const CardFooter = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (

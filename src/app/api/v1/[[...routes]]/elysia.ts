@@ -1,8 +1,8 @@
 import { auth } from '@/auth';
 import { db } from '@/lib/prisma';
 import { handleEden } from '@/utils';
-import { Session } from '@auth/core/types';
-import { EdenFetchError } from 'custom';
+import type { Session } from '@auth/core/types';
+import type { EdenFetchError } from 'custom';
 import Elysia, { t } from 'elysia';
 
 /**
@@ -168,20 +168,21 @@ const rsvpSchema = t.Object({
   status: t.String(),
 });
 
-
 export const createContext = new Elysia()
-  .derive(async (): Promise<{
-    db: typeof db;
-    session: Session;
-  }> => {
-    const session = await auth().then((res) => {
-      if (!res) throw new Error('Unauthorized');
-      return res;
-    });
+  .derive(
+    async (): Promise<{
+      db: typeof db;
+      session: Session;
+    }> => {
+      const session = await auth().then((res) => {
+        if (!res) throw new Error('Unauthorized');
+        return res;
+      });
 
-    return { db, session };
-  })
-  .as("plugin");
+      return { db, session };
+    },
+  )
+  .as('plugin');
 
 const timingMiddleware = new Elysia()
   .state({ start: 0 })
@@ -365,7 +366,8 @@ export const dashboardRoute = new Elysia()
   .post(
     '/resources',
     async ({ db, body, session, error }) => {
-      if (!session.user?.id) return error('Unauthorized', 'You must be logged in to create a resource');
+      if (!session.user?.id)
+        return error('Unauthorized', 'You must be logged in to create a resource');
 
       // TODO: Check if user is a member of the chapter
       const resource = await db.resource.create({
@@ -830,7 +832,8 @@ export const dashboardRoute = new Elysia()
   .post(
     '/events/:id/rsvp',
     async ({ db, params, body, session, error }) => {
-      if (!session || !session.user?.id) return error('Unauthorized', 'You must be logged in to RSVP');
+      if (!session || !session.user?.id)
+        return error('Unauthorized', 'You must be logged in to RSVP');
 
       try {
         const rsvp = await db.rSVP.create({

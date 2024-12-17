@@ -51,7 +51,7 @@ import Image from 'next/image';
  * - Implements lazy loading for company logos
  * - Minimal re-renders due to static content
  *
- * @returns {JSX.Element} A section element containing:
+ * @returns {React.JSX.Element} A section element containing:
  * - An animated heading
  * - A marquee of company logos with hover effects
  * - Gradient overlays on both sides

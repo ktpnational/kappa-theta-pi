@@ -16,7 +16,7 @@ import React from 'react';
  * @param {string} [props.childrenClassName] - Additional CSS classes for the children container
  * @param {string} [props.imageClassName] - Additional CSS classes for the image
  * @param {string} [props.className] - Additional CSS classes for the root container
- * @returns {JSX.Element} A direction-aware hover component
+ * @returns {React.JSX.Element} A direction-aware hover component
  */
 export const DirectionAwareHover = React.memo(
   ({

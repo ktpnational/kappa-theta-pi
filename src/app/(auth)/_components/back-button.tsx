@@ -20,7 +20,7 @@ interface BackButtonProps {
  * @param {BackButtonProps} props - The component props
  * @param {string} props.href - The URL destination that the button will link to
  * @param {string} props.label - The text content that will be displayed on the button
- * @returns {JSX.Element} A button wrapped in a Next.js Link component with the specified styling
+ * @returns {React.JSX.Element} A button wrapped in a Next.js Link component with the specified styling
  *
  * @example
  * ```tsx

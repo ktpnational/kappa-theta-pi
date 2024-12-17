@@ -149,7 +149,7 @@ const BUTTON_COLORS = {
  * <GoogleMaps />
  * ```
  *
- * @returns {JSX.Element} Rendered Google Maps component with all interactive features
+ * @returns {React.JSX.Element} Rendered Google Maps component with all interactive features
  */
 export const GoogleMaps = memo(() => {
   const { toast } = useToast();
@@ -377,7 +377,7 @@ type MarkersProps = {
  * @param {typeof chapters} props.chapters - Chapter data
  * @param {string[]} props.activeFilters - Current active filters
  * @param {number} props.mapZoom - Current map zoom level
- * @returns {JSX.Element} Rendered markers and info windows
+ * @returns {React.JSX.Element} Rendered markers and info windows
  */
 const Markers: React.FC<MarkersProps> = memo(({ chapters, activeFilters, mapZoom }) => {
   const map = useMap();
@@ -503,7 +503,7 @@ const Markers: React.FC<MarkersProps> = memo(({ chapters, activeFilters, mapZoom
  * @component
  * @param {Object} props - Component props
  * @param {ChapterInfo} props.chapter - Chapter information to display
- * @returns {JSX.Element} Rendered chapter information card with animation
+ * @returns {React.JSX.Element} Rendered chapter information card with animation
  */
 const ChapterInfo: React.FC<{ chapter: ChapterInfo }> = memo(({ chapter }) => (
   <motion.div

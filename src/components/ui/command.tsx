@@ -14,7 +14,7 @@ import { cn } from '@/lib/utils';
  *
  * @param {string} className - Additional CSS class names to apply
  * @param {React.RefObject} ref - Forwarded ref to the underlying Command element
- * @returns {JSX.Element} The Command component with styling applied
+ * @returns {React.JSX.Element} The Command component with styling applied
  */
 const Command = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive>,
@@ -36,7 +36,7 @@ Command.displayName = CommandPrimitive.displayName;
  *
  * @param {ReactNode} children - Child elements to render within the command dialog
  * @param {DialogProps} props - Props for the underlying Dialog component
- * @returns {JSX.Element} A modal dialog containing the command interface
+ * @returns {React.JSX.Element} A modal dialog containing the command interface
  */
 const CommandDialog = ({ children, ...props }: DialogProps) => {
   return (
@@ -55,7 +55,7 @@ const CommandDialog = ({ children, ...props }: DialogProps) => {
  *
  * @param {string} className - Additional CSS class names to apply
  * @param {React.RefObject} ref - Forwarded ref to the underlying input element
- * @returns {JSX.Element} A styled input field with search icon
+ * @returns {React.JSX.Element} A styled input field with search icon
  */
 const CommandInput = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive.Input>,
@@ -81,7 +81,7 @@ CommandInput.displayName = CommandPrimitive.Input.displayName;
  *
  * @param {string} className - Additional CSS class names to apply
  * @param {React.RefObject} ref - Forwarded ref to the underlying list element
- * @returns {JSX.Element} A styled scrollable list container
+ * @returns {React.JSX.Element} A styled scrollable list container
  */
 const CommandList = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive.List>,
@@ -100,7 +100,7 @@ CommandList.displayName = CommandPrimitive.List.displayName;
  * A component to display when no results are found in the command list.
  *
  * @param {React.RefObject} ref - Forwarded ref to the empty state element
- * @returns {JSX.Element} A centered empty state message
+ * @returns {React.JSX.Element} A centered empty state message
  */
 const CommandEmpty = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive.Empty>,
@@ -116,7 +116,7 @@ CommandEmpty.displayName = CommandPrimitive.Empty.displayName;
  *
  * @param {string} className - Additional CSS class names to apply
  * @param {React.RefObject} ref - Forwarded ref to the group element
- * @returns {JSX.Element} A styled group container with heading support
+ * @returns {React.JSX.Element} A styled group container with heading support
  */
 const CommandGroup = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive.Group>,
@@ -139,7 +139,7 @@ CommandGroup.displayName = CommandPrimitive.Group.displayName;
  *
  * @param {string} className - Additional CSS class names to apply
  * @param {React.RefObject} ref - Forwarded ref to the separator element
- * @returns {JSX.Element} A horizontal line separator
+ * @returns {React.JSX.Element} A horizontal line separator
  */
 const CommandSeparator = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive.Separator>,
@@ -158,7 +158,7 @@ CommandSeparator.displayName = CommandPrimitive.Separator.displayName;
  *
  * @param {string} className - Additional CSS class names to apply
  * @param {React.RefObject} ref - Forwarded ref to the item element
- * @returns {JSX.Element} A styled interactive command item
+ * @returns {React.JSX.Element} A styled interactive command item
  */
 const CommandItem = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive.Item>,
@@ -181,7 +181,7 @@ CommandItem.displayName = CommandPrimitive.Item.displayName;
  *
  * @param {string} className - Additional CSS class names to apply
  * @param {HTMLSpanElement} props - HTML attributes for the shortcut element
- * @returns {JSX.Element} A styled shortcut display
+ * @returns {React.JSX.Element} A styled shortcut display
  */
 const CommandShortcut = ({ className, ...props }: React.HTMLAttributes<HTMLSpanElement>) => {
   return (

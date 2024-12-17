@@ -33,7 +33,7 @@ import {
  * <NavSecondary items={items} />
  * ```
  *
- * @returns {JSX.Element} The rendered navigation component
+ * @returns {React.JSX.Element} The rendered navigation component
  */
 export function NavSecondary({
   items,

@@ -20,7 +20,7 @@ import { memo } from 'react';
  * <Footer />
  * ```
  *
- * @returns {JSX.Element} A memoized footer component
+ * @returns {React.JSX.Element} A memoized footer component
  *
  * @features
  * - Responsive grid layout that adapts to different screen sizes
@@ -168,7 +168,7 @@ type FooterSectionProps = {
  * />
  * ```
  *
- * @returns {JSX.Element} A footer section with title and links
+ * @returns {React.JSX.Element} A footer section with title and links
  */
 const FooterSection = ({ title, links }: FooterSectionProps) => (
   <div>
@@ -218,7 +218,7 @@ type SocialLinkProps = {
  * </SocialLink>
  * ```
  *
- * @returns {JSX.Element} A styled social media link with icon
+ * @returns {React.JSX.Element} A styled social media link with icon
  */
 const SocialLink = ({ href, 'aria-label': ariaLabel, children }: SocialLinkProps) => (
   <a
@@ -260,7 +260,7 @@ type FooterLinkProps = {
  * <FooterLink href="/privacy" text="Privacy Policy" />
  * ```
  *
- * @returns {JSX.Element} A styled footer link
+ * @returns {React.JSX.Element} A styled footer link
  */
 const FooterLink = ({ href, text }: FooterLinkProps) => (
   <Link href={href} className="text-white hover:text-[#8BB9FF] transition-colors">

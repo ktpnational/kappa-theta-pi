@@ -46,7 +46,7 @@ const toggleVariants = cva(
  * @param {('default'|'outline')} [props.variant='default'] - The visual style variant
  * @param {('default'|'sm'|'lg')} [props.size='default'] - The size variant
  * @param {React.Ref} ref - Forwarded ref
- * @returns {JSX.Element} A toggle button component with customizable styles
+ * @returns {React.JSX.Element} A toggle button component with customizable styles
  *
  * @example
  * // Basic usage

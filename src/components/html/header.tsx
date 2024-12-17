@@ -54,7 +54,7 @@ const UserNav = dynamic(() => import('@/components/user-nav').then((mod) => mod.
  * @param {React.ReactNode} props.children - The description content
  * @param {string} [props.href] - The link destination
  * @param {React.Ref<HTMLAnchorElement>} ref - Forwarded ref for the anchor element
- * @returns {JSX.Element} A styled list item with title and description
+ * @returns {React.JSX.Element} A styled list item with title and description
  */
 const ListItem = React.forwardRef<React.ElementRef<'a'>, React.ComponentPropsWithoutRef<'a'>>(
   ({ className, title, children, href, ...props }, ref) => {
@@ -94,7 +94,7 @@ ListItem.displayName = 'ListItem';
  * @component
  * @param {Object} props - The component props
  * @param {NavItem} props.item - The navigation item data containing title and href
- * @returns {JSX.Element} A styled link for mobile navigation
+ * @returns {React.JSX.Element} A styled link for mobile navigation
  */
 const MobileMenuItem = memo<{ item: NavItem }>(({ item }) => {
   const [, setIsMenuOpen] = useAtom(isMenuOpenAtom);
@@ -132,7 +132,7 @@ MobileMenuItem.displayName = 'MobileMenuItem';
  * - Auto-hide on scroll down behavior
  *
  * @component
- * @returns {JSX.Element} The complete header component with navigation
+ * @returns {React.JSX.Element} The complete header component with navigation
  *
  * @example
  * ```tsx

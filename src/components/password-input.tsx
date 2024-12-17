@@ -21,7 +21,7 @@ import { useGlobalStore } from '@/providers';
  * @param {boolean} [props.disabled] - Whether the input is disabled
  * @param {React.Ref<HTMLInputElement>} ref - Forwarded ref to access the underlying input element
  *
- * @returns {JSX.Element} A password input with a toggle button to show/hide the password
+ * @returns {React.JSX.Element} A password input with a toggle button to show/hide the password
  *
  * @example
  * ```tsx

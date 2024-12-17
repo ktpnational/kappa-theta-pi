@@ -10,7 +10,7 @@
  * @param {Object} props - Component props
  * @param {React.ReactNode} props.children - Child components to be rendered within the layout
  *
- * @returns {JSX.Element} A div container with gradient background and centered content
+ * @returns {React.JSX.Element} A div container with gradient background and centered content
  *
  * @example
  * ```jsx

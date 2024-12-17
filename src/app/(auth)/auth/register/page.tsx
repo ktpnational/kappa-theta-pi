@@ -20,7 +20,7 @@ const RegisterForm = dynamic(() =>
 /**
  * The RegisterPage component - Displays the registration form for new users
  * @function RegisterPage
- * @returns {JSX.Element} A React component containing the registration form
+ * @returns {React.JSX.Element} A React component containing the registration form
  * @description Renders the RegisterForm component which handles user registration functionality
  * @example
  * // Basic usage

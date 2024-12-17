@@ -29,7 +29,7 @@ interface CardWrapperProps {
  * @param {string} props.backButtonLabel - Text label for the back button
  * @param {string} props.backButtonHref - URL/path that the back button links to
  * @param {boolean} [props.showSocial] - Optional flag to show social media components in footer
- * @returns {JSX.Element} Rendered card wrapper component
+ * @returns {React.JSX.Element} Rendered card wrapper component
  */
 const CardWrapper = ({
   children,

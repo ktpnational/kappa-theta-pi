@@ -14,7 +14,7 @@ interface HeaderProps {
  * @component
  * @param {HeaderProps} props - Component props
  * @param {string} props.label - The text to be displayed below the header title
- * @returns {JSX.Element} A header section with a title and descriptive label
+ * @returns {React.JSX.Element} A header section with a title and descriptive label
  * @example
  * // Basic usage
  * <Header label="Welcome back!" />

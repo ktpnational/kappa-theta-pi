@@ -19,7 +19,7 @@ const NewVerificationForm = dynamic(() =>
  * This page is typically accessed after a user signs up or requests email verification.
  *
  * @component
- * @returns {JSX.Element} Rendered NewVerificationForm component
+ * @returns {React.JSX.Element} Rendered NewVerificationForm component
  * @example
  * ```tsx
  * <NewVerificationPage />

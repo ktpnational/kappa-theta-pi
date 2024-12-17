@@ -29,7 +29,7 @@ interface SectionProps {
  * @param {string} [props.description] - Optional description text
  * @param {React.ReactNode} [props.children] - Optional child elements
  * @param {string} [props.className] - Optional CSS class names
- * @returns {JSX.Element} A section element with formatted header and content
+ * @returns {React.JSX.Element} A section element with formatted header and content
  */
 export const Section = ({
   id,

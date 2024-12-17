@@ -86,7 +86,7 @@ export const Icons = {
      * @param {SVGProps<SVGSVGElement>} props - Icon configuration properties
      * @param {string} [props.className] - Additional CSS classes to apply
      * @param {SVGProps<SVGSVGElement>['size']} [props.size] - Size of the icon using Tailwind's spacing scale
-     * @returns {JSX.Element} Small logo icon component
+     * @returns {React.JSX.Element} Small logo icon component
      */
     small: ({ className, size, ...props }: SVGProps<SVGSVGElement>) => (
       <i>
@@ -98,7 +98,7 @@ export const Icons = {
      * @param {SVGProps<SVGSVGElement>} props - Icon configuration properties
      * @param {string} [props.className] - Additional CSS classes to apply
      * @param {SVGProps<SVGSVGElement>['size']} [props.size] - Size of the icon using Tailwind's spacing scale
-     * @returns {JSX.Element} Default logo icon component
+     * @returns {React.JSX.Element} Default logo icon component
      */
     default: ({ className, size, ...props }: SVGProps<SVGSVGElement>) => (
       <i>
@@ -110,7 +110,7 @@ export const Icons = {
      * @param {SVGProps<SVGSVGElement>} props - Icon configuration properties
      * @param {string} [props.className] - Additional CSS classes to apply
      * @param {SVGProps<SVGSVGElement>['size']} [props.size] - Size of the icon using Tailwind's spacing scale
-     * @returns {JSX.Element} Apple logo icon component
+     * @returns {React.JSX.Element} Apple logo icon component
      */
     apple: ({ className, size, ...props }: SVGProps<SVGSVGElement>) => (
       <i>
@@ -122,7 +122,7 @@ export const Icons = {
      * @param {SVGProps<SVGSVGElement>} props - Icon configuration properties
      * @param {string} [props.className] - Additional CSS classes to apply
      * @param {SVGProps<SVGSVGElement>['size']} [props.size] - Size of the icon using Tailwind's spacing scale
-     * @returns {JSX.Element} Android logo icon component
+     * @returns {React.JSX.Element} Android logo icon component
      */
     android: ({ className, size, ...props }: SVGProps<SVGSVGElement>) => (
       <i>
@@ -140,7 +140,7 @@ export const Icons = {
      * @param {SVGProps<SVGSVGElement>} props - Icon configuration properties
      * @param {string} [props.className] - Additional CSS classes to apply
      * @param {SVGProps<SVGSVGElement>['size']} [props.size] - Size of the icon using Tailwind's spacing scale
-     * @returns {JSX.Element} Arrow left icon component
+     * @returns {React.JSX.Element} Arrow left icon component
      */
     arrowLeft: ({ className, size, ...props }: SVGProps<SVGSVGElement>) => (
       <i>
@@ -158,7 +158,7 @@ export const Icons = {
      * @param {SVGProps<SVGSVGElement>} props - Icon configuration properties
      * @param {string} [props.className] - Additional CSS classes to apply
      * @param {SVGProps<SVGSVGElement>['size']} [props.size] - Size of the icon using Tailwind's spacing scale
-     * @returns {JSX.Element} Avatar icon component
+     * @returns {React.JSX.Element} Avatar icon component
      */
     avatar: ({ className, size, ...props }: SVGProps<SVGSVGElement>) => (
       <i>
@@ -176,7 +176,7 @@ export const Icons = {
      * @param {SVGProps<SVGSVGElement>} props - Icon configuration properties
      * @param {string} [props.className] - Additional CSS classes to apply
      * @param {SVGProps<SVGSVGElement>['size']} [props.size] - Size of the icon using Tailwind's spacing scale
-     * @returns {JSX.Element} Paper plane icon component
+     * @returns {React.JSX.Element} Paper plane icon component
      */
     paperplane: ({ className, size, ...props }: SVGProps<SVGSVGElement>) => (
       <i>
@@ -194,7 +194,7 @@ export const Icons = {
      * @param {SVGProps<SVGSVGElement>} props - Icon configuration properties
      * @param {string} [props.className] - Additional CSS classes to apply
      * @param {SVGProps<SVGSVGElement>['size']} [props.size] - Size of the icon using Tailwind's spacing scale
-     * @returns {JSX.Element} Placeholder icon component
+     * @returns {React.JSX.Element} Placeholder icon component
      */
     placeholder: ({ className, size, ...props }: SVGProps<SVGSVGElement>) => (
       <i>
@@ -206,7 +206,7 @@ export const Icons = {
      * @param {SVGProps<SVGSVGElement>} props - Icon configuration properties
      * @param {string} [props.className] - Additional CSS classes to apply
      * @param {SVGProps<SVGSVGElement>['size']} [props.size] - Size of the icon using Tailwind's spacing scale
-     * @returns {JSX.Element} Spinner icon component for loading indicators
+     * @returns {React.JSX.Element} Spinner icon component for loading indicators
      */
     spinner: ({ className, size, ...props }: SVGProps<SVGSVGElement>) => (
       <i>
@@ -218,7 +218,7 @@ export const Icons = {
      * @param {SVGProps<SVGSVGElement>} props - Icon configuration properties
      * @param {string} [props.className] - Additional CSS classes to apply
      * @param {SVGProps<SVGSVGElement>['size']} [props.size] - Size of the icon using Tailwind's spacing scale
-     * @returns {JSX.Element} Check icon component
+     * @returns {React.JSX.Element} Check icon component
      */
     check: ({ className, size, ...props }: SVGProps<SVGSVGElement>) => (
       <i>
@@ -230,7 +230,7 @@ export const Icons = {
      * @param {SVGProps<SVGSVGElement>} props - Icon configuration properties
      * @param {string} [props.className] - Additional CSS classes to apply
      * @param {SVGProps<SVGSVGElement>['size']} [props.size] - Size of the icon using Tailwind's spacing scale
-     * @returns {JSX.Element} KTP icon component
+     * @returns {React.JSX.Element} KTP icon component
      */
     coutKtp: ({ className, size, ...props }: SVGProps<SVGSVGElement>) => (
       <i>

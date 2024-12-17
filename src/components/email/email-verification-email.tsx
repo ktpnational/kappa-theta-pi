@@ -69,7 +69,7 @@ const styles: Record<string, CSSProperties> = {
 export function EmailVerificationEmail({
   email,
   emailVerificationToken,
-}: Readonly<EmailVerificationEmailProps>): JSX.Element {
+}: Readonly<EmailVerificationEmailProps>): React.JSX.Element {
   const previewText = `${app.name} email verification.`;
   const verificationUrl = `${process.env.NEXT_PUBLIC_APP_URL}/signup/verify-email?token=${emailVerificationToken}`;
 

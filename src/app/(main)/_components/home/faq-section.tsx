@@ -49,7 +49,7 @@ import type React from 'react';
  * - Smooth chevron rotation
  * - Configurable animation timing and easing
  *
- * @returns {JSX.Element} Rendered FAQ item with animated expansion capabilities
+ * @returns {React.JSX.Element} Rendered FAQ item with animated expansion capabilities
  */
 const FAQItem: React.FC<FAQItem & { isOpen: boolean; toggleOpen: () => void }> = ({
   question,
@@ -147,7 +147,7 @@ FAQItem.displayName = 'FAQItem';
  * - Handles toggling between items
  * - Maintains single-item-open behavior
  *
- * @returns {JSX.Element} A fully functional FAQ section with animated, interactive FAQ items
+ * @returns {React.JSX.Element} A fully functional FAQ section with animated, interactive FAQ items
  */
 export const FAQSection: React.FC = () => {
   const { openIndex, toggleOpen } = useGlobalStore((state) => state.faq);

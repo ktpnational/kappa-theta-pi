@@ -19,7 +19,7 @@
  *
  * @component
  * @async
- * @returns {Promise<JSX.Element>} A section containing a grid of blog post cards
+ * @returns {Promise<React.JSX.Element>} A section containing a grid of blog post cards
  *
  * @example
  * ```tsx

@@ -19,7 +19,7 @@ import { cn } from '@/lib/utils';
  * @param {number} [props.value] - Current progress value (0-100)
  * @param {React.Ref<HTMLDivElement>} ref - Forwarded ref to the root element
  *
- * @returns {JSX.Element} A progress bar component with customizable appearance and value
+ * @returns {React.JSX.Element} A progress bar component with customizable appearance and value
  *
  * @remarks
  * The component uses Tailwind CSS for styling and supports theme customization through the bg-secondary

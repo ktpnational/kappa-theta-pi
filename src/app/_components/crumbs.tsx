@@ -36,7 +36,7 @@ import { memo } from 'react';
  * />
  * ```
  *
- * @returns {JSX.Element} A header containing a breadcrumb navigation component with
+ * @returns {React.JSX.Element} A header containing a breadcrumb navigation component with
  * a sidebar trigger, separator, and breadcrumb trail
  */
 export const Crumbs = memo(

@@ -12,7 +12,7 @@ export const metadata = constructMetadata({
  * @param {Object} props - Component props
  * @param {React.ReactNode} props.children - Child components to be rendered within the layout
  *
- * @returns {JSX.Element} Authentication layout wrapper with centered content and gradient background
+ * @returns {React.JSX.Element} Authentication layout wrapper with centered content and gradient background
  *
  * @example
  * // Basic usage

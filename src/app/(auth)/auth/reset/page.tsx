@@ -1,5 +1,6 @@
 import { constructMetadata } from '@/utils';
 import dynamic from 'next/dynamic';
+import type React from 'react';
 
 export const metadata = constructMetadata({
   title: 'Reset',
@@ -20,10 +21,10 @@ const ResetForm = dynamic(() => import('@/app/(auth)/_components').then((mod) =>
  *   <ResetPage />
  * )
  *
- * @returns {JSX.Element} A React element containing the ResetForm component
+ * @returns {React.JSX.Element} A React element containing the ResetForm component
  * @see ResetForm
  */
-const ResetPage = (): JSX.Element => {
+const ResetPage = (): React.JSX.Element => {
   return <ResetForm />;
 };
 

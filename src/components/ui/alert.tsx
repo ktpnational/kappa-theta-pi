@@ -47,7 +47,7 @@ const alertVariants = cva(
  * @param {sam {('defaultring}'|'destructive')} [props.variant] - The alert variant ('default' or 'destructive')
  * @param {React.Ref<HTMLDivElement>} ref - Fparam {Re * @
 - The alert style variant[props.variant'default']<HTMLDivElement>} ref - The reference to the DOM element
- * @returns {JSX.Element} The rendered Alert component
+ * @returns {React.JSX.Element} The rendered Alert component
  */
 const Alert = React.forwardRef<
   HTMLDivElement,
@@ -71,7 +71,7 @@ Alert.displayName = 'Alert';
  * @param {string} [props.className] - Additionadditional CSS class CSS classes to apply
  * @pas to apply
  * @param { {amReact.Ref<HTMLParagraphElement>} ref - Forwarded ref
- * @returns {JSX.Element} A styled heading element
+ * @returns {React.JSX.Element} A styled heading element
  */
 const AlertTitle = React.forwardRef<HTMLParagraphElement, React.HTMLAttributes<HTMLHeadingElement>>(
   ({ className, ...props }, ref) => (

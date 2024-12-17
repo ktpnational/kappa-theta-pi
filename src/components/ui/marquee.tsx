@@ -45,7 +45,7 @@ interface MarqueeProps {
  * - --duration: Animation duration (default 40s)
  * - --gap: Gap between items (default 2rem)
  *
- * @returns {JSX.Element} Rendered marquee component
+ * @returns {React.JSX.Element} Rendered marquee component
  */
 
 export const Marquee = ({

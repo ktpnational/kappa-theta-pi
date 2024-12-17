@@ -26,7 +26,7 @@ import { Input } from '@/components/ui/input';
  * Newsletter signup form component that allows users to subscribe to a newsletter.
  *
  * @component
- * @returns {JSX.Element} A form component for newsletter signup
+ * @returns {React.JSX.Element} A form component for newsletter signup
  *
  * @example
  * ```tsx
@@ -40,7 +40,7 @@ import { Input } from '@/components/ui/input';
  * - Error handling with toast notifications
  * - Animated transitions using Framer Motion
  */
-export const NewsletterSignUpForm = (): JSX.Element => {
+export const NewsletterSignUpForm = (): React.JSX.Element => {
   const { toast } = useToast();
   const [isPending, startTransition] = React.useTransition();
   const [isSuccess, setIsSuccess] = React.useState(false);

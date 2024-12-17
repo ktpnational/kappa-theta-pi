@@ -1,9 +1,9 @@
 import pwa from '@ducanh2912/next-pwa';
 import MillionLint from '@million/lint';
 import withBundleAnalyzer from '@next/bundle-analyzer';
-// import { 
-  // type SentryBuildOptions, 
-  // withSentryConfig 
+// import {
+// type SentryBuildOptions,
+// withSentryConfig
 // } from '@sentry/nextjs';
 import type { NextConfig } from 'next';
 
@@ -50,16 +50,16 @@ const nextConfig: NextConfig = {
     typedRoutes: false,
     turbo: {
       resolveAlias: {
-        '@/*': './src/*'
+        '@/*': './src/*',
       },
       rules: {
-        '**/*.{ts,tsx}': ['typescript']
-      }
+        '**/*.{ts,tsx}': ['typescript'],
+      },
     },
   },
   async headers() {
     return [
-            {
+      {
         source: '/api/og',
         headers: [
           {
@@ -216,12 +216,12 @@ const millionConfig = MillionLint.next({
 
 const finalConfig = withPwa(nextConfig);
 
-let combinedConfig = millionConfig(withBundleAnalyzerConfig(finalConfig));
+const combinedConfig = millionConfig(withBundleAnalyzerConfig(finalConfig));
 
 // if (require.main === module) {
-  // if (sentryConfig) {
-  //   combinedConfig = withSentryConfig(combinedConfig, sentryConfig);
-  // }
+// if (sentryConfig) {
+//   combinedConfig = withSentryConfig(combinedConfig, sentryConfig);
+// }
 // }
 
 export default combinedConfig;

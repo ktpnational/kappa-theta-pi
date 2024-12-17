@@ -20,7 +20,7 @@ export const metadata = constructMetadata({
 /**
  * NotFoundPage component that renders the 404 error page
  * @function NotFoundPage
- * @returns {JSX.Element} Rendered NotFound component
+ * @returns {React.JSX.Element} Rendered NotFound component
  */
 const NotFoundPage = () => {
   return <NotFound />;

@@ -28,7 +28,7 @@ import {
  * <UserButton />
  * ```
  *
- * @returns {JSX.Element} A dropdown menu component containing a user avatar and logout option
+ * @returns {React.JSX.Element} A dropdown menu component containing a user avatar and logout option
  *
  * @dependencies
  * - useCurrentUser hook for accessing the current user's data

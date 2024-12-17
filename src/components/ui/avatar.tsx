@@ -13,7 +13,7 @@ import { cn } from '@/lib/utils';
  * @param {object} props - The component props
  * @param {string} [props.className] - Additional CSS classes to apply to the avatar
  * @param {React.Ref<HTMLDivElement>} ref - Forwarded ref to the root element
- * @returns {JSX.Element} The Avatar component
+ * @returns {React.JSX.Element} The Avatar component
  *
  * @example
  * ```tsx
@@ -45,7 +45,7 @@ Avatar.displayName = AvatarPrimitive.Root.displayName;
  * @param {string} props.src - The source URL of the profile image
  * @param {string} props.alt - Alt text for the image
  * @param {React.Ref<HTMLImageElement>} ref - Forwarded ref to the image element
- * @returns {JSX.Element} The AvatarImage component
+ * @returns {React.JSX.Element} The AvatarImage component
  *
  * @example
  * ```tsx
@@ -73,7 +73,7 @@ AvatarImage.displayName = AvatarPrimitive.Image.displayName;
  * @param {string} [props.className] - Additional CSS classes to apply to the fallback
  * @param {React.ReactNode} props.children - The fallback content to display
  * @param {React.Ref<HTMLDivElement>} ref - Forwarded ref to the fallback element
- * @returns {JSX.Element} The AvatarFallback component
+ * @returns {React.JSX.Element} The AvatarFallback component
  *
  * @example
  * ```tsx

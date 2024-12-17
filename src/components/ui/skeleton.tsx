@@ -13,7 +13,7 @@ import { cn } from '@/lib/utils';
  * @param {string} [props.className] - Additional CSS classes to apply to the skeleton element
  * @param {React.HTMLAttributes<HTMLDivElement>} props.props - Any additional HTML div attributes
  *
- * @returns {JSX.Element} A div element with skeleton loading animation styles
+ * @returns {React.JSX.Element} A div element with skeleton loading animation styles
  *
  * @remarks
  * The Skeleton component uses the `animate-pulse` utility class to create a subtle loading animation.

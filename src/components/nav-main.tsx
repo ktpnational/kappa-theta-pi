@@ -33,7 +33,7 @@ import {
  * @property {boolean} [isActive] - Whether this navigation item is currently active
  * @property {Array<SubNavigationItem>} [items] - Optional array of sub-navigation items
  *
- * @returns {JSX.Element} A sidebar navigation menu with collapsible sections
+ * @returns {React.JSX.Element} A sidebar navigation menu with collapsible sections
  *
  * @example
  * const navItems = [

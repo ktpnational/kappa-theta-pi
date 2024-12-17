@@ -17,7 +17,7 @@ const Tabs = TabsPrimitive.Root;
  * @param {Object} props - Component props
  * @param {string} [props.className] - Additional CSS classes to apply
  * @param {React.Ref<HTMLDivElement>} ref - Forwarded ref
- * @returns {JSX.Element} Rendered TabsList component
+ * @returns {React.JSX.Element} Rendered TabsList component
  */
 const TabsList = React.forwardRef<
   React.ElementRef<typeof TabsPrimitive.List>,
@@ -42,7 +42,7 @@ TabsList.displayName = TabsPrimitive.List.displayName;
  * @param {Object} props - Component props
  * @param {string} [props.className] - Additional CSS classes to apply
  * @param {React.Ref<HTMLButtonElement>} ref - Forwarded ref
- * @returns {JSX.Element} Rendered TabsTrigger component
+ * @returns {React.JSX.Element} Rendered TabsTrigger component
  */
 const TabsTrigger = React.forwardRef<
   React.ElementRef<typeof TabsPrimitive.Trigger>,
@@ -67,7 +67,7 @@ TabsTrigger.displayName = TabsPrimitive.Trigger.displayName;
  * @param {Object} props - Component props
  * @param {string} [props.className] - Additional CSS classes to apply
  * @param {React.Ref<HTMLDivElement>} ref - Forwarded ref
- * @returns {JSX.Element} Rendered TabsContent component
+ * @returns {React.JSX.Element} Rendered TabsContent component
  */
 const TabsContent = React.forwardRef<
   React.ElementRef<typeof TabsPrimitive.Content>,

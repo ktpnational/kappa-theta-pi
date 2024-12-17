@@ -1,7 +1,7 @@
 export type Resolver<TResult, TParent = unknown, TArgs = unknown> = (
   parent: TParent,
   args: TArgs,
-  ctx: import('@/app/api/v1/[[...routes]]/route').App['derive'],
+  ctx: { db: import('@prisma/client').PrismaClient },
   info: import('graphql').GraphQLResolveInfo,
 ) => Promise<TResult> | TResult;
 

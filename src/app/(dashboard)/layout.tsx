@@ -18,7 +18,7 @@ export const metadata = constructMetadata({
  * @component
  * @param {Object} props - Component props
  * @param {React.ReactNode} props.children - Child elements to be rendered within the dashboard layout
- * @returns {JSX.Element} Dashboard layout structure with sidebar and main content area
+ * @returns {React.JSX.Element} Dashboard layout structure with sidebar and main content area
  *
  * @example
  * ```tsx

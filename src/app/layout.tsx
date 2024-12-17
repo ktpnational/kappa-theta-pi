@@ -28,7 +28,7 @@ export const reportWebVitals = (metric: NextWebVitalsMetric) => {
  * Root layout component that wraps the entire application
  * @param {Object} props - Component props
  * @param {React.ReactNode} props.children - Child components to render
- * @returns {JSX.Element} Root layout structure
+ * @returns {React.JSX.Element} Root layout structure
  */
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const session = await auth();

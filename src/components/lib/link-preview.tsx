@@ -45,7 +45,7 @@ const MemoizedImage = memo((props: ImageProps) => <Image {...props} />);
 /**
  * LinkPreview component that shows a preview image when hovering over a link
  * @param {LinkPreviewProps} props - Component props
- * @returns {JSX.Element} Rendered component
+ * @returns {React.JSX.Element} Rendered component
  */
 export const LinkPreview = React.memo(
   ({

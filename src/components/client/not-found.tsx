@@ -20,7 +20,7 @@ import { memo } from 'react';
  * <NotFound />
  * ```
  *
- * @returns {JSX.Element} A React component that renders the 404 error page layout
+ * @returns {React.JSX.Element} A React component that renders the 404 error page layout
  * with animated background, error message, and navigation button.
  *
  * @remarks

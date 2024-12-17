@@ -7,7 +7,7 @@ import { Toaster } from '@/components/ui/sonner';
  * @component
  * @param {Object} props - Component props
  * @param {React.ReactNode} props.children - Child components to be rendered within the Events wrapper
- * @returns {JSX.Element} Fragment containing Toaster configuration and children
+ * @returns {React.JSX.Element} Fragment containing Toaster configuration and children
  *
  * @example
  * // Basic usage

@@ -61,7 +61,7 @@ const ConfettiContext = createContext<Api>({} as Api);
  * @component
  * @param {Props} props - Component props
  * @param {React.Ref<ConfettiRef>} ref - Forwarded ref for accessing the confetti API
- * @returns {JSX.Element} Rendered component
+ * @returns {React.JSX.Element} Rendered component
  */
 const Confetti = forwardRef<ConfettiRef, Props>((props, ref) => {
   const {
@@ -146,7 +146,7 @@ interface ConfettiButtonProps extends ButtonProps {
  * A button component that triggers a confetti effect when clicked
  * @component
  * @param {ConfettiButtonProps} props - Component props
- * @returns {JSX.Element} Rendered button component
+ * @returns {React.JSX.Element} Rendered button component
  */
 const ConfettiButton = React.memo(({ options, children, ...props }: ConfettiButtonProps) => {
   /**

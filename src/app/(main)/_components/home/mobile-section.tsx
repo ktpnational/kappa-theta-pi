@@ -61,7 +61,7 @@ const itemVariants = {
  * - Staggered animations for child elements
  * - Hover animations on app store buttons and phone mockups
  *
- * @returns {JSX.Element} A section element containing the mobile app showcase
+ * @returns {React.JSX.Element} A section element containing the mobile app showcase
  */
 export const MobileSection = memo(() => {
   return (

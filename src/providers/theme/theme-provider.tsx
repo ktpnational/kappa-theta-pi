@@ -38,7 +38,7 @@ import * as React from 'react';
  * @param {boolean} [props.disableTransitionOnChange=false] - Disable transitions when switching themes
  * @param {string} [props.storageKey="theme"] - Key to use for local storage
  * @param {Function} [props.onThemeChange] - Callback when theme changes
- * @returns {JSX.Element} Themed component tree wrapped in NextThemesProvider
+ * @returns {React.JSX.Element} Themed component tree wrapped in NextThemesProvider
  */
 export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
   return <NextThemesProvider {...props}>{children}</NextThemesProvider>;

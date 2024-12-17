@@ -15,7 +15,7 @@ import { LegalHeader } from '../_client';
  * <LegalCopyright />
  * ```
  *
- * @returns {JSX.Element} A React component that renders the copyright policy page
+ * @returns {React.JSX.Element} A React component that renders the copyright policy page
  * with a standardized legal header.
  *
  * @remarks

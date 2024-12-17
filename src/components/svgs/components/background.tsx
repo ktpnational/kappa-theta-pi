@@ -9,7 +9,7 @@ import type { TrueSVGProps } from '../types';
  * An animated background component that displays floating shapes and fraternity branding
  *
  * @component
- * @returns {JSX.Element} A full-screen background with animated SVG shapes and fraternity text
+ * @returns {React.JSX.Element} A full-screen background with animated SVG shapes and fraternity text
  *
  * @example
  * return (

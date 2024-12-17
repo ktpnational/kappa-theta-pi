@@ -14,7 +14,7 @@ interface FormSucessProps {
  * @component
  * @param {FormSucessProps} props - Component props
  * @param {string} [props.message] - Success message to display
- * @returns {JSX.Element|null} Rendered component if message is provided, null otherwise
+ * @returns {React.JSX.Element|null} Rendered component if message is provided, null otherwise
  * @example
  * // Basic usage
  * <FormSucess message="Operation completed successfully" />

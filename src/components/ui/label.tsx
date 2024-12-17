@@ -36,7 +36,7 @@ const labelVariants = cva(
  * @param {object} props - Component props
  * @param {string} [props.className] - Additional CSS classes to apply
  * @param {React.Ref<HTMLLabelElement>} ref - Forwarded ref
- * @returns {JSX.Element} Rendered label component
+ * @returns {React.JSX.Element} Rendered label component
  */
 const Label = React.forwardRef<
   React.ElementRef<typeof LabelPrimitive.Root>,

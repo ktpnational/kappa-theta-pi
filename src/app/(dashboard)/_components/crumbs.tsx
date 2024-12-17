@@ -34,7 +34,7 @@ import { memo } from 'react';
  * />
  * ```
  *
- * @returns {JSX.Element} Breadcrumb navigation component with sidebar trigger
+ * @returns {React.JSX.Element} Breadcrumb navigation component with sidebar trigger
  */
 export const Crumbs = memo(
   ({

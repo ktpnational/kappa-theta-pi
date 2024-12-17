@@ -73,7 +73,7 @@ const getTransitionConfig = (path: string) => {
  * A component that provides smooth page transitions using Framer Motion
  * @component
  * @param {PageTransitionProps} props - Component props
- * @returns {JSX.Element} Animated page wrapper component
+ * @returns {React.JSX.Element} Animated page wrapper component
  *
  * @description
  * This component wraps page content and provides animated transitions between route changes.

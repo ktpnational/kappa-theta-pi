@@ -31,7 +31,7 @@ import { reset } from '@/actions/reset';
  * Handles form submission and displays success/error states.
  *
  * @component
- * @returns {JSX.Element} The rendered password reset form
+ * @returns {React.JSX.Element} The rendered password reset form
  */
 const ResetForm = () => {
   const {

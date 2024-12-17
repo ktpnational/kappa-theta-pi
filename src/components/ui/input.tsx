@@ -31,7 +31,7 @@ import { cn } from '@/lib/utils';
  * <Input ref={inputRef} type="text" />
  * ```
  *
- * @returns {JSX.Element} A styled input element that maintains full HTML input functionality
+ * @returns {React.JSX.Element} A styled input element that maintains full HTML input functionality
  */
 const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<'input'>>(
   ({ className, type, ...props }, ref) => {

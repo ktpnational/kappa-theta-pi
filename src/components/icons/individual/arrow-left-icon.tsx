@@ -4,7 +4,7 @@ export const ArrowLeftIcon: React.FC<SVGProps<SVGSVGElement>> = ({
   className,
   size,
   ...props
-}): JSX.Element => (
+}): React.JSX.Element => (
   <svg
     width="15"
     height="15"

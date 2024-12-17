@@ -34,7 +34,7 @@ import { notFound } from 'next/navigation';
  * // - Member user -> redirects to /dashboard/member
  * // - No role -> shows 404 page
  *
- * @returns {Promise<JSX.Element>} A React fragment that handles redirection or 404 response
+ * @returns {Promise<React.JSX.Element>} A React fragment that handles redirection or 404 response
  * @since 1.0.0
  * @public
  *

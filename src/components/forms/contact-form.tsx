@@ -36,7 +36,7 @@ import { Textarea } from '@/components/ui/textarea';
  * <ContactForm />
  * ```
  *
- * @returns {JSX.Element} A fully styled and functional contact form
+ * @returns {React.JSX.Element} A fully styled and functional contact form
  *
  * @features
  * - Form validation using Zod schema
@@ -69,7 +69,7 @@ import { Textarea } from '@/components/ui/textarea';
  * - Consistent form field heights
  * - Loading spinner animation
  */
-export const ContactForm = (): JSX.Element => {
+export const ContactForm = (): React.JSX.Element => {
   /** Toast notification hook for showing submission status */
   const { toast } = useToast();
 

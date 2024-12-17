@@ -29,7 +29,7 @@ import React from 'react';
  * - Implements full-screen responsive layout
  * - Includes fallback memoization to prevent unnecessary re-renders
  *
- * @returns {JSX.Element} A memoized loading spinner component with animations
+ * @returns {React.JSX.Element} A memoized loading spinner component with animations
  */
 export const Loader = React.memo(
   () => {

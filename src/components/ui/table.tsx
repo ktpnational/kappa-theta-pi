@@ -8,7 +8,7 @@ import { cn } from '@/lib/utils';
  * @param {object} props - Component props
  * @param {string} [props.className] - Additional CSS classes to apply
  * @param {React.Ref<HTMLTableElement>} ref - Forwarded ref for the table element
- * @returns {JSX.Element} Rendered table component
+ * @returns {React.JSX.Element} Rendered table component
  */
 const Table = React.forwardRef<HTMLTableElement, React.HTMLAttributes<HTMLTableElement>>(
   ({ className, ...props }, ref) => (
@@ -25,7 +25,7 @@ Table.displayName = 'Table';
  * @param {object} props - Component props
  * @param {string} [props.className] - Additional CSS classes to apply
  * @param {React.Ref<HTMLTableSectionElement>} ref - Forwarded ref for the thead element
- * @returns {JSX.Element} Rendered table header component
+ * @returns {React.JSX.Element} Rendered table header component
  */
 const TableHeader = React.forwardRef<
   HTMLTableSectionElement,
@@ -41,7 +41,7 @@ TableHeader.displayName = 'TableHeader';
  * @param {object} props - Component props
  * @param {string} [props.className] - Additional CSS classes to apply
  * @param {React.Ref<HTMLTableSectionElement>} ref - Forwarded ref for the tbody element
- * @returns {JSX.Element} Rendered table body component
+ * @returns {React.JSX.Element} Rendered table body component
  */
 const TableBody = React.forwardRef<
   HTMLTableSectionElement,
@@ -57,7 +57,7 @@ TableBody.displayName = 'TableBody';
  * @param {object} props - Component props
  * @param {string} [props.className] - Additional CSS classes to apply
  * @param {React.Ref<HTMLTableSectionElement>} ref - Forwarded ref for the tfoot element
- * @returns {JSX.Element} Rendered table footer component
+ * @returns {React.JSX.Element} Rendered table footer component
  */
 const TableFooter = React.forwardRef<
   HTMLTableSectionElement,
@@ -77,7 +77,7 @@ TableFooter.displayName = 'TableFooter';
  * @param {object} props - Component props
  * @param {string} [props.className] - Additional CSS classes to apply
  * @param {React.Ref<HTMLTableRowElement>} ref - Forwarded ref for the tr element
- * @returns {JSX.Element} Rendered table row component
+ * @returns {React.JSX.Element} Rendered table row component
  */
 const TableRow = React.forwardRef<HTMLTableRowElement, React.HTMLAttributes<HTMLTableRowElement>>(
   ({ className, ...props }, ref) => (
@@ -99,7 +99,7 @@ TableRow.displayName = 'TableRow';
  * @param {object} props - Component props
  * @param {string} [props.className] - Additional CSS classes to apply
  * @param {React.Ref<HTMLTableCellElement>} ref - Forwarded ref for the th element
- * @returns {JSX.Element} Rendered table header cell component
+ * @returns {React.JSX.Element} Rendered table header cell component
  */
 const TableHead = React.forwardRef<
   HTMLTableCellElement,
@@ -122,7 +122,7 @@ TableHead.displayName = 'TableHead';
  * @param {object} props - Component props
  * @param {string} [props.className] - Additional CSS classes to apply
  * @param {React.Ref<HTMLTableCellElement>} ref - Forwarded ref for the td element
- * @returns {JSX.Element} Rendered table cell component
+ * @returns {React.JSX.Element} Rendered table cell component
  */
 const TableCell = React.forwardRef<
   HTMLTableCellElement,
@@ -142,7 +142,7 @@ TableCell.displayName = 'TableCell';
  * @param {object} props - Component props
  * @param {string} [props.className] - Additional CSS classes to apply
  * @param {React.Ref<HTMLTableCaptionElement>} ref - Forwarded ref for the caption element
- * @returns {JSX.Element} Rendered table caption component
+ * @returns {React.JSX.Element} Rendered table caption component
  */
 const TableCaption = React.forwardRef<
   HTMLTableCaptionElement,

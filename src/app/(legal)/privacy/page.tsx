@@ -20,7 +20,7 @@ const LegalPrivacy = dynamic(() => import('../_components').then((mod) => mod.Le
  * <Privacy />
  * ```
  *
- * @returns {JSX.Element} A div container with a h1 heading displaying "Privacy"
+ * @returns {React.JSX.Element} A div container with a h1 heading displaying "Privacy"
  *
  * @since 1.0.0
  * @version 1.0.0

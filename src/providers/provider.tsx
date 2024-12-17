@@ -19,7 +19,7 @@ import {
  * @component
  * @param {Object} props - Component props
  * @param {React.ReactNode} props.children - Child elements to be wrapped by the providers
- * @returns {JSX.Element} Composed provider stack with children
+ * @returns {React.JSX.Element} Composed provider stack with children
  */
 const Providers: React.FC<
   Readonly<{

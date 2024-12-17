@@ -1,7 +1,7 @@
 'use client';
 
 import { CheckIcon, CopyIcon } from '@radix-ui/react-icons';
-import * as React from 'react';
+import type * as React from 'react';
 
 import { Button, type ButtonProps } from '@/components/ui/button';
 import { useGlobalStore } from '@/providers';
@@ -13,7 +13,7 @@ import { useGlobalStore } from '@/providers';
  * @param {Object} props - The component props
  * @param {any} props.value - The value to be copied to clipboard when clicked
  * @param {ButtonProps} props.props - Additional button props that will be spread onto the underlying Button component
- * @returns {JSX.Element} A button that copies text to clipboard with visual feedback
+ * @returns {React.JSX.Element} A button that copies text to clipboard with visual feedback
  *
  * @example
  * ```tsx
@@ -27,7 +27,7 @@ import { useGlobalStore } from '@/providers';
  * - Includes screen reader accessible text
  * - Positioned absolutely by default with right-5 top-4 placement
  */
-export function CopyButton({ value, ...props }: ButtonProps): JSX.Element {
+export function CopyButton({ value, ...props }: ButtonProps): React.JSX.Element {
   const { isCopied, setIsCopied } = useGlobalStore((state) => state.copyButton);
 
   return (

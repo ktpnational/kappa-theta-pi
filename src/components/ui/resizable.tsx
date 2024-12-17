@@ -11,7 +11,7 @@ import { cn } from '@/lib/utils';
  * @param {Object} props - The component properties
  * @param {string} [props.className] - Additional CSS classes to apply to the panel group
  * @param {ResizablePrimitive.PanelGroupProps} props - All properties from react-resizable-panels PanelGroup
- * @returns {JSX.Element} A resizable panel group component that can contain multiple panels
+ * @returns {React.JSX.Element} A resizable panel group component that can contain multiple panels
  */
 const ResizablePanelGroup = ({
   className,
@@ -37,7 +37,7 @@ const ResizablePanel = ResizablePrimitive.Panel;
  * @param {boolean} [props.withHandle] - Whether to show a visual grip handle
  * @param {string} [props.className] - Additional CSS classes to apply to the resize handle
  * @param {ResizablePrimitive.PanelResizeHandleProps} props - All properties from react-resizable-panels PanelResizeHandle
- * @returns {JSX.Element} A resize handle component that can be placed between panels
+ * @returns {React.JSX.Element} A resize handle component that can be placed between panels
  */
 const ResizableHandle = ({
   withHandle,

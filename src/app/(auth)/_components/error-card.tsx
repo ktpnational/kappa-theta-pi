@@ -9,7 +9,7 @@ import { ExclamationTriangleIcon } from '@radix-ui/react-icons';
  * // Basic usage
  * <ErrorCard />
  *
- * @returns {JSX.Element} Returns a CardWrapper component containing an error message
+ * @returns {React.JSX.Element} Returns a CardWrapper component containing an error message
  *                        and exclamation triangle icon
  *
  * @remarks

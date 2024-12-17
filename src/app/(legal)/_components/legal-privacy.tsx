@@ -21,7 +21,7 @@ import { LegalHeader } from '../_client';
  * - Marked as a client component using 'use client' directive
  * - Implements a displayName for better debugging and development tools support
  *
- * @returns {JSX.Element} A React component that displays the privacy policy header
+ * @returns {React.JSX.Element} A React component that displays the privacy policy header
  */
 export const LegalPrivacy = () => {
   return (

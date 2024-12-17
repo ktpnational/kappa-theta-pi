@@ -24,7 +24,7 @@ import { cn } from '@/lib/utils';
  * // Vertical separator
  * <Separator orientation="vertical" className="mx-2 h-6" />
  *
- * @returns {JSX.Element} A separator element that visually or semantically divides content
+ * @returns {React.JSX.Element} A separator element that visually or semantically divides content
  */
 const Separator = React.forwardRef<
   React.ElementRef<typeof SeparatorPrimitive.Root>,

@@ -15,7 +15,7 @@ interface FormErrorProps {
  * @param {FormErrorProps} props - Component props
  * @param {string} [props.message] - Error message to display
  *
- * @returns {JSX.Element | null} Returns a styled error message div with icon if message provided, null otherwise
+ * @returns {React.JSX.Element | null} Returns a styled error message div with icon if message provided, null otherwise
  *
  * @example
  * // Basic usage with message

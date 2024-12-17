@@ -16,7 +16,7 @@ const NewPasswordForm = dynamic(() =>
  * their new password, typically used in password reset flows.
  *
  * @component
- * @returns {JSX.Element} Renders the NewPasswordForm component
+ * @returns {React.JSX.Element} Renders the NewPasswordForm component
  * @example
  * // Standard usage
  * return (

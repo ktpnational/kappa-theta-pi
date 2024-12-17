@@ -11,7 +11,7 @@ import { cn } from '@/lib/utils';
  * @param {Object} props - The component props
  * @param {React.ReactNode} [props.separator] - Optional custom separator element between breadcrumb items
  * @param {React.Ref<HTMLElement>} ref - Forward ref for the nav element
- * @returns {JSX.Element} A nav element containing the breadcrumb trail
+ * @returns {React.JSX.Element} A nav element containing the breadcrumb trail
  */
 const Breadcrumb = React.forwardRef<
   HTMLElement,
@@ -28,7 +28,7 @@ Breadcrumb.displayName = 'Breadcrumb';
  * @param {Object} props - The component props
  * @param {string} [props.className] - Additional CSS classes to apply
  * @param {React.Ref<HTMLOListElement>} ref - Forward ref for the ol element
- * @returns {JSX.Element} An ordered list containing breadcrumb items
+ * @returns {React.JSX.Element} An ordered list containing breadcrumb items
  */
 const BreadcrumbList = React.forwardRef<HTMLOListElement, React.ComponentPropsWithoutRef<'ol'>>(
   ({ className, ...props }, ref) => (
@@ -51,7 +51,7 @@ BreadcrumbList.displayName = 'BreadcrumbList';
  * @param {Object} props - The component props
  * @param {string} [props.className] - Additional CSS classes to apply
  * @param {React.Ref<HTMLLIElement>} ref - Forward ref for the li element
- * @returns {JSX.Element} A list item containing a breadcrumb segment
+ * @returns {React.JSX.Element} A list item containing a breadcrumb segment
  */
 const BreadcrumbItem = React.forwardRef<HTMLLIElement, React.ComponentPropsWithoutRef<'li'>>(
   ({ className, ...props }, ref) => (
@@ -68,7 +68,7 @@ BreadcrumbItem.displayName = 'BreadcrumbItem';
  * @param {boolean} [props.asChild] - Whether to render as a child component using Radix Slot
  * @param {string} [props.className] - Additional CSS classes to apply
  * @param {React.Ref<HTMLAnchorElement>} ref - Forward ref for the anchor element
- * @returns {JSX.Element} An anchor element or slot component for navigation
+ * @returns {React.JSX.Element} An anchor element or slot component for navigation
  */
 const BreadcrumbLink = React.forwardRef<
   HTMLAnchorElement,
@@ -95,7 +95,7 @@ BreadcrumbLink.displayName = 'BreadcrumbLink';
  * @param {Object} props - The component props
  * @param {string} [props.className] - Additional CSS classes to apply
  * @param {React.Ref<HTMLSpanElement>} ref - Forward ref for the span element
- * @returns {JSX.Element} A span element representing the current page
+ * @returns {React.JSX.Element} A span element representing the current page
  */
 const BreadcrumbPage = React.forwardRef<HTMLSpanElement, React.ComponentPropsWithoutRef<'span'>>(
   ({ className, ...props }, ref) => (
@@ -118,7 +118,7 @@ BreadcrumbPage.displayName = 'BreadcrumbPage';
  * @param {Object} props - The component props
  * @param {React.ReactNode} [props.children] - Custom separator content
  * @param {string} [props.className] - Additional CSS classes to apply
- * @returns {JSX.Element} A list item containing the separator
+ * @returns {React.JSX.Element} A list item containing the separator
  */
 const BreadcrumbSeparator = ({ children, className, ...props }: React.ComponentProps<'li'>) => (
   <li
@@ -138,7 +138,7 @@ BreadcrumbSeparator.displayName = 'BreadcrumbSeparator';
  * @component
  * @param {Object} props - The component props
  * @param {string} [props.className] - Additional CSS classes to apply
- * @returns {JSX.Element} A span element containing the ellipsis indicator
+ * @returns {React.JSX.Element} A span element containing the ellipsis indicator
  */
 const BreadcrumbEllipsis = ({ className, ...props }: React.ComponentProps<'span'>) => (
   <span

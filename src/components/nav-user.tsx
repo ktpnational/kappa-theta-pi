@@ -30,7 +30,7 @@ import {
  * @param {string} props.user.email - The user's email address
  * @param {string} props.user.avatar - URL to the user's avatar image
  *
- * @returns {JSX.Element} A sidebar menu containing a dropdown with user information and actions
+ * @returns {React.JSX.Element} A sidebar menu containing a dropdown with user information and actions
  *
  * @example
  * const user = {

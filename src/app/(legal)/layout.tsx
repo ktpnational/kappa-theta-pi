@@ -23,7 +23,7 @@ export const metadata = constructMetadata({
  *   </LegalLayout>
  * )
  *
- * @returns {JSX.Element} A legal page layout wrapper with header, centered content area, and footer
+ * @returns {React.JSX.Element} A legal page layout wrapper with header, centered content area, and footer
  */
 const LegalLayout = ({ children }: { children: React.ReactNode }) => {
   return (

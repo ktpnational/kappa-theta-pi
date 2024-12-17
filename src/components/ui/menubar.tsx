@@ -47,7 +47,7 @@ const MenubarRadioGroup = MenubarPrimitive.RadioGroup;
  * @param {string} [className] - Additional CSS classes to apply to the menubar
  * @param {React.RefObject} ref - React ref forwarded to the root element
  * @param {Object} props - Additional props to spread to the root element
- * @returns {JSX.Element} Rendered menubar component
+ * @returns {React.JSX.Element} Rendered menubar component
  *
  * @example
  * ```tsx
@@ -82,7 +82,7 @@ Menubar.displayName = MenubarPrimitive.Root.displayName;
  * @param {string} [className] - Additional CSS classes to apply
  * @param {React.RefObject} ref - React ref forwarded to the trigger element
  * @param {Object} props - Additional props to spread to the trigger element
- * @returns {JSX.Element} Rendered menu trigger button
+ * @returns {React.JSX.Element} Rendered menu trigger button
  *
  * @example
  * ```tsx
@@ -114,7 +114,7 @@ MenubarTrigger.displayName = MenubarPrimitive.Trigger.displayName;
  * @param {React.ReactNode} children - Content to render inside the trigger
  * @param {React.RefObject} ref - React ref forwarded to the subtrigger element
  * @param {Object} props - Additional props to spread to the subtrigger element
- * @returns {JSX.Element} Rendered submenu trigger
+ * @returns {React.JSX.Element} Rendered submenu trigger
  *
  * @example
  * ```tsx
@@ -150,7 +150,7 @@ MenubarSubTrigger.displayName = MenubarPrimitive.SubTrigger.displayName;
  * @param {string} [className] - Additional CSS classes to apply
  * @param {React.RefObject} ref - React ref forwarded to the subcontent element
  * @param {Object} props - Additional props to spread to the subcontent element
- * @returns {JSX.Element} Rendered submenu content container
+ * @returns {React.JSX.Element} Rendered submenu content container
  */
 const MenubarSubContent = React.forwardRef<
   React.ElementRef<typeof MenubarPrimitive.SubContent>,
@@ -178,7 +178,7 @@ MenubarSubContent.displayName = MenubarPrimitive.SubContent.displayName;
  * @param {number} [sideOffset=8] - Offset from side in pixels
  * @param {React.RefObject} ref - React ref forwarded to the content element
  * @param {Object} props - Additional props to spread to the content element
- * @returns {JSX.Element} Rendered menu content container
+ * @returns {React.JSX.Element} Rendered menu content container
  */
 const MenubarContent = React.forwardRef<
   React.ElementRef<typeof MenubarPrimitive.Content>,
@@ -209,7 +209,7 @@ MenubarContent.displayName = MenubarPrimitive.Content.displayName;
  * @param {boolean} [inset] - Whether to inset the item padding
  * @param {React.RefObject} ref - React ref forwarded to the item element
  * @param {Object} props - Additional props to spread to the item element
- * @returns {JSX.Element} Rendered menu item
+ * @returns {React.JSX.Element} Rendered menu item
  *
  * @example
  * ```tsx
@@ -246,7 +246,7 @@ MenubarItem.displayName = MenubarPrimitive.Item.displayName;
  * @param {boolean} [checked] - Whether the checkbox is checked
  * @param {React.RefObject} ref - React ref forwarded to the checkbox item element
  * @param {Object} props - Additional props to spread to the checkbox item element
- * @returns {JSX.Element} Rendered checkbox menu item
+ * @returns {React.JSX.Element} Rendered checkbox menu item
  *
  * @example
  * ```tsx
@@ -287,7 +287,7 @@ MenubarCheckboxItem.displayName = MenubarPrimitive.CheckboxItem.displayName;
  * @param {React.ReactNode} children - Content to render inside the item
  * @param {React.RefObject} ref - React ref forwarded to the radio item element
  * @param {Object} props - Additional props to spread to the radio item element
- * @returns {JSX.Element} Rendered radio menu item
+ * @returns {React.JSX.Element} Rendered radio menu item
  *
  * @example
  * ```tsx
@@ -328,7 +328,7 @@ MenubarRadioItem.displayName = MenubarPrimitive.RadioItem.displayName;
  * @param {boolean} [inset] - Whether to inset the label padding
  * @param {React.RefObject} ref - React ref forwarded to the label element
  * @param {Object} props - Additional props to spread to the label element
- * @returns {JSX.Element} Rendered menu label
+ * @returns {React.JSX.Element} Rendered menu label
  *
  * @example
  * ```tsx
@@ -357,7 +357,7 @@ MenubarLabel.displayName = MenubarPrimitive.Label.displayName;
  * @param {string} [className] - Additional CSS classes to apply
  * @param {React.RefObject} ref - React ref forwarded to the separator element
  * @param {Object} props - Additional props to spread to the separator element
- * @returns {JSX.Element} Rendered menu separator
+ * @returns {React.JSX.Element} Rendered menu separator
  *
  * @example
  * ```tsx
@@ -385,7 +385,7 @@ MenubarSeparator.displayName = MenubarPrimitive.Separator.displayName;
  * @component
  * @param {string} [className] - Additional CSS classes to apply
  * @param {Object} props - Additional props to spread to the span element
- * @returns {JSX.Element} Rendered keyboard shortcut indicator
+ * @returns {React.JSX.Element} Rendered keyboard shortcut indicator
  *
  * @example
  * ```tsx

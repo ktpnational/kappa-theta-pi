@@ -14,7 +14,7 @@ const ErrorCard = dynamic(() => import('@/app/(auth)/_components').then((mod) =>
  *   <AuthErrorPage />
  * )
  *
- * @returns {JSX.Element} A div container wrapping the ErrorCard component
+ * @returns {React.JSX.Element} A div container wrapping the ErrorCard component
  *
  * @see {@link ErrorCard} For the actual error message display implementation
  */

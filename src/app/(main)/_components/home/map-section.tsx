@@ -31,7 +31,7 @@ import type React from 'react';
  * - Shadow effects on status indicators
  *
  * @component
- * @return {JSX.Element} Rendered MapSection component
+ * @return {React.JSX.Element} Rendered MapSection component
  */
 export const MapSection: React.FC = () => {
   return (

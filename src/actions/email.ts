@@ -19,7 +19,7 @@ import {
  *
  * @param {string} email - User's email address to verify
  * @param {string} token - Verification token to include in email
- * @returns {Promise<JSX.Element>} Rendered React email template
+ * @returns {Promise<React.JSX.Element>} Rendered React email template
  * @throws Will throw if template import or rendering fails
  * @private
  */
@@ -37,7 +37,7 @@ const renderEmailVerificationTemplate = async (email: string, token: string) => 
  * @param {string} name - Name of person submitting enquiry
  * @param {string} email - Email address of enquirer
  * @param {string} message - Content of the enquiry message
- * @returns {Promise<JSX.Element>} Rendered React email template
+ * @returns {Promise<React.JSX.Element>} Rendered React email template
  * @throws Will throw if template import or rendering fails
  * @private
  */

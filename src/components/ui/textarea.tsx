@@ -13,7 +13,7 @@ import { cn } from '@/lib/utils';
  * @param {string} [props.className] - Optional CSS class name to apply additional styles
  * @param {React.Ref<HTMLTextAreaElement>} ref - Forwarded ref to access the underlying textarea element
  *
- * @returns {JSX.Element} A styled textarea component with forwarded ref support
+ * @returns {React.JSX.Element} A styled textarea component with forwarded ref support
  *
  * @example
  * // Basic usage

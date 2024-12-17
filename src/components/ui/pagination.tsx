@@ -8,7 +8,7 @@ import { cn } from '@/lib/utils';
  * Main pagination navigation component that wraps pagination content
  * @param {object} props - Component props
  * @param {string} [props.className] - Optional CSS class name
- * @returns {JSX.Element} Navigation element containing pagination
+ * @returns {React.JSX.Element} Navigation element containing pagination
  */
 const Pagination = ({ className, ...props }: React.ComponentProps<'nav'>) => (
   <nav
@@ -25,7 +25,7 @@ Pagination.displayName = 'Pagination';
  * @param {object} props - Component props
  * @param {string} [props.className] - Optional CSS class name
  * @param {React.Ref<HTMLUListElement>} ref - Forwarded ref
- * @returns {JSX.Element} Unordered list containing pagination items
+ * @returns {React.JSX.Element} Unordered list containing pagination items
  */
 const PaginationContent = React.forwardRef<HTMLUListElement, React.ComponentProps<'ul'>>(
   ({ className, ...props }, ref) => (
@@ -39,7 +39,7 @@ PaginationContent.displayName = 'PaginationContent';
  * @param {object} props - Component props
  * @param {string} [props.className] - Optional CSS class name
  * @param {React.Ref<HTMLLIElement>} ref - Forwarded ref
- * @returns {JSX.Element} List item element
+ * @returns {React.JSX.Element} List item element
  */
 const PaginationItem = React.forwardRef<HTMLLIElement, React.ComponentProps<'li'>>(
   ({ className, ...props }, ref) => <li ref={ref} className={cn('', className)} {...props} />,
@@ -61,7 +61,7 @@ type PaginationLinkProps = {
 /**
  * Clickable pagination link component
  * @param {PaginationLinkProps} props - Component props
- * @returns {JSX.Element} Anchor element styled as a button
+ * @returns {React.JSX.Element} Anchor element styled as a button
  */
 const PaginationLink = ({ className, isActive, size = 'icon', ...props }: PaginationLinkProps) => (
   <a
@@ -81,7 +81,7 @@ PaginationLink.displayName = 'PaginationLink';
 /**
  * Previous page navigation button
  * @param {React.ComponentProps<typeof PaginationLink>} props - Component props
- * @returns {JSX.Element} Styled previous page button
+ * @returns {React.JSX.Element} Styled previous page button
  */
 const PaginationPrevious = ({
   className,
@@ -102,7 +102,7 @@ PaginationPrevious.displayName = 'PaginationPrevious';
 /**
  * Next page navigation button
  * @param {React.ComponentProps<typeof PaginationLink>} props - Component props
- * @returns {JSX.Element} Styled next page button
+ * @returns {React.JSX.Element} Styled next page button
  */
 const PaginationNext = ({ className, ...props }: React.ComponentProps<typeof PaginationLink>) => (
   <PaginationLink
@@ -120,7 +120,7 @@ PaginationNext.displayName = 'PaginationNext';
 /**
  * Ellipsis component to indicate more pages
  * @param {React.ComponentProps<'span'>} props - Component props
- * @returns {JSX.Element} Span element with ellipsis icon
+ * @returns {React.JSX.Element} Span element with ellipsis icon
  */
 const PaginationEllipsis = ({ className, ...props }: React.ComponentProps<'span'>) => (
   <span

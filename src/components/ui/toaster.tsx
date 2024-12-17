@@ -18,7 +18,7 @@ import { useToast } from '@/hooks/use-toast';
  * optional titles, descriptions, and actions.
  *
  * @component
- * @returns {JSX.Element} A ToastProvider containing mapped toast notifications
+ * @returns {React.JSX.Element} A ToastProvider containing mapped toast notifications
  *
  * @example
  * ```tsx

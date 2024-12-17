@@ -25,7 +25,7 @@ import { cn } from '@/lib/utils';
  * @param {function} [props.onValueChange] - Callback fired when the value changes
  * @param {React.Ref} ref - Forwarded ref to access the underlying DOM element
  *
- * @returns {JSX.Element} A slider component with track, range and thumb elements
+ * @returns {React.JSX.Element} A slider component with track, range and thumb elements
  */
 const Slider = React.forwardRef<
   React.ElementRef<typeof SliderPrimitive.Root>,

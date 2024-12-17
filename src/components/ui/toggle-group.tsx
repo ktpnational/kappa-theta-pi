@@ -25,7 +25,7 @@ const ToggleGroupContext = React.createContext<VariantProps<typeof toggleVariant
  * @param {string} [props.size] - The size variant of the toggle group
  * @param {React.ReactNode} props.children - The toggle group items
  * @param {React.Ref<HTMLDivElement>} ref - The forwarded ref
- * @returns {JSX.Element} The toggle group component
+ * @returns {React.JSX.Element} The toggle group component
  */
 const ToggleGroup = React.forwardRef<
   React.ElementRef<typeof ToggleGroupPrimitive.Root>,
@@ -52,7 +52,7 @@ ToggleGroup.displayName = ToggleGroupPrimitive.Root.displayName;
  * @param {string} [props.variant] - The visual variant of the toggle item, overrides group variant
  * @param {string} [props.size] - The size variant of the toggle item, overrides group size
  * @param {React.Ref<HTMLButtonElement>} ref - The forwarded ref
- * @returns {JSX.Element} The toggle group item component
+ * @returns {React.JSX.Element} The toggle group item component
  */
 const ToggleGroupItem = React.forwardRef<
   React.ElementRef<typeof ToggleGroupPrimitive.Item>,

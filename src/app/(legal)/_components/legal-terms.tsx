@@ -15,7 +15,7 @@ import { LegalHeader } from '../_client';
  * <LegalTerms />
  * ```
  *
- * @returns {JSX.Element} A React fragment containing the LegalHeader component with "Terms of Service" title
+ * @returns {React.JSX.Element} A React fragment containing the LegalHeader component with "Terms of Service" title
  *
  * Key Features:
  * - Uses the LegalHeader component to display the page title

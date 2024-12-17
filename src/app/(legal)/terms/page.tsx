@@ -1,6 +1,6 @@
 import { constructMetadata } from '@/utils';
 import dynamic from 'next/dynamic';
-import React from 'react';
+import type React from 'react';
 
 export const metadata = constructMetadata({ title: 'Terms' });
 
@@ -17,7 +17,7 @@ const LegalTerms = dynamic(() => import('../_components').then((mod) => mod.Lega
  * // Basic usage
  * <Terms />
  * ```
- * @returns {JSX.Element} A div containing the Terms heading
+ * @returns {React.JSX.Element} A div containing the Terms heading
  * @since 1.0.0
  * @public
  * @category Components
@@ -26,7 +26,7 @@ const LegalTerms = dynamic(() => import('../_components').then((mod) => mod.Lega
  * @status Stable
  * @version 1.0.0
  */
-const Terms = (): JSX.Element => {
+const Terms = (): React.JSX.Element => {
   return <LegalTerms />;
 };
 

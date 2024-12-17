@@ -2,7 +2,6 @@ import { Elysia } from 'elysia';
 import { rateLimit } from 'elysia-rate-limit';
 import { dashboardRoute } from './elysia';
 
-
 const app = new Elysia({ prefix: '/api/v1' })
   .use(dashboardRoute)
   .use(
@@ -28,7 +27,7 @@ const app = new Elysia({ prefix: '/api/v1' })
       error: error.message,
       status: set.status,
     };
-  })
+  });
 
 export const GET = app.handle;
 export const POST = app.handle;

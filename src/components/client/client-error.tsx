@@ -27,7 +27,7 @@ import React from 'react';
  * - Fully accessible with ARIA labels and semantic HTML structure
  * - Client component that can be used for client-side error handling
  *
- * @returns {JSX.Element} Alert component containing error details
+ * @returns {React.JSX.Element} Alert component containing error details
  *
  * @throws {TypeError} If error prop is not provided or is not an Error object
  *

@@ -47,7 +47,7 @@ import { Switch } from '@/components/ui/switch';
  * - Two-factor authentication toggle (for non-OAuth users)
  *
  * @component
- * @returns {JSX.Element} The rendered settings page component
+ * @returns {React.JSX.Element} The rendered settings page component
  */
 const SettingsPage = () => {
   const {

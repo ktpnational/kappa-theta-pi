@@ -26,9 +26,9 @@ import type { CSSProperties } from 'react';
  * The email features a warm welcome message, sets expectations about newsletter frequency,
  * and provides contact information. Built using react-email components with inline styles.
  *
- * @returns {JSX.Element} A fully formatted welcome email template
+ * @returns {React.JSX.Element} A fully formatted welcome email template
  */
-export function NewsletterWelcomeEmail(): JSX.Element {
+export function NewsletterWelcomeEmail(): React.JSX.Element {
   /** Preview text shown in email clients */
   const previewText = 'Hello and welcome to SaaSy Land!';
 

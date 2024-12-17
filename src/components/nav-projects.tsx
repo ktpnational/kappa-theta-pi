@@ -37,7 +37,7 @@ import {
  *
  * return <NavProjects projects={projects} />;
  *
- * @returns {JSX.Element} A sidebar navigation group containing project items with dropdown menus
+ * @returns {React.JSX.Element} A sidebar navigation group containing project items with dropdown menus
  */
 export function NavProjects({
   projects,

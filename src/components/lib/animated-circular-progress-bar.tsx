@@ -33,7 +33,7 @@ interface Props {
  * @param {string} props.gaugeSecondaryColor - Color of the background arc
  * @param {string} [props.className] - Optional CSS classes
  *
- * @returns {JSX.Element} Animated circular progress bar
+ * @returns {React.JSX.Element} Animated circular progress bar
  */
 export const AnimatedCircularProgressBar = React.memo(
   ({ max = 100, min = 0, value = 0, gaugePrimaryColor, gaugeSecondaryColor, className }: Props) => {

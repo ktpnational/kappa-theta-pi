@@ -6,7 +6,7 @@ import { memo } from 'react';
 /**
  * Loading component that displays during page/component transitions
  * @component Loading
- * @returns {JSX.Element} A wrapper component containing the Loader component
+ * @returns {React.JSX.Element} A wrapper component containing the Loader component
  * @example
  * return (
  *   <Loading />

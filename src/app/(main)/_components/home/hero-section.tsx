@@ -12,7 +12,7 @@ const ease: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 /**
  * Animated announcement pill component that appears at the top of the hero section
- * @returns {JSX.Element} A motion.a component with announcement styling and animation
+ * @returns {React.JSX.Element} A motion.a component with announcement styling and animation
  */
 const HeroPill = () => {
   return (
@@ -38,7 +38,7 @@ HeroPill.displayName = 'HeroPill';
 
 /**
  * Component that renders the main hero titles with staggered animation effects
- * @returns {JSX.Element} A div containing animated heading and description text
+ * @returns {React.JSX.Element} A div containing animated heading and description text
  */
 const HeroTitles = () => {
   return (
@@ -90,7 +90,7 @@ HeroTitles.displayName = 'HeroTitles';
 /**
  * Component that renders the Call-to-Action buttons in the hero section
  * Features animated entrance and responsive layout
- * @returns {JSX.Element} A motion.div containing two Link buttons for primary actions
+ * @returns {React.JSX.Element} A motion.div containing two Link buttons for primary actions
  */
 const HeroCTA = () => {
   return (
@@ -133,7 +133,7 @@ HeroCTA.displayName = 'HeroCTA';
 /**
  * Component that renders the hero image/video section
  * Includes an animated entrance and embedded video dialog
- * @returns {JSX.Element} A motion.div containing the HeroVideoDialog component
+ * @returns {React.JSX.Element} A motion.div containing the HeroVideoDialog component
  */
 const HeroImage = () => {
   return (
@@ -160,7 +160,7 @@ HeroImage.displayName = 'HeroImage';
  * Main hero section component that combines all hero elements
  * Includes announcement pill, titles, CTA buttons, and hero image
  * Features a gradient overlay at the bottom for smooth transition
- * @returns {JSX.Element} A section element containing all hero components
+ * @returns {React.JSX.Element} A section element containing all hero components
  */
 export const HeroSection = () => {
   return (

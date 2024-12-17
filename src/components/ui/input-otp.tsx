@@ -14,7 +14,7 @@ import { cn } from '@/lib/utils';
  * @param {string} [props.className] - Additional CSS classes for the input element
  * @param {string} [props.containerClassName] - Additional CSS classes for the container
  * @param {React.Ref} ref - Forwarded ref to access the underlying input element
- * @returns {JSX.Element} A controlled OTP input component
+ * @returns {React.JSX.Element} A controlled OTP input component
  */
 const InputOTP = React.forwardRef<
   React.ElementRef<typeof OTPInput>,
@@ -39,7 +39,7 @@ InputOTP.displayName = 'InputOTP';
  * @param {Object} props - Component props
  * @param {string} [props.className] - Additional CSS classes
  * @param {React.Ref} ref - Forwarded ref to access the underlying div element
- * @returns {JSX.Element} A flex container for OTP input slots
+ * @returns {React.JSX.Element} A flex container for OTP input slots
  */
 const InputOTPGroup = React.forwardRef<
   React.ElementRef<'div'>,
@@ -57,7 +57,7 @@ InputOTPGroup.displayName = 'InputOTPGroup';
  * @param {number} props.index - The index position of this slot in the OTP input
  * @param {string} [props.className] - Additional CSS classes
  * @param {React.Ref} ref - Forwarded ref to access the underlying div element
- * @returns {JSX.Element} A single OTP input slot with character display and caret animation
+ * @returns {React.JSX.Element} A single OTP input slot with character display and caret animation
  */
 const InputOTPSlot = React.forwardRef<
   React.ElementRef<'div'>,
@@ -93,7 +93,7 @@ InputOTPSlot.displayName = 'InputOTPSlot';
  * @component
  * @param {Object} props - Component props
  * @param {React.Ref} ref - Forwarded ref to access the underlying div element
- * @returns {JSX.Element} A dot separator between OTP input slots
+ * @returns {React.JSX.Element} A dot separator between OTP input slots
  */
 const InputOTPSeparator = React.forwardRef<
   React.ElementRef<'div'>,

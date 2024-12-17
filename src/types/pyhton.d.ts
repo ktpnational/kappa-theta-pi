@@ -197,44 +197,32 @@ declare global {
      */
     requireAtLeastOne<T extends object, K extends keyof T>(
       obj: T,
-      keys: K[]
+      keys: K[],
     ): RequireAtLeastOne<T, K>;
 
     /**
      * Requires only one of the specified keys to be present in the object.
      * Similar to Python's dict.requireOnlyOne().
      */
-    requireOnlyOne<T extends object, K extends keyof T>(
-      obj: T,
-      keys: K[]
-    ): RequireOnlyOne<T, K>;
+    requireOnlyOne<T extends object, K extends keyof T>(obj: T, keys: K[]): RequireOnlyOne<T, K>;
 
     /**
      * Removes keys from the object.
      * Similar to Python's dict.without().
      */
-    without<T extends object, U extends object>(
-      obj: T,
-      exclude: U
-    ): Without<T, U>;
+    without<T extends object, U extends object>(obj: T, exclude: U): Without<T, U>;
 
     /**
      * Returns the XOR of two objects.
      * Similar to Python's dict.xor().
      */
-    xor<T extends object, U extends object>(
-      a: T,
-      b: U
-    ): XOR<T, U>;
+    xor<T extends object, U extends object>(a: T, b: U): XOR<T, U>;
 
     /**
      * Deep picks the specified paths from the object.
      * Similar to Python's dict.deepPick().
      */
-    deepPick<T extends object, P extends string>(
-      obj: T,
-      paths: P[]
-    ): DeepPick<T, P>;
+    deepPick<T extends object, P extends string>(obj: T, paths: P[]): DeepPick<T, P>;
 
     /**
      * Converts a union type to a tuple.
@@ -313,15 +301,15 @@ Array.prototype.permutations = function <T>(length?: number): T[][] {
   return result;
 };
 
-Array.prototype.head = function<T>(): T {
+Array.prototype.head = function <T>(): T {
   return this[0];
 };
 
-Array.prototype.tail = function<T>(): T[] {
+Array.prototype.tail = function <T>(): T[] {
   return this.slice(1);
 };
 
-Array.prototype.isNonEmpty = function<T>(): boolean {
+Array.prototype.isNonEmpty = function <T>(): boolean {
   return this.length > 0;
 };
 
@@ -349,94 +337,109 @@ String.prototype.partition = function (separator: string): [string, string, stri
   return [this.slice(0, index), separator, this.slice(index + separator.length)];
 };
 
-String.prototype.split = function<D extends string>(delimiter: D): string[] {
+String.prototype.split = function <D extends string>(delimiter: D): string[] {
   return this.split(delimiter);
 };
 
-String.prototype.join = function<T extends string[]>(this: T): string {
+String.prototype.join = function <T extends string[]>(this: T): string {
   return this.join(this);
 };
 
-String.prototype.parseInt = function(): number {
-  return parseInt(this.toString(), 10);
+String.prototype.parseInt = function (): number {
+  return Number.parseInt(this.toString(), 10);
 };
 
 // Object prototype extensions
-Object.prototype.merge = function<T extends object, U extends object>(
-  other: U
-): T & U {
+Object.prototype.merge = function <T extends object, U extends object>(other: U): T & U {
   return { ...this, ...other };
 };
 
-Object.prototype.mergeAll = function<T extends object[]>(objects: T): T[number] {
-  return objects.reduce((acc, obj) => ({ ...acc, ...obj }), {});
+Object.prototype.mergeAll = <T extends object[]>(objects: T): T[number] =>
+  objects.reduce((acc, obj) => ({ ...acc, ...obj }), {});
+
+Object.prototype.omitByType = function <U>(this: object): Omit<this, U> {
+  return Object.keys(this).reduce(
+    (acc, key) => {
+      if (typeof this[key] !== 'object' || this[key] === null) {
+        acc[key] = this[key];
+      }
+      return acc;
+    },
+    {} as Omit<this, U>,
+  );
 };
 
-Object.prototype.omitByType = function<U>(this: object): Omit<this, U> {
-  return Object.keys(this).reduce((acc, key) => {
-    if (typeof this[key] !== 'object' || this[key] === null) {
-      acc[key] = this[key];
-    }
-    return acc;
-  }, {} as Omit<this, U>);
+Object.prototype.deepPartial = function <T extends object>(this: T): Partial<T> {
+  return Object.keys(this).reduce(
+    (acc, key) => {
+      if (typeof this[key] === 'object' && this[key] !== null) {
+        acc[key] = this.deepPartial(this[key]);
+      } else {
+        acc[key] = this[key];
+      }
+      return acc;
+    },
+    {} as Partial<T>,
+  );
 };
 
-Object.prototype.deepPartial = function<T extends object>(this: T): Partial<T> {
-  return Object.keys(this).reduce((acc, key) => {
-    if (typeof this[key] === 'object' && this[key] !== null) {
-      acc[key] = this.deepPartial(this[key]);
-    } else {
-      acc[key] = this[key];
-    }
-    return acc;
-  }, {} as Partial<T>);
+Object.prototype.deepRequired = function <T extends object>(this: T): Required<T> {
+  return Object.keys(this).reduce(
+    (acc, key) => {
+      if (typeof this[key] === 'object' && this[key] !== null) {
+        acc[key] = this.deepRequired(this[key]);
+      } else {
+        acc[key] = this[key];
+      }
+      return acc;
+    },
+    {} as Required<T>,
+  );
 };
 
-Object.prototype.deepRequired = function<T extends object>(this: T): Required<T> {
-  return Object.keys(this).reduce((acc, key) => {
-    if (typeof this[key] === 'object' && this[key] !== null) {
-      acc[key] = this.deepRequired(this[key]);
-    } else {
-      acc[key] = this[key];
-    }
-    return acc;
-  }, {} as Required<T>);
+Object.prototype.deepReadonly = function <T extends object>(this: T): Readonly<T> {
+  return Object.keys(this).reduce(
+    (acc, key) => {
+      if (typeof this[key] === 'object' && this[key] !== null) {
+        acc[key] = this.deepReadonly(this[key]);
+      } else {
+        acc[key] = this[key];
+      }
+      return acc;
+    },
+    {} as Readonly<T>,
+  );
 };
 
-Object.prototype.deepReadonly = function<T extends object>(this: T): Readonly<T> {
-  return Object.keys(this).reduce((acc, key) => {
-    if (typeof this[key] === 'object' && this[key] !== null) {
-      acc[key] = this.deepReadonly(this[key]);
-    } else {
-      acc[key] = this[key];
-    }
-    return acc;
-  }, {} as Readonly<T>);
+Object.prototype.deepMutable = function <T extends object>(this: T): Mutable<T> {
+  return Object.keys(this).reduce(
+    (acc, key) => {
+      if (typeof this[key] === 'object' && this[key] !== null) {
+        acc[key] = this.deepMutable(this[key]);
+      } else {
+        acc[key] = this[key];
+      }
+      return acc;
+    },
+    {} as Mutable<T>,
+  );
 };
 
-Object.prototype.deepMutable = function<T extends object>(this: T): Mutable<T> {
-  return Object.keys(this).reduce((acc, key) => {
-    if (typeof this[key] === 'object' && this[key] !== null) {
-      acc[key] = this.deepMutable(this[key]);
-    } else {
-      acc[key] = this[key];
-    }
-    return acc;
-  }, {} as Mutable<T>);
+Object.prototype.deepNonNullable = function <T extends object>(this: T): NonNullable<T> {
+  return Object.keys(this).reduce(
+    (acc, key) => {
+      if (typeof this[key] === 'object' && this[key] !== null) {
+        acc[key] = this.deepNonNullable(this[key]);
+      } else {
+        acc[key] = this[key];
+      }
+      return acc;
+    },
+    {} as NonNullable<T>,
+  );
 };
 
-Object.prototype.deepNonNullable = function<T extends object>(this: T): NonNullable<T> {
-  return Object.keys(this).reduce((acc, key) => {
-    if (typeof this[key] === 'object' && this[key] !== null) {
-      acc[key] = this.deepNonNullable(this[key]);
-    } else {
-      acc[key] = this[key];
-    }
-    return acc;
-  }, {} as NonNullable<T>);
-};
-
-Object.prototype.paths = function(): string[] {
+Object.prototype.paths = function (): string[] {
   return Object.keys(this).reduce((acc, key) => {
     if (typeof this[key] === 'object' && this[key] !== null) {
       acc.push(...this.paths(this[key]));
@@ -447,94 +450,97 @@ Object.prototype.paths = function(): string[] {
   }, [] as string[]);
 };
 
-Object.prototype.valueOf = function(): this {
+Object.prototype.valueOf = function (): this {
   return this;
 };
 
 // Promise prototype extensions
-Promise.prototype.awaited = function<T>(): T {
+Promise.prototype.awaited = function <T>(): T {
   return this.then((value) => value as T);
 };
 
 // Object constructor extensions
-Object.ofLength = function<N extends number>(length: N): ArrayOfLength<N> {
-  return Array(length).fill(0) as ArrayOfLength<N>;
-};
+Object.ofLength = <N extends number>(length: N): ArrayOfLength<N> =>
+  Array(length).fill(0) as ArrayOfLength<N>;
 
 // Object constructor extensions
-Object.requireAtLeastOne = function<T extends object, K extends keyof T>(
+Object.requireAtLeastOne = <T extends object, K extends keyof T>(
   obj: T,
-  keys: K[]
-): RequireAtLeastOne<T, K> {
-  return keys.reduce((acc, key) => {
-    if (key in obj) {
-      acc[key] = obj[key];
-    }
-    return acc;
-  }, {} as RequireAtLeastOne<T, K>);
-};
-
-Object.requireOnlyOne = function<T extends object, K extends keyof T>(
-  obj: T,
-  keys: K[]
-): RequireOnlyOne<T, K> {
-  return keys.reduce((acc, key) => {
-    if (key in obj) {
-      acc[key] = obj[key];
-    }
-    return acc;
-  }, {} as RequireOnlyOne<T, K>);
-};
-
-Object.without = function<T extends object, U extends object>(
-  obj: T,
-  exclude: U
-): Without<T, U> {
-  return Object.keys(exclude).reduce((acc, key) => {
-    delete acc[key];
-    return acc;
-  }, { ...obj } as Without<T, U>);
-};
-
-Object.xor = function<T extends object, U extends object>(
-  a: T,
-  b: U
-): XOR<T, U> {
-  return Object.keys(b).reduce((acc, key) => {
-    if (key in a) {
-      delete acc[key];
-    } else {
-      acc[key] = b[key];
-    }
-    return acc;
-  }, { ...a } as XOR<T, U>);
-};
-
-Object.deepPick = function<T extends object, P extends string>(
-  obj: T,
-  paths: P[]
-): DeepPick<T, P> {
-  return paths.reduce((acc, path) => {
-    const keys = path.split('.');
-    let current = acc;
-    for (const key of keys) {
-      if (typeof current === 'object' && current !== null) {
-        current = current[key];
-      } else {
-        throw new Error(`Path ${path} is invalid`);
+  keys: K[],
+): RequireAtLeastOne<T, K> =>
+  keys.reduce(
+    (acc, key) => {
+      if (key in obj) {
+        acc[key] = obj[key];
       }
-    }
-    return { ...acc, [keys[keys.length - 1]]: current };
-  }, {} as DeepPick<T, P>);
-};
+      return acc;
+    },
+    {} as RequireAtLeastOne<T, K>,
+  );
 
-Object.unionToTuple = function<T>(union: T): UnionToTuple<T> {
-  return Object.keys(union).reduce((acc, key) => {
-    if (typeof union[key] === 'object' && union[key] !== null) {
-      acc.push(...this.unionToTuple(union[key]));
-    } else {
-      acc.push(union[key]);
-    }
-    return acc;
-  }, [] as UnionToTuple<T>);
+Object.requireOnlyOne = <T extends object, K extends keyof T>(
+  obj: T,
+  keys: K[],
+): RequireOnlyOne<T, K> =>
+  keys.reduce(
+    (acc, key) => {
+      if (key in obj) {
+        acc[key] = obj[key];
+      }
+      return acc;
+    },
+    {} as RequireOnlyOne<T, K>,
+  );
+
+Object.without = <T extends object, U extends object>(obj: T, exclude: U): Without<T, U> =>
+  Object.keys(exclude).reduce(
+    (acc, key) => {
+      delete acc[key];
+      return acc;
+    },
+    { ...obj } as Without<T, U>,
+  );
+
+Object.xor = <T extends object, U extends object>(a: T, b: U): XOR<T, U> =>
+  Object.keys(b).reduce(
+    (acc, key) => {
+      if (key in a) {
+        delete acc[key];
+      } else {
+        acc[key] = b[key];
+      }
+      return acc;
+    },
+    { ...a } as XOR<T, U>,
+  );
+
+Object.deepPick = <T extends object, P extends string>(obj: T, paths: P[]): DeepPick<T, P> =>
+  paths.reduce(
+    (acc, path) => {
+      const keys = path.split('.');
+      let current = acc;
+      for (const key of keys) {
+        if (typeof current === 'object' && current !== null) {
+          current = current[key];
+        } else {
+          throw new Error(`Path ${path} is invalid`);
+        }
+      }
+      return { ...acc, [keys[keys.length - 1]]: current };
+    },
+    {} as DeepPick<T, P>,
+  );
+
+Object.unionToTuple = function <T>(union: T): UnionToTuple<T> {
+  return Object.keys(union).reduce(
+    (acc, key) => {
+      if (typeof union[key] === 'object' && union[key] !== null) {
+        acc.push(...this.unionToTuple(union[key]));
+      } else {
+        acc.push(union[key]);
+      }
+      return acc;
+    },
+    [] as UnionToTuple<T>,
+  );
 };

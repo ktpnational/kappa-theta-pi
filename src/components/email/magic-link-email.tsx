@@ -52,7 +52,7 @@ interface MagicLinkEmailProps {
  * @param {string} props.identifier - The user's email or username requesting authentication
  * @param {string} props.url - The generated magic link URL for authentication
  *
- * @returns {JSX.Element} A React component representing the email template
+ * @returns {React.JSX.Element} A React component representing the email template
  *
  * @example
  * ```tsx
@@ -67,7 +67,7 @@ interface MagicLinkEmailProps {
  * - Provides context about who requested the magic link
  * - Informs users about permanent password option for enhanced security
  */
-export function MagicLinkEmail({ identifier, url }: MagicLinkEmailProps): JSX.Element {
+export function MagicLinkEmail({ identifier, url }: MagicLinkEmailProps): React.JSX.Element {
   return (
     <Html lang="en">
       <Head />

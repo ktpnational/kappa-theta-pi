@@ -1,4 +1,3 @@
-// import { catchError } from '@/utils';
 import type { Chapter, Event, Member, Profile, Resource, User } from '@prisma/client';
 import { GraphQLDateTime } from 'graphql-iso-date';
 import type { ChapterQueryArgs, CreateEventArgs, Resolver, UpdateEventArgs } from './typet';
@@ -22,15 +21,17 @@ export const resolvers: {
 } = {
   DateTime: GraphQLDateTime,
   Query: {
-    users: (): Resolver<User[]> => async (_parent, _args, ctx): Promise<User[]> => {
-      const [error, users] = await catchError<User[]>(ctx.db.user.findMany());
+    users:
+      (): Resolver<User[]> =>
+      async (_parent, _args, ctx): Promise<User[]> => {
+        const [error, users] = await catchError<User[]>(ctx.db.user.findMany());
 
-      if (error) throw error;
+        if (error) throw error;
 
-      if (!users) throw new Error('Users not found');
+        if (!users) throw new Error('Users not found');
 
-      return users;
-    },
+        return users;
+      },
 
     user:
       (): Resolver<User | null, unknown, { id: string }> =>
@@ -163,60 +164,68 @@ export const resolvers: {
   },
 
   Chapter: {
-    members: (): Resolver<Member[], Chapter> => async (parent, _args, ctx): Promise<Member[]> => {
-      const [error, members] = await catchError<Member[]>(
-        ctx.db.member.findMany({
-          where: { chapterId: parent.id },
-        }),
-      );
+    members:
+      (): Resolver<Member[], Chapter> =>
+      async (parent, _args, ctx): Promise<Member[]> => {
+        const [error, members] = await catchError<Member[]>(
+          ctx.db.member.findMany({
+            where: { chapterId: parent.id },
+          }),
+        );
 
-      if (error) throw error;
+        if (error) throw error;
 
-      if (!members) throw new Error('Members not found');
+        if (!members) throw new Error('Members not found');
 
-      return members;
-    },
+        return members;
+      },
 
-    events: (): Resolver<Event[], Chapter> => async (parent, _args, ctx): Promise<Event[]> => {
-      const [error, events] = await catchError<Event[]>(
-        ctx.db.event.findMany({
-          where: { chapterId: parent.id },
-        }),
-      );
+    events:
+      (): Resolver<Event[], Chapter> =>
+      async (parent, _args, ctx): Promise<Event[]> => {
+        const [error, events] = await catchError<Event[]>(
+          ctx.db.event.findMany({
+            where: { chapterId: parent.id },
+          }),
+        );
 
-      if (error) throw error;
+        if (error) throw error;
 
-      if (!events) throw new Error('Events not found');
+        if (!events) throw new Error('Events not found');
 
-      return events;
-    },
+        return events;
+      },
 
-    resources: (): Resolver<Resource[], Chapter> => async (parent, _args, ctx): Promise<Resource[]> => {
-      const [error, resources] = await catchError<Resource[]>(
-        ctx.db.resource.findMany({
-          where: { chapterId: parent.id },
-        }),
-      );
+    resources:
+      (): Resolver<Resource[], Chapter> =>
+      async (parent, _args, ctx): Promise<Resource[]> => {
+        const [error, resources] = await catchError<Resource[]>(
+          ctx.db.resource.findMany({
+            where: { chapterId: parent.id },
+          }),
+        );
 
-      if (error) throw error;
+        if (error) throw error;
 
-      if (!resources) throw new Error('Resources not found');
+        if (!resources) throw new Error('Resources not found');
 
-      return resources;
-    },
+        return resources;
+      },
   },
 
   Event: {
-    chapter: (): Resolver<Chapter | null, Event> => async (parent, _args, ctx): Promise<Chapter | null> => {
-      const [error, chapter] = await catchError<Chapter | null>(
-        ctx.db.chapter.findUnique({
-          where: { id: parent.chapterId ?? undefined },
-        }),
-      );
+    chapter:
+      (): Resolver<Chapter | null, Event> =>
+      async (parent, _args, ctx): Promise<Chapter | null> => {
+        const [error, chapter] = await catchError<Chapter | null>(
+          ctx.db.chapter.findUnique({
+            where: { id: parent.chapterId ?? undefined },
+          }),
+        );
 
-      if (error) throw error;
+        if (error) throw error;
 
-      return chapter;
-    },
+        return chapter;
+      },
   },
 };

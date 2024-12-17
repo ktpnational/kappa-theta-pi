@@ -21,7 +21,7 @@ import { cn } from '@/lib/utils';
  * @param {boolean} [props.disabled] - Whether the switch is disabled
  * @param {React.Ref<HTMLButtonElement>} ref - Forwarded ref to the underlying button element
  *
- * @returns {JSX.Element} A styled switch toggle component
+ * @returns {React.JSX.Element} A styled switch toggle component
  */
 const Switch = React.forwardRef<
   React.ElementRef<typeof SwitchPrimitives.Root>,

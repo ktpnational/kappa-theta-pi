@@ -16,7 +16,7 @@ interface LogoutButtonProps {
  * @component LogoutButton
  * @param {LogoutButtonProps} props - The component props
  * @param {React.ReactNode} props.children - Optional child elements to render
- * @returns {JSX.Element} A span element that triggers logout when clicked
+ * @returns {React.JSX.Element} A span element that triggers logout when clicked
  * @example
  * // Basic usage
  * <LogoutButton>Logout</LogoutButton>

@@ -18,7 +18,7 @@ import {
  *   <HomeSections />
  * )
  *
- * @returns {JSX.Element} A React Fragment containing the following sections:
+ * @returns {React.JSX.Element} A React Fragment containing the following sections:
  * - HeroSection: Main banner/hero section
  * - SponsorsSection: Section displaying sponsor logos/info
  * - MapSection: Geographic map section

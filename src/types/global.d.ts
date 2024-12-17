@@ -174,17 +174,34 @@ interface SVGProps<T extends SVGElement> extends React.HTMLAttributes<T> {
   size?: import('@/components/icons/types').sizes;
 }
 
-
 type Decrement<N extends number> = [
-  -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
-  10, 11, 12, 13, 14, 15, 16, 17, 18, 19
+  -1,
+  0,
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10,
+  11,
+  12,
+  13,
+  14,
+  15,
+  16,
+  17,
+  18,
+  19,
 ][N];
 
-type ExtractNthProperty<T, N extends number> =
-  T extends readonly [infer First, ...infer Rest]
-    ? N extends 0
-      ? First
-      : ExtractNthProperty<Rest, Decrement<N>>
-    : never;
+type ExtractNthProperty<T, N extends number> = T extends readonly [infer First, ...infer Rest]
+  ? N extends 0
+    ? First
+    : ExtractNthProperty<Rest, Decrement<N>>
+  : never;
 
 type ExtractPropertyByName<T, K extends keyof T> = T[K];
