@@ -44,17 +44,15 @@ export const SmoothScrollProvider: React.FC<SmoothScrollProps> = ({ children }) 
   const y = useTransform(smoothProgress, (value) => value * -(contentHeight - windowHeight));
 
   return (
-    <>
-      {/* TODO: 🚩 */}
-      {/* <div style={{ height: contentHeight }} /> */}
+    <div style={{ height: contentHeight }}>
       <motion.div
-        className="w-screen fixed top-0 flex flex-col transition-opacity duration-200 ease-in-out"
+        className="fixed w-screen top-0 flex flex-col transition-opacity duration-200 ease-in-out"
         ref={contentRef}
         style={{ y: isLoading ? 0 : y, opacity: isLoading ? 0 : 1 }}
       >
         {children}
       </motion.div>
-    </>
+    </div>
   );
 };
 
