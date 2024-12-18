@@ -36,7 +36,13 @@ export async function GET(request: Request) {
   try {
     const fontData = await fetch(
       new URL('/assets/fonts/palatino.ttf', 'https://fonts.gstatic.com'),
-    ).then((res) => res.arrayBuffer()).catch(() => {
+    ).then((res) => {
+      if (!res.ok) {
+        console.error(`Font loading failed: ${res.status} ${res.statusText}`);
+        throw new Error(`Failed to load font: ${res.status}`);
+      }
+      return res.arrayBuffer();
+    }).catch(() => {
       console.warn('Failed to load Palatino font, falling back to system font');
       return null;
     });
