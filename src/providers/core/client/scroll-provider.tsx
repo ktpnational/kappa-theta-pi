@@ -16,7 +16,7 @@ export const SmoothScrollProvider: React.FC<SmoothScrollProps> = ({ children }) 
   useEffect(() => {
     const handleResize = () => {
       if (contentRef.current) {
-        setContentHeight(contentRef.current.scrollHeight);
+        setContentHeight(contentRef.current.scrollHeight - 19);
       }
       setWindowHeight(window.innerHeight);
     };
