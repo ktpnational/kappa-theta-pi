@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, useMotionValueEvent, useScroll, useSpring, useTransform } from 'motion/react';
+import { motion, useScroll, useSpring, useTransform } from 'motion/react';
 import type React from 'react';
 import { useEffect, useRef, useState } from 'react';
 
@@ -9,7 +9,6 @@ interface SmoothScrollProps {
 }
 
 export const SmoothScrollProvider: React.FC<SmoothScrollProps> = ({ children }) => {
-  const [isLoading, setIsLoading] = useState(true);
   const contentRef = useRef<HTMLDivElement>(null);
   const [contentHeight, setContentHeight] = useState(0);
   const [windowHeight, setWindowHeight] = useState(0);
@@ -35,12 +34,6 @@ export const SmoothScrollProvider: React.FC<SmoothScrollProps> = ({ children }) 
     restDelta: 0.001,
   });
 
-  useMotionValueEvent(smoothProgress, 'change', (latest) => {
-    if (latest === 0) {
-      setIsLoading(false);
-    }
-  });
-
   const y = useTransform(smoothProgress, (value) => value * -(contentHeight - windowHeight));
 
   return (
@@ -48,7 +41,7 @@ export const SmoothScrollProvider: React.FC<SmoothScrollProps> = ({ children }) 
       <motion.div
         className="fixed w-screen top-0 flex flex-col transition-opacity duration-200 ease-in-out"
         ref={contentRef}
-        style={{ y: isLoading ? 0 : y, opacity: isLoading ? 0 : 1 }}
+        style={{ y: y, opacity: 1 }}
       >
         {children}
       </motion.div>
