@@ -15,7 +15,7 @@ const timingMiddleware = timing({
   autoEnd: true,
 });
 
-const app = new Hono({ strict: true }).basePath('/api/client');
+const app = new Hono({ strict: true }).basePath('/api');
 
 const api = app
   .use('*', contextStorage())
@@ -51,6 +51,9 @@ const api = app
       },
     }),
   )
+  .use('/health', async (c) => {
+    return c.json({ status: 'ok' });
+  })
   .use('*', async (c, next) => {
     try {
       await next();

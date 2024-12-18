@@ -2,7 +2,8 @@
  * @module OpenGraph
  */
 
-import { constructMetadata } from '@/utils';
+import { constructMetadata, getURL } from '@/utils';
+import { Metadata } from 'next';
 import { ImageResponse } from 'next/og';
 
 /**
@@ -30,12 +31,15 @@ import { ImageResponse } from 'next/og';
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const metadata = constructMetadata({});
-  const title = searchParams.get('title') || metadata.title || 'Default Title';
-  const description = searchParams.get('description') || String(metadata.description || '');
+  const title = searchParams?.get('title')?.[0] || metadata.title || 'Default Title';
+  const description = searchParams?.get('description')?.[0] || String(metadata.description || '');
+  console.log({ description })
+  // @ts-ignore
+  console.log({ title: title.default })
 
   try {
     const fontData = await fetch(
-      new URL('/assets/fonts/palatino.ttf', 'https://fonts.gstatic.com'),
+      new URL('/assets/fonts/palatino.ttf', getURL()),
     ).then((res) => {
       if (!res.ok) {
         console.error(`Font loading failed: ${res.status} ${res.statusText}`);
@@ -154,7 +158,8 @@ export async function GET(request: Request) {
               textShadow: '0 2px 4px rgba(0,0,0,0.3)',
             }}
           >
-            {`${title}`}
+            {/* @ts-ignore */}
+            {`${title.default}`}
           </h1>
           <p
             style={{
@@ -162,12 +167,15 @@ export async function GET(request: Request) {
               color: '#E0F4FF',
               maxWidth: '800px',
               textShadow: '0 1px 2px rgba(0,0,0,0.2)',
-              whiteSpace: 'nowrap',
-              overflow: 'hidden',
-              textOverflow: `${description.length > 100 ? 'ellipsis' : 'clip'}`,
+              // overflow: 'hidden',
+              display: '-webkit-box',
+              WebkitLineClamp: 2,
+              WebkitBoxOrient: 'vertical',
+              textOverflow: 'ellipsis',
+              wordWrap: 'break-word',
             }}
           >
-            {description}
+            {`${description}`}
           </p>
         </div>
       </div>,
