@@ -13,10 +13,14 @@ export const SmoothScrollProvider: React.FC<SmoothScrollProps> = ({ children }) 
   const [contentHeight, setContentHeight] = useState(0);
   const [windowHeight, setWindowHeight] = useState(0);
   const [isFirstRender, setIsFirstRender] = useState(true);
+  const isInitialMount = useRef(true);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-    setIsFirstRender(false);
+    if (isInitialMount.current || isFirstRender) {
+      window.scrollTo(0, 0);
+      isInitialMount.current = false;
+      setIsFirstRender(false);
+    }
 
     const handleResize = () => {
       if (contentRef.current) {
@@ -38,7 +42,7 @@ export const SmoothScrollProvider: React.FC<SmoothScrollProps> = ({ children }) 
       resizeObserver.disconnect();
       window.removeEventListener('resize', handleResize);
     };
-  }, [children]);
+  }, [children, isFirstRender]);
 
   const { scrollYProgress } = useScroll();
   const smoothProgress = useSpring(scrollYProgress, {

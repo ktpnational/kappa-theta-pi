@@ -35,16 +35,10 @@ export async function GET(request: Request) {
 
   try {
     const fontData = await fetch(
-      new URL(
-        '/assets/fonts/palatino.ttf',
-        process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000',
-      ),
-    ).then(async (res) => {
-      if (!res.ok) {
-        console.error(`Font loading failed: ${res.status} ${res.statusText}`);
-        throw new Error(`Failed to load font: ${res.status}`);
-      }
-      return res.arrayBuffer();
+      new URL('/assets/fonts/palatino.ttf', 'https://fonts.gstatic.com'),
+    ).then((res) => res.arrayBuffer()).catch(() => {
+      console.warn('Failed to load Palatino font, falling back to system font');
+      return null;
     });
 
     return new ImageResponse(
@@ -174,13 +168,15 @@ export async function GET(request: Request) {
       {
         width: 1200,
         height: 630,
-        fonts: [
-          {
-            name: 'Palatino',
-            data: fontData,
-            style: 'normal',
-          },
-        ],
+        ...(fontData && {
+          fonts: [
+            {
+              name: 'Palatino',
+              data: fontData,
+              style: 'normal',
+            },
+          ],
+        }),
       },
     );
   } catch (e: any) {

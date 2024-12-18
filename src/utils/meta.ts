@@ -48,6 +48,8 @@ export function constructMetadata({
           url: image,
         },
       ],
+      siteName: title,
+      url
     },
     twitter: {
       card: 'summary_large_image',
