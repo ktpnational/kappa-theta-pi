@@ -12,8 +12,12 @@ export const SmoothScrollProvider: React.FC<SmoothScrollProps> = ({ children }) 
   const contentRef = useRef<HTMLDivElement>(null);
   const [contentHeight, setContentHeight] = useState(0);
   const [windowHeight, setWindowHeight] = useState(0);
+  const [isFirstRender, setIsFirstRender] = useState(true);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+    setIsFirstRender(false);
+
     const handleResize = () => {
       if (contentRef.current) {
         setContentHeight(contentRef.current.scrollHeight - 20);
@@ -22,9 +26,19 @@ export const SmoothScrollProvider: React.FC<SmoothScrollProps> = ({ children }) 
     };
 
     handleResize();
+
+    const resizeObserver = new ResizeObserver(handleResize);
+    if (contentRef.current) {
+      resizeObserver.observe(contentRef.current);
+    }
+
     window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, [contentRef]);
+
+    return () => {
+      resizeObserver.disconnect();
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [children]);
 
   const { scrollYProgress } = useScroll();
   const smoothProgress = useSpring(scrollYProgress, {
@@ -34,14 +48,16 @@ export const SmoothScrollProvider: React.FC<SmoothScrollProps> = ({ children }) 
     restDelta: 0.001,
   });
 
-  const y = useTransform(smoothProgress, (value) => value * -(contentHeight - windowHeight));
+  const y = useTransform(smoothProgress, (value) =>
+    isFirstRender ? 0 : value * -(contentHeight - windowHeight)
+  );
 
   return (
     <div style={{ height: contentHeight }}>
       <motion.div
         className="fixed w-screen top-0 flex flex-col transition-opacity duration-200 ease-in-out"
         ref={contentRef}
-        style={{ y: y, opacity: 1 }}
+        style={{ y }}
       >
         {children}
       </motion.div>

@@ -43,7 +43,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <head>
         <meta name="google-adsense-account" content={process.env.NEXT_PUBLIC_ADSENSE_ID} />
 
-        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
         <meta name="theme-color" content="#234c8b" />

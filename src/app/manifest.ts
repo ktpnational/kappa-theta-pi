@@ -152,8 +152,8 @@ export default function manifest(): ExtendedManifest {
     display: 'standalone',
     share_target: {
       action: '/',
-      method: 'GET',
-      enctype: 'application/x-www-form-urlencoded',
+      method: 'POST',
+      enctype: 'multipart/form-data',
       params: {
         title: 'Kappa Theta Pi - National',
         text: 'Kappa Theta Pi (ΚΘΠ, also known as KTP) is a co-ed professional fraternity specializing in the field of information technology.',

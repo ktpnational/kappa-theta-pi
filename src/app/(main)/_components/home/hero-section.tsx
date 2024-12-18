@@ -17,18 +17,18 @@ const ease: [number, number, number, number] = [0.16, 1, 0.3, 1];
 const HeroPill = () => {
   return (
     <motion.a
-      href="/blog/introducing-ktp"
+      href="/"
       className="group flex items-center gap-1 overflow-hidden rounded-full bg-gradient-to-r from-[#88dddd]/20 to-[#8bb9ff]/20 p-1 pr-4 backdrop-blur-sm transition-all hover:from-[#88dddd]/30 hover:to-[#8bb9ff]/30"
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, ease }}
     >
-      <div className="rounded-full bg-gradient-to-r from-[#88dddd] to-[#8bb9ff] px-3 py-1.5">
-        <span className="text-xs font-medium text-[#234c8b] sm:text-sm">⚡ Announcement</span>
+      <div className="rounded-full bg-gradient-to-r from-[#88dddd] to-[#8bb9ff] px-2 py-1 sm:px-3 sm:py-1.5">
+        <span className="text-[10px] font-medium text-[#234c8b] xs:text-xs sm:text-sm">⚡ Announcement</span>
       </div>
-      <div className="flex items-center gap-2 px-2">
-        <span className="text-xs font-medium text-[#234c8b] sm:text-sm">Introducing ΚΘΠ</span>
-        <ArrowRight className="h-4 w-4 text-[#234c8b] transition-transform duration-300 ease-in-out group-hover:translate-x-0.5" />
+      <div className="flex items-center gap-1 px-1 sm:gap-2 sm:px-2">
+        <span className="text-[10px] font-medium text-[#234c8b] xs:text-xs sm:text-sm">Introducing ΚΘΠ</span>
+        <ArrowRight className="h-3 w-3 text-[#234c8b] transition-transform duration-300 ease-in-out group-hover:translate-x-0.5 sm:h-4 sm:w-4" />
       </div>
     </motion.a>
   );
