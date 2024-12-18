@@ -51,12 +51,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <Scripts />
       </head>
       <body className={`min-h-screen bg-white overflow-x-hidden`}>
-        <style jsx global>{`
-          body {
-            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
-            background-color: #234c8b; /* Your brand blue color */
-          }
-        `}</style>
         <noscript>
           <iframe
             src={`https://www.googletagmanager.com/ns.html?id=${process.env.NEXT_PUBLIC_GTM_ID}`}
