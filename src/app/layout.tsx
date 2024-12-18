@@ -42,9 +42,21 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     >
       <head>
         <meta name="google-adsense-account" content={process.env.NEXT_PUBLIC_ADSENSE_ID} />
+
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+        <meta name="theme-color" content="#234c8b" />
+
         <Scripts />
       </head>
       <body className={`min-h-screen bg-white overflow-x-hidden`}>
+        <style jsx global>{`
+          body {
+            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+            background-color: #234c8b; /* Your brand blue color */
+          }
+        `}</style>
         <noscript>
           <iframe
             src={`https://www.googletagmanager.com/ns.html?id=${process.env.NEXT_PUBLIC_GTM_ID}`}

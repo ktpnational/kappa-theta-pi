@@ -11,7 +11,7 @@ import {
   QueryProvider,
   SmoothScrollProvider,
   // TelemetryInit,
-  ThemeProvider,
+  // ThemeProvider,
 } from '.';
 
 /**
@@ -33,7 +33,7 @@ const Providers: React.FC<
         providers={[
           [AuthProvider, { session }],
           [QueryProvider, {}],
-          [ThemeProvider, {}],
+          // [ThemeProvider, {}],
           [SmoothScrollProvider, {}],
           [GlobalStoreProvider, {}],
           [Events, {}],

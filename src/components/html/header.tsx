@@ -113,7 +113,7 @@ const MobileMenuItem = memo<{ item: NavItem }>(({ item }) => {
   return (
     <Link
       href={item.href}
-      className="block py-2 text-sm text-gray-700 hover:text-primary transition-colors duration-200"
+      className="block py-3 px-2 text-base text-gray-700 hover:text-primary hover:bg-gray-50 rounded-md transition-colors duration-200"
       onClick={handleClick}
     >
       {item.title}
@@ -135,9 +135,9 @@ MobileMenuItem.displayName = 'MobileMenuItem';
  * @returns {React.JSX.Element} The complete header component with navigation
  *
  * @example
- * ```tsx
+ * \`\`\`tsx
  * <Header />
- * ```
+ * \`\`\`
  */
 export const Header = memo(() => {
   const { data: session, status } = useSession();
@@ -248,7 +248,7 @@ export const Header = memo(() => {
           <Button
             variant="ghost"
             size="icon"
-            className="lg:hidden"
+            className="lg:hidden transition-transform duration-200 ease-in-out hover:scale-110"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -257,12 +257,12 @@ export const Header = memo(() => {
         </div>
       </div>
       {isMenuOpen && (
-        <div className="lg:hidden bg-white border-t">
-          <nav className="container mx-auto px-4 py-4 space-y-4">
+        <div className="lg:hidden bg-white border-t overflow-y-auto max-h-[calc(100vh-4rem)] transition-all duration-200 ease-in-out">
+          <nav className="container mx-auto px-4 py-6 space-y-6">
             {/* Main Navigation Sections */}
             {navigationSections.map((section) => (
               <div key={section.title} className="space-y-2">
-                <h3 className="font-semibold text-lg text-[#234C8B]">{section.title}</h3>
+                <h3 className="font-semibold text-lg text-[#234C8B] px-2 mb-2">{section.title}</h3>
                 {section.items.map((item) => (
                   <MobileMenuItem key={item.href} item={item} />
                 ))}
@@ -272,7 +272,7 @@ export const Header = memo(() => {
             {/* Conditional Dashboard Section */}
             {session?.user && (
               <div className="space-y-2">
-                <h3 className="font-semibold text-lg text-[#234C8B]">Dashboard</h3>
+                <h3 className="font-semibold text-lg text-[#234C8B] px-2 mb-2">Dashboard</h3>
                 {dashboardLinks.map((item) => (
                   <MobileMenuItem key={item.href} item={item} />
                 ))}
@@ -282,7 +282,7 @@ export const Header = memo(() => {
             {/* Auth Section for Mobile */}
             {!session?.user && (
               <div className="space-y-2">
-                <h3 className="font-semibold text-lg text-[#234C8B]">Account</h3>
+                <h3 className="font-semibold text-lg text-[#234C8B] px-2 mb-2">Account</h3>
                 {authLinks.map((item) => (
                   <MobileMenuItem key={item.href} item={item} />
                 ))}
@@ -291,7 +291,7 @@ export const Header = memo(() => {
 
             {/* Utility Links Section */}
             <div className="space-y-2">
-              <h3 className="font-semibold text-lg text-[#234C8B]">Quick Links</h3>
+              <h3 className="font-semibold text-lg text-[#234C8B] px-2 mb-2">Quick Links</h3>
               {utilityLinks.map((item) => (
                 <MobileMenuItem key={item.href} item={item} />
               ))}
@@ -299,7 +299,7 @@ export const Header = memo(() => {
 
             {/* Legal Links Section */}
             <div className="space-y-2">
-              <h3 className="font-semibold text-lg text-[#234C8B]">Legal</h3>
+              <h3 className="font-semibold text-lg text-[#234C8B] px-2 mb-2">Legal</h3>
               {legalLinks.map((item) => (
                 <MobileMenuItem key={item.href} item={item} />
               ))}
@@ -313,3 +313,4 @@ export const Header = memo(() => {
 
 Header.displayName = 'Header';
 export default Header;
+

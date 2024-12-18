@@ -1,13 +1,8 @@
 'use client';
 
-import {
-  motion,
-  useMotionValueEvent,
-  useScroll,
-  useSpring,
-  useTransform,
-} from "motion/react";
-import React, { useEffect, useRef, useState } from "react";
+import { motion, useMotionValueEvent, useScroll, useSpring, useTransform } from 'motion/react';
+import type React from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 interface SmoothScrollProps {
   children: React.ReactNode;
@@ -28,8 +23,8 @@ export const SmoothScrollProvider: React.FC<SmoothScrollProps> = ({ children }) 
     };
 
     handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, [contentRef]);
 
   const { scrollYProgress } = useScroll();
@@ -40,19 +35,18 @@ export const SmoothScrollProvider: React.FC<SmoothScrollProps> = ({ children }) 
     restDelta: 0.001,
   });
 
-  useMotionValueEvent(smoothProgress, "change", (latest) => {
+  useMotionValueEvent(smoothProgress, 'change', (latest) => {
     if (latest === 0) {
       setIsLoading(false);
     }
   });
 
-  const y = useTransform(smoothProgress, (value) =>
-    value * -(contentHeight - windowHeight)
-  );
+  const y = useTransform(smoothProgress, (value) => value * -(contentHeight - windowHeight));
 
   return (
     <>
-      <div style={{ height: contentHeight }} />
+      {/* TODO: 🚩 */}
+      {/* <div style={{ height: contentHeight }} /> */}
       <motion.div
         className="w-screen fixed top-0 flex flex-col transition-opacity duration-200 ease-in-out"
         ref={contentRef}
@@ -65,8 +59,12 @@ export const SmoothScrollProvider: React.FC<SmoothScrollProps> = ({ children }) 
 };
 
 export const useSmoothScroll = () => {
-  // Keep this hook for backward compatibility if needed
-  return { scrollTo: (target: number | HTMLElement) => {
-    window.scrollTo({ top: typeof target === 'number' ? target : target.offsetTop, behavior: 'smooth' });
-  }};
+  return {
+    scrollTo: (target: number | HTMLElement) => {
+      window.scrollTo({
+        top: typeof target === 'number' ? target : target.offsetTop,
+        behavior: 'smooth',
+      });
+    },
+  };
 };

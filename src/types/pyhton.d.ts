@@ -7,16 +7,16 @@ declare global {
     /**
      * Returns true if the number is within the given range [start, end).
      * Similar to Python's `in range()` function.
-     * 
+     *
      * @param start - The start of the range (inclusive)
      * @param end - The end of the range (exclusive). If omitted, start becomes 0 and this becomes the end
      * @param step - The step size between numbers in the range
      * @returns True if the number is within the range, false otherwise
-     * 
+     *
      * @example
      * ```ts
      * (5).inRange(10) // true - checks if 5 is in [0,10)
-     * (5).inRange(1,10) // true - checks if 5 is in [1,10) 
+     * (5).inRange(1,10) // true - checks if 5 is in [1,10)
      * (6).inRange(1,10,2) // false - 6 is not reachable with step size 2
      * ```
      */
@@ -25,10 +25,10 @@ declare global {
     /**
      * Rounds the number to a specified number of decimal places.
      * Similar to Python's round() function.
-     * 
+     *
      * @param decimals - Number of decimal places to round to (default: 0)
      * @returns The rounded number
-     * 
+     *
      * @example
      * ```ts
      * (3.14159).round() // 3
@@ -42,9 +42,9 @@ declare global {
     /**
      * Returns the most common element in the array.
      * Similar to Python's statistics.mode() function.
-     * 
+     *
      * @returns The most frequent element, or undefined if array is empty
-     * 
+     *
      * @example
      * ```ts
      * [1,2,2,3].mode() // 2
@@ -56,10 +56,10 @@ declare global {
     /**
      * Returns a new array with elements rotated by n positions.
      * Similar to Python's collections.deque.rotate() method.
-     * 
+     *
      * @param n - Number of positions to rotate (positive = right, negative = left)
      * @returns New array with rotated elements
-     * 
+     *
      * @example
      * ```ts
      * [1,2,3].rotate(1) // [3,1,2]
@@ -72,9 +72,9 @@ declare global {
      * Returns the product of all numbers in the array.
      * Similar to math.prod() in Python.
      * Non-number elements are treated as 0.
-     * 
+     *
      * @returns Product of all numbers
-     * 
+     *
      * @example
      * ```ts
      * [1,2,3].prod() // 6
@@ -86,10 +86,10 @@ declare global {
     /**
      * Returns all possible permutations of the array.
      * Similar to Python's itertools.permutations() function.
-     * 
+     *
      * @param length - Length of each permutation (default: array length)
      * @returns Array of all possible permutations
-     * 
+     *
      * @example
      * ```ts
      * [1,2].permutations() // [[1,2], [2,1]]
@@ -101,9 +101,9 @@ declare global {
     /**
      * Returns the first element of the array.
      * Similar to Python's list indexing with [0].
-     * 
+     *
      * @returns First element
-     * 
+     *
      * @example
      * ```ts
      * [1,2,3].head() // 1
@@ -114,9 +114,9 @@ declare global {
     /**
      * Returns the rest of the array after the first element.
      * Similar to Python's list slicing with [1:].
-     * 
+     *
      * @returns Array without first element
-     * 
+     *
      * @example
      * ```ts
      * [1,2,3].tail() // [2,3]
@@ -127,9 +127,9 @@ declare global {
     /**
      * Returns true if the array is non-empty.
      * Utility method to check for empty arrays.
-     * 
+     *
      * @returns True if array has elements, false otherwise
-     * 
+     *
      * @example
      * ```ts
      * [1,2,3].isNonEmpty() // true
@@ -141,7 +141,7 @@ declare global {
     /**
      * Zips the array with another iterable.
      * Similar to Python's zip() function.
-     * 
+     *
      * @param other - Iterable to zip with
      * @returns Zipped result
      */
@@ -152,11 +152,11 @@ declare global {
     /**
      * Centers the string in a field of given width.
      * Similar to Python's str.center() method.
-     * 
+     *
      * @param width - Total width of resulting string
      * @param fillChar - Character to pad with (default: space)
      * @returns Centered string
-     * 
+     *
      * @example
      * ```ts
      * "hello".center(9) // "  hello  "
@@ -168,9 +168,9 @@ declare global {
     /**
      * Returns true if the string is a valid JavaScript identifier.
      * Similar to Python's str.isidentifier() method.
-     * 
+     *
      * @returns True if string is valid identifier
-     * 
+     *
      * @example
      * ```ts
      * "validName".isIdentifier() // true
@@ -182,10 +182,10 @@ declare global {
     /**
      * Partitions the string at the first occurrence of the separator.
      * Similar to Python's str.partition() method.
-     * 
+     *
      * @param separator - String to split on
      * @returns Tuple of [before, separator, after]
-     * 
+     *
      * @example
      * ```ts
      * "a,b,c".partition(",") // ["a", ",", "b,c"]
@@ -197,10 +197,10 @@ declare global {
     /**
      * Splits the string into a list of substrings.
      * Similar to Python's str.split() method.
-     * 
+     *
      * @param delimiter - String to split on
      * @returns Array of substrings
-     * 
+     *
      * @example
      * ```ts
      * "a,b,c".split(",") // ["a", "b", "c"]
@@ -211,9 +211,9 @@ declare global {
     /**
      * Joins a list of strings into a single string.
      * Similar to Python's str.join() method.
-     * 
+     *
      * @returns Joined string
-     * 
+     *
      * @example
      * ```ts
      * ["a","b","c"].join() // "abc"
@@ -224,9 +224,9 @@ declare global {
     /**
      * Parses the string as an integer.
      * Similar to Python's int() function.
-     * 
+     *
      * @returns Parsed integer
-     * 
+     *
      * @example
      * ```ts
      * "123".parseInt() // 123
@@ -239,10 +239,10 @@ declare global {
     /**
      * Merges two objects into a new object.
      * Similar to Python's dict.update() method.
-     * 
+     *
      * @param other - Object to merge with
      * @returns Merged object
-     * 
+     *
      * @example
      * ```ts
      * {a:1}.merge({b:2}) // {a:1, b:2}
@@ -253,7 +253,7 @@ declare global {
     /**
      * Merges multiple objects into a new object.
      * Similar to Python's dict.update() with multiple arguments.
-     * 
+     *
      * @param objects - Array of objects to merge
      * @returns Merged object
      */
@@ -262,7 +262,7 @@ declare global {
     /**
      * Omits keys from an object based on their types.
      * Utility method for type-based filtering.
-     * 
+     *
      * @returns Object without specified types
      */
     omitByType<U>(this: object): Omit<this, U>;
@@ -270,7 +270,7 @@ declare global {
     /**
      * Creates a deep partial copy of an object.
      * Makes all properties optional recursively.
-     * 
+     *
      * @returns Deep partial object
      */
     deepPartial<T extends object>(this: T): Partial<T>;
@@ -278,7 +278,7 @@ declare global {
     /**
      * Creates a deep required copy of an object.
      * Makes all properties required recursively.
-     * 
+     *
      * @returns Deep required object
      */
     deepRequired<T extends object>(this: T): Required<T>;
@@ -286,7 +286,7 @@ declare global {
     /**
      * Creates a deep read-only copy of an object.
      * Makes all properties readonly recursively.
-     * 
+     *
      * @returns Deep readonly object
      */
     deepReadonly<T extends object>(this: T): Readonly<T>;
@@ -294,7 +294,7 @@ declare global {
     /**
      * Creates a deep mutable copy of an object.
      * Makes all properties mutable recursively.
-     * 
+     *
      * @returns Deep mutable object
      */
     deepMutable<T extends object>(this: T): Mutable<T>;
@@ -302,7 +302,7 @@ declare global {
     /**
      * Creates a deep non-nullable copy of an object.
      * Removes null and undefined recursively.
-     * 
+     *
      * @returns Deep non-nullable object
      */
     deepNonNullable<T extends object>(this: T): NonNullable<T>;
@@ -310,7 +310,7 @@ declare global {
     /**
      * Returns all paths to the values in the object.
      * Gets array of dot-notation paths.
-     * 
+     *
      * @returns Array of path strings
      */
     paths(): string[];
@@ -318,7 +318,7 @@ declare global {
     /**
      * Returns the value of the object.
      * Similar to Python's object.__str__().
-     * 
+     *
      * @returns Object value
      */
     valueOf(): this;
@@ -326,7 +326,7 @@ declare global {
     /**
      * Zips the object with another iterable.
      * Similar to Python's zip() function.
-     * 
+     *
      * @param other - Iterable to zip with
      * @returns Zipped result
      */
@@ -337,7 +337,7 @@ declare global {
     /**
      * Awaits the promise and returns its value.
      * Similar to Python's asyncio.await().
-     * 
+     *
      * @returns Resolved value
      */
     awaited(): T;
@@ -347,7 +347,7 @@ declare global {
     /**
      * Checks if two objects are equal.
      * Similar to Python's operator.eq().
-     * 
+     *
      * @param other - Object to compare with
      * @returns True if equal
      */
@@ -358,7 +358,7 @@ declare global {
     /**
      * Creates an array of the specified length.
      * Similar to Python's [None] * n.
-     * 
+     *
      * @param length - Length of array
      * @returns Array of specified length
      */
@@ -367,7 +367,7 @@ declare global {
     /**
      * Creates an array filled with the specified value.
      * Similar to Python's [value] * n.
-     * 
+     *
      * @param value - Value to fill array with
      * @param length - Length of array
      * @returns Filled array
@@ -379,7 +379,7 @@ declare global {
     /**
      * Requires at least one of the specified keys to be present.
      * Type utility for partial required properties.
-     * 
+     *
      * @param obj - Source object
      * @param keys - Required keys
      * @returns Object with at least one key
@@ -392,7 +392,7 @@ declare global {
     /**
      * Requires only one of the specified keys to be present.
      * Type utility for mutually exclusive properties.
-     * 
+     *
      * @param obj - Source object
      * @param keys - Exclusive keys
      * @returns Object with exactly one key
@@ -402,7 +402,7 @@ declare global {
     /**
      * Removes keys from the object.
      * Similar to Python's dict comprehension filtering.
-     * 
+     *
      * @param obj - Source object
      * @param exclude - Keys to exclude
      * @returns Filtered object
@@ -412,7 +412,7 @@ declare global {
     /**
      * Returns the XOR of two objects.
      * Gets properties present in one object but not both.
-     * 
+     *
      * @param a - First object
      * @param b - Second object
      * @returns XOR result
@@ -422,7 +422,7 @@ declare global {
     /**
      * Deep picks the specified paths from the object.
      * Gets nested properties by dot notation paths.
-     * 
+     *
      * @param obj - Source object
      * @param paths - Dot notation paths
      * @returns Object with picked paths
@@ -432,7 +432,7 @@ declare global {
     /**
      * Converts a union type to a tuple.
      * Type utility for union to array conversion.
-     * 
+     *
      * @param union - Union type
      * @returns Tuple type
      */
@@ -449,7 +449,7 @@ declare global {
     /**
      * Returns intersection of two sets.
      * Similar to Python's set intersection.
-     * 
+     *
      * @param other - Set to intersect with
      * @returns Intersection set
      */
@@ -458,7 +458,7 @@ declare global {
     /**
      * Returns union of two sets.
      * Similar to Python's set union.
-     * 
+     *
      * @param other - Set to union with
      * @returns Union set
      */
@@ -467,7 +467,7 @@ declare global {
     /**
      * Returns difference of two sets.
      * Similar to Python's set difference.
-     * 
+     *
      * @param other - Set to subtract
      * @returns Difference set
      */
@@ -476,7 +476,7 @@ declare global {
     /**
      * Returns symmetric difference of two sets.
      * Similar to Python's set symmetric_difference.
-     * 
+     *
      * @param other - Set to compare
      * @returns Symmetric difference
      */
@@ -485,7 +485,7 @@ declare global {
     /**
      * Zips the set with another iterable.
      * Similar to Python's zip() function.
-     * 
+     *
      * @param other - Iterable to zip with
      * @returns Zipped result
      */
@@ -496,7 +496,7 @@ declare global {
     /**
      * Zips the iterable with another iterable.
      * Similar to Python's zip() function.
-     * 
+     *
      * @param other - Iterable to zip with
      * @returns Zipped result
      */
@@ -734,15 +734,14 @@ Promise.prototype.awaited = function <T>(): T {
   return this.then((value) => value as T);
 };
 
-Object.prototype.ofLength = function <N extends number>(length: N): ArrayOfLength<N> {
-  return Array(length).fill(0) as ArrayOfLength<N>;
-};
+Object.prototype.ofLength = <N extends number>(length: N): ArrayOfLength<N> =>
+  Array(length).fill(0) as ArrayOfLength<N>;
 
-Object.prototype.requireAtLeastOne = function <T extends object, K extends keyof T>(
+Object.prototype.requireAtLeastOne = <T extends object, K extends keyof T>(
   obj: T,
   keys: K[],
-): RequireAtLeastOne<T, K> {
-  return keys.reduce(
+): RequireAtLeastOne<T, K> =>
+  keys.reduce(
     (acc, key) => {
       if (key in obj) {
         acc[key] = obj[key];
@@ -751,13 +750,12 @@ Object.prototype.requireAtLeastOne = function <T extends object, K extends keyof
     },
     {} as RequireAtLeastOne<T, K>,
   );
-};
 
-Object.prototype.requireOnlyOne = function <T extends object, K extends keyof T>(
+Object.prototype.requireOnlyOne = <T extends object, K extends keyof T>(
   obj: T,
   keys: K[],
-): RequireOnlyOne<T, K> {
-  return keys.reduce(
+): RequireOnlyOne<T, K> =>
+  keys.reduce(
     (acc, key) => {
       if (key in obj) {
         acc[key] = obj[key];
@@ -766,20 +764,21 @@ Object.prototype.requireOnlyOne = function <T extends object, K extends keyof T>
     },
     {} as RequireOnlyOne<T, K>,
   );
-};
 
-Object.prototype.without = function <T extends object, U extends object>(obj: T, exclude: U): Without<T, U> {
-  return Object.keys(exclude).reduce(
+Object.prototype.without = <T extends object, U extends object>(
+  obj: T,
+  exclude: U,
+): Without<T, U> =>
+  Object.keys(exclude).reduce(
     (acc, key) => {
       delete acc[key];
       return acc;
     },
     { ...obj } as Without<T, U>,
   );
-};
 
-Object.prototype.xor = function <T extends object, U extends object>(a: T, b: U): XOR<T, U> {
-  return Object.keys(b).reduce(
+Object.prototype.xor = <T extends object, U extends object>(a: T, b: U): XOR<T, U> =>
+  Object.keys(b).reduce(
     (acc, key) => {
       if (key in a) {
         delete acc[key];
@@ -790,10 +789,12 @@ Object.prototype.xor = function <T extends object, U extends object>(a: T, b: U)
     },
     { ...a } as XOR<T, U>,
   );
-};
 
-Object.prototype.deepPick = function <T extends object, P extends string>(obj: T, paths: P[]): DeepPick<T, P> {
-  return paths.reduce(
+Object.prototype.deepPick = <T extends object, P extends string>(
+  obj: T,
+  paths: P[],
+): DeepPick<T, P> =>
+  paths.reduce(
     (acc, path) => {
       const keys = path.split('.');
       let current = acc;
@@ -808,7 +809,6 @@ Object.prototype.deepPick = function <T extends object, P extends string>(obj: T
     },
     {} as DeepPick<T, P>,
   );
-};
 
 Object.prototype.unionToTuple = function <T>(union: T): UnionToTuple<T> {
   return Object.keys(union).reduce(
@@ -823,7 +823,6 @@ Object.prototype.unionToTuple = function <T>(union: T): UnionToTuple<T> {
     [] as UnionToTuple<T>,
   );
 };
-
 
 Set.prototype.intersection = function <T>(other: Set<T>): Set<T> {
   const result = new Set<T>();

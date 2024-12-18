@@ -8,15 +8,10 @@ export const LegalHeader: React.FC<{
 }> = memo(({ title, className }) => {
   return (
     <div
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: '100%',
-        height: '100%',
-        aspectRatio: '3/2',
-      }}
-      className={cn('w-full h-full rounded-lg', className)}
+      className={cn(
+        'relative w-full aspect-[3/2] rounded-lg overflow-hidden',
+        className
+      )}
     >
       <svg
         width="1200"
@@ -92,15 +87,8 @@ export const LegalHeader: React.FC<{
           </clipPath>
         </defs>
       </svg>
-      <div
-        style={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-        }}
-      >
-        <h1 className={'text-6xl font-bold text-white mb-[20px] max-w-[1000px] text-clip'}>
+      <div className="absolute inset-0 flex items-center justify-center p-4">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white text-center">
           {title}
         </h1>
       </div>

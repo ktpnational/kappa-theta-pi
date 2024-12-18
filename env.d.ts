@@ -6,10 +6,10 @@ enum NodeEnv {
   PRODUCTION = 'production',
 }
 
-enum ServerConfig {
+export enum ServerConfig {
   URL = 'x-url',
   COOKIE = 'auth',
-  DAYS = 60 * 60 * 24 * 7,
+  DAYS = `${60 * 60 * 24 * 7}`,
 }
 
 declare global {
@@ -78,5 +78,3 @@ declare global {
     }
   }
 }
-
-export {};

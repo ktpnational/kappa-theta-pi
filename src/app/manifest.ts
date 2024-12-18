@@ -8,11 +8,6 @@ import type { MetadataRoute } from 'next';
  * @property {string} type - MIME type of the image (e.g. "image/png")
  * @property {'narrow' | 'wide'} [form_factor] - Optional form factor indicating if screenshot is for narrow/mobile or wide/desktop views
  */
-type ExtendedScreenshot = MetadataRoute.Manifest['screenshots'] extends (infer T)[]
-  ? T & {
-      form_factor?: 'narrow' | 'wide';
-    }
-  : never;
 
 /**
  * Extended manifest type that overrides screenshots array with ExtendedScreenshot type
@@ -21,7 +16,104 @@ type ExtendedScreenshot = MetadataRoute.Manifest['screenshots'] extends (infer T
  * @property {ExtendedScreenshot[]} [screenshots] - Array of screenshots with optional form factor property
  */
 type ExtendedManifest = Omit<MetadataRoute.Manifest, 'screenshots'> & {
-  screenshots?: ExtendedScreenshot[];
+  screenshots?: Array<{
+    src: string;
+    sizes: string;
+    type: string;
+    form_factor?: 'narrow' | 'wide';
+  }>;
+  tab_strip?: {
+    [key: string]: {
+      url: string;
+      icons: Array<{
+        src: string;
+        sizes: string;
+        type: string;
+        purpose: string;
+      }>;
+    };
+  };
+
+  launch_handler?: {
+    client_mode: 'auto' | 'focus-existing' | 'navigate-existing' | 'navigate-new';
+    navigate_existing_client?: 'always' | 'never';
+  };
+
+  edge_side_panel?: {
+    preferred_width?: number;
+  };
+
+  file_handlers?: Array<{
+    action: string;
+    accept: Record<string, string[]>;
+    launch_type?: 'single-client' | 'multiple-clients';
+  }>;
+
+  protocol_handlers?: Array<{
+    protocol: string;
+    url: string;
+    title?: string;
+  }>;
+
+  share_target?: {
+    action: string;
+    method: string;
+    enctype?: string;
+    params?: {
+      title?: string;
+      text?: string;
+      url?: string;
+      files?: Array<{
+        name: string;
+        accept: string[];
+      }>;
+    };
+  };
+
+  shortcuts_menu_items?: Array<{
+    name: string;
+    url: string;
+    description?: string;
+    icons?: Array<{
+      src: string;
+      sizes: string;
+      type: string;
+    }>;
+  }>;
+
+  widgets?: {
+    [key: string]: {
+      name: string;
+      description: string;
+      tag: string;
+      ms_ac_template: string;
+      data: string;
+      type: string;
+      screenshots: Array<{
+        src: string;
+        sizes: string;
+        type: string;
+        platform?: string;
+      }>;
+      icons: Array<{
+        src: string;
+        sizes: string;
+        type: string;
+      }>;
+      auth?: boolean;
+      update?: number;
+    };
+  };
+
+  handle_links?: 'auto' | 'preferred' | 'not-preferred';
+
+  scope_extensions?: Array<{
+    origin: string;
+  }>;
+
+  note_taking?: {
+    new_note_url: string;
+  };
 };
 
 /**
@@ -58,11 +150,89 @@ export default function manifest(): ExtendedManifest {
     orientation: 'portrait-primary',
     display_override: ['minimal-ui', 'browser', 'fullscreen', 'window-controls-overlay'],
     display: 'standalone',
+    share_target: {
+      action: '/',
+      method: 'GET',
+      enctype: 'application/x-www-form-urlencoded',
+      params: {
+        title: 'Kappa Theta Pi - National',
+        text: 'Kappa Theta Pi (ΚΘΠ, also known as KTP) is a co-ed professional fraternity specializing in the field of information technology.',
+        url: '/',
+        files: [
+          {
+            name: 'images',
+            accept: ['image/*'],
+          },
+          {
+            name: 'documents',
+            accept: ['application/pdf', '.doc', '.docx'],
+          },
+        ],
+      },
+    },
+    handle_links: 'preferred',
+    scope_extensions: [
+      {
+        origin: '*.kappathetapi.org',
+      },
+    ],
+    edge_side_panel: {
+      preferred_width: 480,
+    },
+    protocol_handlers: [
+      {
+        protocol: 'web+ktp',
+        url: '/%s',
+      },
+      {
+        protocol: 'web+rush',
+        url: '/rush/%s',
+      },
+    ],
+    tab_strip: {
+      ktp_rush: {
+        url: '/',
+        icons: [
+          {
+            src: '/assets/svgs/logo.svg',
+            sizes: 'any',
+            type: 'image/svg+xml',
+            purpose: 'maskable',
+          },
+        ],
+      },
+      'ktp-rush-2': {
+        url: '/',
+        icons: [
+          {
+            src: '/assets/svgs/logo.svg',
+            sizes: 'any',
+            type: 'image/svg+xml',
+            purpose: 'maskable',
+          },
+        ],
+      },
+    },
+    launch_handler: {
+      client_mode: 'auto',
+    },
     icons: [
       {
         src: '/assets/svgs/logo.svg',
         type: 'image/svg+xml',
         sizes: 'any',
+        purpose: 'maskable',
+      },
+      {
+        src: '/pwa/android/android-launchericon-512-512.png',
+        sizes: '512x512',
+        type: 'image/png',
+        purpose: 'maskable',
+      },
+      {
+        src: '/pwa/android/android-launchericon-192-192.png',
+        sizes: '192x192',
+        type: 'image/png',
         purpose: 'maskable',
       },
       {
@@ -546,42 +716,6 @@ export default function manifest(): ExtendedManifest {
         purpose: 'any',
       },
       {
-        src: '/pwa/android/android-launchericon-512-512.png',
-        sizes: '512x512',
-        type: 'image/png',
-        purpose: 'any',
-      },
-      {
-        src: '/pwa/android/android-launchericon-192-192.png',
-        sizes: '192x192',
-        type: 'image/png',
-        purpose: 'any',
-      },
-      {
-        src: '/pwa/android/android-launchericon-144-144.png',
-        sizes: '144x144',
-        type: 'image/png',
-        purpose: 'any',
-      },
-      {
-        src: '/pwa/android/android-launchericon-96-96.png',
-        sizes: '96x96',
-        type: 'image/png',
-        purpose: 'any',
-      },
-      {
-        src: '/pwa/android/android-launchericon-72-72.png',
-        sizes: '72x72',
-        type: 'image/png',
-        purpose: 'any',
-      },
-      {
-        src: '/pwa/android/android-launchericon-48-48.png',
-        sizes: '48x48',
-        type: 'image/png',
-        purpose: 'any',
-      },
-      {
         src: '/pwa/ios/16.png',
         sizes: '16x16',
         type: 'image/png',
@@ -740,12 +874,43 @@ export default function manifest(): ExtendedManifest {
     ],
     shortcuts: [
       {
-        name: 'Information',
-        short_name: 'Information',
-        url: '/information',
-        description: 'Information about KTP-International, his background, and interests.',
+        name: 'About Us',
+        short_name: 'About Us',
+        url: '/about/board',
+        description: 'Meet our national board members',
         icons: [
           {
+            // TODO: Add information icon
+            src: '/assets/svgs/logo-small.svg',
+            type: 'image/svg+xml',
+            purpose: 'any',
+            sizes: '96x96',
+          },
+        ],
+      },
+      {
+        name: 'Chapters',
+        short_name: 'Chapters',
+        url: '/chapters',
+        description: 'Find chapters at universities nationwide',
+        icons: [
+          {
+            // TODO: Add chapters icon
+            src: '/assets/svgs/logo-small.svg',
+            type: 'image/svg+xml',
+            purpose: 'any',
+            sizes: '96x96',
+          },
+        ],
+      },
+      {
+        name: 'Contact',
+        short_name: 'Contact',
+        url: '/contact',
+        description: 'Contact us',
+        icons: [
+          {
+            // TODO: Add contact icon
             src: '/assets/svgs/logo-small.svg',
             type: 'image/svg+xml',
             purpose: 'any',
@@ -768,6 +933,13 @@ export default function manifest(): ExtendedManifest {
         form_factor: 'wide',
       },
     ],
+    related_applications: [
+      {
+        platform: 'play',
+        url: 'https://play.google.com/store/apps/details?id=com.ktpumich.ktp_rush',
+      },
+    ],
+
     prefer_related_applications: false,
-  } as ExtendedManifest;
+  };
 }
