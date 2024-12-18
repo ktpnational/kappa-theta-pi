@@ -3,7 +3,6 @@
  */
 
 import { constructMetadata, getURL } from '@/utils';
-import { Metadata } from 'next';
 import { ImageResponse } from 'next/og';
 
 /**
