@@ -26,57 +26,57 @@ type NavSection = {
  */
 const navigationSections: NavSection[] = [
   {
-    title: 'About Us',
+    title: "About Us",
     items: [
       {
-        title: 'National Board',
-        href: '/about/board',
-        description: 'Meet our national board members',
+        title: "National Board",
+        href: "/about/board",
+        description: "Meet our national board members",
       },
       {
-        title: 'Our History',
-        href: '/about/history',
-        description: 'Explore our founding and growth',
+        title: "Our History",
+        href: "/about/history",
+        description: "Explore our founding and growth",
       },
     ],
   },
   {
-    title: 'Get Involved',
+    title: "Get Involved",
     items: [
-      {
+      /*{
         title: 'Join KΘΠ',
         href: '/join',
         description: 'Become a member of our community',
+      },*/
+      {
+        title: "Chapters",
+        href: "/chapters",
+        description: "Find chapters at universities nationwide",
       },
       {
-        title: 'Chapters',
-        href: '/chapters',
-        description: 'Find chapters at universities nationwide',
-      },
-      {
-        title: 'Start a Chapter',
-        href: '/chapters/start',
-        description: 'Bring KΘΠ to your campus',
+        title: "Start a Chapter",
+        href: "/chapters/start",
+        description: "Bring KΘΠ to your campus",
       },
     ],
   },
   {
-    title: 'Resources',
+    title: "Resources",
     items: [
       {
-        title: 'For Members',
-        href: '/resources/members',
-        description: 'Access member-exclusive content',
+        title: "For Members",
+        href: "/resources/members",
+        description: "Access member-exclusive content",
       },
       {
-        title: 'For Companies',
-        href: '/resources/companies',
-        description: 'Partner with our organization',
+        title: "For Companies",
+        href: "/resources/companies",
+        description: "Partner with our organization",
       },
       {
-        title: 'For Chapters',
-        href: '/resources/chapters',
-        description: 'Chapter management tools',
+        title: "For Chapters",
+        href: "/resources/chapters",
+        description: "Chapter management tools",
       },
     ],
   },
@@ -87,14 +87,14 @@ const navigationSections: NavSection[] = [
  */
 export const authLinks: NavItem[] = [
   {
-    title: 'Login',
-    href: '/auth/login',
-    description: 'Sign in to your account',
+    title: "Login",
+    href: "/auth/login",
+    description: "Sign in to your account",
   },
   {
-    title: 'Register',
-    href: '/auth/register',
-    description: 'Create a new account',
+    title: "Register",
+    href: "/auth/register",
+    description: "Create a new account",
   },
 ];
 
@@ -103,24 +103,24 @@ export const authLinks: NavItem[] = [
  */
 export const dashboardLinks: NavItem[] = [
   {
-    title: 'Dashboard',
-    href: '/dashboard',
-    description: 'View your dashboard',
+    title: "Dashboard",
+    href: "/dashboard",
+    description: "View your dashboard",
   },
   {
-    title: 'Company Portal',
-    href: '/dashboard/company',
-    description: 'Access company management tools',
+    title: "Company Portal",
+    href: "/dashboard/company",
+    description: "Access company management tools",
   },
   {
-    title: 'Member Portal',
-    href: '/dashboard/member',
-    description: 'Access member resources',
+    title: "Member Portal",
+    href: "/dashboard/member",
+    description: "Access member resources",
   },
   {
-    title: 'Settings',
-    href: '/settings',
-    description: 'Manage your account settings',
+    title: "Settings",
+    href: "/settings",
+    description: "Manage your account settings",
   },
 ];
 
@@ -129,19 +129,19 @@ export const dashboardLinks: NavItem[] = [
  */
 export const legalLinks: NavItem[] = [
   {
-    title: 'Terms of Service',
-    href: '/terms',
-    description: 'Read our terms of service',
+    title: "Terms of Service",
+    href: "/terms",
+    description: "Read our terms of service",
   },
   {
-    title: 'Privacy Policy',
-    href: '/privacy',
-    description: 'View our privacy policy',
+    title: "Privacy Policy",
+    href: "/privacy",
+    description: "View our privacy policy",
   },
   {
-    title: 'Copyright Policy',
-    href: '/copyright',
-    description: 'Learn about our copyright policy',
+    title: "Copyright Policy",
+    href: "/copyright",
+    description: "Learn about our copyright policy",
   },
 ];
 
@@ -150,9 +150,9 @@ export const legalLinks: NavItem[] = [
  */
 export const utilityLinks: NavItem[] = [
   {
-    title: 'Contact',
-    href: '/contact',
-    description: 'Get in touch with us',
+    title: "Contact",
+    href: "/contact",
+    description: "Get in touch with us",
   },
 ];
 
