@@ -5,58 +5,58 @@ const boardMembers = [
   {
     name: "Zoey Lee",
     role: "President",
-    location: "Miami",
+    location: "University of Miami",
     email: "zjl24@miami.edu",
-    linkedin: "#",
-    headshot: "https://via.placeholder.com/150", // Replace with actual image URL
+    linkedin: "https://www.linkedin.com/in/zoeylee123/",
+    headshot: "/assets/headshots/Zoey-Lee-Headshot.jpg", // Corrected path
   },
   {
     name: "Nathaniel Joseph",
     role: "Vice President",
-    location: "Miami",
+    location: "University of Miami",
     email: "natejoseph@miami.edu",
-    linkedin: "#",
-    headshot: "https://via.placeholder.com/150", // Replace with actual image URL
+    linkedin: "#", // Placeholder for missing LinkedIn
+    headshot: "/assets/headshots/Nathaniel-Joseph-Headshot.jpg", // Replace with actual image
   },
   {
     name: "Tommy Joppich",
     role: "Director of Chapter Growth",
-    location: "Michigan",
+    location: "University of Michigan",
     email: "Tjoppich@umich.edu",
-    linkedin: "#",
-    headshot: "https://via.placeholder.com/150", // Replace with actual image URL
+    linkedin: "https://www.linkedin.com/in/thomas-joppich-a66845251/",
+    headshot: "/assets/headshots/Tommy-J-Headshot.jpg", // Corrected path
   },
   {
     name: "Linda Tang",
     role: "Director of Branding and Marketing",
-    location: "Pittsburgh",
+    location: "University of Pittsburgh",
     email: "lit53@pitt.edu",
-    linkedin: "#",
-    headshot: "https://via.placeholder.com/150", // Replace with actual image URL
+    linkedin: "#", // Placeholder for missing LinkedIn
+    headshot: "/assets/headshots/Linda-Tang-Headshot.jpg", // Replace with actual image
   },
   {
     name: "Anjali Cherukuri",
     role: "Director of Alumni Relations",
-    location: "Texas (Austin)",
+    location: "University of Texas at Austin",
     email: "anjalic@utexas.edu",
-    linkedin: "#",
-    headshot: "https://via.placeholder.com/150", // Replace with actual image URL
+    linkedin: "#", // Placeholder for missing LinkedIn
+    headshot: "/assets/headshots/Anjali-Cherukuri-Headshot.jpg", // Replace with actual image
   },
   {
     name: "Kairavi Pandya",
     role: "Director of Technology",
-    location: "UT Dallas",
+    location: "University of Texas at Dallas",
     email: "pandyakairavi@gmail.com",
-    linkedin: "#",
-    headshot: "https://via.placeholder.com/150", // Replace with actual image URL
+    linkedin: "https://www.linkedin.com/in/kairavi-pandya/",
+    headshot: "/assets/headshots/Kairavi-Pandya-Headshot.jpg", // Corrected path
   },
   {
     name: "Beatriz Perez",
     role: "Director of Finance",
     location: "Boston University",
     email: "beap@bu.edu",
-    linkedin: "#",
-    headshot: "https://via.placeholder.com/150", // Replace with actual image URL
+    linkedin: "#", // Placeholder for missing LinkedIn
+    headshot: "/assets/headshots/Beatriz-Perez-Headshot.jpg", // Replace with actual image
   },
 ];
 
@@ -89,14 +89,20 @@ const AboutBoardPage = () => {
               {member.email}
             </a>
             <div className="mt-4">
-              <a
-                href={member.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-medium-blue hover:text-light-blue"
-              >
-                <FaLinkedin className="inline-block text-2xl" />
-              </a>
+              {member.linkedin !== "#" ? (
+                <a
+                  href={member.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-medium-blue hover:text-light-blue"
+                >
+                  <FaLinkedin className="inline-block text-2xl" />
+                </a>
+              ) : (
+                <span className="text-gray-400 text-sm">
+                  LinkedIn not available
+                </span>
+              )}
             </div>
           </div>
         ))}
