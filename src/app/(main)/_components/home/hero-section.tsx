@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { HeroVideoDialog } from '@/components/lib/hero-video-dialog';
-import { app } from '@/constants';
-import { cn } from '@/lib/utils';
-import { ArrowRight } from 'lucide-react';
-import { motion } from 'motion/react';
-import Link from 'next/link';
+import { HeroVideoDialog } from "@/components/lib/hero-video-dialog";
+import { app } from "@/constants";
+import { cn } from "@/lib/utils";
+import { ArrowRight } from "lucide-react";
+import { motion } from "motion/react";
+import Link from "next/link";
 
 /** Custom easing function for animations */
 const ease: [number, number, number, number] = [0.16, 1, 0.3, 1];
@@ -24,17 +24,21 @@ const HeroPill = () => {
       transition={{ duration: 0.8, ease }}
     >
       <div className="rounded-full bg-gradient-to-r from-[#88dddd] to-[#8bb9ff] px-3 py-1.5">
-        <span className="text-xs font-medium text-[#234c8b] sm:text-sm">⚡ Announcement</span>
+        <span className="text-xs font-medium text-[#234c8b] sm:text-sm">
+          ⚡ Announcement
+        </span>
       </div>
       <div className="flex items-center gap-2 px-2">
-        <span className="text-xs font-medium text-[#234c8b] sm:text-sm">Introducing ΚΘΠ</span>
+        <span className="text-xs font-medium text-[#234c8b] sm:text-sm">
+          Introducing ΚΘΠ
+        </span>
         <ArrowRight className="h-4 w-4 text-[#234c8b] transition-transform duration-300 ease-in-out group-hover:translate-x-0.5" />
       </div>
     </motion.a>
   );
 };
 
-HeroPill.displayName = 'HeroPill';
+HeroPill.displayName = "HeroPill";
 
 /**
  * Component that renders the main hero titles with staggered animation effects
@@ -45,15 +49,15 @@ const HeroTitles = () => {
     <div className="flex w-full max-w-2xl flex-col space-y-4 overflow-hidden pt-8">
       <motion.h1
         className="text-center text-4xl font-medium leading-tight text-foreground sm:text-5xl md:text-6xl"
-        initial={{ filter: 'blur(10px)', opacity: 0, y: 50 }}
-        animate={{ filter: 'blur(0px)', opacity: 1, y: 0 }}
+        initial={{ filter: "blur(10px)", opacity: 0, y: 50 }}
+        animate={{ filter: "blur(0px)", opacity: 1, y: 0 }}
         transition={{
           duration: 1,
           ease,
           staggerChildren: 0.2,
         }}
       >
-        {['Uniting', 'Tech', 'Enthusiasts', 'Nationwide'].map((text, index) => (
+        {["Uniting", "Tech", "Enthusiasts", "Nationwide"].map((text, index) => (
           <motion.span
             key={index}
             className="inline-block px-1 md:px-2 text-balance font-semibold"
@@ -85,7 +89,7 @@ const HeroTitles = () => {
   );
 };
 
-HeroTitles.displayName = 'HeroTitles';
+HeroTitles.displayName = "HeroTitles";
 
 /**
  * Component that renders the Call-to-Action buttons in the hero section
@@ -102,23 +106,23 @@ const HeroCTA = () => {
         transition={{ delay: 0.8, duration: 0.8, ease }}
       >
         <Link
-          href="/join"
+          href="/chapters/start"
           className={cn(
-            'w-full sm:w-auto text-primary-foreground flex gap-2',
-            'inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
-            'bg-primary text-primary-foreground hover:bg-primary/90',
-            'h-11 px-8 text-base',
+            "w-full sm:w-auto text-primary-foreground flex gap-2",
+            "inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+            "bg-primary text-primary-foreground hover:bg-primary/90",
+            "h-11 px-8 text-base"
           )}
         >
-          Join {app.name.split(' - ')[0]}
+          Join {app.name.split(" - ")[0]}
         </Link>
         <Link
           href="/chapters"
           className={cn(
-            'w-full sm:w-auto border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground',
-            'inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
-            'border border-input bg-background hover:bg-accent hover:text-accent-foreground',
-            'h-11 px-8 text-base',
+            "w-full sm:w-auto border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground",
+            "inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+            "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
+            "h-11 px-8 text-base"
           )}
         >
           Explore Our Chapters
@@ -128,7 +132,7 @@ const HeroCTA = () => {
   );
 };
 
-HeroCTA.displayName = 'HeroCTA';
+HeroCTA.displayName = "HeroCTA";
 
 /**
  * Component that renders the hero image/video section
@@ -154,7 +158,7 @@ const HeroImage = () => {
   );
 };
 
-HeroImage.displayName = 'HeroImage';
+HeroImage.displayName = "HeroImage";
 
 /**
  * Main hero section component that combines all hero elements
@@ -176,6 +180,6 @@ export const HeroSection = () => {
   );
 };
 
-HeroSection.displayName = 'HeroSection';
+HeroSection.displayName = "HeroSection";
 
 export default HeroSection;
