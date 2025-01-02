@@ -8,15 +8,15 @@ const boardMembers = [
     location: "University of Miami",
     email: "zjl24@miami.edu",
     linkedin: "https://www.linkedin.com/in/zoeylee123/",
-    headshot: "/assets/headshots/Zoey-Lee-Headshot.jpg", // Corrected path
+    headshot: "/assets/headshots/Zoey-Lee-Headshot.jpg",
   },
   {
-    name: "Nathaniel Joseph",
+    name: "Nate Joseph",
     role: "Vice President",
     location: "University of Miami",
     email: "natejoseph@miami.edu",
-    linkedin: "#", // Placeholder for missing LinkedIn
-    headshot: "/assets/headshots/Nathaniel-Joseph-Headshot.jpg", // Replace with actual image
+    linkedin: "https://www.linkedin.com/in/nathanieljoseph",
+    headshot: "/assets/headshots/Nate-Joseph-Headshot.jpg",
   },
   {
     name: "Tommy Joppich",
@@ -24,23 +24,23 @@ const boardMembers = [
     location: "University of Michigan",
     email: "Tjoppich@umich.edu",
     linkedin: "https://www.linkedin.com/in/thomas-joppich-a66845251/",
-    headshot: "/assets/headshots/Tommy-J-Headshot.jpg", // Corrected path
+    headshot: "/assets/headshots/Tommy-J-Headshot.jpg",
   },
   {
     name: "Linda Tang",
     role: "Director of Branding and Marketing",
     location: "University of Pittsburgh",
     email: "lit53@pitt.edu",
-    linkedin: "#", // Placeholder for missing LinkedIn
-    headshot: "/assets/headshots/Linda-Tang-Headshot.jpg", // Replace with actual image
+    linkedin: "#",
+    headshot: "/assets/headshots/Linda-Tang-Headshot.jpg",
   },
   {
     name: "Anjali Cherukuri",
     role: "Director of Alumni Relations",
     location: "University of Texas at Austin",
     email: "anjalic@utexas.edu",
-    linkedin: "#", // Placeholder for missing LinkedIn
-    headshot: "/assets/headshots/Anjali-Cherukuri-Headshot.jpg", // Replace with actual image
+    linkedin: "#",
+    headshot: "/assets/headshots/Anjali-Cherukuri-Headshot.jpg",
   },
   {
     name: "Kairavi Pandya",
@@ -48,15 +48,15 @@ const boardMembers = [
     location: "University of Texas at Dallas",
     email: "pandyakairavi@gmail.com",
     linkedin: "https://www.linkedin.com/in/kairavi-pandya/",
-    headshot: "/assets/headshots/Kairavi-Pandya-Headshot.jpg", // Corrected path
+    headshot: "/assets/headshots/Kairavi-Pandya-Headshot.jpg",
   },
   {
     name: "Beatriz Perez",
     role: "Director of Finance",
     location: "Boston University",
     email: "beap@bu.edu",
-    linkedin: "#", // Placeholder for missing LinkedIn
-    headshot: "/assets/headshots/Beatriz-Perez-Headshot.jpg", // Replace with actual image
+    linkedin: "#",
+    headshot: "/assets/headshots/Beatriz-Perez-Headshot.jpg",
   },
 ];
 

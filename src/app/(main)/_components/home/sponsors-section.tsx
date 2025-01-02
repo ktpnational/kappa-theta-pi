@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { Marquee } from '@/components/ui/marquee';
-import { companies } from '@/constants';
-import Image from 'next/image';
+import { Marquee } from "@/components/ui/marquee";
+import { companies } from "@/constants";
+import Image from "next/image";
 
 /**
  * SponsorsSection Component
@@ -60,8 +60,9 @@ export const SponsorsSection = () => {
   return (
     <section id="sponsors" className="w-full py-12">
       <div className="container px-4 md:px-6">
-        <h2 className="text-center text-sm font-semibold tracking-wider text-[#234c8b] mb-8 sr-only">
-          TRUSTED BY LEADING TEAMS
+        {/* Title */}
+        <h2 className="text-center text-4xl font-bold tracking-wide text-[#234c8b] mb-4">
+          Our Network
         </h2>
         <div className="relative w-full">
           <Marquee className="py-6 bg-none" pauseOnHover>
@@ -84,4 +85,4 @@ export const SponsorsSection = () => {
     </section>
   );
 };
-SponsorsSection.displayName = 'SponsorsSection';
+SponsorsSection.displayName = "SponsorsSection";

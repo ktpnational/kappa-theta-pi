@@ -1,13 +1,13 @@
-import React from 'react';
+import React from "react";
 import {
   // BlogSection,
   CtaSection,
   FAQSection,
   HeroSection,
   MapSection,
-  MobileSection,
+  // MobileSection,
   SponsorsSection,
-} from '.';
+} from ".";
 
 /**
  * React component that renders the main sections of the home page
@@ -39,9 +39,9 @@ export const HomeSections = () => {
       <FAQSection />
       {/* <BlogSection /> */}
       <CtaSection />
-      <MobileSection />
+      {/* <MobileSection /> */}
     </>
   );
 };
 
-HomeSections.displayName = 'HomeSections';
+HomeSections.displayName = "HomeSections";

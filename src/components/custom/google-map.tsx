@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 /**
  * @file google-map.tsx
@@ -12,19 +12,24 @@
  * - Scroll lock when interacting with map
  */
 
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { Skeleton } from '@/components/ui/skeleton';
-import { type ChapterInfo, chapters } from '@/data/map';
-import { useToast } from '@/hooks/use-toast';
-import { cn } from '@/lib/utils';
-import { useGlobalStore } from '@/providers';
-import { MarkerClusterer } from '@googlemaps/markerclusterer';
-import { APIProvider, InfoWindow, Map, useMap } from '@vis.gl/react-google-maps';
-import { AnimatePresence, motion } from 'motion/react';
-import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { FaCalendarAlt } from 'react-icons/fa';
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
+import { type ChapterInfo, chapters } from "@/data/map";
+import { useToast } from "@/hooks/use-toast";
+import { cn } from "@/lib/utils";
+import { useGlobalStore } from "@/providers";
+import { MarkerClusterer } from "@googlemaps/markerclusterer";
+import {
+  APIProvider,
+  InfoWindow,
+  Map,
+  useMap,
+} from "@vis.gl/react-google-maps";
+import { AnimatePresence, motion } from "motion/react";
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { FaCalendarAlt } from "react-icons/fa";
 
 /**
  * Color configurations for different chapter statuses.
@@ -39,9 +44,9 @@ import { FaCalendarAlt } from 'react-icons/fa';
  * @property {string} *.badge - Tailwind CSS class for badge background
  */
 const MARKER_COLORS = {
-  Active: { bg: '#234c8b', text: '#ffffff', badge: 'bg-[#234c8b]' },
-  Colony: { bg: '#8bb9ff', text: '#234c8b', badge: 'bg-[#8bb9ff]' },
-  Inactive: { bg: '#9ca3af', text: '#ffffff', badge: 'bg-gray-400' },
+  Active: { bg: "#234c8b", text: "#ffffff", badge: "bg-[#234c8b]" },
+  Colony: { bg: "#8bb9ff", text: "#234c8b", badge: "bg-[#8bb9ff]" },
+  Inactive: { bg: "#9ca3af", text: "#ffffff", badge: "bg-gray-400" },
 };
 
 /**
@@ -83,19 +88,19 @@ const DEFAULT_CENTER = { lat: 39.8283, lng: -98.5795 };
  */
 const MAP_STYLES = [
   {
-    featureType: 'water',
-    elementType: 'geometry',
-    stylers: [{ color: '#e9e9e9' }, { lightness: 17 }],
+    featureType: "water",
+    elementType: "geometry",
+    stylers: [{ color: "#e9e9e9" }, { lightness: 17 }],
   },
   {
-    featureType: 'landscape',
-    elementType: 'geometry',
-    stylers: [{ color: '#f5f5f5' }, { lightness: 20 }],
+    featureType: "landscape",
+    elementType: "geometry",
+    stylers: [{ color: "#f5f5f5" }, { lightness: 20 }],
   },
   {
-    featureType: 'administrative',
-    elementType: 'labels.text.fill',
-    stylers: [{ color: '#234c8b' }],
+    featureType: "administrative",
+    elementType: "labels.text.fill",
+    stylers: [{ color: "#234c8b" }],
   },
 ];
 
@@ -113,24 +118,24 @@ const MAP_STYLES = [
  */
 const BUTTON_COLORS = {
   All: {
-    bg: 'bg-white hover:bg-gray-50 focus-visible:ring-2 focus-visible:ring-[#234c8b] focus-visible:ring-offset-2',
-    text: 'text-gray-900',
-    ariaLabel: 'Show all chapters',
+    bg: "bg-white hover:bg-gray-50 focus-visible:ring-2 focus-visible:ring-[#234c8b] focus-visible:ring-offset-2",
+    text: "text-gray-900",
+    ariaLabel: "Show all chapters",
   },
   Active: {
-    bg: 'bg-white hover:bg-gray-50 focus-visible:ring-2 focus-visible:ring-[#234c8b] focus-visible:ring-offset-2',
-    text: 'text-[#234c8b]',
-    ariaLabel: 'Filter to show only active chapters',
+    bg: "bg-white hover:bg-gray-50 focus-visible:ring-2 focus-visible:ring-[#234c8b] focus-visible:ring-offset-2",
+    text: "text-[#234c8b]",
+    ariaLabel: "Filter to show only active chapters",
   },
   Colony: {
-    bg: 'bg-white hover:bg-gray-50 focus-visible:ring-2 focus-visible:ring-[#234c8b] focus-visible:ring-offset-2',
-    text: 'text-[#8bb9ff]',
-    ariaLabel: 'Filter to show only colony chapters',
+    bg: "bg-white hover:bg-gray-50 focus-visible:ring-2 focus-visible:ring-[#234c8b] focus-visible:ring-offset-2",
+    text: "text-[#8bb9ff]",
+    ariaLabel: "Filter to show only colony chapters",
   },
   Inactive: {
-    bg: 'bg-white hover:bg-gray-50 focus-visible:ring-2 focus-visible:ring-[#234c8b] focus-visible:ring-offset-2',
-    text: 'text-gray-400',
-    ariaLabel: 'Filter to show only inactive chapters',
+    bg: "bg-white hover:bg-gray-50 focus-visible:ring-2 focus-visible:ring-[#234c8b] focus-visible:ring-offset-2",
+    text: "text-gray-400",
+    ariaLabel: "Filter to show only inactive chapters",
   },
 };
 
@@ -160,7 +165,9 @@ export const GoogleMaps = memo(() => {
 
   const activeFilters = useGlobalStore((state) => state.map.activeFilters);
   const toggleFilter = useGlobalStore((state) => state.map.toggleFilter);
-  const setActiveFilters = useGlobalStore((state) => state.map.setActiveFilters);
+  const setActiveFilters = useGlobalStore(
+    (state) => state.map.setActiveFilters
+  );
 
   /**
    * Disables page scrolling when mouse enters map container.
@@ -170,7 +177,7 @@ export const GoogleMaps = memo(() => {
    * @memberof GoogleMaps
    */
   const disableScroll = useCallback(() => {
-    document.body.style.overflow = 'hidden';
+    document.body.style.overflow = "hidden";
   }, []);
 
   /**
@@ -181,19 +188,19 @@ export const GoogleMaps = memo(() => {
    * @memberof GoogleMaps
    */
   const enableScroll = useCallback(() => {
-    document.body.style.overflow = 'auto';
+    document.body.style.overflow = "auto";
   }, []);
 
   useEffect(() => {
     const container = mapContainerRef.current;
     if (!container) return;
 
-    container.addEventListener('mouseenter', disableScroll);
-    container.addEventListener('mouseleave', enableScroll);
+    container.addEventListener("mouseenter", disableScroll);
+    container.addEventListener("mouseleave", enableScroll);
 
     return () => {
-      container.removeEventListener('mouseenter', disableScroll);
-      container.removeEventListener('mouseleave', enableScroll);
+      container.removeEventListener("mouseenter", disableScroll);
+      container.removeEventListener("mouseleave", enableScroll);
     };
   }, [disableScroll, enableScroll]);
 
@@ -231,7 +238,7 @@ export const GoogleMaps = memo(() => {
    */
   const mapOptions = useMemo(
     () => ({
-      gestureHandling: 'cooperative',
+      gestureHandling: "cooperative",
       restriction: {
         latLngBounds: NORTH_AMERICA_BOUNDS,
         strictBounds: false,
@@ -245,14 +252,14 @@ export const GoogleMaps = memo(() => {
       minZoom: 3,
       maxZoom: 18,
     }),
-    [],
+    []
   );
 
   useEffect(() => {
     if (!isLoading) {
       toast({
-        title: 'Map Controls',
-        description: 'Use keyboard +/- or left click to zoom',
+        title: "Map Controls",
+        description: "Use keyboard +/- or left click to zoom",
         duration: 5000,
       });
     }
@@ -278,12 +285,16 @@ export const GoogleMaps = memo(() => {
               aria-label="Chapter filter options"
             >
               <Button
-                onClick={() => setActiveFilters(['Active', 'Colony', 'Inactive'])}
+                onClick={() =>
+                  setActiveFilters(["Active", "Colony", "Inactive"])
+                }
                 className={cn(
-                  'rounded-full transition-colors',
+                  "rounded-full transition-colors",
                   BUTTON_COLORS.All.bg,
                   BUTTON_COLORS.All.text,
-                  activeFilters.length === 3 ? 'ring-2 ring-[#234c8b] ring-offset-2' : '',
+                  activeFilters.length === 3
+                    ? "ring-2 ring-[#234c8b] ring-offset-2"
+                    : ""
                 )}
                 variant="outline"
                 aria-label={BUTTON_COLORS.All.ariaLabel}
@@ -296,7 +307,7 @@ export const GoogleMaps = memo(() => {
                   <span className="sr-only"> (currently selected)</span>
                 )}
               </Button>
-              {(['Active', 'Colony', 'Inactive'] as const).map((filter) => {
+              {(["Active", "Colony", "Inactive"] as const).map((filter) => {
                 const count = stats[filter.toLowerCase() as keyof typeof stats];
                 const buttonText = `${filter} Chapters (${count})`;
 
@@ -305,10 +316,12 @@ export const GoogleMaps = memo(() => {
                     key={filter}
                     onClick={() => toggleFilter(filter)}
                     className={cn(
-                      'rounded-full transition-colors',
+                      "rounded-full transition-colors",
                       BUTTON_COLORS[filter].bg,
                       BUTTON_COLORS[filter].text,
-                      activeFilters.includes(filter) ? 'ring-2 ring-[#234c8b] ring-offset-2' : '',
+                      activeFilters.includes(filter)
+                        ? "ring-2 ring-[#234c8b] ring-offset-2"
+                        : ""
                     )}
                     variant="outline"
                     aria-label={BUTTON_COLORS[filter].ariaLabel}
@@ -329,7 +342,9 @@ export const GoogleMaps = memo(() => {
                 ref={mapContainerRef}
                 className="w-full h-[600px] rounded-xl overflow-hidden shadow-xl border border-gray-200"
               >
-                <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}>
+                <APIProvider
+                  apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}
+                >
                   <Map
                     defaultCenter={DEFAULT_CENTER}
                     zoom={mapZoom}
@@ -337,7 +352,11 @@ export const GoogleMaps = memo(() => {
                     mapId={process.env.NEXT_PUBLIC_GOOGLE_MAPS_MAP_ID}
                     {...mapOptions}
                   >
-                    <Markers chapters={chapters} activeFilters={activeFilters} mapZoom={mapZoom} />
+                    <Markers
+                      chapters={chapters}
+                      activeFilters={activeFilters}
+                      mapZoom={mapZoom}
+                    />
                   </Map>
                 </APIProvider>
               </div>
@@ -379,116 +398,133 @@ type MarkersProps = {
  * @param {number} props.mapZoom - Current map zoom level
  * @returns {JSX.Element} Rendered markers and info windows
  */
-const Markers: React.FC<MarkersProps> = memo(({ chapters, activeFilters, mapZoom }) => {
-  const map = useMap();
-  const [activeMarker, setActiveMarker] = useState<string | null>(null);
-  const clusterer = useRef<MarkerClusterer | null>(null);
+const Markers: React.FC<MarkersProps> = memo(
+  ({ chapters, activeFilters, mapZoom }) => {
+    const map = useMap();
+    const [activeMarker, setActiveMarker] = useState<string | null>(null);
+    const clusterer = useRef<MarkerClusterer | null>(null);
 
-  /**
-   * Filtered and processed chapters based on status filter and geographic bounds.
-   * Combines all chapter types and filters them based on:
-   * - Current status filter
-   * - Geographic boundaries
-   *
-   * @type {ChapterInfo[]}
-   */
-  const allChapters = useMemo(() => {
-    const combined = [...chapters.active, ...chapters.colony, ...chapters.inactive];
-    return combined.filter((chapter) => {
-      const [lat, lng] = chapter.coordinates;
-      const matchesFilter = activeFilters.includes(chapter.status);
-      return (
-        lat <= NORTH_AMERICA_BOUNDS.north &&
-        lat >= NORTH_AMERICA_BOUNDS.south &&
-        lng >= NORTH_AMERICA_BOUNDS.west &&
-        lng <= NORTH_AMERICA_BOUNDS.east &&
-        matchesFilter
-      );
-    });
-  }, [chapters, activeFilters]);
-
-  /**
-   * Handles marker click events and toggles the active marker state.
-   * When a marker is clicked:
-   * - If it's not active, it becomes the active marker
-   * - If it's already active, it becomes inactive
-   *
-   * @function
-   * @param {string} markerName - Name of the clicked marker
-   */
-  const handleMarkerClick = useCallback((markerName: string) => {
-    setActiveMarker((prev) => (prev === markerName ? null : markerName));
-  }, []);
-
-  useEffect(() => {
-    if (!map) return;
-
-    clusterer.current = new MarkerClusterer({
-      map,
-      markers: [],
-      renderer: {
-        render: ({ count, position }) => {
-          const clusterMarker = new google.maps.marker.AdvancedMarkerElement({
-            position,
-            content: createClusterMarkerContent(count),
-          });
-
-          google.maps.event.addListener(clusterMarker, 'click', () => {
-            const zoom = map.getZoom() || 0;
-            map.setZoom(zoom + 1);
-            map.setCenter(position);
-          });
-
-          return clusterMarker;
-        },
-      },
-    });
-
-    return () => {
-      if (clusterer.current) {
-        clusterer.current.clearMarkers();
-        clusterer.current = null;
-      }
-    };
-  }, [map]);
-
-  useEffect(() => {
-    if (!clusterer.current) return;
-
-    const markers = allChapters.map((chapter) => {
-      const { bg } = MARKER_COLORS[chapter.status];
-      const marker = new google.maps.marker.AdvancedMarkerElement({
-        position: { lat: chapter.coordinates[0], lng: chapter.coordinates[1] },
-        content: createMarkerContent(bg),
+    /**
+     * Filtered and processed chapters based on status filter and geographic bounds.
+     * Combines all chapter types and filters them based on:
+     * - Current status filter
+     * - Geographic boundaries
+     *
+     * @type {ChapterInfo[]}
+     */
+    const allChapters = useMemo(() => {
+      const combined = [
+        ...chapters.active,
+        ...chapters.colony,
+        ...chapters.inactive,
+      ];
+      return combined.filter((chapter) => {
+        const [lat, lng] = chapter.coordinates;
+        const matchesFilter = activeFilters.includes(chapter.status);
+        return (
+          lat <= NORTH_AMERICA_BOUNDS.north &&
+          lat >= NORTH_AMERICA_BOUNDS.south &&
+          lng >= NORTH_AMERICA_BOUNDS.west &&
+          lng <= NORTH_AMERICA_BOUNDS.east &&
+          matchesFilter
+        );
       });
-      google.maps.event.addListener(marker, 'click', () => handleMarkerClick(chapter.name));
-      return marker;
-    });
+    }, [chapters, activeFilters]);
 
-    clusterer.current.clearMarkers();
-    clusterer.current.addMarkers(markers);
-  }, [allChapters, mapZoom, handleMarkerClick]);
+    /**
+     * Handles marker click events and toggles the active marker state.
+     * When a marker is clicked:
+     * - If it's not active, it becomes the active marker
+     * - If it's already active, it becomes inactive
+     *
+     * @function
+     * @param {string} markerName - Name of the clicked marker
+     */
+    const handleMarkerClick = useCallback((markerName: string) => {
+      setActiveMarker((prev) => (prev === markerName ? null : markerName));
+    }, []);
 
-  return (
-    <>
-      <AnimatePresence>
-        {activeMarker && (
-          <InfoWindow
-            position={{
-              lat:
-                allChapters.find((chapter) => chapter.name === activeMarker)?.coordinates[0] || 0,
-              lng:
-                allChapters.find((chapter) => chapter.name === activeMarker)?.coordinates[1] || 0,
-            }}
-            onCloseClick={() => setActiveMarker(null)}
-          >
-            <ChapterInfo chapter={allChapters.find((chapter) => chapter.name === activeMarker)!} />
-          </InfoWindow>
-        )}
-      </AnimatePresence>
-    </>
-  );
-});
+    useEffect(() => {
+      if (!map) return;
+
+      clusterer.current = new MarkerClusterer({
+        map,
+        markers: [],
+        renderer: {
+          render: ({ count, position }) => {
+            const clusterMarker = new google.maps.marker.AdvancedMarkerElement({
+              position,
+              content: createClusterMarkerContent(count),
+            });
+
+            google.maps.event.addListener(clusterMarker, "click", () => {
+              const zoom = map.getZoom() || 0;
+              map.setZoom(zoom + 1);
+              map.setCenter(position);
+            });
+
+            return clusterMarker;
+          },
+        },
+      });
+
+      return () => {
+        if (clusterer.current) {
+          clusterer.current.clearMarkers();
+          clusterer.current = null;
+        }
+      };
+    }, [map]);
+
+    useEffect(() => {
+      if (!clusterer.current) return;
+
+      const markers = allChapters.map((chapter) => {
+        const { bg } = MARKER_COLORS[chapter.status];
+        const marker = new google.maps.marker.AdvancedMarkerElement({
+          position: {
+            lat: chapter.coordinates[0],
+            lng: chapter.coordinates[1],
+          },
+          content: createMarkerContent(bg),
+        });
+        google.maps.event.addListener(marker, "click", () =>
+          handleMarkerClick(chapter.name)
+        );
+        return marker;
+      });
+
+      clusterer.current.clearMarkers();
+      clusterer.current.addMarkers(markers);
+    }, [allChapters, mapZoom, handleMarkerClick]);
+
+    return (
+      <>
+        <AnimatePresence>
+          {activeMarker && (
+            <InfoWindow
+              position={{
+                lat:
+                  allChapters.find((chapter) => chapter.name === activeMarker)
+                    ?.coordinates[0] || 0,
+                lng:
+                  allChapters.find((chapter) => chapter.name === activeMarker)
+                    ?.coordinates[1] || 0,
+              }}
+              onCloseClick={() => setActiveMarker(null)}
+            >
+              <ChapterInfo
+                chapter={
+                  allChapters.find((chapter) => chapter.name === activeMarker)!
+                }
+              />
+            </InfoWindow>
+          )}
+        </AnimatePresence>
+      </>
+    );
+  }
+);
 
 /**
  * Component that displays detailed information about a chapter in an info window.
@@ -514,7 +550,9 @@ const ChapterInfo: React.FC<{ chapter: ChapterInfo }> = memo(({ chapter }) => (
   >
     <div className="flex items-center gap-2 mb-4">
       <Badge
-        className={`${MARKER_COLORS[chapter.status as keyof typeof MARKER_COLORS].badge} text-sm px-3 py-1`}
+        className={`${
+          MARKER_COLORS[chapter.status as keyof typeof MARKER_COLORS].badge
+        } text-sm px-3 py-1`}
       >
         {chapter.status}
       </Badge>
@@ -532,13 +570,15 @@ const ChapterInfo: React.FC<{ chapter: ChapterInfo }> = memo(({ chapter }) => (
     <p className="text-sm mb-1">
       <strong>Location:</strong> {chapter.location}
     </p>
-    {chapter.notes && <p className="text-sm mt-2 italic text-gray-600">{chapter.notes}</p>}
+    {chapter.notes && (
+      <p className="text-sm mt-2 italic text-gray-600">{chapter.notes}</p>
+    )}
     <Button
       className="mt-4 w-full"
       onClick={() =>
         window.open(
           `https://www.google.com/maps/search/?api=1&query=${chapter.coordinates[0]},${chapter.coordinates[1]}`,
-          '_blank',
+          "_blank"
         )
       }
     >
@@ -559,7 +599,7 @@ const ChapterInfo: React.FC<{ chapter: ChapterInfo }> = memo(({ chapter }) => (
  * @returns {Element} Custom marker DOM element
  */
 function createMarkerContent(bgColor: string) {
-  const div = document.createElement('div');
+  const div = document.createElement("div");
   div.innerHTML = `
     <div style="
       background-color: ${bgColor};
@@ -587,7 +627,7 @@ function createMarkerContent(bgColor: string) {
  * @returns {Element} Custom cluster marker DOM element
  */
 function createClusterMarkerContent(count: number) {
-  const div = document.createElement('div');
+  const div = document.createElement("div");
   div.innerHTML = `
     <div style="
       background-color: #234c8b;

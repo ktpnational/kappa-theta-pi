@@ -8,6 +8,7 @@ interface ScrollProviderProps {
 
 /**
  * Regular scroll provider that simply renders children without any smooth scroll functionality.
+ * I removed everything due to some lagging still happening
  * @component
  * @param {ScrollProviderProps} props - Component props
  * @param {React.ReactNode} props.children - Child components to be rendered
