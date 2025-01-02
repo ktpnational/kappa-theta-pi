@@ -123,7 +123,7 @@ const nextConfig: NextConfig = {
       },
     ];
   },
-  webpack: (config, { isServer, nextRuntime }) => {
+  webpack: (config, { nextRuntime }) => {
     config.resolve = config.resolve || {};
     config.resolve.fallback = config.resolve.fallback || {};
     config.resolve.alias = config.resolve.alias || {};

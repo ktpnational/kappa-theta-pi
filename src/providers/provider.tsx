@@ -9,7 +9,7 @@ import {
   Events,
   GlobalStoreProvider,
   QueryProvider,
-  ScrollProvider, // Using ScrollProvider for regular scrolling
+  ScrollProvider,
   ThemeProvider,
 } from ".";
 
@@ -17,70 +17,54 @@ import {
  * Provider wrapper component that composes multiple context providers
  * @component
  * @param {Object} props - Component props
- * @param {React.ReactNode} props.children - Child elements to be wrapped by the providers
- * @returns {JSX.Element} Composed provider stack with children
+ * @param {React.ReactNode} props.children - Child elements to be wrapped
  */
 const Providers: React.FC<{
   children: ReactNode;
   session: Session | null;
 }> = ({ children, session }) => {
   return (
-    <>
-      <ProviderStack
-        providers={[
-          [AuthProvider, { session }],
-          [QueryProvider, {}],
-          [ThemeProvider, {}],
-          [ScrollProvider, {}], // Replaced SmoothScrollProvider with ScrollProvider
-          [GlobalStoreProvider, {}],
-          [Events, {}],
-        ]}
-      >
-        <>
-          {children}
-          {/* <ModeToggle /> */}
-          <TailwindIndicator />
-          {/* <TelemetryInit /> */}
-        </>
-      </ProviderStack>
-    </>
+    <ProviderStack
+      providers={[
+        [AuthProvider, { session }],
+        [QueryProvider, {}],
+        [ThemeProvider, {}],
+        [ScrollProvider, {}],
+        [GlobalStoreProvider, {}],
+        [Events, {}],
+      ]}
+    >
+      <>
+        {children}
+        <TailwindIndicator />
+      </>
+    </ProviderStack>
   );
 };
 
 export { Providers };
 
-/**
- * Utility type to prevent type inference
- * @template T - The type to prevent inference for
- */
-type NoInfer<T> = [T][T extends any ? 0 : 1];
-
-/**
- * Interface for components that can accept children
- * @interface
- */
-type ContainsChildren = {
-  children?: ReactNode;
-};
+// Remove or comment out if not using:
+// ---------------------------------------------------------
+// // eslint-disable-next-line @typescript-eslint/no-unused-vars
+// type NoInfer<T> = [T][T extends any ? 0 : 1];
+//
+// type ContainsChildren = {
+//   children?: ReactNode;
+// };
+// ---------------------------------------------------------
 
 /**
  * Component that recursively composes provider components
- * @template Providers - Tuple type extending ContainsChildren
- * @param {Object} props - Component props
- * @param {Array} props.providers - Array of provider components and their props
- * @param {ReactNode} props.children - Child elements to be wrapped by the providers
- * @returns {ReactNode} Nested provider structure containing children
+ *
+ * @param providers - An array of [Provider, props] tuples
+ * @param children - Child elements to be wrapped by the providers
  */
 function ProviderStack({
   providers,
   children,
 }: {
-  providers: Array<
-    [
-      React.JSXElementConstructor<any>, // Corrected type to React.JSXElementConstructor
-      Record<string, any>, // Allow dynamic props
-    ]
-  >;
+  providers: Array<[React.JSXElementConstructor<any>, Record<string, any>]>;
   children: ReactNode;
 }) {
   let node: ReactNode = children || null;
