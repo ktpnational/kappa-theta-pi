@@ -270,7 +270,7 @@ export const chapters: ChapterGroup = {
       foundingDate: "Colony Status",
       university: "Lewis University",
       location: "Romeoville, Illinois",
-      status: "Colony",
+      status: "Active",
       coordinates: [41.6056, -88.0823],
     },
     {
@@ -279,7 +279,7 @@ export const chapters: ChapterGroup = {
       foundingDate: "Colony Status",
       university: "University of Georgia",
       location: "Athens, Georgia",
-      status: "Colony",
+      status: "Active",
       coordinates: [33.948, -83.3773],
     },
     {
@@ -288,7 +288,7 @@ export const chapters: ChapterGroup = {
       foundingDate: "Colony Status",
       university: "Nova Southeastern University",
       location: "Fort Lauderdale, Florida",
-      status: "Colony",
+      status: "Active",
       coordinates: [26.0797, -80.2406],
     },
     {
@@ -297,7 +297,7 @@ export const chapters: ChapterGroup = {
       foundingDate: "Colony Status",
       university: "Cameron University",
       location: "Lawton, Oklahoma",
-      status: "Colony",
+      status: "Active",
       coordinates: [34.6145, -98.439],
     },
     {
@@ -306,7 +306,7 @@ export const chapters: ChapterGroup = {
       foundingDate: "Colony Status",
       university: "Northeastern University",
       location: "Boston, Massachusetts",
-      status: "Colony",
+      status: "Active",
       coordinates: [42.3398, -71.0892],
     },
     {
@@ -315,7 +315,7 @@ export const chapters: ChapterGroup = {
       foundingDate: "Colony Status",
       university: "University of Central Arkansas",
       location: "Conway, Arkansas",
-      status: "Colony",
+      status: "Active",
       coordinates: [35.0787, -92.4588],
     },
     {
@@ -324,7 +324,7 @@ export const chapters: ChapterGroup = {
       foundingDate: "Colony Status",
       university: "Rutgers University",
       location: "New Brunswick, New Jersey",
-      status: "Colony",
+      status: "Active",
       coordinates: [40.5008, -74.4474],
     },
     {
@@ -333,7 +333,7 @@ export const chapters: ChapterGroup = {
       foundingDate: "Colony Status",
       university: "Virginia Tech",
       location: "Blacksburg, Virginia",
-      status: "Colony",
+      status: "Active",
       coordinates: [37.2284, -80.4234],
     },
   ],

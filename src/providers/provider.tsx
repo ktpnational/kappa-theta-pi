@@ -1,40 +1,37 @@
-'use client';
+"use client";
 
-import { TailwindIndicator } from '@/components';
-import type { Session } from 'next-auth';
-import type { JSXElementConstructor, ReactNode } from 'react';
+import { TailwindIndicator } from "@/components";
+import type { Session } from "next-auth";
+import * as React from "react";
+import type { ReactNode } from "react";
 import {
   AuthProvider,
   Events,
   GlobalStoreProvider,
-  // ModeToggle,
   QueryProvider,
-  SmoothScrollProvider,
-  // TelemetryInit,
-  // ThemeProvider,
-} from '.';
+  ScrollProvider, // Using ScrollProvider for regular scrolling
+  ThemeProvider,
+} from ".";
 
 /**
  * Provider wrapper component that composes multiple context providers
  * @component
  * @param {Object} props - Component props
  * @param {React.ReactNode} props.children - Child elements to be wrapped by the providers
- * @returns {React.JSX.Element} Composed provider stack with children
+ * @returns {JSX.Element} Composed provider stack with children
  */
-const Providers: React.FC<
-  Readonly<{
-    children: React.ReactNode;
-    session: Session | null;
-  }>
-> = ({ children, session }) => {
+const Providers: React.FC<{
+  children: ReactNode;
+  session: Session | null;
+}> = ({ children, session }) => {
   return (
     <>
       <ProviderStack
         providers={[
           [AuthProvider, { session }],
           [QueryProvider, {}],
-          // [ThemeProvider, {}],
-          [SmoothScrollProvider, {}],
+          [ThemeProvider, {}],
+          [ScrollProvider, {}], // Replaced SmoothScrollProvider with ScrollProvider
           [GlobalStoreProvider, {}],
           [Events, {}],
         ]}
@@ -63,7 +60,7 @@ type NoInfer<T> = [T][T extends any ? 0 : 1];
  * @interface
  */
 type ContainsChildren = {
-  children?: React.ReactNode;
+  children?: ReactNode;
 };
 
 /**
@@ -74,23 +71,23 @@ type ContainsChildren = {
  * @param {ReactNode} props.children - Child elements to be wrapped by the providers
  * @returns {ReactNode} Nested provider structure containing children
  */
-function ProviderStack<Providers extends [ContainsChildren, ...ContainsChildren[]]>({
+function ProviderStack({
   providers,
   children,
 }: {
-  providers: {
-    [k in keyof Providers]: [
-      JSXElementConstructor<Providers[k]>,
-      Omit<NoInfer<Providers[k]>, 'children'>,
-    ];
-  };
+  providers: Array<
+    [
+      React.JSXElementConstructor<any>, // Corrected type to React.JSXElementConstructor
+      Record<string, any>, // Allow dynamic props
+    ]
+  >;
   children: ReactNode;
 }) {
-  let node = children;
+  let node: ReactNode = children || null;
 
   for (const [Provider, props] of providers) {
     node = <Provider {...props}>{node}</Provider>;
   }
 
-  return node;
+  return <>{node}</>;
 }

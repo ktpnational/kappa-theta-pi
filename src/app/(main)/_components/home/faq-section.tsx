@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { type FAQItem, faqs } from '@/constants';
-import { useGlobalStore } from '@/providers';
-import { ChevronDown } from 'lucide-react';
-import { AnimatePresence, motion } from 'motion/react';
-import type React from 'react';
+import { type FAQItem, faqs } from "@/constants";
+import { useGlobalStore } from "@/providers";
+import { ChevronDown } from "lucide-react";
+import { AnimatePresence, motion } from "motion/react";
+import type React from "react";
 
 /**
  * Individual FAQ item component that displays a question and answer in an expandable format.
@@ -51,23 +51,20 @@ import type React from 'react';
  *
  * @returns {React.JSX.Element} Rendered FAQ item with animated expansion capabilities
  */
-const FAQItem: React.FC<FAQItem & { isOpen: boolean; toggleOpen: () => void }> = ({
-  question,
-  answer,
-  isOpen,
-  toggleOpen,
-}) => {
+const FAQItem: React.FC<
+  FAQItem & { isOpen: boolean; toggleOpen: () => void }
+> = ({ question, answer, isOpen, toggleOpen }) => {
   return (
     <motion.div className="border-b border-gray-200 py-4" initial={false}>
       <button
         className="flex justify-between items-center w-full text-left"
         onClick={toggleOpen}
-        aria-expanded={isOpen}
+        aria-expanded={isOpen} // Explicit string conversion
       >
         <span className="text-lg font-medium text-primary">{question}</span>
         <ChevronDown
           className={`w-5 h-5 text-primary transition-transform duration-200 ${
-            isOpen ? 'transform rotate-180' : ''
+            isOpen ? "transform rotate-180" : ""
           }`}
         />
       </button>
@@ -78,8 +75,8 @@ const FAQItem: React.FC<FAQItem & { isOpen: boolean; toggleOpen: () => void }> =
             animate="open"
             exit="collapsed"
             variants={{
-              open: { opacity: 1, height: 'auto', marginTop: '1rem' },
-              collapsed: { opacity: 0, height: 0, marginTop: '0' },
+              open: { opacity: 1, height: "auto", marginTop: "1rem" },
+              collapsed: { opacity: 0, height: 0, marginTop: "0" },
             }}
             transition={{ duration: 0.3, ease: [0.04, 0.62, 0.23, 0.98] }}
           >
@@ -91,7 +88,7 @@ const FAQItem: React.FC<FAQItem & { isOpen: boolean; toggleOpen: () => void }> =
   );
 };
 
-FAQItem.displayName = 'FAQItem';
+FAQItem.displayName = "FAQItem";
 
 /**
  * FAQ Section component that displays a list of frequently asked questions with animated expandable answers.
@@ -171,7 +168,11 @@ export const FAQSection: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: index * 0.1 }}
             >
-              <FAQItem {...faq} isOpen={openIndex === index} toggleOpen={() => toggleOpen(index)} />
+              <FAQItem
+                {...faq}
+                isOpen={openIndex === index}
+                toggleOpen={() => toggleOpen(index)}
+              />
             </motion.div>
           ))}
         </motion.div>
@@ -180,5 +181,5 @@ export const FAQSection: React.FC = () => {
   );
 };
 
-FAQSection.displayName = 'FAQSection';
+FAQSection.displayName = "FAQSection";
 export default FAQSection;
