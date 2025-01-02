@@ -1,13 +1,13 @@
-import React from 'react';
+import React from "react";
 import {
   // BlogSection,
   CtaSection,
   FAQSection,
   HeroSection,
   MapSection,
-  MobileSection,
+  // MobileSection,
   SponsorsSection,
-} from '.';
+} from ".";
 
 /**
  * React component that renders the main sections of the home page
@@ -18,7 +18,7 @@ import {
  *   <HomeSections />
  * )
  *
- * @returns {React.JSX.Element} A React Fragment containing the following sections:
+ * @returns {JSX.Element} A React Fragment containing the following sections:
  * - HeroSection: Main banner/hero section
  * - SponsorsSection: Section displaying sponsor logos/info
  * - MapSection: Geographic map section
@@ -39,9 +39,9 @@ export const HomeSections = () => {
       <FAQSection />
       {/* <BlogSection /> */}
       <CtaSection />
-      <MobileSection />
+      {/* <MobileSection /> */}
     </>
   );
 };
 
-HomeSections.displayName = 'HomeSections';
+HomeSections.displayName = "HomeSections";

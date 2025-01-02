@@ -1,107 +1,128 @@
+"use client";
+
 import React from "react";
+import { GoogleMaps } from "@/components";
 
 const chapters = [
   {
     school: "University of Michigan",
     greekLetter: "Alpha",
-    date: "3/10/2012",
-    website: "https://ktp-board@umich.edu",
+    email: "ktp-board@umich.edu",
   },
   {
     school: "University of Pittsburgh",
     greekLetter: "Beta",
-    date: "11/1/2016",
-    website: "mailto:uptktpalpha1@gmail.com",
+    email: "upittkappathetapi@gmail.com",
   },
   {
     school: "Rose-Hulman Institute of Technology",
     greekLetter: "Gamma",
-    date: "1/1/2016",
-    website: "https://veep.ktp.rose",
+    email: "veep.ktp.rose@gmail.com",
   },
   {
     school: "Syracuse University",
     greekLetter: "Delta",
-    date: "11/9/2017",
-    website: "mailto:ktpsyraucse@gmail.com",
+    email: "ktpsyracuse@gmail.com",
   },
   {
     school: "University of Maryland",
     greekLetter: "Epsilon",
-    date: "3/1/2018",
-    website: "mailto:ihkaprep@gmail.com",
+    email: "Kappa Theta Pi",
   },
   {
     school: "The College of New Jersey",
     greekLetter: "Zeta",
-    date: "1/1/2020",
-    website: "mailto:wdaz61@tcnj.edu",
+    email: "ktp@tcnj.edu",
   },
   {
     school: "University of North Carolina at Chapel Hill",
     greekLetter: "Eta",
-    date: "1/1/2020",
-    website: "mailto:mariakajd@unc.edu",
+    email: "markmaio@ad.unc.edu",
   },
   {
     school: "University of Chicago",
     greekLetter: "Theta",
-    date: "1/1/2020",
-    website: "mailto:uchicago.ktp@gmail.com",
+    email: "uchicagoktp@gmail.com",
   },
   {
     school: "University of Texas at Austin",
     greekLetter: "Iota",
-    date: "1/1/2020",
-    website: "mailto:teaskapktpaustin@gmail.com",
+    email: "texaskappathetapi@gmail.com",
   },
   {
     school: "Northwestern University",
     greekLetter: "Kappa",
-    date: "1/1/2022",
-    website: "mailto:ktpnorthwestern@gmail.com",
+    email: "ktpnorthwestern@gmail.com",
   },
   {
     school: "Boston University",
     greekLetter: "Lambda",
-    date: "1/1/2023",
-    website: "mailto:ktpbostonu@gmail.com",
+    email: "ktpbostonu@gmail.com",
   },
   {
     school: "University of Texas at Dallas",
     greekLetter: "Mu",
-    date: "1/1/2023",
-    website: "mailto:ktpdallasutd@gmail.com",
+    email: "kappathetapiutd@gmail.com",
   },
   {
     school: "University of Colorado Boulder",
     greekLetter: "Nu",
-    date: "3/1/2023",
-    website: "mailto:ktp@colorado.edu",
+    email: "ktp@colorado.edu",
   },
   {
     school: "Vanderbilt University",
     greekLetter: "Rho",
-    date: "4/6/2023",
-    website: "mailto:ktp@vanderbilt.edu",
+    email: "ktp@vanderbilt.edu",
   },
   {
     school: "University of Miami",
     greekLetter: "Sigma",
-    date: "4/6/2023",
-    website: "mailto:miav@miami.edu",
+    email: "ktp@miami.edu",
   },
   {
     school: "University of Southern California",
     greekLetter: "Tau",
-    date: "4/6/2023",
-    website: "mailto:ktpusc@usc.edu",
+    email: "ktpusc@usc.edu",
   },
   {
     school: "Lewis University",
     greekLetter: "Upsilon",
-    date: "9/30/2024",
-    website: "mailto:nlange2021@gmail.com",
+    email: "nlange2021@gmail.com",
+  },
+  {
+    school: "University of Georgia",
+    greekLetter: "Phi",
+    email: "uga.ktp@gmail.com",
+  },
+  {
+    school: "Nova Southeastern University",
+    greekLetter: "Chi",
+    email: "kappathetapi@clubs.nova.edu",
+  },
+  {
+    school: "Cameron University",
+    greekLetter: "Psi",
+    email: "ktp.cameron@gmail.com",
+  },
+  {
+    school: "Northeastern University",
+    greekLetter: "Omega",
+    email: "ktp.northeastern@gmail.com",
+  },
+  {
+    school: "University of Central Arkansas",
+    greekLetter: "Alpha Alpha",
+    email: "ktpuca@gmail.com",
+  },
+  {
+    school: "New Brunswick (Rutgers University)",
+    greekLetter: "Alpha Beta",
+    email: "ktpnewbrunswick@gmail.com",
+  },
+  {
+    school: "Virginia Polytechnic and State University",
+    greekLetter: "Alpha Gamma",
+    email: "ktpatvt@gmail.com",
   },
 ];
 
@@ -111,12 +132,20 @@ const ChaptersPage = () => {
       <h1 className="text-4xl font-bold text-center text-navy-blue mb-10">
         Chapters
       </h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
         {chapters.map((chapter, index) => (
           <div
             key={index}
             className="bg-white shadow-md rounded-lg p-6 hover:shadow-lg transform transition-transform hover:scale-105 text-center"
           >
+            <img
+              src={`/assets/logos/${chapter.school
+                .toLowerCase()
+                .replace(/\s+/g, "-")
+                .replace(/[^\w-]/g, "")}.png`}
+              alt={`${chapter.school} logo`}
+              className="mx-auto mb-4 h-20 w-20 object-contain"
+            />
             <h2 className="text-xl font-semibold text-navy-blue mb-2">
               {chapter.school}
             </h2>
@@ -124,22 +153,21 @@ const ChaptersPage = () => {
               Greek Letter:{" "}
               <span className="font-medium">{chapter.greekLetter}</span>
             </p>
-            <p className="text-sm text-gray-400">
-              Established: <span className="font-medium">{chapter.date}</span>
-            </p>
-            {chapter.website && (
-              <a
-                href={chapter.website}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm text-medium-blue underline hover:text-light-blue mt-2 block"
-              >
-                Visit Chapter Website
-              </a>
-            )}
+            <a
+              href={`mailto:${chapter.email}`}
+              className="text-sm text-medium-blue underline hover:text-light-blue mt-2 block"
+            >
+              Contact Chapter
+            </a>
           </div>
         ))}
       </div>
+      <section className="mb-16 md:mb-24 px-4">
+        <h2 className="text-3xl font-bold text-center mb-8 text-[#234c8b]">
+          Our Chapters Map
+        </h2>
+        <GoogleMaps />
+      </section>
     </div>
   );
 };
