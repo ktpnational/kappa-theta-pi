@@ -43,6 +43,9 @@ next-env.d.ts
 *.tsbuildinfo
 
 bun.lockb
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
 
 .million
 anaylyze
