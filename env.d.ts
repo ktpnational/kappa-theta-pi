@@ -6,12 +6,6 @@ enum NodeEnv {
   PRODUCTION = 'production',
 }
 
-export enum ServerConfig {
-  URL = 'x-url',
-  COOKIE = 'auth',
-  DAYS = `${60 * 60 * 24 * 7}`,
-}
-
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
@@ -32,8 +26,8 @@ declare global {
       NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY: string;
       NEXT_PUBLIC_SUPABASE_JWT_SECRET: string;
       SUPABASE_ACCESS_TOKEN: string;
-      NEXT_PUBLIC_DATABASE_URL: string;
-      NEXT_PUBLIC_DIRECT_URL: string;
+      DATABASE_URL: string;
+      DIRECT_URL: string;
       NEXT_PUBLIC_PROJECT_REGION: string;
 
       // Google
@@ -59,10 +53,10 @@ declare global {
       GITHUB_TOKEN: string;
 
       // JWT
-      AUTH_COOKIE: ServerConfig.COOKIE;
-      SERVER_URL_KEY: ServerConfig.URL;
+      AUTH_COOKIE: 'auth';
+      SERVER_URL_KEY: 'x-url';
       SECRET: string;
-      SEVEN_DAYS: ServerConfig.DAYS;
+      SEVEN_DAYS: number;
       AUTH_SECRET: string;
 
       // Resend
@@ -78,3 +72,5 @@ declare global {
     }
   }
 }
+
+export {};

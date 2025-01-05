@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { Marquee } from "@/components/ui/marquee";
-import { companies } from "@/constants";
-import Image from "next/image";
+import { Marquee } from '@/components/ui/marquee';
+import { companies } from '@/constants';
+import Image from 'next/image';
 
 /**
  * SponsorsSection Component
@@ -61,7 +61,7 @@ export const SponsorsSection = () => {
     <section id="sponsors" className="w-full py-12">
       <div className="container px-4 md:px-6">
         {/* Title */}
-        <h2 className="text-center text-4xl font-bold tracking-wide text-[#234c8b] mb-4">
+        <h2 className="text-center text-4xl font-bold tracking-wide text-[#234c8b] mb-4 sr-only">
           Our Network
         </h2>
         <div className="relative w-full">
@@ -71,7 +71,7 @@ export const SponsorsSection = () => {
                 <Image
                   src={`https://cdn.magicui.design/companies/${company}.svg`}
                   alt={company}
-                  className="object-contain w-full h-full grayscale opacity-60 transition-opacity duration-200 hover:opacity-100"
+                  className="object-contain w-full h-full grayscale opacity-60 transition-opacity duration-200 hover:opacity-100 hover:grayscale-0"
                   width={112}
                   height={40}
                 />
@@ -85,4 +85,4 @@ export const SponsorsSection = () => {
     </section>
   );
 };
-SponsorsSection.displayName = "SponsorsSection";
+SponsorsSection.displayName = 'SponsorsSection';

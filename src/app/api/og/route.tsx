@@ -32,23 +32,23 @@ export async function GET(request: Request) {
   const metadata = constructMetadata({});
   const title = searchParams?.get('title')?.[0] || metadata.title || 'Default Title';
   const description = searchParams?.get('description')?.[0] || String(metadata.description || '');
-  console.log({ description })
+  console.log({ description });
   // @ts-ignore
-  console.log({ title: title.default })
+  console.log({ title: title.default });
 
   try {
-    const fontData = await fetch(
-      new URL('/assets/fonts/palatino.ttf', getURL()),
-    ).then((res) => {
-      if (!res.ok) {
-        console.error(`Font loading failed: ${res.status} ${res.statusText}`);
-        throw new Error(`Failed to load font: ${res.status}`);
-      }
-      return res.arrayBuffer();
-    }).catch(() => {
-      console.warn('Failed to load Palatino font, falling back to system font');
-      return null;
-    });
+    const fontData = await fetch(new URL('/assets/fonts/palatino.ttf', getURL()))
+      .then((res) => {
+        if (!res.ok) {
+          console.error(`Font loading failed: ${res.status} ${res.statusText}`);
+          throw new Error(`Failed to load font: ${res.status}`);
+        }
+        return res.arrayBuffer();
+      })
+      .catch(() => {
+        console.warn('Failed to load Palatino font, falling back to system font');
+        return null;
+      });
 
     return new ImageResponse(
       <div

@@ -49,7 +49,7 @@ export function constructMetadata({
         },
       ],
       siteName: title,
-      url
+      url,
     },
     twitter: {
       card: 'summary_large_image',

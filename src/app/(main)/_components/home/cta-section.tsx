@@ -46,7 +46,7 @@ const itemVariants = {
  * @returns {React.ReactElement} A skeleton UI with animated loading states
  */
 const CTASectionSkeleton = () => (
-  <section className="my-16 md:my-24 px-4">
+  <section id="cta" className="my-16 md:my-24 px-4">
     <Card className="max-w-4xl mx-auto p-8 md:p-12 bg-gradient-to-br from-[#234c8b] to-[#458eff]">
       <div className="space-y-6 text-center">
         <Skeleton className="h-10 w-2/3 mx-auto bg-white/20" />

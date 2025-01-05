@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   // BlogSection,
   CtaSection,
@@ -7,7 +7,7 @@ import {
   MapSection,
   // MobileSection,
   SponsorsSection,
-} from ".";
+} from '.';
 
 /**
  * React component that renders the main sections of the home page
@@ -44,4 +44,4 @@ export const HomeSections = () => {
   );
 };
 
-HomeSections.displayName = "HomeSections";
+HomeSections.displayName = 'HomeSections';

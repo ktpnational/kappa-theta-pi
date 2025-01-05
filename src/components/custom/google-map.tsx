@@ -18,10 +18,8 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { type ChapterInfo, chapters } from '@/data/map';
 import { useToast } from '@/hooks/use-toast';
-import { cn } from '@/lib/utils';
-import { useGlobalStore } from '@/providers';
 import { MarkerClusterer } from '@googlemaps/markerclusterer';
-import { APIProvider, InfoWindow, Map, useMap } from '@vis.gl/react-google-maps';
+import { APIProvider, InfoWindow, Map, type MapProps, useMap } from '@vis.gl/react-google-maps';
 import { AnimatePresence, motion } from 'motion/react';
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { FaCalendarAlt } from 'react-icons/fa';
@@ -100,41 +98,6 @@ const MAP_STYLES = [
 ];
 
 /**
- * Color configurations for different filter button statuses.
- * Defines the visual appearance of filter buttons in different states.
- *
- * @type {Object.<string, {bg: string, text: string}>}
- * @property {Object} All - Colors for "All Chapters" filter
- * @property {Object} Active - Colors for "Active Chapters" filter
- * @property {Object} Colony - Colors for "Colony Chapters" filter
- * @property {Object} Inactive - Colors for "Inactive Chapters" filter
- * @property {string} *.bg - Tailwind CSS classes for button background
- * @property {string} *.text - Tailwind CSS classes for button text color
- */
-const BUTTON_COLORS = {
-  All: {
-    bg: 'bg-white hover:bg-gray-50 focus-visible:ring-2 focus-visible:ring-[#234c8b] focus-visible:ring-offset-2',
-    text: 'text-gray-900',
-    ariaLabel: 'Show all chapters',
-  },
-  Active: {
-    bg: 'bg-white hover:bg-gray-50 focus-visible:ring-2 focus-visible:ring-[#234c8b] focus-visible:ring-offset-2',
-    text: 'text-[#234c8b]',
-    ariaLabel: 'Filter to show only active chapters',
-  },
-  Colony: {
-    bg: 'bg-white hover:bg-gray-50 focus-visible:ring-2 focus-visible:ring-[#234c8b] focus-visible:ring-offset-2',
-    text: 'text-[#8bb9ff]',
-    ariaLabel: 'Filter to show only colony chapters',
-  },
-  Inactive: {
-    bg: 'bg-white hover:bg-gray-50 focus-visible:ring-2 focus-visible:ring-[#234c8b] focus-visible:ring-offset-2',
-    text: 'text-gray-400',
-    ariaLabel: 'Filter to show only inactive chapters',
-  },
-};
-
-/**
  * Main Google Maps component that displays chapter locations with filtering capabilities.
  * This component serves as the container for the entire map interface, including:
  * - Filter buttons for different chapter statuses
@@ -154,13 +117,8 @@ const BUTTON_COLORS = {
 export const GoogleMaps = memo(() => {
   const { toast } = useToast();
   const mapContainerRef = useRef<HTMLDivElement>(null);
-  const [mapZoom, setMapZoom] = useState(3);
-  const [stats, setStats] = useState({ active: 0, colony: 0, inactive: 0 });
+  const [mapZoom, setMapZoom] = useState(4);
   const [isLoading, setIsLoading] = useState(true);
-
-  const activeFilters = useGlobalStore((state) => state.map.activeFilters);
-  const toggleFilter = useGlobalStore((state) => state.map.toggleFilter);
-  const setActiveFilters = useGlobalStore((state) => state.map.setActiveFilters);
 
   /**
    * Disables page scrolling when mouse enters map container.
@@ -198,14 +156,6 @@ export const GoogleMaps = memo(() => {
   }, [disableScroll, enableScroll]);
 
   useEffect(() => {
-    setStats({
-      active: chapters.active.length,
-      colony: chapters.colony.length,
-      inactive: chapters.inactive.length,
-    });
-  }, []);
-
-  useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 1000);
@@ -230,21 +180,22 @@ export const GoogleMaps = memo(() => {
    * @property {number} maxZoom - Maximum zoom level
    */
   const mapOptions = useMemo(
-    () => ({
-      gestureHandling: 'cooperative',
-      restriction: {
-        latLngBounds: NORTH_AMERICA_BOUNDS,
-        strictBounds: false,
-      },
-      disableDefaultUI: false,
-      zoomControl: true,
-      mapTypeControl: false,
-      streetViewControl: false,
-      fullscreenControl: false,
-      styles: MAP_STYLES,
-      minZoom: 3,
-      maxZoom: 18,
-    }),
+    () =>
+      ({
+        gestureHandling: 'cooperative',
+        restriction: {
+          latLngBounds: NORTH_AMERICA_BOUNDS,
+          strictBounds: false,
+        },
+        disableDefaultUI: false,
+        zoomControl: true,
+        mapTypeControl: false,
+        streetViewControl: false,
+        fullscreenControl: false,
+        styles: MAP_STYLES,
+        minZoom: 4,
+        maxZoom: 18,
+      }) as MapProps,
     [],
   );
 
@@ -259,90 +210,31 @@ export const GoogleMaps = memo(() => {
   }, [isLoading, toast]);
 
   return (
-    <Card className="w-full bg-white shadow-none p-0 m-0 border-none">
+    <Card className="max-w-screen-lg bg-white shadow-none p-0 m-0 border-none mx-auto">
       <CardContent className="p-0 space-y-6">
         {isLoading ? (
           <>
-            <div className="flex flex-wrap justify-center gap-4">
-              {[1, 2, 3, 4].map((i) => (
-                <Skeleton key={i} className="h-10 w-[150px] rounded-full" />
-              ))}
-            </div>
             <Skeleton className="w-full h-[600px] rounded-xl" />
           </>
         ) : (
-          <>
+          <div className="relative">
             <div
-              className="flex flex-wrap justify-center gap-4"
-              role="toolbar"
-              aria-label="Chapter filter options"
+              ref={mapContainerRef}
+              className="w-full h-[600px] rounded-xl overflow-hidden shadow-xl border border-gray-200"
             >
-              <Button
-                onClick={() => setActiveFilters(['Active', 'Colony', 'Inactive'])}
-                className={cn(
-                  'rounded-full transition-colors',
-                  BUTTON_COLORS.All.bg,
-                  BUTTON_COLORS.All.text,
-                  activeFilters.length === 3 ? 'ring-2 ring-[#234c8b] ring-offset-2' : '',
-                )}
-                variant="outline"
-                aria-label={BUTTON_COLORS.All.ariaLabel}
-                aria-pressed={activeFilters.length === 3}
-                role="switch"
-              >
-                <span className="sr-only">Show </span>
-                All Chapters
-                {activeFilters.length === 3 && (
-                  <span className="sr-only"> (currently selected)</span>
-                )}
-              </Button>
-              {(['Active', 'Colony', 'Inactive'] as const).map((filter) => {
-                const count = stats[filter.toLowerCase() as keyof typeof stats];
-                const buttonText = `${filter} Chapters (${count})`;
-
-                return (
-                  <Button
-                    key={filter}
-                    onClick={() => toggleFilter(filter)}
-                    className={cn(
-                      'rounded-full transition-colors',
-                      BUTTON_COLORS[filter].bg,
-                      BUTTON_COLORS[filter].text,
-                      activeFilters.includes(filter) ? 'ring-2 ring-[#234c8b] ring-offset-2' : '',
-                    )}
-                    variant="outline"
-                    aria-label={BUTTON_COLORS[filter].ariaLabel}
-                    aria-pressed={activeFilters.includes(filter)}
-                    role="switch"
-                  >
-                    <span className="sr-only">Show </span>
-                    {buttonText}
-                    {activeFilters.includes(filter) && (
-                      <span className="sr-only"> (currently selected)</span>
-                    )}
-                  </Button>
-                );
-              })}
+              <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}>
+                <Map
+                  defaultCenter={DEFAULT_CENTER}
+                  zoom={mapZoom}
+                  onCameraChanged={(ev) => setMapZoom(ev.detail.zoom)}
+                  mapId={process.env.NEXT_PUBLIC_GOOGLE_MAPS_MAP_ID}
+                  {...mapOptions}
+                >
+                  <Markers chapters={chapters} mapZoom={mapZoom} />
+                </Map>
+              </APIProvider>
             </div>
-            <div className="relative">
-              <div
-                ref={mapContainerRef}
-                className="w-full h-[600px] rounded-xl overflow-hidden shadow-xl border border-gray-200"
-              >
-                <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}>
-                  <Map
-                    defaultCenter={DEFAULT_CENTER}
-                    zoom={mapZoom}
-                    onCameraChanged={(ev) => setMapZoom(ev.detail.zoom)}
-                    mapId={process.env.NEXT_PUBLIC_GOOGLE_MAPS_MAP_ID}
-                    {...mapOptions}
-                  >
-                    <Markers chapters={chapters} activeFilters={activeFilters} mapZoom={mapZoom} />
-                  </Map>
-                </APIProvider>
-              </div>
-            </div>
-          </>
+          </div>
         )}
       </CardContent>
     </Card>
@@ -355,12 +247,10 @@ export const GoogleMaps = memo(() => {
  *
  * @interface
  * @property {typeof chapters} chapters - Chapter data containing active, colony, and inactive chapters
- * @property {string[]} activeFilters - Current active filters
  * @property {number} mapZoom - Current zoom level of the map
  */
 type MarkersProps = {
   chapters: typeof chapters;
-  activeFilters: string[];
   mapZoom: number;
 };
 
@@ -375,11 +265,10 @@ type MarkersProps = {
  * @component
  * @param {MarkersProps} props - Component props
  * @param {typeof chapters} props.chapters - Chapter data
- * @param {string[]} props.activeFilters - Current active filters
  * @param {number} props.mapZoom - Current map zoom level
  * @returns {React.JSX.Element} Rendered markers and info windows
  */
-const Markers: React.FC<MarkersProps> = memo(({ chapters, activeFilters, mapZoom }) => {
+const Markers: React.FC<MarkersProps> = memo(({ chapters, mapZoom }) => {
   const map = useMap();
   const [activeMarker, setActiveMarker] = useState<string | null>(null);
   const clusterer = useRef<MarkerClusterer | null>(null);
@@ -396,16 +285,14 @@ const Markers: React.FC<MarkersProps> = memo(({ chapters, activeFilters, mapZoom
     const combined = [...chapters.active, ...chapters.colony, ...chapters.inactive];
     return combined.filter((chapter) => {
       const [lat, lng] = chapter.coordinates;
-      const matchesFilter = activeFilters.includes(chapter.status);
       return (
         lat <= NORTH_AMERICA_BOUNDS.north &&
         lat >= NORTH_AMERICA_BOUNDS.south &&
         lng >= NORTH_AMERICA_BOUNDS.west &&
-        lng <= NORTH_AMERICA_BOUNDS.east &&
-        matchesFilter
+        lng <= NORTH_AMERICA_BOUNDS.east
       );
     });
-  }, [chapters, activeFilters]);
+  }, [chapters]);
 
   /**
    * Handles marker click events and toggles the active marker state.
@@ -456,7 +343,7 @@ const Markers: React.FC<MarkersProps> = memo(({ chapters, activeFilters, mapZoom
     if (!clusterer.current) return;
 
     const markers = allChapters.map((chapter) => {
-      const { bg } = MARKER_COLORS[chapter.status];
+      const { bg } = MARKER_COLORS.Active;
       const marker = new google.maps.marker.AdvancedMarkerElement({
         position: { lat: chapter.coordinates[0], lng: chapter.coordinates[1] },
         content: createMarkerContent(bg),

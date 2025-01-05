@@ -25,8 +25,19 @@ const fetchWithSuperJSON = async (url: string): Promise<any> => {
   if (!response.ok) {
     throw new Error('Network response was not ok');
   }
+
+  const contentType = response.headers.get('Content-Type');
+  if (!contentType || !contentType.includes('application/json')) {
+    throw new Error('Response is not JSON');
+  }
+
   const text = await response.text();
-  return SuperJSON.parse(text);
+  try {
+    return SuperJSON.parse(text);
+  } catch (error) {
+    console.error('Failed to parse response as SuperJSON:', error);
+    throw new Error('Failed to parse response');
+  }
 };
 
 /**

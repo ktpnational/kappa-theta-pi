@@ -1,46 +1,41 @@
 'use server';
 
-import type * as z from 'zod';
-
 import { getUserByEmail } from '@/data';
 import { db, generateVerificationToken, hashPassword, sendVerificationEmail } from '@/lib';
 import { RegisterSchema } from '@/schemas';
+import type * as z from 'zod';
 
 /**
- * Server action that handles new user registration with email verification
+ * Server action that handles new user registration with email verification.
  *
  * @description
  * This server action processes new user registration requests by:
- * 1. Validating the registration form data
- * 2. Checking for existing users with the same email
- * 3. Securely hashing the password
- * 4. Creating the new user record
- * 5. Generating and sending an email verification token
+ * 1. Validating the registration form data using Zod schema.
+ * 2. Checking for existing users with the same email to prevent duplicates.
+ * 3. Securely hashing the password using bcrypt.
+ * 4. Creating the new user record in the database.
+ * 5. Generating and sending an email verification token.
  *
  * The function implements several security measures:
- * - Input validation using Zod schema
- * - Password hashing with bcrypt
- * - Email verification flow
- * - Duplicate email prevention
+ * - Input validation using Zod schema.
+ * - Password hashing with bcrypt.
+ * - Email verification flow to ensure email ownership.
+ * - Duplicate email prevention.
  *
  * @param {z.infer<typeof RegisterSchema>} values - Registration form values containing:
- *   - email: User's email address
- *   - name: User's full name
- *   - password: User's chosen password
+ *   - email: User's email address.
+ *   - name: User's full name.
+ *   - password: User's chosen password.
  *
- * @returns {Promise<{
- *   error?: string;
- *   sucess?: string;
- * }>} Returns an object containing either:
- * - error: Description of what went wrong during registration
- * - sucess: Confirmation message upon successful registration
+ * @returns {Promise<{ error?: string; success?: string }>} Returns an object containing either:
+ * - `error`: Description of what went wrong during registration.
+ * - `success`: Confirmation message upon successful registration.
  *
- * @throws
- * May throw errors from:
- * - Database operations
- * - Password hashing
- * - Email sending
- * - Token generation
+ * @throws {Error} May throw errors from:
+ * - Database operations.
+ * - Password hashing.
+ * - Email sending.
+ * - Token generation.
  *
  * @example
  * ```typescript
@@ -59,7 +54,7 @@ import { RegisterSchema } from '@/schemas';
  *     console.error(result.error);
  *   } else {
  *     // Registration successful
- *     console.log(result.sucess);
+ *     console.log(result.success);
  *   }
  * } catch (error) {
  *   // Handle unexpected errors
@@ -68,6 +63,7 @@ import { RegisterSchema } from '@/schemas';
  * ```
  */
 export const register = async (values: z.infer<typeof RegisterSchema>) => {
+  // Validate input fields using Zod schema
   const validatedFields = RegisterSchema.safeParse(values);
 
   if (!validatedFields.success) {
@@ -77,14 +73,17 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
   const { email, name, password } = validatedFields.data;
 
   try {
-    const hashedPassword = await hashPassword(password);
-
+    // Check if a user with the same email already exists
     const existingUser = await getUserByEmail(email);
 
     if (existingUser) {
       return { error: 'Email already in use!' };
     }
 
+    // Hash the password securely
+    const hashedPassword = await hashPassword(password);
+
+    // Create the new user in the database
     await db.user.create({
       data: {
         name,
@@ -93,12 +92,20 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
       },
     });
 
+    // Generate a verification token and send the verification email
     const verificationToken = await generateVerificationToken(email);
     await sendVerificationEmail(verificationToken.email, verificationToken.token);
 
     return { success: 'Confirmation email sent!' };
   } catch (error) {
-    console.error('Registration error:', error);
-    return { error: 'Error during registration!' };
+    // Safely log the error with proper type checking
+    if (error instanceof Error) {
+      console.error('Registration error:', error.message);
+    } else {
+      console.error('Registration error:', String(error));
+    }
+
+    // Return a generic error message to the client
+    return { error: 'An error occurred during registration. Please try again.' };
   }
 };

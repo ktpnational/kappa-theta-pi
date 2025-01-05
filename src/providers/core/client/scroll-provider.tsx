@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import type * as React from "react";
+import type * as React from 'react';
 
 interface ScrollProviderProps {
   children: React.ReactNode;

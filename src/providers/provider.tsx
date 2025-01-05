@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { TailwindIndicator } from "@/components";
-import type { Session } from "next-auth";
-import * as React from "react";
-import type { ReactNode } from "react";
+import { TailwindIndicator } from '@/components';
+import type { Session } from 'next-auth';
+import type * as React from 'react';
+import type { JSXElementConstructor, ReactNode } from 'react';
 import {
   AuthProvider,
   Events,
@@ -11,7 +11,7 @@ import {
   QueryProvider,
   ScrollProvider,
   ThemeProvider,
-} from ".";
+} from '.';
 
 /**
  * Provider wrapper component that composes multiple context providers
@@ -47,11 +47,10 @@ export { Providers };
 // Remove or comment out if not using:
 // ---------------------------------------------------------
 // // eslint-disable-next-line @typescript-eslint/no-unused-vars
-// type NoInfer<T> = [T][T extends any ? 0 : 1];
-//
-// type ContainsChildren = {
-//   children?: ReactNode;
-// };
+type NoInfer<T> = [T][T extends any ? 0 : 1];
+type ContainsChildren = {
+  children?: ReactNode;
+};
 // ---------------------------------------------------------
 
 /**
@@ -60,11 +59,16 @@ export { Providers };
  * @param providers - An array of [Provider, props] tuples
  * @param children - Child elements to be wrapped by the providers
  */
-function ProviderStack({
+function ProviderStack<Providers extends [ContainsChildren, ...ContainsChildren[]]>({
   providers,
   children,
 }: {
-  providers: Array<[React.JSXElementConstructor<any>, Record<string, any>]>;
+  providers: {
+    [k in keyof Providers]: [
+      JSXElementConstructor<Providers[k]>,
+      Omit<NoInfer<Providers[k]>, 'children'>,
+    ];
+  };
   children: ReactNode;
 }) {
   let node: ReactNode = children || null;

@@ -1,71 +1,69 @@
-import React from "react";
-import { FaLinkedin } from "react-icons/fa";
+import React from 'react';
+import { FaLinkedin } from 'react-icons/fa';
 
 const boardMembers = [
   {
-    name: "Zoey Lee",
-    role: "President",
-    location: "University of Miami",
-    email: "zjl24@miami.edu",
-    linkedin: "https://www.linkedin.com/in/zoeylee123/",
-    headshot: "/assets/headshots/Zoey-Lee-Headshot.jpg",
+    name: 'Zoey Lee',
+    role: 'President',
+    location: 'University of Miami',
+    email: 'zjl24@miami.edu',
+    linkedin: 'https://www.linkedin.com/in/zoeylee123/',
+    headshot: '/assets/headshots/Zoey-Lee-Headshot.jpg',
   },
   {
-    name: "Nate Joseph",
-    role: "Vice President",
-    location: "University of Miami",
-    email: "natejoseph@miami.edu",
-    linkedin: "https://www.linkedin.com/in/nathanieljoseph",
-    headshot: "/assets/headshots/Nate-Joseph-Headshot.jpg",
+    name: 'Nate Joseph',
+    role: 'Vice President',
+    location: 'University of Miami',
+    email: 'natejoseph@miami.edu',
+    linkedin: 'https://www.linkedin.com/in/nathanieljoseph',
+    headshot: '/assets/headshots/Nate-Joseph-Headshot.jpg',
   },
   {
-    name: "Tommy Joppich",
-    role: "Director of Chapter Growth",
-    location: "University of Michigan",
-    email: "Tjoppich@umich.edu",
-    linkedin: "https://www.linkedin.com/in/thomas-joppich-a66845251/",
-    headshot: "/assets/headshots/Tommy-J-Headshot.jpg",
+    name: 'Tommy Joppich',
+    role: 'Director of Chapter Growth',
+    location: 'University of Michigan',
+    email: 'Tjoppich@umich.edu',
+    linkedin: 'https://www.linkedin.com/in/thomas-joppich-a66845251/',
+    headshot: '/assets/headshots/Tommy-J-Headshot.jpg',
   },
   {
-    name: "Linda Tang",
-    role: "Director of Branding and Marketing",
-    location: "University of Pittsburgh",
-    email: "lit53@pitt.edu",
-    linkedin: "#",
-    headshot: "/assets/headshots/Linda-Tang-Headshot.jpg",
+    name: 'Linda Tang',
+    role: 'Director of Branding and Marketing',
+    location: 'University of Pittsburgh',
+    email: 'lit53@pitt.edu',
+    linkedin: '#',
+    headshot: '/assets/headshots/Linda-Tang-Headshot.jpg',
   },
   {
-    name: "Anjali Cherukuri",
-    role: "Director of Alumni Relations",
-    location: "University of Texas at Austin",
-    email: "anjalic@utexas.edu",
-    linkedin: "#",
-    headshot: "/assets/headshots/Anjali-Cherukuri-Headshot.jpg",
+    name: 'Anjali Cherukuri',
+    role: 'Director of Alumni Relations',
+    location: 'University of Texas at Austin',
+    email: 'anjalic@utexas.edu',
+    linkedin: '#',
+    headshot: '/assets/headshots/Anjali-Cherukuri-Headshot.jpg',
   },
   {
-    name: "Kairavi Pandya",
-    role: "Director of Technology",
-    location: "University of Texas at Dallas",
-    email: "pandyakairavi@gmail.com",
-    linkedin: "https://www.linkedin.com/in/kairavi-pandya/",
-    headshot: "/assets/headshots/Kairavi-Pandya-Headshot.jpg",
+    name: 'Kairavi Pandya',
+    role: 'Director of Technology',
+    location: 'University of Texas at Dallas',
+    email: 'pandyakairavi@gmail.com',
+    linkedin: 'https://www.linkedin.com/in/kairavi-pandya/',
+    headshot: '/assets/headshots/Kairavi-Pandya-Headshot.jpg',
   },
   {
-    name: "Beatriz Perez",
-    role: "Director of Finance",
-    location: "Boston University",
-    email: "beap@bu.edu",
-    linkedin: "#",
-    headshot: "/assets/headshots/Beatriz-Perez-Headshot.jpg",
+    name: 'Beatriz Perez',
+    role: 'Director of Finance',
+    location: 'Boston University',
+    email: 'beap@bu.edu',
+    linkedin: '#',
+    headshot: '/assets/headshots/Beatriz-Perez-Headshot.jpg',
   },
 ];
 
 const AboutBoardPage = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-100 to-white px-6 py-12">
-      <h1 className="text-4xl font-bold text-center text-navy-blue mb-10">
-        Meet the E-Board
-      </h1>
+      <h1 className="text-4xl font-bold text-center text-navy-blue mb-10">Meet the E-Board</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         {boardMembers.map((member, index) => (
           <div
@@ -77,9 +75,7 @@ const AboutBoardPage = () => {
               alt={member.name}
               className="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
             />
-            <h2 className="text-xl font-semibold text-navy-blue mb-2">
-              {member.name}
-            </h2>
+            <h2 className="text-xl font-semibold text-navy-blue mb-2">{member.name}</h2>
             <p className="text-sm text-gray-500">{member.role}</p>
             <p className="text-sm text-gray-400">{member.location}</p>
             <a
@@ -89,7 +85,7 @@ const AboutBoardPage = () => {
               {member.email}
             </a>
             <div className="mt-4">
-              {member.linkedin !== "#" ? (
+              {member.linkedin !== '#' ? (
                 <a
                   href={member.linkedin}
                   target="_blank"
@@ -99,9 +95,7 @@ const AboutBoardPage = () => {
                   <FaLinkedin className="inline-block text-2xl" />
                 </a>
               ) : (
-                <span className="text-gray-400 text-sm">
-                  LinkedIn not available
-                </span>
+                <span className="text-gray-400 text-sm">LinkedIn not available</span>
               )}
             </div>
           </div>
@@ -111,5 +105,5 @@ const AboutBoardPage = () => {
   );
 };
 
-AboutBoardPage.displayName = "AboutBoardPage";
+AboutBoardPage.displayName = 'AboutBoardPage';
 export default AboutBoardPage;

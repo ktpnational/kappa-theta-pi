@@ -195,27 +195,27 @@ export const ScrollIntoCenterView = (href: string) => {
  */
 export const slugify = (str: string, forDisplayingInput?: boolean) => {
   if (!str) {
-    return "";
+    return '';
   }
 
   const s = str
     .toLowerCase() // Convert to lowercase
     .trim() // Remove whitespace from both sides
-    .normalize("NFD") // Normalize to decomposed form for handling accents
-    .replace(/\p{Diacritic}/gu, "") // Remove any diacritics (accents) from characters
-    .replace(/[^.\p{L}\p{N}\p{Zs}\p{Emoji}]+/gu, "-") // Replace any non-alphanumeric characters (including Unicode and except "." period) with a dash
-    .replace(/[\s_#]+/g, "-") // Replace whitespace, # and underscores with a single dash
-    .replace(/^-+/, "") // Remove dashes from start
-    .replace(/\.{2,}/g, ".") // Replace consecutive periods with a single period
-    .replace(/^\.+/, "") // Remove periods from the start
+    .normalize('NFD') // Normalize to decomposed form for handling accents
+    .replace(/\p{Diacritic}/gu, '') // Remove any diacritics (accents) from characters
+    .replace(/[^.\p{L}\p{N}\p{Zs}\p{Emoji}]+/gu, '-') // Replace any non-alphanumeric characters (including Unicode and except "." period) with a dash
+    .replace(/[\s_#]+/g, '-') // Replace whitespace, # and underscores with a single dash
+    .replace(/^-+/, '') // Remove dashes from start
+    .replace(/\.{2,}/g, '.') // Replace consecutive periods with a single period
+    .replace(/^\.+/, '') // Remove periods from the start
     .replace(
       /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g,
-      ""
+      '',
     ) // Removes emojis
-    .replace(/\s+/g, " ")
-    .replace(/-+/g, "-"); // Replace consecutive dashes with a single dash
+    .replace(/\s+/g, ' ')
+    .replace(/-+/g, '-'); // Replace consecutive dashes with a single dash
 
-  return forDisplayingInput ? s : s.replace(/-+$/, "").replace(/\.*$/, ""); // Remove dashes and period from end
+  return forDisplayingInput ? s : s.replace(/-+$/, '').replace(/\.*$/, ''); // Remove dashes and period from end
 };
 
 /**
@@ -567,7 +567,8 @@ export const tail = <T>(arr: T[]): Tail<T[]> => arr.tail();
 export const flatten = <T>(arr: T[][]): Flatten<T[][]> => arr.flatten();
 
 // @ts-ignore
-export const merge = <T extends object, U extends object>(obj1: T, obj2: U): Merge<T, U> => obj1.merge(obj2) as Merge<T, U>;
+export const merge = <T extends object, U extends object>(obj1: T, obj2: U): Merge<T, U> =>
+  obj1.merge(obj2) as Merge<T, U>;
 
 // @ts-ignore
 export const mergeAll = <T extends object[]>(objects: T): MergeAll<T> => objects.mergeAll();
@@ -584,7 +585,8 @@ export const join = <T extends string[]>(arr: T): Join<T> => arr.join();
 export const isNonEmptyArray = <T>(arr: T[]): arr is NonEmptyArray<T> => arr.isNonEmpty();
 
 // @ts-ignore
-export const zip = <T extends any[], U extends any[]>(arr1: T, arr2: U): Zip<T, U> => arr1.zip(arr2) as Zip<T, U>;
+export const zip = <T extends any[], U extends any[]>(arr1: T, arr2: U): Zip<T, U> =>
+  arr1.zip(arr2) as Zip<T, U>;
 
 // @ts-ignore
 export const omitByType = <T extends object, U>(obj: T): OmitByType<T, U> => obj.omitByType<U>();
@@ -608,19 +610,25 @@ export const paths = <T extends Record<string, any>>(obj: T) => obj.paths();
 export const valueOf = <T extends object>(obj: T): ValueOf<T> => obj.valueOf();
 
 // @ts-ignore
-export const requireAtLeastOne = <T extends object, K extends keyof T>(obj: T, keys: K[]): T => obj.requireAtLeastOne(keys);
+export const requireAtLeastOne = <T extends object, K extends keyof T>(obj: T, keys: K[]): T =>
+  obj.requireAtLeastOne(keys);
 
 // @ts-ignore
-export const requireOnlyOne = <T extends object, K extends keyof T>(obj: T, keys: K[]): T => obj.requireOnlyOne(keys);
+export const requireOnlyOne = <T extends object, K extends keyof T>(obj: T, keys: K[]): T =>
+  obj.requireOnlyOne(keys);
 
 // @ts-ignore
-export const without = <T extends object, U extends object>(obj: T, exclude: U): T => obj.without(exclude);
+export const without = <T extends object, U extends object>(obj: T, exclude: U): T =>
+  obj.without(exclude);
 
 // @ts-ignore
 export const xor = <T extends object, U extends object>(a: T, b: U): Xor<T, U> => obj.xor(a, b);
 
 // @ts-ignore
-export const deepPick = <T extends object, P extends string>(obj: T, paths: P[]): DeepPick<T, P[]> => obj.deepPick(paths);
+export const deepPick = <T extends object, P extends string>(
+  obj: T,
+  paths: P[],
+): DeepPick<T, P[]> => obj.deepPick(paths);
 
 // @ts-ignore
 export const unionToTuple = <T>(union: T): UnionToTuple<T> => obj.unionToTuple(union);
@@ -629,4 +637,5 @@ export const unionToTuple = <T>(union: T): UnionToTuple<T> => obj.unionToTuple(u
 export const isEqual = <T, U>(a: T, b: U): IsEqual<T, U> => obj.isEqual(a, b);
 
 // @ts-ignore
-export const arrayOfLength = <N extends number>(length: N): ArrayOfLength<N> => obj.ofLength(length);
+export const arrayOfLength = <N extends number>(length: N): ArrayOfLength<N> =>
+  obj.ofLength(length);

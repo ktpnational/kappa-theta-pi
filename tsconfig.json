@@ -12,18 +12,12 @@
     "strict": true,
     "noUncheckedIndexedAccess": true,
     "checkJs": true,
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "es2022"
-    ], // Include "dom" for JSX support
+    "lib": ["dom", "dom.iterable", "es2022"], // Include "dom" for JSX support
     "noEmit": true,
     "module": "ESNext",
     "moduleResolution": "node",
     "jsx": "preserve", // Use "react" if needed
-    "types": [
-      "react"
-    ],
+    "types": ["react"],
     "plugins": [
       {
         "name": "next"
@@ -48,12 +42,8 @@
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "paths": {
-      "@testing": [
-        "./test-fixtures.ts"
-      ],
-      "@/*": [
-        "./src/*"
-      ]
+      "@testing": ["./test-fixtures.ts"],
+      "@/*": ["./src/*"]
     }
   },
   "include": [
