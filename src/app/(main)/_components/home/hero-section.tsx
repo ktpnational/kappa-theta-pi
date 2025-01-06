@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { HeroVideoDialog } from '@/components/lib/hero-video-dialog';
-import { app } from '@/constants';
-import { cn } from '@/lib/utils';
-import { ArrowRight, Sparkles } from 'lucide-react';
-import { motion } from 'motion/react';
-import Link from 'next/link';
+import { HeroVideoDialog } from "@/components/lib/hero-video-dialog";
+import { app } from "@/constants";
+import { cn } from "@/lib/utils";
+import { ArrowRight, Sparkles } from "lucide-react";
+import { motion } from "motion/react";
+import Link from "next/link";
 
 /**
  * Custom easing function for animations
@@ -24,7 +24,7 @@ const ease: [number, number, number, number] = [0.16, 1, 0.3, 1];
 const HeroPill = () => {
   return (
     <motion.a
-      href="/blog/introducing-ktp"
+      href="/resources/foundersday"
       className="group relative flex items-center gap-1 overflow-hidden rounded-full bg-gradient-to-r from-blue-100/90 to-blue-50/90 p-1 pr-4 shadow-sm backdrop-blur-sm transition-all hover:shadow-md"
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
@@ -37,7 +37,9 @@ const HeroPill = () => {
         </span>
       </div>
       <div className="flex items-center gap-2 px-2">
-        <span className="text-xs font-medium text-blue-900 sm:text-sm">Introducing ΚΘΠ</span>
+        <span className="text-xs font-medium text-blue-900 sm:text-sm">
+          Founder's Day
+        </span>
         <ArrowRight className="h-4 w-4 text-blue-600 transition-transform duration-300 ease-in-out group-hover:translate-x-0.5" />
       </div>
     </motion.a>
@@ -57,11 +59,11 @@ const HeroTitles = () => {
     <div className="flex w-full max-w-3xl flex-col space-y-6 overflow-hidden pt-8">
       <motion.h1
         className="bg-gradient-to-b from-blue-950 to-blue-800 bg-clip-text text-center text-4xl font-bold leading-tight text-transparent sm:text-5xl md:text-6xl"
-        initial={{ filter: 'blur(10px)', opacity: 0, y: 50 }}
-        animate={{ filter: 'blur(0px)', opacity: 1, y: 0 }}
+        initial={{ filter: "blur(10px)", opacity: 0, y: 50 }}
+        animate={{ filter: "blur(0px)", opacity: 1, y: 0 }}
         transition={{ duration: 1, ease }}
       >
-        {['Uniting', 'Tech', 'Enthusiasts', 'Nationwide'].map((text, index) => (
+        {["Uniting", "Tech", "Enthusiasts", "Nationwide"].map((text, index) => (
           <motion.span
             key={index}
             className="inline-block px-1 text-balance md:px-2"
@@ -112,22 +114,22 @@ const HeroCTA = () => {
       <Link
         href="/chapters/start"
         className={cn(
-          'relative w-full overflow-hidden sm:w-auto',
-          'group inline-flex items-center justify-center rounded-lg text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
-          'bg-gradient-to-r from-blue-600 to-blue-500 text-white hover:from-blue-500 hover:to-blue-400',
-          'h-12 px-8 text-base',
+          "relative w-full overflow-hidden sm:w-auto",
+          "group inline-flex items-center justify-center rounded-lg text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+          "bg-gradient-to-r from-blue-600 to-blue-500 text-white hover:from-blue-500 hover:to-blue-400",
+          "h-12 px-8 text-base",
         )}
       >
-        <span className="relative z-10">Join {app.name.split(' - ')[0]}</span>
+        <span className="relative z-10">Start a Chapter</span>
         <div className="absolute inset-0 -z-0 bg-[linear-gradient(45deg,transparent_25%,rgba(68,107,158,0.2)_50%,transparent_75%,transparent_100%)] bg-[length:250%_250%,100%_100%] bg-[position:-100%_0,0_0] bg-no-repeat transition-[background-position_0s_ease] duration-[0s] hover:bg-[position:200%_0,0_0] hover:duration-[1000ms]" />
       </Link>
       <Link
         href="/chapters"
         className={cn(
-          'w-full sm:w-auto',
-          'inline-flex items-center justify-center rounded-lg text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
-          'border-2 border-blue-200 bg-white text-blue-700 hover:bg-blue-50',
-          'h-12 px-8 text-base',
+          "w-full sm:w-auto",
+          "inline-flex items-center justify-center rounded-lg text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+          "border-2 border-blue-200 bg-white text-blue-700 hover:bg-blue-50",
+          "h-12 px-8 text-base",
         )}
       >
         Explore Our Chapters
