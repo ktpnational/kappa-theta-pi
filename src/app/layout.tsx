@@ -46,10 +46,26 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <meta name="google-adsense-account" content={process.env.NEXT_PUBLIC_ADSENSE_ID} />
 
         <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
         <meta name="theme-color" content="#234c8b" />
 
+        <meta http-equiv="X-XSS-Protection" content="1; mode=block" />
+        <meta name="referrer" content="no-referrer" />
+        <meta http-equiv="X-Frame-Options" content="DENY" />
+
+
+        <link rel="canonical" href={process.env.NEXT_PUBLIC_APP_URL} />
+        <meta name="language" content="English" />
+        <meta name="geo.region" content="US" />
+        <meta name="geo.placename" content="Miami, FL" />
+
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="preconnect" href="https://www.google-analytics.com" />
+        <link rel="preconnect" href="https://www.google.com" />
+
+        <link rel="preload" href="/assets/images/screen-shot-narrow.png" as="image" />
         <Scripts />
       </head>
       <body className={`min-h-screen bg-white overflow-x-hidden`}>

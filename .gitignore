@@ -70,3 +70,5 @@ sw.js.*
 
 # Contentlayer
 .contentlayer
+
+.fake

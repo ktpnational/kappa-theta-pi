@@ -138,7 +138,7 @@ declare module '*.module.sass' {
 }
 
 /**
- * @n
+ * @note: This is a global declaration for the Document and AppRouterInstance interfaces.
 */
 declare global {
   interface Document {

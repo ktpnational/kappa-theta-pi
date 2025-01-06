@@ -921,15 +921,15 @@ export default function manifest(): ExtendedManifest {
     ],
     screenshots: [
       {
-        src: '/assets/images/screen-shot-narrow.webp',
+        src: '/assets/images/screen-shot-narrow.png',
         sizes: '640x1136',
-        type: 'image/webp',
+        type: 'image/png',
         form_factor: 'narrow',
       },
       {
-        src: '/assets/images/screen-shot-wide.webp',
+        src: '/assets/images/screen-shot-wide.png',
         sizes: '1280x800',
-        type: 'image/webp',
+        type: 'image/png',
         form_factor: 'wide',
       },
     ],

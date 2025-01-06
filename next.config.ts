@@ -18,6 +18,7 @@ const withBundleAnalyzerConfig = withBundleAnalyzer({
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   pageExtensions: ['tsx', 'mdx', 'ts', 'js'],
+  compress: true,
   logging: {
     fetches: {
       fullUrl: true,

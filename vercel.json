@@ -1,0 +1,14 @@
+{
+  "crons": [
+    {
+      "path": "/api/health",
+      "schedule": "0 10 * * *"
+    }
+  ],
+  "functions": {
+    "api/**": {
+      "memory": 1024,
+      "maxDuration": 60
+    }
+  }
+}

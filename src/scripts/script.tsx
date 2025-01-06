@@ -37,6 +37,16 @@ type PreloadConfig = {
  * ```
  */
 export function Scripts() {
+  const schemaOrg = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'Kappa Theta Pi',
+    url: 'https://www.kappathetapi.org',
+    image: 'https://www.kappathetapi.com/logo.png',
+    logo: 'https://www.kappathetapi.com/logo.png',
+    sameAs: ['https://www.facebook.com/kappathetapi', 'https://www.instagram.com/kappathetapi'],
+  };
+
   /**
    * Configuration object defining paths for preloading behavior
    */
@@ -276,6 +286,14 @@ export function Scripts() {
         ).getValue()}`}
         crossOrigin="anonymous"
         id="google-adsense"
+      />
+
+      <Script
+        type="application/ld+json"
+        id="schema-org"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(schemaOrg),
+        }}
       />
     </>
   );

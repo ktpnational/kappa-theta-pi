@@ -1,5 +1,26 @@
 import { type CookieOptions, createServerClient } from '@supabase/ssr';
 import { type NextRequest, NextResponse } from 'next/server';
+import { rateLimiter } from '@/lib/rate-limit';
+import type { RateLimitHelper } from '@/lib/rate-limit';
+
+const publicAssetPaths: Set<string> = new Set([
+  '/assets/',
+  '/pwa/',
+  '/images/',
+  '/favicon.ico',
+  '/favicon-16x16.png',
+  '/favicon-32x32.png',
+  '/apple-touch-icon.png',
+  '/android-chrome-192x192.png',
+  '/android-chrome-512x512.png',
+  '/robots.txt',
+  '/sitemap.xml',
+  '/manifest.webmanifest',
+  '/sw.js',
+]);
+
+// Add paths that should bypass rate limiting
+const rateLimitExemptPaths = [...publicAssetPaths, '/_next', '/api/health'];
 
 /**
  * Middleware function to handle authentication and session management for incoming requests.
@@ -22,65 +43,106 @@ import { type NextRequest, NextResponse } from 'next/server';
  * ```
  */
 export async function middleware(request: NextRequest): Promise<NextResponse> {
-  let response = NextResponse.next({
-    request: {
-      headers: request.headers,
-    },
-  });
-
-  if (isPublicAsset(request)) {
-    return response;
+  // Early return for exempt paths
+  if (rateLimitExemptPaths.some((path) => request.nextUrl.pathname.startsWith(path))) {
+    return NextResponse.next();
   }
 
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-    {
-      cookies: {
-        get(name: string) {
-          return request.cookies.get(name)?.value;
-        },
-        set(name: string, value: string, options: CookieOptions) {
-          request.cookies.set({
-            name,
-            value,
-            ...options,
-          });
-          response = NextResponse.next({
-            request: {
-              headers: request.headers,
-            },
-          });
-          response.cookies.set({
-            name,
-            value,
-            ...options,
-          });
-        },
-        remove(name: string, options: CookieOptions) {
-          request.cookies.set({
-            name,
-            value: '',
-            ...options,
-          });
-          response = NextResponse.next({
-            request: {
-              headers: request.headers,
-            },
-          });
-          response.cookies.set({
-            name,
-            value: '',
-            ...options,
-          });
+  try {
+    let rateLimitingType: RateLimitHelper['rateLimitingType'] = 'default';
+    if (request.nextUrl.pathname.startsWith('/api/auth')) {
+      rateLimitingType = 'forcedSlowMode';
+    } else if (request.nextUrl.pathname.startsWith('/api')) {
+      rateLimitingType = 'api';
+    }
+
+    const identifier = request.headers.get('x-forwarded-for') || 'anonymous';
+    const result = await rateLimiter(rateLimitingType)({ identifier });
+
+    let response = NextResponse.next({
+      request: {
+        headers: request.headers,
+      },
+    });
+
+    response.headers.set('X-RateLimit-Limit', result.limit.toString());
+    response.headers.set('X-RateLimit-Remaining', result.remaining.toString());
+    response.headers.set('X-RateLimit-Reset', result.reset.toString());
+
+    if (!result.success) {
+      return new NextResponse(
+        JSON.stringify({
+          error: 'Too Many Requests',
+          message: 'Please try again later',
+          retryAfter: result.reset,
+        }),
+        {
+          status: 429,
+          headers: {
+            'Content-Type': 'application/json',
+            'Retry-After': result.reset.toString(),
+            'X-RateLimit-Limit': result.limit.toString(),
+            'X-RateLimit-Remaining': '0',
+            'X-RateLimit-Reset': result.reset.toString(),
+          },
+        }
+      );
+    }
+
+    if (isPublicAsset(request)) return response;
+
+    const supabase = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      {
+        cookies: {
+          get(name: string) {
+            return request.cookies.get(name)?.value;
+          },
+          set(name: string, value: string, options: CookieOptions) {
+            request.cookies.set({
+              name,
+              value,
+              ...options,
+            });
+            response = NextResponse.next({
+              request: {
+                headers: request.headers,
+              },
+            });
+            response.cookies.set({
+              name,
+              value,
+              ...options,
+            });
+          },
+          remove(name: string, options: CookieOptions) {
+            request.cookies.set({
+              name,
+              value: '',
+              ...options,
+            });
+            response = NextResponse.next({
+              request: {
+                headers: request.headers,
+              },
+            });
+            response.cookies.set({
+              name,
+              value: '',
+              ...options,
+            });
+          },
         },
       },
-    },
-  );
+    );
 
-  await supabase.auth.getUser();
-
-  return response;
+    await supabase.auth.getUser();
+    return response;
+  } catch (error) {
+    console.error('Rate limiting error:', error);
+    return NextResponse.next();
+  }
 }
 
 /**
@@ -104,25 +166,8 @@ export async function middleware(request: NextRequest): Promise<NextResponse> {
  * }
  * ```
  */
-function isPublicAsset(request: NextRequest): boolean {
-  const publicAssetPaths: string[] = [
-    '/assets/',
-    '/pwa/',
-    '/images/',
-    '/favicon.ico',
-    '/favicon-16x16.png',
-    '/favicon-32x32.png',
-    '/apple-touch-icon.png',
-    '/android-chrome-192x192.png',
-    '/android-chrome-512x512.png',
-    '/robots.txt',
-    '/sitemap.xml',
-    '/manifest.webmanifest',
-    '/sw.js',
-  ];
 
-  return publicAssetPaths.some((path) => request.nextUrl.pathname.startsWith(path));
-}
+const isPublicAsset = (request: NextRequest): boolean => publicAssetPaths.has(request.nextUrl.pathname);
 
 /**
  * Configuration object that defines which routes the middleware should be applied to.
