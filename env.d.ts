@@ -67,8 +67,15 @@ declare global {
       NEXT_PUBLIC_RESEND_EMAIL_FROM: string;
       NEXT_PUBLIC_RESEND_EMAIL_TO: string;
 
+      // Upstash
+      NEXT_PUBLIC_UPSTASH_REDIS_REST_URL: string;
+      NEXT_PUBLIC_UPSTASH_REDIS_REST_TOKEN: string;
+
       // Password
       PASSWORD_PEPPER: string;
+
+      // Arcjet
+      ARCJET_KEY: string;
     }
   }
 }

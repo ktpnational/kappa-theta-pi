@@ -1,12 +1,15 @@
 import type { Chapter, Event, Member, Profile, Resource, User } from '@prisma/client';
 import { GraphQLDateTime } from 'graphql-iso-date';
-import type { ChapterQueryArgs, CreateEventArgs, Resolver, UpdateEventArgs } from './typet';
+import type { ChapterQueryArgs, CreateEventArgs, Resolver, UpdateEventArgs } from '@/graphql/types';
+import { logger } from "@/utils"
 
 export const catchError = async <T>(promise: Promise<T>): Promise<[Error | null, T | null]> => {
+  const log = logger.getSubLogger({ prefix: ['graphql', 'resolvers', 'catchError'] })
   try {
     const data = await promise;
     return [null, data];
   } catch (error) {
+    log.error('catchError', { error });
     return [error as Error, null];
   }
 };

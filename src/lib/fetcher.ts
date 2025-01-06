@@ -144,55 +144,39 @@ export async function fetcher<T, E = unknown>(
     let attempt = 0;
     while (attempt <= retries) {
       const path = getURL(input);
-      const [error, response] = await catchError(
-        method === 'GET'
-          ? instance.get<T>(params ? `${path}?${buildQueryString(params)}` : `${path}`, {
-              ...axiosConfig,
-            })
-          : method === 'DELETE'
-            ? instance.delete<T>(params ? `${path}?${buildQueryString(params)}` : `${path}`, {
-                ...axiosConfig,
-              })
-            : method === 'HEAD'
-              ? instance.head<T>(params ? `${path}?${buildQueryString(params)}` : `${path}`, {
-                  ...axiosConfig,
-                })
-              : method === 'OPTIONS'
-                ? instance.options<T>(params ? `${path}?${buildQueryString(params)}` : `${path}`, {
-                    ...axiosConfig,
-                  })
-                : method === 'POST'
-                  ? instance.post<T>(
-                      params ? `${path}?${buildQueryString(params)}` : `${path}`,
-                      null,
-                      { ...axiosConfig },
-                    )
-                  : method === 'PUT'
-                    ? instance.put<T>(
-                        params ? `${path}?${buildQueryString(params)}` : `${path}`,
-                        null,
-                        { ...axiosConfig },
-                      )
-                    : method === 'PATCH'
-                      ? instance.patch<T>(
-                          params ? `${path}?${buildQueryString(params)}` : `${path}`,
-                          null,
-                          { ...axiosConfig },
-                        )
-                      : Promise.reject(new Error(`Unsupported HTTP method: ${method}`)),
+      const result = await catchError(
+        async (requestConfig: any) => {
+          if (method === 'GET') {
+            return instance.get<T>(params ? `${path}?${buildQueryString(params)}` : `${path}`, requestConfig);
+          } else if (method === 'DELETE') {
+            return instance.delete<T>(params ? `${path}?${buildQueryString(params)}` : `${path}`, requestConfig);
+          } else if (method === 'HEAD') {
+            return instance.head<T>(params ? `${path}?${buildQueryString(params)}` : `${path}`, requestConfig);
+          } else if (method === 'OPTIONS') {
+            return instance.options<T>(params ? `${path}?${buildQueryString(params)}` : `${path}`, requestConfig);
+          } else if (method === 'POST') {
+            return instance.post<T>(params ? `${path}?${buildQueryString(params)}` : `${path}`, null, requestConfig);
+          } else if (method === 'PUT') {
+            return instance.put<T>(params ? `${path}?${buildQueryString(params)}` : `${path}`, null, requestConfig);
+          } else if (method === 'PATCH') {
+            return instance.patch<T>(params ? `${path}?${buildQueryString(params)}` : `${path}`, null, requestConfig);
+          }
+          throw new Error(`Unsupported HTTP method: ${method}`);
+        },
+        axiosConfig
       );
 
-      if (!error) {
-        return response.data;
+      if (result.success) {
+        return result.value.data;
       }
 
       if (attempt === retries) {
-        if (onError && error instanceof AxiosError) onError(error);
+        if (onError && result.error instanceof AxiosError) onError(result.error);
         throw new FetcherError(
-          error.message,
+          result.error.message,
           path,
-          error instanceof AxiosError ? error.response?.status : undefined,
-          error instanceof AxiosError ? error.response?.data : undefined,
+          result.error instanceof AxiosError ? result.error.response?.status : undefined,
+          result.error instanceof AxiosError ? result.error.response?.data : undefined,
           attempt,
         );
       }

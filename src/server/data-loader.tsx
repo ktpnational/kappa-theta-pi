@@ -185,19 +185,19 @@ export const DataLoader = <T,>({
             : '';
           const fullUrl = `${url}${searchParams}`;
 
-          const [fetchError, response] = await catchError(
-            fetcher<FetchResponse<T>>(fullUrl, props.config?.method, props.config).then((res) => {
-              if (!res.status.toString().startsWith('2')) {
-                throw new Error(
-                  `${res.statusText} at DataLoader ${parseCodePath(fullUrl, fetcher)}`,
-                );
-              }
-              return res.data;
-            }),
+          const res = await catchError(
+            fetcher<FetchResponse<T>>,
+            [fullUrl, props.config?.method, props.config],
           );
 
-          if (fetchError) throw fetchError;
-          return response;
+          if (res.success) {
+            const { status, data, statusText } = res.value;
+            if (!status.toString().startsWith('2')) {
+              throw new Error(`${statusText} at DataLoader ${parseCodePath(fullUrl, fetcher)}`);
+            }
+            return data;
+          }
+          throw res.error;
         });
 
         if (waitForAll) return await Promise.all(requests.slice(0, waitForAll));
@@ -225,30 +225,36 @@ export const DataLoader = <T,>({
       if (props.type === 'elysia') {
         const apiMethod = elysia_api[props.apiPath as ElysiaApiMethod];
 
-        const [fetchError, response] = await catchError(
-          typeof apiMethod === 'function'
-            ? Promise.resolve((apiMethod as (...args: any[]) => any)(params))
-            : Promise.reject(new Error('Invalid API method')),
-        );
-        if (fetchError) throw fetchError;
-        return response as T;
+        if (typeof apiMethod === 'function') {
+          const res = await catchError<[typeof params], T>(
+            apiMethod as (_: typeof params) => Promise<T>,
+            params,
+          );
+          if (res.success) return res.value;
+
+          throw res.error;
+        } else {
+          throw new Error('Invalid API method');
+        }
       } else {
         const searchParams = params
           ? `?${new URLSearchParams(params as Record<string, string>)}`
           : '';
         const fullUrl = `${props.url}${searchParams}`;
 
-        const [fetchError, response] = await catchError(
-          fetcher<FetchResponse<T>>(fullUrl, props.config?.method, props.config).then((res) => {
-            if (!res.status.toString().startsWith('2')) {
-              throw new Error(`${res.statusText} at DataLoader ${parseCodePath(fullUrl, fetcher)}`);
-            }
-            return res.data;
-          }),
+        const res = await catchError(
+          fetcher<FetchResponse<T>>,
+          [fullUrl, props.config?.method, props.config]
         );
 
-        if (fetchError) throw fetchError;
-        return response;
+        if (res.success) {
+          const { status, data, statusText } = res.value;
+          if (!status.toString().startsWith('2')) {
+            throw new Error(`${statusText} at DataLoader ${parseCodePath(fullUrl, fetcher)}`);
+          }
+          return data;
+        }
+        throw res.error;
       }
     },
     ...queryOptions,

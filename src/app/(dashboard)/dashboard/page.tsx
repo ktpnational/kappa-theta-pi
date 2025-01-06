@@ -44,10 +44,12 @@ import { notFound } from 'next/navigation';
  * @see {@link notFound} For Next.js 404 handling
  */
 const DashboardPage = async () => {
-  const [role, roleError] = await catchError(currentRole());
-  if (roleError) throw roleError;
-
-  return <>{role ? redirect(`/dashboard/${role}`) : notFound()}</>;
+  const res = await catchError(currentRole, []);
+  if (res.success) {
+    const role = res.value;
+    return <>{role ? redirect(`/dashboard/${role}`) : notFound()}</>;
+  }
+  throw res.error;
 };
 
 DashboardPage.displayName = 'DashboardPage';

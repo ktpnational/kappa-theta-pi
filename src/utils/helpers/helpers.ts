@@ -1,3 +1,5 @@
+import { logger } from '@/utils';
+
 /**
  * Converts an object to a formatted JSON string with proper indentation.
  *
@@ -36,48 +38,107 @@ export const Stringify = (obj: any): string => {
 export const parseCodePath = (context: any, fnName: Function): string =>
   `location: ${process.cwd()}${__filename} @${fnName.name}: ${context}`;
 
-/**
- * Wraps a promise to return a tuple containing either the resolved value or an error.
- * Provides a cleaner way to handle promise rejections without try/catch blocks.
- *
- * @template T - The type of value that the promise resolves to
- * @param {Promise<T>} promise - The promise to handle
- * @returns {Promise<[undefined, T] | [Error]>} A promise that resolves to a tuple containing either:
- *   - [undefined, T] if the promise resolves successfully, where T is the resolved value
- *   - [Error] if the promise rejects, containing the error
- *
- * @example
- * ```ts
- * // Success case
- * const [error, data] = await catchError(fetchUserData(userId));
- * if (error) {
- *   handleError(error);
- *   return;
- * }
- * // Use data safely here
- *
- * // Error case
- * const [error] = await catchError(Promise.reject(new Error("Failed")));
- * console.log(error.message); // "Failed"
- * ```
- *
- * @remarks
- * - Inspired by Go's error handling pattern
- * - Eliminates need for try/catch blocks
- * - Makes error handling more explicit and predictable
- * - Type-safe with TypeScript
- * - Useful for async/await operations
- * - Can be chained with other promise operations
- */
-export const catchError = async <T>(promise: Promise<T>): Promise<[undefined, T] | [Error]> => {
-  return promise
-    .then((data) => {
-      return [undefined, data] as [undefined, T];
-    })
-    .catch((error: Error) => {
-      return [error];
-    });
+type Success<T> = {
+  readonly success: true;
+  readonly value: T;
 };
+
+type Failure<E> = {
+  readonly success: false;
+  readonly error: E;
+};
+
+type Result<T, E> = Success<T> | Failure<E>;
+
+/**
+ * Creates a successful result
+ * @param value The value to wrap in a success result
+ */
+export const success = <T>(value: T): Success<T> =>
+  Object.freeze({ success: true, value });
+
+/**
+ * Creates a failed result
+ * @param error The error to wrap in a failure result
+ */
+export const failure = <E>(error: E): Failure<E> =>
+  Object.freeze({ success: false, error });
+
+type ExtractAsyncArgs<Args extends Array<any>> = Args extends Array<infer PotentialArgTypes> ? [PotentialArgTypes] : []
+
+export const catchError = async <Args extends Array<any>, ReturnType>(
+  asyncFunction: (...args: ExtractAsyncArgs<Args>) => Promise<ReturnType>,
+  ...args: ExtractAsyncArgs<Args>
+): Promise<Result<ReturnType, Error>> => {
+  const log = logger.getSubLogger({ prefix: ['utils', 'helpers', 'catchError'] })
+  try {
+    const result = await asyncFunction(...args);
+    return success(result);
+  } catch (error) {
+    log.error('catchError', { error });
+    return failure(error as Error);
+  }
+}
+
+/**
+ * Maps a successful result to a new value
+ * @param fn Mapping function to apply to the successful value
+ */
+export const map = <T, U, E>(
+  fn: (value: T) => U
+): (result: Result<T, E>) => Result<U, E> =>
+  (result) =>
+    result.success ? success(fn(result.value)) : result;
+
+/**
+ * Chains a result-returning function after a successful result
+ * @param fn Function that returns a new result
+ */
+export const bind = <T, U, E>(
+  fn: (value: T) => Result<U, E>
+): (result: Result<T, E>) => Result<U, E> =>
+  (result) =>
+    result.success ? fn(result.value) : result;
+
+/**
+ * Applies a series of functions to an input value, short-circuiting on the first failure
+ * @param input Initial input value
+ * @param functions Array of functions to apply sequentially
+ * @returns Final result after applying all functions or first encountered failure
+ */
+export const railway = <TInput, TOutput, E>(
+  input: TInput,
+  ...functions: Array<(input: any) => Result<any, E>>
+): Result<TOutput, E> => {
+  return functions.reduce<Result<any, E>>(
+    (result, fn) => result.success ? fn(result.value) : result,
+    success(input)
+  );
+};
+
+/**
+ * Recovers from a failure by applying a function to the error
+ * @param fn Function to handle the error and return a new result
+ */
+export const recover = <T, E1, E2>(
+  fn: (error: E1) => Result<T, E2>
+): (result: Result<T, E1>) => Result<T, E2> =>
+  (result) =>
+    result.success ? result : fn(result.error);
+
+/**
+ * Taps into a result chain for side effects without modifying the value
+ * @param fn Side effect function to execute on success
+ */
+export const tap = <T, E>(
+  fn: (value: T) => void
+): (result: Result<T, E>) => Result<T, E> =>
+  (result) => {
+    if (result.success) {
+      fn(result.value);
+    }
+    return result;
+  };
 
 /**
  * Constructs a fully qualified URL by combining environment-specific base URLs with an optional path.
