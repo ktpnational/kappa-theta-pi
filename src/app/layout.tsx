@@ -41,6 +41,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       data-a11y-link-underlines="false"
     >
       <head>
+        <meta name="google-site-verification" content="VBE7MGGVF5cIh-gYXQcDVhonxXv3wJKQqCsQvCjUY1k" />
+        
         <meta name="google-adsense-account" content={process.env.NEXT_PUBLIC_ADSENSE_ID} />
 
         <meta name="mobile-web-app-capable" content="yes" />
