@@ -140,6 +140,7 @@
     ]
   },
   "dependencies": {
+    "electron-to-chromium": "^1.5.79",
     "next": "^15.1.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
