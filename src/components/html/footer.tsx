@@ -1,11 +1,13 @@
-'use client';
+"use client";
 
-import { Icons, NewsletterSignUpForm } from '@/components';
-import { app } from '@/constants';
-import { legalLinks, navigationSections } from '@/constants/nav';
-import { Instagram, Linkedin, Mail } from 'lucide-react';
-import Link from 'next/link';
-import { memo } from 'react';
+//removed newletter mention since we dont have one as of right now
+
+import { Icons } from "@/components";
+import { app } from "@/constants";
+import { legalLinks, navigationSections } from "@/constants/nav";
+import { Instagram, Linkedin, Mail } from "lucide-react";
+import Link from "next/link";
+import { memo } from "react";
 
 /**
  * Footer component for the Kappa Theta Pi website
@@ -70,7 +72,10 @@ export const Footer = memo(function Footer() {
             <div>
               <h3 className="text-xl font-semibold mb-4">Follow ΚΘΠ</h3>
               <div className="flex space-x-4">
-                <SocialLink href="https://www.instagram.com/ktpnational" aria-label="Instagram">
+                <SocialLink
+                  href="https://www.instagram.com/ktpnational"
+                  aria-label="Instagram"
+                >
                   <Instagram className="w-6 h-6" />
                 </SocialLink>
                 <SocialLink
@@ -85,20 +90,21 @@ export const Footer = memo(function Footer() {
 
           <div className="lg:col-span-3 space-y-8">
             <div>
-              <h3 className="text-xl font-semibold mb-4">Stay Updated</h3>
-              <NewsletterSignUpForm />
+              {/*<h3 className="text-xl font-semibold mb-4">Stay Updated</h3> */}
             </div>
             <div>
-              <h3 className="text-xl font-semibold mb-4">Kappa Theta Pi Life App</h3>
+              {/* <h3 className="text-xl font-semibold mb-4">
+                Kappa Theta Pi Life App
+              </h3> */}
               <div className="flex flex-col space-y-4">
-                <div className="flex flex-col sm:flex-row sm:flex-wrap gap-4 justify-center">
+                {/*<div className="flex flex-col sm:flex-row sm:flex-wrap gap-4 justify-center">
                   <SocialLink
                     href="https://apps.apple.com/us/app/kappa-theta-pi-life/id1641588942"
                     aria-label="Download on App Store"
                   >
                     <Icons.logos.apple
                       className="w-[100px] sm:w-[120px] md:w-[140px] h-auto text-white hover:text-[#8BB9FF] transition-transform hover:scale-105"
-                      style={{ aspectRatio: '3/1' }}
+                      style={{ aspectRatio: "3/1" }}
                     />
                   </SocialLink>
                   <SocialLink
@@ -107,10 +113,10 @@ export const Footer = memo(function Footer() {
                   >
                     <Icons.logos.android
                       className="w-[100px] sm:w-[120px] md:w-[140px] h-auto text-white hover:text-[#8BB9FF] transition-transform hover:scale-105"
-                      style={{ aspectRatio: '3/1' }}
+                      style={{ aspectRatio: "3/1" }}
                     />
                   </SocialLink>
-                </div>
+                </div> */}
                 <div className="flex justify-center">
                   <Icons.miscellaneous.coutKtp className="w-[100px] sm:w-[120px] md:w-[140px] h-auto text-[#8BB9FF]" />
                 </div>
@@ -176,7 +182,10 @@ const FooterSection = ({ title, links }: FooterSectionProps) => (
     <ul className="space-y-2">
       {links.map((link) => (
         <li key={link.href}>
-          <Link href={link.href} className="hover:text-[#8BB9FF] transition-colors">
+          <Link
+            href={link.href}
+            className="hover:text-[#8BB9FF] transition-colors"
+          >
             {link.text}
           </Link>
         </li>
@@ -194,7 +203,7 @@ const FooterSection = ({ title, links }: FooterSectionProps) => (
  */
 type SocialLinkProps = {
   href: string;
-  'aria-label': string;
+  "aria-label": string;
   children: React.ReactNode;
 };
 
@@ -220,7 +229,11 @@ type SocialLinkProps = {
  *
  * @returns {React.JSX.Element} A styled social media link with icon
  */
-const SocialLink = ({ href, 'aria-label': ariaLabel, children }: SocialLinkProps) => (
+const SocialLink = ({
+  href,
+  "aria-label": ariaLabel,
+  children,
+}: SocialLinkProps) => (
   <a
     href={href}
     className="hover:text-[#8BB9FF] transition-colors"
@@ -263,7 +276,10 @@ type FooterLinkProps = {
  * @returns {React.JSX.Element} A styled footer link
  */
 const FooterLink = ({ href, text }: FooterLinkProps) => (
-  <Link href={href} className="text-white hover:text-[#8BB9FF] transition-colors">
+  <Link
+    href={href}
+    className="text-white hover:text-[#8BB9FF] transition-colors"
+  >
     {text}
   </Link>
 );
