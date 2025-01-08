@@ -7,8 +7,13 @@ import bcrypt from 'bcryptjs';
 import type { NextAuthConfig } from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 import Google from 'next-auth/providers/google';
-import ResendProvider from 'next-auth/providers/resend';
+import Resend from 'next-auth/providers/resend';
 import { env } from '@/env';
+import { logger } from '@/utils';
+
+const log = logger.getSubLogger({
+  name: 'auth.config',
+});
 
 export default {
   providers: [
@@ -28,6 +33,7 @@ export default {
        * @returns {Promise<Object|null>} - Returns the user object if authorization is successful, otherwise null.
        */
       async authorize(credentials) {
+        log.info('Authorizing user');
         if (!credentials) return null;
 
         const validatedFields = LoginSchema.safeParse(credentials);
@@ -43,10 +49,11 @@ export default {
           if (passwordsMatch) return user;
         }
 
+        log.error('Invalid credentials');
         return null;
       },
     }),
-    ResendProvider({
+    Resend({
       server: {
         host: env.NEXT_PUBLIC_RESEND_HOST,
         port: Number(env.NEXT_PUBLIC_RESEND_PORT),
@@ -70,8 +77,9 @@ export default {
             react: MagicLinkEmail({ identifier, url }),
           });
 
-          console.log('Verification email sent');
+          log.info('Verification email sent');
         } catch (error) {
+          log.error(error, 'Failed to send verification email');
           throw new Error('Failed to send verification email');
         }
       },
