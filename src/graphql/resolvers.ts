@@ -1,10 +1,10 @@
-import type { Chapter, Event, Member, Profile, Resource, User } from '@prisma/client';
+import type { ChapterQueryArgs, Resolver } from '@/graphql/types';
+import { logger } from '@/utils';
+import type { Chapter, Member, Profile, User } from '@prisma/client';
 import { GraphQLDateTime } from 'graphql-iso-date';
-import type { ChapterQueryArgs, CreateEventArgs, Resolver, UpdateEventArgs } from '@/graphql/types';
-import { logger } from "@/utils"
 
 export const catchError = async <T>(promise: Promise<T>): Promise<[Error | null, T | null]> => {
-  const log = logger.getSubLogger({ prefix: ['graphql', 'resolvers', 'catchError'] })
+  const log = logger.getSubLogger({ prefix: ['graphql', 'resolvers', 'catchError'] });
   try {
     const data = await promise;
     return [null, data];
@@ -17,10 +17,8 @@ export const catchError = async <T>(promise: Promise<T>): Promise<[Error | null,
 export const resolvers: {
   DateTime: typeof GraphQLDateTime;
   Query: { [key: string]: Resolver<any> };
-  Mutation: { [key: string]: Resolver<any> };
   User: { [key: string]: Resolver<any> };
   Chapter: { [key: string]: Resolver<any> };
-  Event: { [key: string]: Resolver<any> };
 } = {
   DateTime: GraphQLDateTime,
   Query: {
@@ -88,68 +86,6 @@ export const resolvers: {
 
         return chapter;
       },
-
-    events:
-      (): Resolver<Event[]> =>
-      async (_parent, _args, ctx): Promise<Event[]> => {
-        const [error, events] = await catchError<Event[]>(ctx.db.event.findMany());
-
-        if (error) throw error;
-
-        if (!events) throw new Error('Events not found');
-
-        return events;
-      },
-
-    event:
-      (): Resolver<Event | null, unknown, { id: string }> =>
-      async (_parent, { id }, ctx) => {
-        const [error, event] = await catchError<Event | null>(
-          ctx.db.event.findUnique({
-            where: { id },
-          }),
-        );
-
-        if (error) throw error;
-
-        return event;
-      },
-  },
-
-  Mutation: {
-    createEvent:
-      (): Resolver<Event, unknown, CreateEventArgs> =>
-      async (_parent, { chapterId, ...eventData }, ctx): Promise<Event> => {
-        const [error, event] = await catchError<Event | null>(
-          ctx.db.event.create({
-            data: {
-              ...eventData,
-              chapterId,
-            },
-          }),
-        );
-
-        if (error) throw error;
-        if (!event) throw new Error('Event not created');
-        return event;
-      },
-
-    updateEvent:
-      (): Resolver<Event, unknown, UpdateEventArgs> =>
-      async (_parent, { id, ...args }, ctx): Promise<Event> => {
-        const [error, event] = await catchError<Event | null>(
-          ctx.db.event.update({
-            where: { id },
-            data: args,
-          }),
-        );
-
-        if (error) throw error;
-
-        if (!event) throw new Error('Event not updated');
-
-        return event;
-      },
   },
 
   User: {
@@ -181,54 +117,6 @@ export const resolvers: {
         if (!members) throw new Error('Members not found');
 
         return members;
-      },
-
-    events:
-      (): Resolver<Event[], Chapter> =>
-      async (parent, _args, ctx): Promise<Event[]> => {
-        const [error, events] = await catchError<Event[]>(
-          ctx.db.event.findMany({
-            where: { chapterId: parent.id },
-          }),
-        );
-
-        if (error) throw error;
-
-        if (!events) throw new Error('Events not found');
-
-        return events;
-      },
-
-    resources:
-      (): Resolver<Resource[], Chapter> =>
-      async (parent, _args, ctx): Promise<Resource[]> => {
-        const [error, resources] = await catchError<Resource[]>(
-          ctx.db.resource.findMany({
-            where: { chapterId: parent.id },
-          }),
-        );
-
-        if (error) throw error;
-
-        if (!resources) throw new Error('Resources not found');
-
-        return resources;
-      },
-  },
-
-  Event: {
-    chapter:
-      (): Resolver<Chapter | null, Event> =>
-      async (parent, _args, ctx): Promise<Chapter | null> => {
-        const [error, chapter] = await catchError<Chapter | null>(
-          ctx.db.chapter.findUnique({
-            where: { id: parent.chapterId ?? undefined },
-          }),
-        );
-
-        if (error) throw error;
-
-        return chapter;
       },
   },
 };

@@ -1,11 +1,5 @@
 /// <reference types="node" />
 
-enum NodeEnv {
-  DEVELOPMENT = 'development',
-  TEST = 'test',
-  PRODUCTION = 'production',
-}
-
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
@@ -19,6 +13,7 @@ declare global {
       NODE_ENV: NodeEnv;
       NEXT_PUBLIC_APP_VERSION: string;
       NEXT_PUBLIC_APP_URL: string;
+      SECRET: string;
 
       // Supabase
       NEXT_PUBLIC_SUPABASE_URL: string;
@@ -56,7 +51,7 @@ declare global {
       AUTH_COOKIE: 'auth';
       SERVER_URL_KEY: 'x-url';
       SECRET: string;
-      SEVEN_DAYS: number;
+      SEVEN_DAYS: string;
       AUTH_SECRET: string;
 
       // Resend

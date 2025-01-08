@@ -1,12 +1,10 @@
-import { RedisService } from '@/classes';
+import { redis } from '@/classes/redis.server';
+import { logger } from '@/utils';
 import { Ratelimit } from '@upstash/ratelimit';
-import { isIpInBanListString } from "./get-ip";
-import { logger } from "@/utils";
-
-const redis = new RedisService();
+import { isIpInBanListString } from './get-ip';
 
 export type RateLimitHelper = {
-  rateLimitingType?: "default" | "forcedSlowMode" | "auth" | "api" | "ai";
+  rateLimitingType?: 'default' | 'forcedSlowMode' | 'auth' | 'api' | 'ai';
   identifier: string;
 };
 
@@ -43,14 +41,14 @@ const limiter = {
   }),
 };
 
-export const rateLimiter = (rateLimitingType: RateLimitHelper["rateLimitingType"] = "default") => {
-  const log = logger.getSubLogger({ prefix: ["RateLimit", rateLimitingType] });
+export const rateLimiter = (rateLimitingType: RateLimitHelper['rateLimitingType'] = 'default') => {
+  const log = logger.getSubLogger({ prefix: ['RateLimit', rateLimitingType] });
   return async function rateLimit({ identifier }: RateLimitHelper) {
     if (isIpInBanListString(identifier)) {
-      log.info("IP is in ban list", { identifier });
+      log.info('IP is in ban list', { identifier });
       return limiter.forcedSlowMode.limit(identifier);
     }
-    log.info("Rate limiting", { identifier });
+    log.info('Rate limiting', { identifier });
     return limiter[rateLimitingType].limit(identifier);
   };
-}
+};

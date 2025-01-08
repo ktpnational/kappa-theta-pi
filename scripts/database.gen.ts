@@ -2,7 +2,7 @@
 
 import { exec } from 'node:child_process';
 import { promisify } from 'node:util';
-import { config } from '@/config';
+import { env } from '@/env';
 
 /**
  * Database Setup and Type Generation Script
@@ -64,9 +64,9 @@ import { config } from '@/config';
   const execPromise = promisify(exec);
 
   // Validate environment variables
-  const projectRef = config.backend.supabase.url?.split('//')[1]?.split('.')[0];
+  const projectRef = env.NEXT_PUBLIC_SUPABASE_URL?.split('//')[1]?.split('.')[0];
 
-  if (!config.backend.supabase.accessToken) {
+  if (!env.SUPABASE_ACCESS_TOKEN) {
     throw new Error('SUPABASE_ACCESS_TOKEN environment variable is not set');
   }
 

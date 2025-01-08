@@ -19,50 +19,6 @@ const memberSchema = t.Object({
 });
 
 /**
- * Schema for creating a new event
- * @typedef {Object} EventSchema
- * @property {string} name - The name of the event
- * @property {string} [description] - Optional description of the event
- * @property {string} startDate - Start date/time in ISO format
- * @property {string} endDate - End date/time in ISO format
- * @property {string} location - Location where event takes place
- * @property {string} type - Type of event
- * @property {string} status - Current status of event
- * @property {string} [chapterId] - Optional ID of chapter hosting event
- */
-const eventSchema = t.Object({
-  name: t.String(),
-  description: t.Optional(t.String()),
-  startDate: t.String(), // Will be converted to DateTime
-  endDate: t.String(), // Will be converted to DateTime
-  location: t.String(),
-  type: t.String(),
-  status: t.String(),
-  chapterId: t.Optional(t.String()),
-});
-
-/**
- * Schema for creating a new resource
- * @typedef {Object} ResourceSchema
- * @property {string} title - Title of the resource
- * @property {string} type - Type of resource (e.g. article, video)
- * @property {string} url - URL where resource can be accessed
- * @property {string} [description] - Optional description
- * @property {string} category - Category the resource belongs to
- * @property {string[]} tags - Array of tag strings
- * @property {string} [chapterId] - Optional ID of chapter owning resource
- */
-const resourceSchema = t.Object({
-  title: t.String(),
-  type: t.String(),
-  url: t.String(),
-  description: t.Optional(t.String()),
-  category: t.String(),
-  tags: t.Array(t.String()),
-  chapterId: t.Optional(t.String()),
-});
-
-/**
  * Schema for creating a new chapter
  * @typedef {Object} ChapterSchema
  * @property {string} name - Full name of the chapter
@@ -97,48 +53,6 @@ const memberUpdateSchema = t.Object({
 });
 
 /**
- * Schema for updating an existing event
- * @typedef {Object} EventUpdateSchema
- * @property {string} [name] - New event name
- * @property {string} [description] - New description
- * @property {string} [startDate] - New start date in ISO format
- * @property {string} [endDate] - New end date in ISO format
- * @property {string} [location] - New location
- * @property {string} [type] - New event type
- * @property {string} [status] - New status
- */
-const eventUpdateSchema = t.Object({
-  name: t.Optional(t.String()),
-  description: t.Optional(t.String()),
-  startDate: t.Optional(t.String()),
-  endDate: t.Optional(t.String()),
-  location: t.Optional(t.String()),
-  type: t.Optional(t.String()),
-  status: t.Optional(t.String()),
-});
-
-/**
- * Schema for updating an existing resource
- * @typedef {Object} ResourceUpdateSchema
- * @property {string} [title] - New resource title
- * @property {string} [type] - New resource type
- * @property {string} [url] - New URL
- * @property {string} [description] - New description
- * @property {string} [category] - New category
- * @property {string[]} [tags] - New array of tags
- * @property {string} [chapterId] - New chapter ID
- */
-const resourceUpdateSchema = t.Object({
-  title: t.Optional(t.String()),
-  type: t.Optional(t.String()),
-  url: t.Optional(t.String()),
-  description: t.Optional(t.String()),
-  category: t.Optional(t.String()),
-  tags: t.Optional(t.Array(t.String())),
-  chapterId: t.Optional(t.String()),
-});
-
-/**
  * Schema for updating an existing chapter
  * @typedef {Object} ChapterUpdateSchema
  * @property {string} [name] - New chapter name
@@ -157,15 +71,6 @@ const chapterUpdateSchema = t.Object({
   status: t.Optional(t.String()),
   latitude: t.Optional(t.Number()),
   longitude: t.Optional(t.Number()),
-});
-
-/**
- * Schema for creating an RSVP response
- * @typedef {Object} RSVPSchema
- * @property {string} status - RSVP status ('yes', 'no', 'maybe')
- */
-const rsvpSchema = t.Object({
-  status: t.String(),
 });
 
 export const createContext = new Elysia()
@@ -291,192 +196,6 @@ export const dashboardRoute = new Elysia()
     },
     { body: memberSchema },
   )
-
-  // Resources
-  /**
-   * Retrieves resources based on query parameters
-   * @param {Object} context - Request context
-   * @param {Object} context.db - Database instance
-   * @param {Object} context.query - Query parameters
-   * @param {string} [context.query.category] - Filter by category
-   * @param {string} [context.query.type] - Filter by resource type
-   * @param {string} [context.query.search] - Search term
-   * @param {string} [context.query.chapter] - Filter by chapter ID
-   * @returns {Promise<Object>} Response with resources or error
-   * @throws {EdenFetchError} On database errors
-   */
-  .get('/resources', async ({ db, query }) => {
-    try {
-      const { category, type, search, chapter } = query;
-
-      const resources = await db.resource.findMany({
-        where: {
-          AND: [
-            category ? { category } : {},
-            type ? { type } : {},
-            search
-              ? {
-                  OR: [
-                    { title: { contains: search, mode: 'insensitive' } },
-                    { description: { contains: search, mode: 'insensitive' } },
-                  ],
-                }
-              : {},
-            chapter ? { chapterId: chapter } : {},
-          ],
-        },
-        include: {
-          user: {
-            select: {
-              name: true,
-              email: true,
-            },
-          },
-          chapter: {
-            select: {
-              id: true,
-              name: true,
-              greekName: true,
-            },
-          },
-        },
-        orderBy: { createdAt: 'desc' },
-      });
-
-      return { data: resources, status: 200 };
-    } catch (error) {
-      return handleEden({
-        data: null,
-        error: error as EdenFetchError<number, string> | null,
-        status: 500,
-        response: {},
-      });
-    }
-  })
-  /**
-   * Creates a new resource
-   * @param {Object} context - Request context
-   * @param {Object} context.db - Database instance
-   * @param {ResourceSchema} context.body - Resource data
-   * @param {Object} context.session - User session
-   * @param {Function} context.error - Error handler
-   * @returns {Promise<Object>} Response with created resource or error
-   * @throws {Error} If user not authenticated or database error occurs
-   */
-  .post(
-    '/resources',
-    async ({ db, body, session, error }) => {
-      if (!session.user?.id)
-        return error('Unauthorized', 'You must be logged in to create a resource');
-
-      // TODO: Check if user is a member of the chapter
-      const resource = await db.resource.create({
-        data: {
-          ...body,
-          userId: session.user.id,
-          createdBy: session.user.id,
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        },
-        include: {
-          user: {
-            select: {
-              name: true,
-            },
-          },
-          chapter: true,
-        },
-      });
-
-      return { data: resource, status: 201 };
-    },
-    { body: resourceSchema },
-  )
-
-  // Events
-  /**
-   * Retrieves events based on query parameters
-   * @param {Object} context - Request context
-   * @param {Object} context.db - Database instance
-   * @param {Object} context.query - Query parameters
-   * @param {string} [context.query.type] - Filter by event type
-   * @param {string} [context.query.from] - Filter by start date
-   * @param {string} [context.query.to] - Filter by end date
-   * @param {string} [context.query.chapter] - Filter by chapter ID
-   * @param {string} [context.query.status] - Filter by status
-   * @returns {Promise<Object>} Response with events or error
-   * @throws {EdenFetchError} On database errors
-   */
-  .get('/events', async ({ db, query }) => {
-    try {
-      const { type, from, to, chapter, status } = query;
-
-      const events = await db.event.findMany({
-        where: {
-          AND: [
-            type ? { type } : {},
-            from ? { startDate: { gte: new Date(from) } } : {},
-            to ? { endDate: { lte: new Date(to) } } : {},
-            chapter ? { chapterId: chapter } : {},
-            status ? { status } : {},
-          ],
-        },
-        include: {
-          chapter: {
-            select: {
-              id: true,
-              name: true,
-              greekName: true,
-              location: true,
-            },
-          },
-        },
-        orderBy: { startDate: 'asc' },
-      });
-
-      return { data: events, status: 200 };
-    } catch (error) {
-      return handleEden({
-        data: null,
-        error: error as EdenFetchError<number, string> | null,
-        status: 500,
-        response: {},
-      });
-    }
-  })
-  /**
-   * Creates a new event
-   * @param {Object} context - Request context
-   * @param {Object} context.db - Database instance
-   * @param {EventSchema} context.body - Event data
-   * @param {Object} context.session - User session
-   * @param {Function} context.error - Error handler
-   * @returns {Promise<Object>} Response with created event or error
-   * @throws {Error} If user not authenticated or database error occurs
-   */
-  .post(
-    '/events',
-    async ({ db, body, session, error }) => {
-      if (!session) return error('Unauthorized', 'You must be logged in to create an event');
-
-      const event = await db.event.create({
-        data: {
-          ...body,
-          startDate: new Date(body.startDate),
-          endDate: new Date(body.endDate),
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        },
-        include: {
-          chapter: true,
-        },
-      });
-
-      return { data: event, status: 201 };
-    },
-    { body: eventSchema },
-  )
-
   // Chapters
   /**
    * Retrieves chapters based on query parameters
@@ -520,24 +239,6 @@ export const dashboardRoute = new Elysia()
                   },
                 },
               },
-            },
-          },
-          events: {
-            where: {
-              endDate: {
-                gte: new Date(),
-              },
-            },
-            orderBy: {
-              startDate: 'asc',
-            },
-          },
-          resources: {
-            select: {
-              id: true,
-              title: true,
-              type: true,
-              category: true,
             },
           },
         },
@@ -677,100 +378,6 @@ export const dashboardRoute = new Elysia()
     },
     { body: memberUpdateSchema },
   )
-
-  /**
-   * Updates an event by ID
-   * @param {Object} context - Request context
-   * @param {Object} context.db - Database instance
-   * @param {Object} context.params - URL parameters
-   * @param {string} context.params.id - Event ID
-   * @param {EventUpdateSchema} context.body - Update data
-   * @param {Object} context.session - User session
-   * @param {Function} context.error - Error handler
-   * @returns {Promise<Object>} Response with updated event or error
-   * @throws {Error} If user not authenticated
-   * @throws {EdenFetchError} On database errors
-   */
-  .patch(
-    '/events/:id',
-    async ({ db, params, body, session, error }) => {
-      if (!session) return error('Unauthorized', 'You must be logged in to update an event');
-
-      try {
-        const event = await db.event.update({
-          where: { id: params.id },
-          data: {
-            ...body,
-            ...(body.startDate && { startDate: new Date(body.startDate) }),
-            ...(body.endDate && { endDate: new Date(body.endDate) }),
-            updatedAt: new Date(),
-          },
-          include: {
-            chapter: true,
-          },
-        });
-
-        return { data: event, status: 200 };
-      } catch (error) {
-        return handleEden({
-          data: null,
-          error: error as EdenFetchError<number, string> | null,
-          status: 500,
-          response: {},
-        });
-      }
-    },
-    { body: eventUpdateSchema },
-  )
-
-  /**
-   * Updates a resource by ID
-   * @param {Object} context - Request context
-   * @param {Object} context.db - Database instance
-   * @param {Object} context.params - URL parameters
-   * @param {string} context.params.id - Resource ID
-   * @param {ResourceUpdateSchema} context.body - Update data
-   * @param {Object} context.session - User session
-   * @param {Function} context.error - Error handler
-   * @returns {Promise<Object>} Response with updated resource or error
-   * @throws {Error} If user not authenticated
-   * @throws {EdenFetchError} On database errors
-   */
-  .patch(
-    '/resources/:id',
-    async ({ db, params, body, session, error }) => {
-      if (!session) return error('Unauthorized', 'You must be logged in to update a resource');
-
-      try {
-        const resource = await db.resource.update({
-          where: { id: params.id },
-          data: {
-            ...body,
-            updatedAt: new Date(),
-          },
-          include: {
-            user: {
-              select: {
-                name: true,
-              },
-            },
-            chapter: true,
-          },
-        });
-
-        return { data: resource, status: 200 };
-      } catch (error) {
-        return handleEden({
-          data: null,
-          error: error as EdenFetchError<number, string> | null,
-          status: 500,
-          response: {},
-        });
-      }
-    },
-    { body: resourceUpdateSchema },
-  )
-
   /**
    * Updates a chapter by ID
    * @param {Object} context - Request context
@@ -798,8 +405,6 @@ export const dashboardRoute = new Elysia()
           },
           include: {
             members: true,
-            events: true,
-            resources: true,
           },
         });
 
@@ -814,47 +419,4 @@ export const dashboardRoute = new Elysia()
       }
     },
     { body: chapterUpdateSchema },
-  )
-
-  /**
-   * Creates an RSVP response for an event
-   * @param {Object} context - Request context
-   * @param {Object} context.db - Database instance
-   * @param {Object} context.params - URL parameters
-   * @param {string} context.params.id - Event ID
-   * @param {RSVPSchema} context.body - RSVP data
-   * @param {Object} context.session - User session
-   * @param {Function} context.error - Error handler
-   * @returns {Promise<Object>} Response with created RSVP or error
-   * @throws {Error} If user not authenticated
-   * @throws {EdenFetchError} On database errors
-   */
-  .post(
-    '/events/:id/rsvp',
-    async ({ db, params, body, session, error }) => {
-      if (!session || !session.user?.id)
-        return error('Unauthorized', 'You must be logged in to RSVP');
-
-      try {
-        const rsvp = await db.rSVP.create({
-          data: {
-            eventId: params.id,
-            userId: session.user.id,
-            status: body.status,
-            createdAt: new Date(),
-            updatedAt: new Date(),
-          },
-        });
-
-        return { data: rsvp, status: 201 };
-      } catch (error) {
-        return handleEden({
-          data: null,
-          error: error as EdenFetchError<number, string> | null,
-          status: 500,
-          response: {},
-        });
-      }
-    },
-    { body: rsvpSchema },
   );

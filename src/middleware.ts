@@ -1,7 +1,7 @@
-import { type CookieOptions, createServerClient } from '@supabase/ssr';
-import { type NextRequest, NextResponse } from 'next/server';
 import { rateLimiter } from '@/lib/rate-limit';
 import type { RateLimitHelper } from '@/lib/rate-limit';
+import { type CookieOptions, createServerClient } from '@supabase/ssr';
+import { type NextRequest, NextResponse } from 'next/server';
 
 const publicAssetPaths: Set<string> = new Set([
   '/assets/',
@@ -85,7 +85,7 @@ export async function middleware(request: NextRequest): Promise<NextResponse> {
             'X-RateLimit-Remaining': '0',
             'X-RateLimit-Reset': result.reset.toString(),
           },
-        }
+        },
       );
     }
 
@@ -167,7 +167,8 @@ export async function middleware(request: NextRequest): Promise<NextResponse> {
  * ```
  */
 
-const isPublicAsset = (request: NextRequest): boolean => publicAssetPaths.has(request.nextUrl.pathname);
+const isPublicAsset = (request: NextRequest): boolean =>
+  publicAssetPaths.has(request.nextUrl.pathname);
 
 /**
  * Configuration object that defines which routes the middleware should be applied to.

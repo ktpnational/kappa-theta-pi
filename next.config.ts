@@ -3,6 +3,8 @@ import MillionLint from '@million/lint';
 import withBundleAnalyzer from '@next/bundle-analyzer';
 import { type SentryBuildOptions, withSentryConfig } from '@sentry/nextjs';
 import type { NextConfig } from 'next';
+import './src/env';
+
 
 const withPwa = pwa({
   dest: 'public',
@@ -84,6 +86,7 @@ const nextConfig: NextConfig = {
             key: 'Permissions-Policy',
             value: 'camera=(), microphone=(), geolocation=(self), interest-cohort=()',
           },
+          { key: 'X-Frame-Options', value: 'DENY' },
         ],
       },
       {

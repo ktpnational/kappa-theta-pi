@@ -41,8 +41,11 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       data-a11y-link-underlines="false"
     >
       <head>
-        <meta name="google-site-verification" content="VBE7MGGVF5cIh-gYXQcDVhonxXv3wJKQqCsQvCjUY1k" />
-        
+        <meta
+          name="google-site-verification"
+          content="VBE7MGGVF5cIh-gYXQcDVhonxXv3wJKQqCsQvCjUY1k"
+        />
+
         <meta name="google-adsense-account" content={process.env.NEXT_PUBLIC_ADSENSE_ID} />
 
         <meta name="mobile-web-app-capable" content="yes" />
@@ -53,8 +56,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
         <meta http-equiv="X-XSS-Protection" content="1; mode=block" />
         <meta name="referrer" content="no-referrer" />
-        <meta http-equiv="X-Frame-Options" content="DENY" />
-
 
         <link rel="canonical" href={process.env.NEXT_PUBLIC_APP_URL} />
         <meta name="language" content="English" />
@@ -65,7 +66,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <link rel="preconnect" href="https://www.google-analytics.com" />
         <link rel="preconnect" href="https://www.google.com" />
 
-        <link rel="preload" href="/assets/images/screen-shot-narrow.png" as="image" />
         <Scripts />
       </head>
       <body className={`min-h-screen bg-white overflow-x-hidden`}>

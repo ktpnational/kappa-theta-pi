@@ -15,9 +15,6 @@ async function main() {
     // Clean up existing data
     await prisma.$transaction([
       prisma.newsletterSubscriber.deleteMany(),
-      prisma.event.deleteMany(),
-      prisma.resource.deleteMany(),
-      prisma.rSVP.deleteMany(),
       prisma.candidate.deleteMany(),
       prisma.company.deleteMany(),
       prisma.member.deleteMany(),
@@ -44,11 +41,11 @@ async function main() {
           password: await bcrypt.hash('password123', 10),
           emailVerified: new Date(),
           image: 'https://avatars.githubusercontent.com/u/1234567',
-          role: Role.GUEST,
+          role: Role.SPONSOR,
           isTwoFactorEnabled: false,
           profile: {
             create: {
-              role: Role.GUEST,
+              role: Role.SPONSOR,
               active: true,
               version: '1.0',
               address: {
@@ -74,12 +71,12 @@ async function main() {
             name: `${companyName} Manager`,
             password: await bcrypt.hash('password123', 10),
             emailVerified: new Date(),
-            role: Role.COMPANY,
+            role: Role.SPONSOR,
             isTwoFactorEnabled: false,
             image: `https://logo.clearbit.com/${companyName.toLowerCase().replace(/\s+/g, '')}.com`,
             profile: {
               create: {
-                role: Role.COMPANY,
+                role: Role.SPONSOR,
                 active: true,
                 version: '1.0',
                 company: {
@@ -116,12 +113,12 @@ async function main() {
               name: `Test User ${index + 1}`,
               password: await bcrypt.hash('password123', 10),
               emailVerified: new Date(),
-              role: Role.MEMBER,
+              role: Role.SPONSOR,
               isTwoFactorEnabled: false,
               image: `https://avatars.dicebear.com/api/human/${index}.svg`,
               profile: {
                 create: {
-                  role: Role.MEMBER,
+                  role: Role.SPONSOR,
                   active: true,
                   version: '1.0',
                 },
@@ -188,37 +185,6 @@ async function main() {
         prisma.chapter.create({
           data: {
             ...chapterData,
-            events: {
-              create: [
-                {
-                  name: 'Rush Week',
-                  description: 'Fall recruitment event',
-                  startDate: new Date(new Date().getFullYear(), 8, 1),
-                  endDate: new Date(new Date().getFullYear(), 8, 7),
-                  location: `${chapterData.university} Student Center`,
-                  type: 'RECRUITMENT',
-                  status: 'UPCOMING',
-                },
-                {
-                  name: 'Tech Talk',
-                  description: 'Industry speaker series',
-                  startDate: new Date(new Date().getFullYear(), 9, 15),
-                  endDate: new Date(new Date().getFullYear(), 9, 15),
-                  location: `${chapterData.university} Engineering Building`,
-                  type: 'PROFESSIONAL',
-                  status: 'UPCOMING',
-                },
-                {
-                  name: 'Alumni Networking',
-                  description: 'Annual alumni networking event',
-                  startDate: new Date(new Date().getFullYear(), 10, 1),
-                  endDate: new Date(new Date().getFullYear(), 10, 1),
-                  location: `${chapterData.university} Alumni Center`,
-                  type: 'NETWORKING',
-                  status: 'UPCOMING',
-                },
-              ],
-            },
           },
         }),
       ),
@@ -229,7 +195,6 @@ async function main() {
       (
         await prisma.user.findMany({
           include: { profile: true },
-          where: { profile: { role: Role.MEMBER } },
         })
       ).map(async (user, index) => {
         const chapter = chapters[index % chapters.length] as Chapter;
@@ -268,7 +233,7 @@ async function main() {
         if (!profile) {
           profile = await prisma.profile.create({
             data: {
-              role: Role.MEMBER,
+              role: Role.SPONSOR,
               active: true,
               version: '1.0',
               userId: user.id,

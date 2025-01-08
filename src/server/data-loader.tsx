@@ -185,10 +185,11 @@ export const DataLoader = <T,>({
             : '';
           const fullUrl = `${url}${searchParams}`;
 
-          const res = await catchError(
-            fetcher<FetchResponse<T>>,
-            [fullUrl, props.config?.method, props.config],
-          );
+          const res = await catchError(fetcher<FetchResponse<T>>, [
+            fullUrl,
+            props.config?.method,
+            props.config,
+          ]);
 
           if (res.success) {
             const { status, data, statusText } = res.value;
@@ -242,10 +243,11 @@ export const DataLoader = <T,>({
           : '';
         const fullUrl = `${props.url}${searchParams}`;
 
-        const res = await catchError(
-          fetcher<FetchResponse<T>>,
-          [fullUrl, props.config?.method, props.config]
-        );
+        const res = await catchError(fetcher<FetchResponse<T>>, [
+          fullUrl,
+          props.config?.method,
+          props.config,
+        ]);
 
         if (res.success) {
           const { status, data, statusText } = res.value;

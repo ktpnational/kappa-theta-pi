@@ -12,10 +12,10 @@
     "strict": true,
     "noUncheckedIndexedAccess": true,
     "checkJs": true,
-    "lib": ["dom", "dom.iterable", "es2022"], // Include "dom" for JSX support
+    "lib": ["dom", "dom.iterable", "es2022"],
     "noEmit": true,
     "module": "ESNext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "jsx": "preserve", // Use "react" if needed
     "types": ["react"],
     "plugins": [

@@ -1,2 +1,2 @@
 export * from './redacted';
-export * from './redis';
+export * from './redis.server';

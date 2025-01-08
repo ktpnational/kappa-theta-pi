@@ -1,7 +1,8 @@
 'use server';
 
+import { TraceIdRatioBasedSampler } from '@opentelemetry/sdk-trace-base';
 import * as Sentry from '@sentry/nextjs';
-import { registerOTel } from '@vercel/otel';
+import { type Configuration, registerOTel } from '@vercel/otel';
 
 /**
  * Registers and configures instrumentation services for the application.
@@ -33,7 +34,19 @@ export async function register() {
       registerOTel({
         serviceName: 'ktp-national',
         instrumentations: runtime === 'edge' ? [] : undefined,
-      });
+        instrumentationConfig: {
+          fetch: {
+            ignoreUrls: [/health/, /metrics/],
+            propagateContextUrls: [
+              // /api/v1/*
+              /api\.kappathetapi\.org/, // API domain for Kappa Theta Pi
+              /vercel\.app/,
+            ],
+            resourceNameTemplate: '{http.host}{http.target}',
+          },
+        },
+        traceSampler: runtime === 'edge' ? undefined : new TraceIdRatioBasedSampler(0.1), // Sample 10% of requests
+      } satisfies Configuration);
     }
 
     if (process.env.NEXT_PUBLIC_SENTRY_DSN) {
