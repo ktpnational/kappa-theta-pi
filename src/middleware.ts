@@ -2,6 +2,7 @@ import { rateLimiter } from '@/lib/rate-limit';
 import type { RateLimitHelper } from '@/lib/rate-limit';
 import { type CookieOptions, createServerClient } from '@supabase/ssr';
 import { type NextRequest, NextResponse } from 'next/server';
+import { env } from '@/env';
 
 const publicAssetPaths: Set<string> = new Set([
   '/assets/',
@@ -49,15 +50,6 @@ export async function middleware(request: NextRequest): Promise<NextResponse> {
   }
 
   try {
-    let rateLimitingType: RateLimitHelper['rateLimitingType'] = 'default';
-    if (request.nextUrl.pathname.startsWith('/api/auth')) {
-      rateLimitingType = 'forcedSlowMode';
-    } else if (request.nextUrl.pathname.startsWith('/api')) {
-      rateLimitingType = 'api';
-    }
-
-    const identifier = request.headers.get('x-forwarded-for') || 'anonymous';
-    const result = await rateLimiter(rateLimitingType)({ identifier });
 
     let response = NextResponse.next({
       request: {
@@ -65,35 +57,47 @@ export async function middleware(request: NextRequest): Promise<NextResponse> {
       },
     });
 
-    response.headers.set('X-RateLimit-Limit', result.limit.toString());
-    response.headers.set('X-RateLimit-Remaining', result.remaining.toString());
-    response.headers.set('X-RateLimit-Reset', result.reset.toString());
+    if (env.NODE_ENV === 'production') {
+      let rateLimitingType: RateLimitHelper['rateLimitingType'] = 'default';
+      if (request.nextUrl.pathname.startsWith('/api/auth')) {
+        rateLimitingType = 'forcedSlowMode';
+      } else if (request.nextUrl.pathname.startsWith('/api')) {
+        rateLimitingType = 'api';
+      }
 
-    if (!result.success) {
-      return new NextResponse(
-        JSON.stringify({
-          error: 'Too Many Requests',
-          message: 'Please try again later',
-          retryAfter: result.reset,
-        }),
-        {
-          status: 429,
-          headers: {
-            'Content-Type': 'application/json',
-            'Retry-After': result.reset.toString(),
-            'X-RateLimit-Limit': result.limit.toString(),
-            'X-RateLimit-Remaining': '0',
-            'X-RateLimit-Reset': result.reset.toString(),
+      const identifier = request.headers.get('x-forwarded-for') || 'anonymous';
+      const result = await rateLimiter(rateLimitingType)({ identifier });
+
+      response.headers.set('X-RateLimit-Limit', result.limit.toString());
+      response.headers.set('X-RateLimit-Remaining', result.remaining.toString());
+      response.headers.set('X-RateLimit-Reset', result.reset.toString());
+
+      if (!result.success) {
+        return new NextResponse(
+          JSON.stringify({
+            error: 'Too Many Requests',
+            message: `Please try again later. Reset time: ${result.reset}`,
+            retryAfter: result.reset,
+          }),
+          {
+            status: 429,
+            headers: {
+              'Content-Type': 'application/json',
+              'Retry-After': result.reset.toString(),
+              'X-RateLimit-Limit': result.limit.toString(),
+              'X-RateLimit-Remaining': '0',
+              'X-RateLimit-Reset': result.reset.toString(),
+            },
           },
-        },
-      );
+        );
+      }
     }
 
     if (isPublicAsset(request)) return response;
 
     const supabase = createServerClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      env.NEXT_PUBLIC_SUPABASE_URL,
+      env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
       {
         cookies: {
           get(name: string) {

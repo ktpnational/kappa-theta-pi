@@ -74,6 +74,7 @@ export const SponsorsSection = () => {
                   className="object-contain w-full h-full grayscale opacity-60 transition-opacity duration-200 hover:opacity-100 hover:grayscale-0"
                   width={112}
                   height={40}
+                  loading={'lazy'}
                 />
               </div>
             ))}

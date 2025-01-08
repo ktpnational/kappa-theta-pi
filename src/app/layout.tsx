@@ -1,16 +1,29 @@
-import "@/styles/globals.css";
-import { getServerSession } from "next-auth";
-import { PageTransition } from "@/components";
-import { Providers } from "@/providers";
-import { Scripts } from "@/scripts";
-import { constructMetadata, constructViewport } from "@/utils";
-import { Analytics } from "@vercel/analytics/react";
+import '@/styles/globals.css';
+
+import { auth } from '@/auth';
+import { PageTransition } from '@/components';
+import { Providers } from '@/providers';
+import { Scripts } from '@/scripts';
+import { constructMetadata, constructViewport } from '@/utils';
+import { Analytics } from '@vercel/analytics/react';
+import type { NextWebVitalsMetric } from 'next/app';
+import { env } from '@/env';
 
 /** Application metadata constructed from utility function */
 export const metadata = constructMetadata();
 
 /** Viewport configuration constructed from utility function */
 export const viewport = constructViewport();
+
+/**
+ * Reports web vitals metrics for performance monitoring
+ * @param {NextWebVitalsMetric} metric - The web vital metric to report
+ */
+export const reportWebVitals = (metric: NextWebVitalsMetric) => {
+  if (metric.label === 'web-vital') {
+    console.log(metric);
+  }
+};
 
 /**
  * Root layout component that wraps the entire application
@@ -23,7 +36,7 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const session = await getServerSession();
+  const session = await auth();
 
   return (
     <html
@@ -37,10 +50,9 @@ export default async function RootLayout({
           name="google-site-verification"
           content="VBE7MGGVF5cIh-gYXQcDVhonxXv3wJKQqCsQvCjUY1k"
         />
-        <meta
-          name="google-adsense-account"
-          content={process.env.NEXT_PUBLIC_ADSENSE_ID}
-        />
+
+        <meta name="google-adsense-account" content={env.NEXT_PUBLIC_ADSENSE_ID} />
+
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta
@@ -51,7 +63,7 @@ export default async function RootLayout({
         <meta httpEquiv="X-XSS-Protection" content="1; mode=block" />
         <meta name="referrer" content="no-referrer" />
 
-        <link rel="canonical" href={process.env.NEXT_PUBLIC_APP_URL} />
+        <link rel="canonical" href={env.NEXT_PUBLIC_APP_URL} />
         <meta name="language" content="English" />
         <meta name="geo.region" content="US" />
         <meta name="geo.placename" content="Miami, FL" />
@@ -60,12 +72,16 @@ export default async function RootLayout({
         <link rel="preconnect" href="https://www.google-analytics.com" />
         <link rel="preconnect" href="https://www.google.com" />
 
+        <link rel="preload" href="/assets/fonts/SourceSans3-VariableFont_wght.ttf" as="font" />
+        <link rel="preload" href="/assets/fonts/SourceSans3-Italic-VariableFont_wght.ttf" as="font" />
+        <link rel="preload" href="/assets/fonts/palatino.ttf" as="font" />
+
         <Scripts />
       </head>
       <body className="min-h-screen bg-white overflow-x-hidden">
         <noscript>
           <iframe
-            src={`https://www.googletagmanager.com/ns.html?id=${process.env.NEXT_PUBLIC_GTM_ID}`}
+            src={`https://www.googletagmanager.com/ns.html?id=${env.NEXT_PUBLIC_GTM_ID}`}
             height="0"
             width="0"
             style={{ display: "none", visibility: "hidden" }}

@@ -4,6 +4,7 @@ import type { Database } from '@/types/supabase';
 import type { CookieOptions } from '@supabase/ssr';
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
+import { env } from '@/env';
 
 /**
  * Creates and configures a Supabase server client with cookie-based authentication.
@@ -42,8 +43,8 @@ export const createServer = async () => {
     const cookieStore = await cookies();
 
     const client = createServerClient<Database>(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      env.NEXT_PUBLIC_SUPABASE_URL,
+      env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
       {
         cookies: {
           get(name: string) {

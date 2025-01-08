@@ -1,15 +1,20 @@
-import { getUserByEmail } from "@/data/user";
-import { LoginSchema } from "@/schemas";
-import bcrypt from "bcryptjs";
-import type { AuthOptions } from "next-auth";
-import Credentials from "next-auth/providers/credentials";
-import Google from "next-auth/providers/google";
+import { MagicLinkEmail } from '@/components';
+import { app } from '@/constants';
+import { getUserByEmail } from '@/data/user';
+import { resend } from '@/lib';
+import { LoginSchema } from '@/schemas';
+import bcrypt from 'bcryptjs';
+import type { NextAuthConfig } from 'next-auth';
+import Credentials from 'next-auth/providers/credentials';
+import Google from 'next-auth/providers/google';
+import ResendProvider from 'next-auth/providers/resend';
+import { env } from '@/env';
 
 export default {
   providers: [
     Google({
-      clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
-      clientSecret: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET,
+      clientId: env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
+      clientSecret: env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET,
     }),
     Credentials({
       // Define the required fields for the Credentials provider
@@ -41,5 +46,35 @@ export default {
         return null;
       },
     }),
+    ResendProvider({
+      server: {
+        host: env.NEXT_PUBLIC_RESEND_HOST,
+        port: Number(env.NEXT_PUBLIC_RESEND_PORT),
+        auth: {
+          user: env.NEXT_PUBLIC_RESEND_USERNAME,
+          pass: env.NEXT_PUBLIC_RESEND_API_KEY,
+        },
+      },
+      async sendVerificationRequest({
+        identifier,
+        url,
+      }: {
+        identifier: string;
+        url: string;
+      }) {
+        try {
+          await resend.emails.send({
+            from: env.NEXT_PUBLIC_RESEND_EMAIL_FROM,
+            to: [identifier],
+            subject: `${app.name} magic link sign in`,
+            react: MagicLinkEmail({ identifier, url }),
+          });
+
+          console.log('Verification email sent');
+        } catch (error) {
+          throw new Error('Failed to send verification email');
+        }
+      },
+    }),
   ],
-} satisfies AuthOptions;
+} satisfies NextAuthConfig;

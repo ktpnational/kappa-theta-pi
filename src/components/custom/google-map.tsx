@@ -23,6 +23,7 @@ import { APIProvider, InfoWindow, Map, type MapProps, useMap } from '@vis.gl/rea
 import { AnimatePresence, motion } from 'motion/react';
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { FaCalendarAlt } from 'react-icons/fa';
+import { config } from '@/config';
 
 /**
  * Color configurations for different chapter statuses.
@@ -222,12 +223,12 @@ export const GoogleMaps = memo(() => {
               ref={mapContainerRef}
               className="w-full h-[600px] rounded-xl overflow-hidden shadow-xl border border-gray-200"
             >
-              <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}>
+              <APIProvider apiKey={config.google.maps.apiKey}>
                 <Map
                   defaultCenter={DEFAULT_CENTER}
                   zoom={mapZoom}
                   onCameraChanged={(ev) => setMapZoom(ev.detail.zoom)}
-                  mapId={process.env.NEXT_PUBLIC_GOOGLE_MAPS_MAP_ID}
+                  mapId={config.google.maps.mapId}
                   {...mapOptions}
                 >
                   <Markers chapters={chapters} mapZoom={mapZoom} />

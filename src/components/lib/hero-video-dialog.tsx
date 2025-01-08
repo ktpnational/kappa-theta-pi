@@ -3,7 +3,7 @@
 import { cn } from '@/lib/utils';
 import { Play, XIcon } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
-import Image from 'next/image';
+import Image, { ImageProps } from 'next/image';
 import React, { useState, useCallback } from 'react';
 
 /**
@@ -29,7 +29,8 @@ type AnimationStyle =
  * @property {string} [thumbnailAlt='Video thumbnail'] - Alt text for the thumbnail image
  * @property {string} [className] - Additional CSS classes to apply to the container
  */
-interface HeroVideoProps {
+
+interface HeroVideoProps extends Omit<ImageProps, 'src' | 'alt'> {
   animationStyle?: AnimationStyle;
   videoSrc: string;
   thumbnailSrc: string;
@@ -104,6 +105,7 @@ export const HeroVideoDialog = React.memo(
     thumbnailSrc,
     thumbnailAlt = 'Video thumbnail',
     className,
+    ...imageProps
   }: HeroVideoProps) => {
     const [isVideoOpen, setIsVideoOpen] = useState(false);
     const selectedAnimation = animationVariants[animationStyle];
@@ -128,6 +130,7 @@ export const HeroVideoDialog = React.memo(
               width={1920}
               height={1080}
               className="w-full transition-all duration-200 group-hover:brightness-[0.8] ease-out rounded-md shadow-lg border"
+              {...imageProps}
             />
           </div>
           <div className="absolute inset-0 flex items-center justify-center group-hover:scale-100 scale-[0.9] transition-all duration-200 ease-out rounded-2xl">

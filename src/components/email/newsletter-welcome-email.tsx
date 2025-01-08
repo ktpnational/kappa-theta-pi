@@ -16,6 +16,7 @@ import {
   Text,
 } from '@react-email/components';
 import type { CSSProperties } from 'react';
+import { env } from '@/env';
 
 /**
  * Email template component for welcoming new newsletter subscribers
@@ -97,10 +98,10 @@ export function NewsletterWelcomeEmail(): React.JSX.Element {
               {`We're`} looking forward to seeing you around! If you have any questions, please{' '}
               {`don't`} hesitate to reach out to us at{' '}
               <Link
-                href={`mailto:${process.env.NEXT_PUBLIC_RESEND_EMAIL_FROM}`}
+                href={`mailto:${env.NEXT_PUBLIC_RESEND_EMAIL_FROM}`}
                 style={styles.link}
               >
-                {process.env.NEXT_PUBLIC_RESEND_EMAIL_FROM}
+                {env.NEXT_PUBLIC_RESEND_EMAIL_FROM}
               </Link>
             </Text>
             <Text style={{ margin: '16px 0 0' }}>

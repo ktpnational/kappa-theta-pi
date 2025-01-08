@@ -3,6 +3,7 @@
 import { TraceIdRatioBasedSampler } from '@opentelemetry/sdk-trace-base';
 import * as Sentry from '@sentry/nextjs';
 import { type Configuration, registerOTel } from '@vercel/otel';
+import { env } from '@/env';
 
 /**
  * Registers and configures instrumentation services for the application.
@@ -49,7 +50,7 @@ export async function register() {
       } satisfies Configuration);
     }
 
-    if (process.env.NEXT_PUBLIC_SENTRY_DSN) {
+    if (env.NEXT_PUBLIC_SENTRY_DSN) {
       if (runtime === 'edge') {
         await import('../sentry.edge.config');
       } else if (runtime === 'nodejs') {

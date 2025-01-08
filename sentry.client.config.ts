@@ -1,20 +1,21 @@
 // https://docs.sentry.io/platforms/javascript/guides/nextjs/
 
-import * as Sentry from '@sentry/nextjs';
+import { init, replayIntegration, browserTracingIntegration } from '@sentry/nextjs';
+import { config } from '@/config';
 
-if (!process.env.NEXT_PUBLIC_SENTRY_DSN) {
+if (!config.sentry.dsn) {
   console.warn(
     'Sentry DSN is missing. Please set the NEXT_PUBLIC_SENTRY_DSN environment variable.',
   );
 } else {
   // Initialize Sentry
-  Sentry.init({
-    dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
+  init({
+    dsn: config.sentry.dsn,
 
     // Add optional integrations for additional features
     integrations: [
-      Sentry.replayIntegration(),
-      Sentry.browserTracingIntegration()
+      replayIntegration(),
+      browserTracingIntegration()
     ],
 
     // Adjust the sample rate for traces in production
@@ -30,7 +31,7 @@ if (!process.env.NEXT_PUBLIC_SENTRY_DSN) {
 
     // Additional Sentry configuration options
     environment: process.env.NODE_ENV || 'development', // Set the environment
-    release: process.env.NEXT_PUBLIC_APP_VERSION, // Link errors to a specific release
+    release: config.app.version, // Link errors to a specific release
   });
 
   console.log('Sentry initialized successfully.');

@@ -1,14 +1,15 @@
 import { Resend } from 'resend';
+import { env } from '@/env';
 
 /**
  * Instance of Resend email service initialized with API key from environment variables
  */
-const resend = new Resend(process.env.NEXT_PUBLIC_RESEND_API_KEY);
+const resend = new Resend(env.NEXT_PUBLIC_RESEND_API_KEY);
 
 /**
  * Base domain URL for the application taken from environment variables
  */
-const domain = process.env.NEXT_PUBLIC_APP_URL;
+const domain = env.NEXT_PUBLIC_APP_URL;
 
 /**
  * Sends a password reset email to a specified email address

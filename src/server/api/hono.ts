@@ -3,6 +3,7 @@
  * Exports utilities for creating Hono instances with standardized middleware and context management.
  */
 
+import { getURL } from '@/utils';
 import { type Env, Hono } from 'hono';
 import { bodyLimit } from 'hono/body-limit';
 import { cache } from 'hono/cache';
@@ -25,10 +26,7 @@ const timingMiddleware = timing({
   enabled: true,
   totalDescription: 'Total API Response Time',
   autoEnd: true,
-  crossOrigin:
-    process.env.NODE_ENV === 'production'
-      ? 'https://www.kappathetapi.org'
-      : 'http://localhost:3000',
+  crossOrigin: getURL(),
 });
 
 /**
@@ -83,10 +81,7 @@ export const createHono = <E extends Env>(options: HonoOptions<E>) => {
       )
       .use(
         cors({
-          origin:
-            process.env.NODE_ENV === 'production'
-              ? 'https://www.kappathetapi.org/'
-              : 'http://localhost:3000',
+          origin: getURL(),
           allowHeaders: ['X-Custom-Header', 'Upgrade-Insecure-Requests'],
           allowMethods: ['POST', 'GET', 'OPTIONS'],
           exposeHeaders: ['Content-Length', 'X-Kuma-Revision'],

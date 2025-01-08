@@ -1,5 +1,6 @@
 import type { Database } from '@/types/supabase';
 import { createClient as createSupabaseClient } from '@supabase/supabase-js';
+import { config } from '@/config';
 
 let supabaseInstance: ReturnType<typeof createSupabaseClient<Database>> | null = null;
 
@@ -34,8 +35,8 @@ export const createClient = () => {
   if (supabaseInstance) return supabaseInstance;
 
   supabaseInstance = createSupabaseClient<Database>(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    config.supabase.url,
+    config.supabase.anonKey,
     {
       auth: {
         storage:
@@ -90,8 +91,8 @@ export const createClient = () => {
  */
 export const createAuthenticatedClient = (accessToken: string) => {
   return createSupabaseClient<Database>(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    config.supabase.url,
+    config.supabase.anonKey,
     {
       global: {
         headers: {

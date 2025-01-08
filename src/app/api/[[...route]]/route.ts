@@ -54,6 +54,37 @@ const api = app
   .use('/health', async (c) => {
     return c.json({ status: 'ok' });
   })
+  // .use('/arcjet', async (c) => {
+  //     const decision = await aj.protect(req, { requested: 5 }); // Deduct 5 tokens from the bucket
+  //     console.log("Arcjet decision", decision);
+
+  // if (decision.isDenied()) {
+  //   if (decision.reason.isBot()) {
+  //     return c.json(
+  //       { error: "No bots allowed", reason: decision.reason },
+  //       { status: 403 },
+  //     );
+  //   } else {
+  //     return c.json(
+  //       { error: "Forbidden", reason: decision.reason },
+  //       { status: 403 },
+  //     );
+  //   }
+  // }
+
+  // // Arcjet Pro plan verifies the authenticity of common bots using IP data.
+  // // Verification isn't always possible, so we recommend checking the decision
+  // // separately.
+  // // https://docs.arcjet.com/bot-protection/reference#bot-verification
+  // if (decision.reason.isBot() && decision.reason.isSpoofed()) {
+  //   return NextResponse.json(
+  //     { error: "Forbidden", reason: decision.reason },
+  //     { status: 403 },
+  //   );
+  // }
+
+  // return NextResponse.json({ message: "Hello world" });
+  // })
   .use('*', async (c, next) => {
     try {
       await next();

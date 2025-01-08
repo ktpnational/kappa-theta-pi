@@ -1,5 +1,6 @@
 'use server';
 
+import { env } from '@/env';
 import { db, resend } from '@/lib';
 import {
   type CheckIfSubscribedToNewsletterInput,
@@ -124,7 +125,7 @@ export async function subscribeToNewsletter(
     });
 
     const emailSent = await resend.emails.send({
-      from: process.env.NEXT_PUBLIC_RESEND_EMAIL_FROM,
+      from: env.NEXT_PUBLIC_RESEND_EMAIL_FROM,
       to: validatedInput.data.email,
       subject: 'Welcome to our newsletter!',
       react: NewsletterWelcomeEmail(),

@@ -4,6 +4,9 @@ import { Redacted } from '@/classes';
 import Script from 'next/script';
 import { useCallback, useEffect, useRef } from 'react';
 import { flushSync } from 'react-dom';
+import { generateSchema } from '@/utils/helpers/schema';
+import { Stringify } from '@/utils';
+import { config as env } from '@/config';
 
 /**
  * Configuration type for preload/prefetch behavior
@@ -97,7 +100,7 @@ export function Scripts() {
   const createSpeculationScript = useCallback((rules: object) => {
     const script = document.createElement('script');
     script.type = 'speculationrules';
-    script.text = JSON.stringify(rules);
+    script.text = Stringify(rules);
     return script;
   }, []);
 
@@ -214,6 +217,19 @@ export function Scripts() {
       },
     ],
   };
+
+  const organizationSchema = generateSchema({
+    type: 'Organization',
+    name: 'Kappa Theta Pi',
+    url: 'https://www.kappathetapi.org',
+    thumbnailUrl: 'https://www.kappathetapi.com/logo.png',
+    logo: 'https://www.kappathetapi.com/logo.png',
+    sameAs: [
+      'https://www.facebook.com/kappathetapi',
+      'https://www.instagram.com/kappathetapi'
+    ]
+  });
+
   return (
     <>
       <Script
@@ -221,7 +237,7 @@ export function Scripts() {
         strategy="beforeInteractive"
         type="speculationrules"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(baseSpeculationRules),
+          __html: Stringify(baseSpeculationRules),
         }}
       />
 
@@ -229,7 +245,7 @@ export function Scripts() {
       <Script
         strategy="beforeInteractive"
         src={`https://maps.googleapis.com/maps/api/js?key=${Redacted.make(
-          process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
+          env.google.maps.apiKey,
         ).getValue()}&libraries=maps,marker&v=beta&callback=Function.prototype`}
         id="google-maps"
       />
@@ -237,7 +253,7 @@ export function Scripts() {
       <Script
         strategy="afterInteractive"
         src={`https://www.googletagmanager.com/gtag/js?id=${Redacted.make(
-          process.env.NEXT_PUBLIC_GA_TRACKING_ID,
+          env.analytics.ga.trackingId,
         ).getValue()}`}
         id="google-analytics-script"
       />
@@ -250,7 +266,7 @@ export function Scripts() {
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', '${Redacted.make(process.env.NEXT_PUBLIC_GA_TRACKING_ID).getValue()}', {
+            gtag('config', '${Redacted.make(env.analytics.ga.trackingId).getValue()}', {
               page_path: window.location.pathname,
             });
           `,
@@ -272,8 +288,8 @@ export function Scripts() {
               j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
               f.parentNode.insertBefore(j,f);
             })(window,document,'script','dataLayer','${Redacted.make(
-              process.env.NEXT_PUBLIC_GTM_ID,
-            ).getValue()}');
+            env.analytics.gtm.id,
+          ).getValue()}');
           `,
         }}
       />
@@ -282,7 +298,7 @@ export function Scripts() {
         async
         strategy="afterInteractive"
         src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${Redacted.make(
-          process.env.NEXT_PUBLIC_ADSENSE_ID,
+          env.analytics.adsense.id,
         ).getValue()}`}
         crossOrigin="anonymous"
         id="google-adsense"
@@ -292,7 +308,15 @@ export function Scripts() {
         type="application/ld+json"
         id="schema-org"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(schemaOrg),
+          __html: Stringify(schemaOrg),
+        }}
+      />
+
+      <Script
+        type="application/ld+json"
+        id="schema-org"
+        dangerouslySetInnerHTML={{
+          __html: Stringify(organizationSchema),
         }}
       />
     </>
