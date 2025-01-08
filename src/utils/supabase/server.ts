@@ -1,10 +1,10 @@
 'use server';
 
+import { env } from '@/env';
 import type { Database } from '@/types/supabase';
 import type { CookieOptions } from '@supabase/ssr';
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
-import { env } from '@/env';
 
 /**
  * Creates and configures a Supabase server client with cookie-based authentication.

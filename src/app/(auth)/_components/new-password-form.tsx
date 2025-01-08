@@ -1,18 +1,18 @@
-"use client";
+'use client';
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useSearchParams } from "next/navigation";
-import { useTransition } from "react";
-import { useForm } from "react-hook-form";
-import type * as z from "zod";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useSearchParams } from 'next/navigation';
+import { useTransition } from 'react';
+import { useForm } from 'react-hook-form';
+import type * as z from 'zod';
 
-import { useGlobalStore } from "@/providers";
-import { NewPasswordSchema } from "@/schemas";
+import { useGlobalStore } from '@/providers';
+import { NewPasswordSchema } from '@/schemas';
 
-import { CardWrapper } from "@/app/(auth)/_components";
-import { FormError } from "@/components/form-error";
-import { FormSucess } from "@/components/form-sucess";
-import { Button } from "@/components/ui/button";
+import { CardWrapper } from '@/app/(auth)/_components';
+import { FormError } from '@/components/form-error';
+import { FormSucess } from '@/components/form-sucess';
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -20,10 +20,10 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
 
-import { newPassword } from "@/actions/new-password";
+import { newPassword } from '@/actions/new-password';
 
 export const NewPasswordForm = () => {
   const {
@@ -38,12 +38,12 @@ export const NewPasswordForm = () => {
 
   const [, startTransition] = useTransition();
   const searchParams = useSearchParams();
-  const token = searchParams?.get("token") ?? "";
+  const token = searchParams?.get('token') ?? '';
 
   const form = useForm<z.infer<typeof NewPasswordSchema>>({
     resolver: zodResolver(NewPasswordSchema),
     defaultValues: {
-      password: "",
+      password: '',
     },
   });
 
@@ -58,7 +58,7 @@ export const NewPasswordForm = () => {
           setError(data?.error);
           setSuccess(data?.success);
         })
-        .catch(() => setError("Something went wrong"))
+        .catch(() => setError('Something went wrong'))
         .finally(() => setIsPending(false));
     });
   };
@@ -79,12 +79,7 @@ export const NewPasswordForm = () => {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input
-                      {...field}
-                      disabled={isPending}
-                      placeholder="******"
-                      type="password"
-                    />
+                    <Input {...field} disabled={isPending} placeholder="******" type="password" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

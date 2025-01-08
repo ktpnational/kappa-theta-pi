@@ -1,3 +1,4 @@
+import { env } from '@/env';
 import arcjet, {
   detectBot,
   fixedWindow,
@@ -6,11 +7,10 @@ import arcjet, {
   shield,
   validateEmail,
   slidingWindow,
-  ArcjetOptions,
-  Primitive,
-  Product,
+  type ArcjetOptions,
+  type Primitive,
+  type Product,
 } from '@arcjet/next';
-import { env } from '@/env';
 export {
   detectBot,
   fixedWindow,
@@ -26,18 +26,18 @@ export default arcjet({
 
   rules: [
     // Shield protects your app from common attacks e.g. SQL injection
-    shield({ mode: "LIVE" }),
+    shield({ mode: 'LIVE' }),
     // Create a bot detection rule
     detectBot({
-      mode: "LIVE", // Blocks requests. Use "DRY_RUN" to log only
+      mode: 'LIVE', // Blocks requests. Use "DRY_RUN" to log only
       // Block all bots except the following
       allow: [
-        "CATEGORY:SEARCH_ENGINE",    // Google, Bing, etc - essential for SEO
-        "CATEGORY:MONITOR",         // Uptime monitoring services like Pingdom
-        "CATEGORY:PREVIEW",         // Link previews from Slack, Discord, social media
-        "CATEGORY:SOCIAL",          // Social media crawlers
-        "CATEGORY:FEEDFETCHER",     // RSS and feed readers
-        "CATEGORY:GOOGLE",          // All Google services (Analytics, Search Console, etc)
+        'CATEGORY:SEARCH_ENGINE', // Google, Bing, etc - essential for SEO
+        'CATEGORY:MONITOR', // Uptime monitoring services like Pingdom
+        'CATEGORY:PREVIEW', // Link previews from Slack, Discord, social media
+        'CATEGORY:SOCIAL', // Social media crawlers
+        'CATEGORY:FEEDFETCHER', // RSS and feed readers
+        'CATEGORY:GOOGLE', // All Google services (Analytics, Search Console, etc)
       ],
     }),
   ],

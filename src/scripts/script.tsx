@@ -1,12 +1,12 @@
 'use client';
 
 import { Redacted } from '@/classes';
+import { config as env } from '@/config';
+import { Stringify } from '@/utils';
+import { generateSchema } from '@/utils/helpers/schema';
 import Script from 'next/script';
 import { useCallback, useEffect, useRef } from 'react';
 import { flushSync } from 'react-dom';
-import { generateSchema } from '@/utils/helpers/schema';
-import { Stringify } from '@/utils';
-import { config as env } from '@/config';
 
 /**
  * Configuration type for preload/prefetch behavior
@@ -54,9 +54,9 @@ export function Scripts() {
    * Configuration object defining paths for preloading behavior
    */
   const config: PreloadConfig = {
-    prerenderPaths: ['/', '/about', '/chapters', '/contact', '/resources'],
+    prerenderPaths: ['/', '/about/board', '/chapters', '/contact', '/resources'],
     prefetchPaths: ['/auth/login', '/auth/register', '/legal/privacy', '/legal/terms'],
-    excludePaths: ['/auth/*', '/dashboard/*', '/settings', '/api/*'],
+    excludePaths: ['/auth/*', '/dashboard/*', '/settings', '/api/*', '/about/history'],
   };
 
   /**
@@ -224,10 +224,7 @@ export function Scripts() {
     url: 'https://www.kappathetapi.org',
     thumbnailUrl: 'https://www.kappathetapi.com/logo.png',
     logo: 'https://www.kappathetapi.com/logo.png',
-    sameAs: [
-      'https://www.facebook.com/kappathetapi',
-      'https://www.instagram.com/kappathetapi'
-    ]
+    sameAs: ['https://www.facebook.com/kappathetapi', 'https://www.instagram.com/kappathetapi'],
   });
 
   return (
@@ -288,8 +285,8 @@ export function Scripts() {
               j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
               f.parentNode.insertBefore(j,f);
             })(window,document,'script','dataLayer','${Redacted.make(
-            env.analytics.gtm.id,
-          ).getValue()}');
+              env.analytics.gtm.id,
+            ).getValue()}');
           `,
         }}
       />

@@ -1,16 +1,11 @@
-import { MagicLinkEmail } from '@/components';
-import { app } from '@/constants';
 import { getUserByEmail } from '@/data/user';
-import { resend } from '@/lib';
+import { env } from '@/env';
 import { LoginSchema } from '@/schemas';
+import { logger } from '@/utils';
 import bcrypt from 'bcryptjs';
-import NextAuthConfig from 'next-auth';
+import type NextAuthConfig from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 import Google from 'next-auth/providers/google';
-import EmailProvider from 'next-auth/providers/email';
-
-import { env } from '@/env';
-import { logger } from '@/utils';
 
 const log = logger.getSubLogger({
   name: 'auth.config',
@@ -25,8 +20,8 @@ export default {
     Credentials({
       // Define the required fields for the Credentials provider
       credentials: {
-        email: { label: "Email", type: "text" },
-        password: { label: "Password", type: "password" },
+        email: { label: 'Email', type: 'text' },
+        password: { label: 'Password', type: 'password' },
       },
       /**
        * Authorizes a user based on provided credentials.
@@ -54,36 +49,37 @@ export default {
         return null;
       },
     }),
-    EmailProvider({
-      server: {
-        host: env.NEXT_PUBLIC_RESEND_HOST,
-        port: Number(env.NEXT_PUBLIC_RESEND_PORT),
-        auth: {
-          user: env.NEXT_PUBLIC_RESEND_USERNAME,
-          pass: env.NEXT_PUBLIC_RESEND_API_KEY,
-        },
-      },
-      async sendVerificationRequest({
-        identifier,
-        url,
-      }: {
-        identifier: string;
-        url: string;
-      }) {
-        try {
-          await resend.emails.send({
-            from: env.NEXT_PUBLIC_RESEND_EMAIL_FROM,
-            to: [identifier],
-            subject: `${app.name} magic link sign in`,
-            react: MagicLinkEmail({ identifier, url }),
-          });
+    // EmailProvider({
+    //   server: {
+    //     host: env.NEXT_PUBLIC_RESEND_HOST,
+    //     port: Number(env.NEXT_PUBLIC_RESEND_PORT),
+    //     auth: {
+    //       user: env.NEXT_PUBLIC_RESEND_USERNAME,
+    //       pass: env.NEXT_PUBLIC_RESEND_API_KEY,
+    //     },
+    //   },
+    //   from: env.NEXT_PUBLIC_RESEND_EMAIL_FROM,
+    //   async sendVerificationRequest({
+    //     identifier,
+    //     url,
+    //   }: {
+    //     identifier: string;
+    //     url: string;
+    //   }) {
+    //     try {
+    //       await resend.emails.send({
+    //         from: env.NEXT_PUBLIC_RESEND_EMAIL_FROM,
+    //         to: [identifier],
+    //         subject: `${app.name} magic link sign in`,
+    //         react: MagicLinkEmail({ identifier, url }),
+    //       });
 
-          log.info('Verification email sent');
-        } catch (error) {
-          log.error(error, 'Failed to send verification email');
-          throw new Error('Failed to send verification email');
-        }
-      },
-    }),
+    //       log.info('Verification email sent');
+    //     } catch (error) {
+    //       log.error(error, 'Failed to send verification email');
+    //       throw new Error('Failed to send verification email');
+    //     }
+    //   },
+    // }),
   ],
-} satisfies Parameters<typeof NextAuthConfig>[2]
+} satisfies Parameters<typeof NextAuthConfig>[2];

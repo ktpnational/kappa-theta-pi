@@ -1,5 +1,5 @@
-import { Resend } from 'resend';
 import { env } from '@/env';
+import { Resend } from 'resend';
 
 /**
  * Instance of Resend email service initialized with API key from environment variables

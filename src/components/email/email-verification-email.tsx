@@ -1,3 +1,4 @@
+import { config } from '@/config';
 import { app } from '@/constants';
 import {
   Body,
@@ -10,7 +11,6 @@ import {
   Text,
 } from '@react-email/components';
 import type { CSSProperties } from 'react';
-import { config } from '@/config';
 
 interface EmailVerificationEmailProps {
   email: string;

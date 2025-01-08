@@ -1,32 +1,25 @@
-"use server";
+'use server';
 
-import bcrypt from "bcryptjs";
-import type * as z from "zod";
+import bcrypt from 'bcryptjs';
+import type * as z from 'zod';
 
-import { signIn } from "@/auth";
-import {
-  getTwoFactorConfirmationByUserId,
-  getTwoFactorTokenByEmail,
-  getUserByEmail,
-} from "@/data";
+import { signIn } from '@/auth';
+import { getTwoFactorConfirmationByUserId, getTwoFactorTokenByEmail, getUserByEmail } from '@/data';
 import {
   db,
   generateTwoFactorToken,
   generateVerificationToken,
   sendTwoFactorTokenEmail,
   sendVerificationEmail,
-} from "@/lib";
-import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
-import { LoginSchema } from "@/schemas";
+} from '@/lib';
+import { DEFAULT_LOGIN_REDIRECT } from '@/routes';
+import { LoginSchema } from '@/schemas';
 
-export const login = async (
-  values: z.infer<typeof LoginSchema>,
-  callbackUrl?: string | null,
-) => {
+export const login = async (values: z.infer<typeof LoginSchema>, callbackUrl?: string | null) => {
   const validatedFields = LoginSchema.safeParse(values);
 
   if (!validatedFields.success) {
-    return { error: "Invalid fields!" };
+    return { error: 'Invalid fields!' };
   }
 
   const { email, password, code } = validatedFields.data;
@@ -34,26 +27,21 @@ export const login = async (
   const existingUser = await getUserByEmail(email);
 
   if (!existingUser || !existingUser.email || !existingUser.password) {
-    return { error: "Email does not exist!" };
+    return { error: 'Email does not exist!' };
   }
 
   if (!existingUser.emailVerified) {
-    const verificationToken = await generateVerificationToken(
-      existingUser.email,
-    );
+    const verificationToken = await generateVerificationToken(existingUser.email);
 
-    await sendVerificationEmail(
-      verificationToken.email,
-      verificationToken.token,
-    );
+    await sendVerificationEmail(verificationToken.email, verificationToken.token);
 
-    return { success: "Confirmation email Sent!" };
+    return { success: 'Confirmation email Sent!' };
   }
 
   const passwordMatch = await bcrypt.compare(password, existingUser.password);
 
   if (!passwordMatch) {
-    return { error: "Invalid Credentials!" };
+    return { error: 'Invalid Credentials!' };
   }
 
   if (existingUser.isTwoFactorEnabled && existingUser.email) {
@@ -65,14 +53,12 @@ export const login = async (
         twoFactorToken.token !== code ||
         new Date(twoFactorToken.expires) < new Date()
       ) {
-        return { error: "Invalid or expired code!" };
+        return { error: 'Invalid or expired code!' };
       }
 
       await db.twoFactorToken.delete({ where: { id: twoFactorToken.id } });
 
-      const existingConfirmation = await getTwoFactorConfirmationByUserId(
-        existingUser.id,
-      );
+      const existingConfirmation = await getTwoFactorConfirmationByUserId(existingUser.id);
 
       if (existingConfirmation) {
         await db.twoFactorConfirmation.delete({
@@ -92,19 +78,19 @@ export const login = async (
   }
 
   try {
-    await signIn("credentials", {
+    await signIn('credentials', {
       email,
       password,
       redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT,
     });
 
-    return { success: "Login Success!" };
+    return { success: 'Login Success!' };
   } catch (error: any) {
     // Catch and handle errors without assuming a specific `AuthError` type
-    if (error?.message === "CredentialsSignin") {
-      return { error: "Invalid credentials!" };
+    if (error?.message === 'CredentialsSignin') {
+      return { error: 'Invalid credentials!' };
     }
 
-    return { error: "Something went wrong!" };
+    return { error: 'Something went wrong!' };
   }
 };

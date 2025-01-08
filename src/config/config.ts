@@ -1,8 +1,8 @@
+import { app } from '@/constants';
 /**
  * @description This is the configuration for the app. Only client-side variables are allowed.
  */
 import { env } from '@/env';
-import { app } from '@/constants';
 
 export const config = {
   app: {

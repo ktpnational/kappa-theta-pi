@@ -1,6 +1,6 @@
+import { env } from '@/env';
 import { createClient } from '@/utils';
 import { S3Client } from '@aws-sdk/client-s3';
-import { env } from '@/env';
 
 /** Singleton instance of the Supabase client */
 let supabase: ReturnType<typeof createClient>;

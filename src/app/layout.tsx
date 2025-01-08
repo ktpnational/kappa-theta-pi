@@ -2,12 +2,12 @@ import '@/styles/globals.css';
 
 import { auth } from '@/auth';
 import { PageTransition } from '@/components';
+import { env } from '@/env';
 import { Providers } from '@/providers';
 import { Scripts } from '@/scripts';
 import { constructMetadata, constructViewport } from '@/utils';
 import { Analytics } from '@vercel/analytics/react';
 import type { NextWebVitalsMetric } from 'next/app';
-import { env } from '@/env';
 
 /** Application metadata constructed from utility function */
 export const metadata = constructMetadata();
@@ -55,10 +55,7 @@ export default async function RootLayout({
 
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta
-          name="apple-mobile-web-app-status-bar-style"
-          content="black-translucent"
-        />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="theme-color" content="#234c8b" />
         <meta httpEquiv="X-XSS-Protection" content="1; mode=block" />
         <meta name="referrer" content="no-referrer" />
@@ -73,7 +70,11 @@ export default async function RootLayout({
         <link rel="preconnect" href="https://www.google.com" />
 
         <link rel="preload" href="/assets/fonts/SourceSans3-VariableFont_wght.ttf" as="font" />
-        <link rel="preload" href="/assets/fonts/SourceSans3-Italic-VariableFont_wght.ttf" as="font" />
+        <link
+          rel="preload"
+          href="/assets/fonts/SourceSans3-Italic-VariableFont_wght.ttf"
+          as="font"
+        />
         <link rel="preload" href="/assets/fonts/palatino.ttf" as="font" />
 
         <Scripts />
@@ -84,7 +85,7 @@ export default async function RootLayout({
             src={`https://www.googletagmanager.com/ns.html?id=${env.NEXT_PUBLIC_GTM_ID}`}
             height="0"
             width="0"
-            style={{ display: "none", visibility: "hidden" }}
+            style={{ display: 'none', visibility: 'hidden' }}
           />
         </noscript>
         <Providers session={session}>
@@ -96,4 +97,4 @@ export default async function RootLayout({
   );
 }
 
-RootLayout.displayName = "RootLayout";
+RootLayout.displayName = 'RootLayout';

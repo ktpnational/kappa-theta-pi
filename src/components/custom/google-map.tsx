@@ -16,6 +16,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
+import { config } from '@/config';
 import { type ChapterInfo, chapters } from '@/data/map';
 import { useToast } from '@/hooks/use-toast';
 import { MarkerClusterer } from '@googlemaps/markerclusterer';
@@ -23,7 +24,6 @@ import { APIProvider, InfoWindow, Map, type MapProps, useMap } from '@vis.gl/rea
 import { AnimatePresence, motion } from 'motion/react';
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { FaCalendarAlt } from 'react-icons/fa';
-import { config } from '@/config';
 
 /**
  * Color configurations for different chapter statuses.

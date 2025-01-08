@@ -5,7 +5,6 @@ import { type SentryBuildOptions, withSentryConfig } from '@sentry/nextjs';
 import type { NextConfig } from 'next';
 import './src/env';
 
-
 const withPwa = pwa({
   dest: 'public',
 });
@@ -140,14 +139,6 @@ const nextConfig: NextConfig = {
           filename: 'static/media/[name].[hash][ext]',
         },
       });
-      config.resolve.fallback = {
-        ...config.resolve.fallback,
-        fs: false,
-        net: false,
-        dns: false,
-        tls: false,
-        crypto: false,
-      };
       config.resolve.alias = {
         ...config.resolve.alias,
         'decode-named-character-reference': false,

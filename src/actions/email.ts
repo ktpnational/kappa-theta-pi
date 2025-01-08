@@ -2,6 +2,7 @@
 
 import crypto from 'crypto';
 import { getUserByEmail } from '@/data';
+import { env } from '@/env';
 import { db, resend } from '@/lib';
 import {
   type CheckIfEmailVerifiedInput,
@@ -13,7 +14,6 @@ import {
   emailVerificationSchema,
   markEmailAsVerifiedSchema,
 } from '@/schemas';
-import { env } from '@/env';
 
 /**
  * Renders the email verification template with provided email and token

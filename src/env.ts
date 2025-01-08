@@ -1,5 +1,5 @@
-import { createEnv } from "@t3-oss/env-nextjs";
-import { z } from "zod";
+import { createEnv } from '@t3-oss/env-nextjs';
+import { z } from 'zod';
 
 const env = createEnv({
   server: {
@@ -33,7 +33,9 @@ const env = createEnv({
     // Supabase
     NEXT_PUBLIC_SUPABASE_URL: z.string().url('Invalid Supabase URL'),
     NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string().min(1, 'Supabase Anon Key is required'),
-    NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY: z.string().min(1, 'Supabase Service Role Key is required'),
+    NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY: z
+      .string()
+      .min(1, 'Supabase Service Role Key is required'),
     NEXT_PUBLIC_SUPABASE_JWT_SECRET: z.string().min(1, 'Supabase JWT Secret is required'),
 
     // Datadog
@@ -114,8 +116,8 @@ const env = createEnv({
     NEXT_PUBLIC_RESEND_EMAIL_TO: process.env.NEXT_PUBLIC_RESEND_EMAIL_TO,
     NEXT_PUBLIC_UPSTASH_REDIS_REST_URL: process.env.NEXT_PUBLIC_UPSTASH_REDIS_REST_URL,
     NEXT_PUBLIC_UPSTASH_REDIS_REST_TOKEN: process.env.NEXT_PUBLIC_UPSTASH_REDIS_REST_TOKEN,
-  }
+  },
 });
 
-export default env
-export { env }
+export default env;
+export { env };

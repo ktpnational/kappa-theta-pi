@@ -1,6 +1,6 @@
+import { config } from '@/config';
 import type { Database } from '@/types/supabase';
 import { createClient as createSupabaseClient } from '@supabase/supabase-js';
-import { config } from '@/config';
 
 let supabaseInstance: ReturnType<typeof createSupabaseClient<Database>> | null = null;
 
@@ -34,25 +34,21 @@ let supabaseInstance: ReturnType<typeof createSupabaseClient<Database>> | null =
 export const createClient = () => {
   if (supabaseInstance) return supabaseInstance;
 
-  supabaseInstance = createSupabaseClient<Database>(
-    config.supabase.url,
-    config.supabase.anonKey,
-    {
-      auth: {
-        storage:
-          typeof window !== 'undefined'
-            ? window.localStorage
-            : {
-                getItem: () => null,
-                setItem: () => {},
-                removeItem: () => {},
-              },
-        autoRefreshToken: true,
-        persistSession: true,
-        detectSessionInUrl: true,
-      },
+  supabaseInstance = createSupabaseClient<Database>(config.supabase.url, config.supabase.anonKey, {
+    auth: {
+      storage:
+        typeof window !== 'undefined'
+          ? window.localStorage
+          : {
+              getItem: () => null,
+              setItem: () => {},
+              removeItem: () => {},
+            },
+      autoRefreshToken: true,
+      persistSession: true,
+      detectSessionInUrl: true,
     },
-  );
+  });
 
   return supabaseInstance;
 };
@@ -90,28 +86,24 @@ export const createClient = () => {
  * @throws {Error} If the provided access token is invalid or expired
  */
 export const createAuthenticatedClient = (accessToken: string) => {
-  return createSupabaseClient<Database>(
-    config.supabase.url,
-    config.supabase.anonKey,
-    {
-      global: {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      },
-      auth: {
-        storage:
-          typeof window !== 'undefined'
-            ? window.localStorage
-            : {
-                getItem: () => null,
-                setItem: () => {},
-                removeItem: () => {},
-              },
-        autoRefreshToken: true,
-        persistSession: true,
-        detectSessionInUrl: true,
+  return createSupabaseClient<Database>(config.supabase.url, config.supabase.anonKey, {
+    global: {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
       },
     },
-  );
+    auth: {
+      storage:
+        typeof window !== 'undefined'
+          ? window.localStorage
+          : {
+              getItem: () => null,
+              setItem: () => {},
+              removeItem: () => {},
+            },
+      autoRefreshToken: true,
+      persistSession: true,
+      detectSessionInUrl: true,
+    },
+  });
 };

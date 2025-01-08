@@ -3,6 +3,7 @@
  * @description A React Email component that generates a welcome email template for SaaSy Land newsletter subscribers
  */
 
+import { env } from '@/env';
 import {
   Body,
   Container,
@@ -16,7 +17,6 @@ import {
   Text,
 } from '@react-email/components';
 import type { CSSProperties } from 'react';
-import { env } from '@/env';
 
 /**
  * Email template component for welcoming new newsletter subscribers
@@ -97,10 +97,7 @@ export function NewsletterWelcomeEmail(): React.JSX.Element {
             <Text>
               {`We're`} looking forward to seeing you around! If you have any questions, please{' '}
               {`don't`} hesitate to reach out to us at{' '}
-              <Link
-                href={`mailto:${env.NEXT_PUBLIC_RESEND_EMAIL_FROM}`}
-                style={styles.link}
-              >
+              <Link href={`mailto:${env.NEXT_PUBLIC_RESEND_EMAIL_FROM}`} style={styles.link}>
                 {env.NEXT_PUBLIC_RESEND_EMAIL_FROM}
               </Link>
             </Text>

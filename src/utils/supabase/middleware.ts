@@ -1,6 +1,6 @@
+import { env } from '@/env';
 import { type CookieOptions, createServerClient } from '@supabase/ssr';
 import { type NextRequest, NextResponse } from 'next/server';
-import { env } from '@/env';
 
 /**
  * Updates the user session by handling Supabase authentication cookies and retrieving the current user.

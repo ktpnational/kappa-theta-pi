@@ -43,7 +43,7 @@ const processCssContent = (cssContent: string): string => {
   const hslRegex = /(--[a-zA-Z0-9-]+:\s*)(\d+)\s+(\d+)%\s+(\d+)%(?:\s*;|\s*\/\s*\d+%)?/g;
 
   return cssContent.replace(hslRegex, (_, prefix, h, s, l) => {
-    const hexColor = hslToHex(parseInt(h), parseInt(s), parseInt(l));
+    const hexColor = hslToHex(Number.parseInt(h), Number.parseInt(s), Number.parseInt(l));
     return `${prefix}${h} ${s}% ${l}%; /* ${hexColor} */`;
   });
 };

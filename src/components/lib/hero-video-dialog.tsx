@@ -3,7 +3,7 @@
 import { cn } from '@/lib/utils';
 import { Play, XIcon } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
-import Image, { ImageProps } from 'next/image';
+import Image, { type ImageProps } from 'next/image';
 import React, { useState, useCallback } from 'react';
 
 /**

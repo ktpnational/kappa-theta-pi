@@ -1,8 +1,8 @@
+import { env } from '@/env';
 import { rateLimiter } from '@/lib/rate-limit';
 import type { RateLimitHelper } from '@/lib/rate-limit';
 import { type CookieOptions, createServerClient } from '@supabase/ssr';
 import { type NextRequest, NextResponse } from 'next/server';
-import { env } from '@/env';
 
 const publicAssetPaths: Set<string> = new Set([
   '/assets/',
@@ -50,7 +50,6 @@ export async function middleware(request: NextRequest): Promise<NextResponse> {
   }
 
   try {
-
     let response = NextResponse.next({
       request: {
         headers: request.headers,

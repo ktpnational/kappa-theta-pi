@@ -1,6 +1,6 @@
-import React from 'react';
-import dynamic from 'next/dynamic';
 import { constructMetadata } from '@/utils';
+import dynamic from 'next/dynamic';
+import React from 'react';
 
 const ContactSection = dynamic(() => import('../_components').then((mod) => mod.ContactSection));
 
@@ -10,5 +10,5 @@ const ContactPage = () => {
   return <ContactSection />;
 };
 
-ContactPage.displayName = "ContactPage";
+ContactPage.displayName = 'ContactPage';
 export default ContactPage;
