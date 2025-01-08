@@ -80,13 +80,12 @@ const apolloMiddleware = apollo({
  * - Incorporates request context provider
  * - Applies timing middleware
  *
- * @param {ElysiaConfig<P, S>} options - Optional Elysia configuration parameters
- * @typeparam P - Path parameter type constraint
+ * @param {ElysiaConfig<S>} options - Optional Elysia configuration parameters
  * @typeparam S - Schema boolean flag
  * @returns {Elysia} Fully configured Elysia server instance
  */
 
-const initializeApi = <P extends string, S extends boolean>(options?: ElysiaConfig<P, S>) => {
+const initializeApi = <S extends string>(options?: ElysiaConfig<S>) => {
   const app = new Elysia({
     ...options,
     aot: true,
@@ -95,7 +94,7 @@ const initializeApi = <P extends string, S extends boolean>(options?: ElysiaConf
   return app;
 };
 
-export const createElysia = <P extends string, S extends boolean>(options?: ElysiaConfig<P, S>) => {
+export const createElysia = <S extends string>(options?: ElysiaConfig<S>) => {
   const app = initializeApi(options);
   return app
     .use(createContext)
@@ -104,7 +103,7 @@ export const createElysia = <P extends string, S extends boolean>(options?: Elys
       console.error(`[Elysia Error] ${code}:`, error);
       set.status = code === 'NOT_FOUND' ? 404 : 500;
       return {
-        error: error.message,
+        error: error,
         status: set.status,
       };
     })

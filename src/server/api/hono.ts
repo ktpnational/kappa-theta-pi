@@ -8,7 +8,7 @@ import { bodyLimit } from 'hono/body-limit';
 import { cache } from 'hono/cache';
 import { contextStorage, getContext } from 'hono/context-storage';
 import { cors } from 'hono/cors';
-import type { HonoOptions } from 'hono/dist/types/hono-base';
+import type { HonoOptions } from 'hono/hono-base';
 import { logger } from 'hono/logger';
 import { secureHeaders } from 'hono/secure-headers';
 import { timing } from 'hono/timing';
