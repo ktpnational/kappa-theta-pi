@@ -1,25 +1,15 @@
-'use client';
+"use client";
 
-import { useSearchParams } from 'next/navigation';
-import { useCallback, useEffect } from 'react';
-import { BeatLoader } from 'react-spinners';
+import { useSearchParams } from "next/navigation";
+import { useCallback, useEffect } from "react";
+import { BeatLoader } from "react-spinners";
 
-import { newVerification } from '@/actions/new-verification';
-import { CardWrapper } from '@/app/(auth)/_components';
-import { FormError } from '@/components/form-error';
-import { FormSucess } from '@/components/form-sucess';
-import { useGlobalStore } from '@/providers';
+import { newVerification } from "@/actions/new-verification";
+import { CardWrapper } from "@/app/(auth)/_components";
+import { FormError } from "@/components/form-error";
+import { FormSucess } from "@/components/form-sucess";
+import { useGlobalStore } from "@/providers";
 
-/**
- * A form component that handles email verification confirmations.
- * This component automatically attempts to verify the user's email using a token from the URL.
- *
- * @component
- * @example
- * ```tsx
- * <NewVerificationForm />
- * ```
- */
 const NewVerificationForm = () => {
   const {
     error,
@@ -29,24 +19,14 @@ const NewVerificationForm = () => {
     reset: resetAuth,
   } = useGlobalStore((state) => state.auth);
 
-  /** Hook to access URL search parameters */
   const searchParams = useSearchParams();
+  const token = searchParams?.get("token") ?? "";
 
-  /** Verification token extracted from URL query parameters */
-  const token = searchParams.get('token');
-
-  /**
-   * Handles the verification submission process.
-   * Makes a request to verify the user's email with the provided token.
-   * Updates success/error states based on the response.
-   *
-   * @returns {void}
-   */
   const onSubmit = useCallback(() => {
     if (success || error) return;
 
     if (!token) {
-      setError('Missing token!');
+      setError("Missing token!");
       return;
     }
 
@@ -56,19 +36,14 @@ const NewVerificationForm = () => {
         setError(data.error);
       })
       .catch(() => {
-        setError('Something went wrong!');
+        setError("Something went wrong!");
       });
   }, [token, success, error, setError, setSuccess]);
 
-  /**
-   * Effect hook that triggers verification on component mount
-   * and cleans up state on unmount
-   */
   useEffect(() => {
-    resetAuth(); // Reset state on mount
+    resetAuth();
     onSubmit();
 
-    // Cleanup on unmount
     return () => resetAuth();
   }, [onSubmit, resetAuth]);
 

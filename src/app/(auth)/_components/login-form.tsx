@@ -1,19 +1,19 @@
-'use client';
+"use client";
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
-import { useTransition } from 'react';
-import { useForm } from 'react-hook-form';
-import type * as z from 'zod';
+import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { useTransition } from "react";
+import { useForm } from "react-hook-form";
+import type * as z from "zod";
 
-import { useGlobalStore } from '@/providers';
-import { LoginSchema } from '@/schemas';
+import { useGlobalStore } from "@/providers";
+import { LoginSchema } from "@/schemas";
 
-import { CardWrapper } from '@/app/(auth)/_components';
-import { FormError } from '@/components/form-error';
-import { FormSucess } from '@/components/form-sucess';
-import { Button } from '@/components/ui/button';
+import { CardWrapper } from "@/app/(auth)/_components";
+import { FormError } from "@/components/form-error";
+import { FormSucess } from "@/components/form-sucess";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -21,10 +21,10 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 
-import { login } from '@/actions/login';
+import { login } from "@/actions/login";
 
 /**
  * LoginForm Component
@@ -75,11 +75,11 @@ const LoginForm = () => {
 
   const [, startTransition] = useTransition();
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get('callbackUrl');
+  const callbackUrl = searchParams?.get("callbackUrl") || "";
   const urlError =
-    searchParams.get('error') === 'OAuthAccountNotLinked'
-      ? 'Email already in use with different Provider!'
-      : '';
+    searchParams?.get("error") === "OAuthAccountNotLinked"
+      ? "Email already in use with different Provider!"
+      : "";
 
   /**
    * Initialize form with React Hook Form
@@ -88,8 +88,8 @@ const LoginForm = () => {
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
     },
   });
 
@@ -131,7 +131,7 @@ const LoginForm = () => {
             setShowTwoFactor(true);
           }
         })
-        .catch(() => setError('Something went wrong'))
+        .catch(() => setError("Something went wrong"))
         .finally(() => setIsPending(false));
     });
   };
@@ -154,7 +154,11 @@ const LoginForm = () => {
                   <FormItem>
                     <FormLabel>Two Factor Code</FormLabel>
                     <FormControl>
-                      <Input {...field} disabled={isPending} placeholder="123456" />
+                      <Input
+                        {...field}
+                        disabled={isPending}
+                        placeholder="123456"
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -195,7 +199,12 @@ const LoginForm = () => {
                           type="password"
                         />
                       </FormControl>
-                      <Button size="sm" variant="link" asChild className="px-0 font-normal">
+                      <Button
+                        size="sm"
+                        variant="link"
+                        asChild
+                        className="px-0 font-normal"
+                      >
                         <Link href="/auth/reset">Forgot password?</Link>
                       </Button>
                       <FormMessage />
@@ -208,7 +217,7 @@ const LoginForm = () => {
           <FormError message={error || urlError} />
           <FormSucess message={success} />
           <Button disabled={isPending} type="submit" className="w-full">
-            {showTwoFactor ? 'Confirm' : 'Login'}
+            {showTwoFactor ? "Confirm" : "Login"}
           </Button>
         </form>
       </Form>

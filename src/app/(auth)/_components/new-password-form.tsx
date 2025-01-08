@@ -1,18 +1,18 @@
-'use client';
+"use client";
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useSearchParams } from 'next/navigation';
-import { useTransition } from 'react';
-import { useForm } from 'react-hook-form';
-import type * as z from 'zod';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useSearchParams } from "next/navigation";
+import { useTransition } from "react";
+import { useForm } from "react-hook-form";
+import type * as z from "zod";
 
-import { useGlobalStore } from '@/providers';
-import { NewPasswordSchema } from '@/schemas';
+import { useGlobalStore } from "@/providers";
+import { NewPasswordSchema } from "@/schemas";
 
-import { CardWrapper } from '@/app/(auth)/_components';
-import { FormError } from '@/components/form-error';
-import { FormSucess } from '@/components/form-sucess';
-import { Button } from '@/components/ui/button';
+import { CardWrapper } from "@/app/(auth)/_components";
+import { FormError } from "@/components/form-error";
+import { FormSucess } from "@/components/form-sucess";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -20,28 +20,11 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 
-import { newPassword } from '@/actions/new-password';
+import { newPassword } from "@/actions/new-password";
 
-/**
- * NewPasswordForm Component
- *
- * A form component that allows users to set a new password, typically used in password reset flows.
- *
- * @component
- * @example
- * ```tsx
- * <NewPasswordForm />
- * ```
- *
- * @remarks
- * - Uses React Hook Form for form state management
- * - Validates input using Zod schema
- * - Handles loading states and displays success/error messages
- * - Integrates with Next.js client-side navigation
- */
 export const NewPasswordForm = () => {
   const {
     error,
@@ -50,29 +33,20 @@ export const NewPasswordForm = () => {
     setError,
     setSuccess,
     setIsPending,
-    // @ts-expect-error - TODO: fix this
-    reset: resetAuth,
+    reset: _resetAuth,
   } = useGlobalStore((state) => state.auth);
 
   const [, startTransition] = useTransition();
   const searchParams = useSearchParams();
-  const token = searchParams.get('token');
+  const token = searchParams?.get("token") ?? "";
 
-  /**
-   * Initialize form with React Hook Form
-   * @type {UseFormReturn<z.infer<typeof NewPasswordSchema>>}
-   */
   const form = useForm<z.infer<typeof NewPasswordSchema>>({
     resolver: zodResolver(NewPasswordSchema),
     defaultValues: {
-      password: '',
+      password: "",
     },
   });
 
-  /**
-   * Handles form submission
-   * @param {z.infer<typeof NewPasswordSchema>} values - Form values containing new password
-   */
   const onSubmit = (values: z.infer<typeof NewPasswordSchema>) => {
     setError(undefined);
     setSuccess(undefined);
@@ -84,7 +58,7 @@ export const NewPasswordForm = () => {
           setError(data?.error);
           setSuccess(data?.success);
         })
-        .catch(() => setError('Something went wrong'))
+        .catch(() => setError("Something went wrong"))
         .finally(() => setIsPending(false));
     });
   };
@@ -105,7 +79,12 @@ export const NewPasswordForm = () => {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input {...field} disabled={isPending} placeholder="******" type="password" />
+                    <Input
+                      {...field}
+                      disabled={isPending}
+                      placeholder="******"
+                      type="password"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

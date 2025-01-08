@@ -1,13 +1,9 @@
-import { MagicLinkEmail } from '@/components';
-import { app } from '@/constants';
-import { getUserByEmail } from '@/data/user';
-import { resend } from '@/lib';
-import { LoginSchema } from '@/schemas';
-import bcrypt from 'bcryptjs';
-import type { NextAuthConfig } from 'next-auth';
-import Credentials from 'next-auth/providers/credentials';
-import Google from 'next-auth/providers/google';
-//import ResendProvider from 'next-auth/providers/resend';
+import { getUserByEmail } from "@/data/user";
+import { LoginSchema } from "@/schemas";
+import bcrypt from "bcryptjs";
+import type { AuthOptions } from "next-auth";
+import Credentials from "next-auth/providers/credentials";
+import Google from "next-auth/providers/google";
 
 export default {
   providers: [
@@ -16,12 +12,19 @@ export default {
       clientSecret: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET,
     }),
     Credentials({
+      // Define the required fields for the Credentials provider
+      credentials: {
+        email: { label: "Email", type: "text" },
+        password: { label: "Password", type: "password" },
+      },
       /**
        * Authorizes a user based on provided credentials.
        * @param {Object} credentials - The credentials object containing user input.
        * @returns {Promise<Object|null>} - Returns the user object if authorization is successful, otherwise null.
        */
       async authorize(credentials) {
+        if (!credentials) return null;
+
         const validatedFields = LoginSchema.safeParse(credentials);
 
         if (validatedFields.success) {
@@ -38,35 +41,5 @@ export default {
         return null;
       },
     }),
-    /**ResendProvider({
-      server: {
-        host: process.env.NEXT_PUBLIC_RESEND_HOST,
-        port: Number(process.env.NEXT_PUBLIC_RESEND_PORT),
-        auth: {
-          user: process.env.NEXT_PUBLIC_RESEND_USERNAME,
-          pass: process.env.NEXT_PUBLIC_RESEND_API_KEY,
-        },
-      }, 
-      async sendVerificationRequest({
-        identifier,
-        url,
-      }: {
-        identifier: string;
-        url: string;
-      }) {
-        try {
-          await resend.emails.send({
-            from: process.env.NEXT_PUBLIC_RESEND_EMAIL_FROM,
-            to: [identifier],
-            subject: `${app.name} magic link sign in`,
-            react: MagicLinkEmail({ identifier, url }),
-          });
-
-          console.log('Verification email sent');
-        } catch (error) {
-          throw new Error('Failed to send verification email');
-        }
-      },
-    }),*/
   ],
-} satisfies NextAuthConfig;
+} satisfies AuthOptions;

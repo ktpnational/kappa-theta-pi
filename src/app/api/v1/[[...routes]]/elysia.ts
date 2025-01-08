@@ -1,9 +1,9 @@
-import { auth } from '@/auth';
-import { db } from '@/lib/prisma';
-import { handleEden } from '@/utils';
-import type { Session } from '@auth/core/types';
-import type { EdenFetchError } from 'custom';
-import Elysia, { t } from 'elysia';
+import { auth } from "@/auth";
+import { db } from "@/lib/prisma";
+import { handleEden } from "@/utils";
+import type { Session } from "@auth/core/types";
+import type { EdenFetchError } from "custom";
+import Elysia, { t } from "elysia";
 
 /**
  * Schema for creating a new member
@@ -79,15 +79,15 @@ export const createContext = new Elysia()
       db: typeof db;
       session: Session;
     }> => {
-      const session = await auth().then((res) => {
-        if (!res) throw new Error('Unauthorized');
+      const session = await auth().then((res: Session | null) => {
+        if (!res) throw new Error("Unauthorized");
         return res;
       });
 
       return { db, session };
     },
   )
-  .as('plugin');
+  .as("plugin");
 
 const timingMiddleware = new Elysia()
   .state({ start: 0 })
@@ -95,7 +95,7 @@ const timingMiddleware = new Elysia()
   .onAfterHandle(({ path, store: { start } }) =>
     console.log(`[Elysia] ${path} took ${Date.now() - start}ms to execute`),
   )
-  .as('plugin');
+  .as("plugin");
 
 export const dashboardRoute = new Elysia()
   .use(createContext)
@@ -112,7 +112,7 @@ export const dashboardRoute = new Elysia()
    * @returns {Promise<Object>} Response containing members data or error
    * @throws {Error} On database errors
    */
-  .get('/members/search', async ({ db, query }) => {
+  .get("/members/search", async ({ db, query }) => {
     try {
       const { search, chapter, active } = query;
 
@@ -122,7 +122,7 @@ export const dashboardRoute = new Elysia()
             search
               ? {
                   profile: {
-                    user: { name: { contains: search, mode: 'insensitive' } },
+                    user: { name: { contains: search, mode: "insensitive" } },
                   },
                 }
               : {},
@@ -158,7 +158,8 @@ export const dashboardRoute = new Elysia()
       return {
         data: null,
         error: {
-          message: error instanceof Error ? error.message : 'Internal server error',
+          message:
+            error instanceof Error ? error.message : "Internal server error",
         },
         status: 500,
       };
@@ -175,9 +176,13 @@ export const dashboardRoute = new Elysia()
    * @throws {Error} If user not authenticated or database error occurs
    */
   .post(
-    '/members',
+    "/members",
     async ({ db, body, session, error }) => {
-      if (!session) return error('Unauthorized', 'You must be logged in to create a member');
+      if (!session)
+        return error(
+          "Unauthorized",
+          "You must be logged in to create a member",
+        );
 
       const member = await db.member.create({
         data: {
@@ -207,7 +212,7 @@ export const dashboardRoute = new Elysia()
    * @returns {Promise<Object>} Response with chapters or error
    * @throws {EdenFetchError} On database errors
    */
-  .get('/chapters', async ({ db, query }) => {
+  .get("/chapters", async ({ db, query }) => {
     try {
       const { status, search } = query;
 
@@ -218,9 +223,9 @@ export const dashboardRoute = new Elysia()
             search
               ? {
                   OR: [
-                    { name: { contains: search, mode: 'insensitive' } },
-                    { greekName: { contains: search, mode: 'insensitive' } },
-                    { university: { contains: search, mode: 'insensitive' } },
+                    { name: { contains: search, mode: "insensitive" } },
+                    { greekName: { contains: search, mode: "insensitive" } },
+                    { university: { contains: search, mode: "insensitive" } },
                   ],
                 }
               : {},
@@ -265,9 +270,13 @@ export const dashboardRoute = new Elysia()
    * @throws {Error} If user not authenticated or database error occurs
    */
   .post(
-    '/chapters',
+    "/chapters",
     async ({ db, body, session, error }) => {
-      if (!session) return error('Unauthorized', 'You must be logged in to create a chapter');
+      if (!session)
+        return error(
+          "Unauthorized",
+          "You must be logged in to create a chapter",
+        );
 
       const chapter = await db.chapter.create({
         data: {
@@ -295,7 +304,7 @@ export const dashboardRoute = new Elysia()
    * @returns {Promise<Object>} Response with member or error
    * @throws {EdenFetchError} On database errors
    */
-  .get('/members/:id', async ({ db, params }) => {
+  .get("/members/:id", async ({ db, params }) => {
     try {
       const member = await db.member.findUnique({
         where: { id: params.id },
@@ -323,7 +332,7 @@ export const dashboardRoute = new Elysia()
         },
       });
 
-      if (!member) return { error: 'Member not found', status: 404 };
+      if (!member) return { error: "Member not found", status: 404 };
       return { data: member, status: 200 };
     } catch (error) {
       return handleEden({
@@ -348,9 +357,13 @@ export const dashboardRoute = new Elysia()
    * @throws {EdenFetchError} On database errors
    */
   .patch(
-    '/members/:id',
+    "/members/:id",
     async ({ db, params, body, session, error }) => {
-      if (!session) return error('Unauthorized', 'You must be logged in to update a member');
+      if (!session)
+        return error(
+          "Unauthorized",
+          "You must be logged in to update a member",
+        );
 
       try {
         const member = await db.member.update({
@@ -392,9 +405,13 @@ export const dashboardRoute = new Elysia()
    * @throws {EdenFetchError} On database errors
    */
   .patch(
-    '/chapters/:id',
+    "/chapters/:id",
     async ({ db, params, body, session, error }) => {
-      if (!session) return error('Unauthorized', 'You must be logged in to update a chapter');
+      if (!session)
+        return error(
+          "Unauthorized",
+          "You must be logged in to update a chapter",
+        );
 
       try {
         const chapter = await db.chapter.update({
