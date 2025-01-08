@@ -4,10 +4,12 @@ import { getUserByEmail } from '@/data/user';
 import { resend } from '@/lib';
 import { LoginSchema } from '@/schemas';
 import bcrypt from 'bcryptjs';
-import type { NextAuthConfig } from 'next-auth';
+import NextAuthConfig from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 import Google from 'next-auth/providers/google';
-import Resend from 'next-auth/providers/resend';
+// import nodemailer from 'nodemailer';
+import EmailProvider from 'next-auth/providers/email';
+
 import { env } from '@/env';
 import { logger } from '@/utils';
 
@@ -53,7 +55,7 @@ export default {
         return null;
       },
     }),
-    Resend({
+    EmailProvider({
       server: {
         host: env.NEXT_PUBLIC_RESEND_HOST,
         port: Number(env.NEXT_PUBLIC_RESEND_PORT),
@@ -85,4 +87,4 @@ export default {
       },
     }),
   ],
-} satisfies NextAuthConfig;
+} satisfies Parameters<typeof NextAuthConfig>[2]
