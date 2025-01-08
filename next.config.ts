@@ -127,12 +127,12 @@ const nextConfig: NextConfig = {
       },
     ];
   },
-  webpack: (config, { nextRuntime }) => {
+  webpack: (config, { nextRuntime, isServer }) => {
     config.resolve = config.resolve || {};
     config.resolve.fallback = config.resolve.fallback || {};
     config.resolve.alias = config.resolve.alias || {};
 
-    if (nextRuntime === 'edge') {
+    if (nextRuntime === 'edge' && !isServer) {
       config.module.rules.push({
         test: /\.(woff|woff2|eot|ttf|otf)$/,
         type: 'asset/resource',
@@ -140,7 +140,14 @@ const nextConfig: NextConfig = {
           filename: 'static/media/[name].[hash][ext]',
         },
       });
-
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        net: false,
+        dns: false,
+        tls: false,
+        crypto: false,
+      };
       config.resolve.alias = {
         ...config.resolve.alias,
         'decode-named-character-reference': false,
