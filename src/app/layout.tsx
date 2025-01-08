@@ -1,6 +1,5 @@
 import '@/styles/globals.css';
-
-import { auth } from '@/auth';
+import { getServerSession } from 'next-auth';
 import { PageTransition } from '@/components';
 import { Providers } from '@/providers';
 import { Scripts } from '@/scripts';
@@ -31,7 +30,10 @@ export const reportWebVitals = (metric: NextWebVitalsMetric) => {
  * @returns {React.JSX.Element} Root layout structure
  */
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const session = await auth();
+  // Replace this line with the correct call for your Auth library
+  // For example, if you're using NextAuth:
+  const session = await getServerSession(); 
+  // Or: const session = await auth(); // if your custom `@/auth` actually exports `auth()`.
 
   return (
     <html
@@ -51,10 +53,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-
         <meta name="theme-color" content="#234c8b" />
-
-        <meta http-equiv="X-XSS-Protection" content="1; mode=block" />
+        <meta httpEquiv="X-XSS-Protection" content="1; mode=block" />
         <meta name="referrer" content="no-referrer" />
 
         <link rel="canonical" href={process.env.NEXT_PUBLIC_APP_URL} />
@@ -68,14 +68,14 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
         <Scripts />
       </head>
-      <body className={`min-h-screen bg-white overflow-x-hidden`}>
+      <body className="min-h-screen bg-white overflow-x-hidden">
         <noscript>
           <iframe
             src={`https://www.googletagmanager.com/ns.html?id=${process.env.NEXT_PUBLIC_GTM_ID}`}
             height="0"
             width="0"
             style={{ display: 'none', visibility: 'hidden' }}
-          ></iframe>
+          />
         </noscript>
         <Providers session={session}>
           <PageTransition>{children}</PageTransition>
@@ -86,7 +86,4 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   );
 }
 
-/**
- * Display name for the RootLayout component
- */
 RootLayout.displayName = 'RootLayout';

@@ -7,7 +7,7 @@ import bcrypt from 'bcryptjs';
 import type { NextAuthConfig } from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 import Google from 'next-auth/providers/google';
-import ResendProvider from 'next-auth/providers/resend';
+//import ResendProvider from 'next-auth/providers/resend';
 
 export default {
   providers: [
@@ -38,7 +38,7 @@ export default {
         return null;
       },
     }),
-    ResendProvider({
+    /**ResendProvider({
       server: {
         host: process.env.NEXT_PUBLIC_RESEND_HOST,
         port: Number(process.env.NEXT_PUBLIC_RESEND_PORT),
@@ -46,7 +46,7 @@ export default {
           user: process.env.NEXT_PUBLIC_RESEND_USERNAME,
           pass: process.env.NEXT_PUBLIC_RESEND_API_KEY,
         },
-      },
+      }, 
       async sendVerificationRequest({
         identifier,
         url,
@@ -67,6 +67,6 @@ export default {
           throw new Error('Failed to send verification email');
         }
       },
-    }),
+    }),*/
   ],
 } satisfies NextAuthConfig;
