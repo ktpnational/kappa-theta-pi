@@ -2,7 +2,7 @@
 
 import { exec } from 'node:child_process';
 import { promisify } from 'node:util';
-import { env } from '@/env';
+import { env } from '../src/env';
 
 /**
  * Database Setup and Type Generation Script
