@@ -101,7 +101,7 @@ const ResourcesFoundersDayPage = () => {
               </p>
               <p className="text-md mt-4 text-gray-600">
                 <strong>Submission:</strong> Only one submission per chapter is
-                allowed. The deadline is December 29th, 11:59 PM EST.
+                allowed. The deadline is January 29th, 11:59 PM EST.
               </p>
               <div className="mt-6">
                 <p className="text-blue-700 italic">
