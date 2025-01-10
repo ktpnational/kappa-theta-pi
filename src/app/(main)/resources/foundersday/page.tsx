@@ -1,11 +1,13 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import Confetti from "react-confetti";
 
 const ResourcesFoundersDayPage = () => {
   const eventDate = new Date("2025-01-10T17:00:00Z"); // 9 AM PST in UTC
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
   const [eventStarted, setEventStarted] = useState(false);
+  const [showConfetti, setShowConfetti] = useState(false);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -14,6 +16,7 @@ const ResourcesFoundersDayPage = () => {
 
       if (!calculatedTime) {
         setEventStarted(true); // Mark event as started
+        setShowConfetti(true); // Trigger confetti animation
         clearInterval(timer); // Stop the timer
       }
     }, 1000);
@@ -37,13 +40,26 @@ const ResourcesFoundersDayPage = () => {
     };
   }
 
+  useEffect(() => {
+    if (showConfetti) {
+      setTimeout(() => setShowConfetti(false), 5000); // Stop confetti after 5 seconds
+    }
+  }, [showConfetti]);
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-200 to-blue-500 text-navy-blue py-12 px-6 flex flex-col items-center">
-      <h1 className="text-5xl font-bold text-center text-white mb-6">
-        🎉 Countdown to Founders Day! 🎉
+    <div className="min-h-screen text-navy-blue py-12 px-6 flex flex-col items-center">
+      {showConfetti && (
+        <Confetti
+          width={window.innerWidth}
+          height={window.innerHeight}
+          colors={["#234c8b", "#6fa1f2", "#9cc4ff"]}
+        />
+      )}
+      <h1 className="text-5xl font-bold text-center text-[#234c8b] mb-6">
+        🎉 Countdown to Founder's Day! 🎉
       </h1>
-      {timeLeft ? (
-        <div className="bg-blue-100 p-8 rounded-lg shadow-md text-center">
+      {timeLeft && !eventStarted ? (
+        <div className="bg-white p-8 rounded-lg shadow-md text-center border border-blue-200">
           <h2 className="text-2xl font-semibold text-blue-700 mb-4">
             The celebration begins in:
           </h2>
@@ -67,41 +83,39 @@ const ResourcesFoundersDayPage = () => {
           </div>
         </div>
       ) : (
-        <div className="bg-blue-100 p-8 rounded-lg shadow-md text-center">
-          <h2 className="text-2xl font-semibold text-green-700 mb-4">
-            The celebration has started! 🎉
-          </h2>
-          <p className="text-blue-700">
-            Join us as we celebrate the day Kappa Theta Pi was founded and honor
-            our legacy!
-          </p>
-        </div>
-      )}
-
-      {eventStarted && (
-        <div className="mt-12 w-full max-w-3xl">
-          <h2 className="text-3xl font-bold text-center text-white mb-6">
-            🎈 Founders Day Prompt 🎈
-          </h2>
-          <div className="bg-blue-100 p-6 rounded-lg shadow-md">
-            <p className="text-lg text-blue-700">
-              Founders Day is a celebration of the day Kappa Theta Pi was
-              founded, reflecting on our legacy and achievements.
-            </p>
-            <p className="text-lg mt-4 text-blue-900 font-semibold">
-              Here’s today’s prompt:
-            </p>
-            <blockquote className="border-l-4 border-blue-500 pl-4 mt-2 text-blue-800 italic">
-              "What does Founders Day mean to you? Share your thoughts and
-              stories!"
-            </blockquote>
+        eventStarted && (
+          <div className="mt-12 w-full max-w-3xl">
+            <h2 className="text-3xl font-bold text-center text-[#234c8b] mb-6">
+              Challenge: Preserving Chapter History
+            </h2>
+            <div className="bg-white p-6 rounded-lg shadow-md border border-blue-200">
+              <p className="text-lg text-blue-700">
+                Design a platform to organize and preserve the history of your
+                chapter. Your solution should focus on creating a space where
+                members can easily access and reflect on shared moments, whether
+                through photos, event archives, or other creative methods.
+              </p>
+              <p className="text-lg mt-4 text-blue-900 font-semibold">
+                Consider features that enhance usability or encourage engagement
+                with chapter traditions!
+              </p>
+              <p className="text-md mt-4 text-gray-600">
+                <strong>Submission:</strong> Only one submission per chapter is
+                allowed. The deadline is December 29th, 11:59 PM EST.
+              </p>
+              <div className="mt-6">
+                <p className="text-blue-700 italic">
+                  Submission details are soon to be added.
+                </p>
+                <p className="text-blue-700 font-semibold mt-2">
+                  Be on the lookout for announcements and updates on the Circle
+                  platform throughout the competition!
+                </p>
+              </div>
+            </div>
           </div>
-        </div>
+        )
       )}
-
-      <footer className="mt-12 text-center text-blue-100">
-        <p>© 2025 Founders Day | Created with ❤️ by the Kappa Theta Pi Team</p>
-      </footer>
     </div>
   );
 };

@@ -79,9 +79,9 @@ const navigationSections: NavSection[] = [
         description: "Chapter management tools",
       },
       {
-        title: "Founders Day",
+        title: "Founder's Day",
         href: "/resources/foundersday",
-        description: "Founders Day Event",
+        description: "Founder's Day Event",
       },
     ],
   },
