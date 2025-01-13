@@ -300,7 +300,7 @@
     "fluid-tailwind": "^1.0.4",
     "fs": "^0.0.1-security",
     "get-tsconfig": "^4.8.1",
-    "graphql": "^14.7.0",
+    "graphql": "^16.10.0",
     "graphql-iso-date": "^3.6.1",
     "gzip-size": "^7.0.0",
     "hono": "^4.6.15",
