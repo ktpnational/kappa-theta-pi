@@ -181,7 +181,7 @@
     "@cspell/dict-npm": "^5.1.21",
     "@cspell/dict-software-terms": "^4.2.2",
     "@cspell/dict-typescript": "^3.1.12",
-    "@datadog/browser-rum": "^5.34.1",
+    "@datadog/browser-rum": "^6.0.0",
     "@ducanh2912/next-pwa": "^10.2.9",
     "@elastic/elasticsearch": "^8.17.0",
     "@elysiajs/apollo": "^1.2.0",
