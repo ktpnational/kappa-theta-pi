@@ -371,7 +371,7 @@
     "usehooks-ts": "^3.1.0",
     "uuid": "^11.0.3",
     "vaul": "^1.1.2",
-    "vitest": "^2.1.8",
+    "vitest": "^3.0.2",
     "yaml-eslint-parser": "^1.2.3",
     "zod": "^3.24.1",
     "zustand": "^5.0.2"
