@@ -88,10 +88,7 @@ const CTAContent = () => (
     </motion.p>
     <motion.div variants={itemVariants}>
       <Link href="/chapters/start" passHref>
-        <Button
-          size="lg"
-          className="bg-[#538b52] text-white hover:bg-[#8ddd8d] transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg group"
-        >
+        <Button className="group">
           Start a Chapter
           <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 ease-in-out group-hover:translate-x-1" />
         </Button>

@@ -1,4 +1,3 @@
-import { config } from '@/config';
 import type { Database } from '@/types/supabase';
 import { createClient as createSupabaseClient } from '@supabase/supabase-js';
 
@@ -34,21 +33,25 @@ let supabaseInstance: ReturnType<typeof createSupabaseClient<Database>> | null =
 export const createClient = () => {
   if (supabaseInstance) return supabaseInstance;
 
-  supabaseInstance = createSupabaseClient<Database>(config.supabase.url, config.supabase.anonKey, {
-    auth: {
-      storage:
-        typeof window !== 'undefined'
-          ? window.localStorage
-          : {
-              getItem: () => null,
-              setItem: () => {},
-              removeItem: () => {},
-            },
-      autoRefreshToken: true,
-      persistSession: true,
-      detectSessionInUrl: true,
+  supabaseInstance = createSupabaseClient<Database>(
+    process.env.NEXT_PUBLIC_SUPABASE_URL,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    {
+      auth: {
+        storage:
+          typeof window !== 'undefined'
+            ? window.localStorage
+            : {
+                getItem: () => null,
+                setItem: () => {},
+                removeItem: () => {},
+              },
+        autoRefreshToken: true,
+        persistSession: true,
+        detectSessionInUrl: true,
+      },
     },
-  });
+  );
 
   return supabaseInstance;
 };
@@ -86,24 +89,28 @@ export const createClient = () => {
  * @throws {Error} If the provided access token is invalid or expired
  */
 export const createAuthenticatedClient = (accessToken: string) => {
-  return createSupabaseClient<Database>(config.supabase.url, config.supabase.anonKey, {
-    global: {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
+  return createSupabaseClient<Database>(
+    process.env.NEXT_PUBLIC_SUPABASE_URL,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    {
+      global: {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      },
+      auth: {
+        storage:
+          typeof window !== 'undefined'
+            ? window.localStorage
+            : {
+                getItem: () => null,
+                setItem: () => {},
+                removeItem: () => {},
+              },
+        autoRefreshToken: true,
+        persistSession: true,
+        detectSessionInUrl: true,
       },
     },
-    auth: {
-      storage:
-        typeof window !== 'undefined'
-          ? window.localStorage
-          : {
-              getItem: () => null,
-              setItem: () => {},
-              removeItem: () => {},
-            },
-      autoRefreshToken: true,
-      persistSession: true,
-      detectSessionInUrl: true,
-    },
-  });
+  );
 };

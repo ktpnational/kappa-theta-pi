@@ -7,3 +7,4 @@ export * from './check-icon';
 export * from './apple-icon';
 export * from './android-icon';
 export * from './cout-ktp';
+export * from './social';

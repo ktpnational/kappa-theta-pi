@@ -1,13 +1,10 @@
 import '@/styles/globals.css';
-
-import { auth } from '@/auth';
-import { PageTransition } from '@/components';
+import { GlobalProvider } from '@/app/_providers';
 import { env } from '@/env';
-import { Providers } from '@/providers';
 import { Scripts } from '@/scripts';
 import { constructMetadata, constructViewport } from '@/utils';
-import { Analytics } from '@vercel/analytics/react';
-import type { NextWebVitalsMetric } from 'next/app';
+import localFont from 'next/font/local';
+import { headers } from 'next/headers';
 
 /** Application metadata constructed from utility function */
 export const metadata = constructMetadata();
@@ -15,15 +12,30 @@ export const metadata = constructMetadata();
 /** Viewport configuration constructed from utility function */
 export const viewport = constructViewport();
 
-/**
- * Reports web vitals metrics for performance monitoring
- * @param {NextWebVitalsMetric} metric - The web vital metric to report
- */
-export const reportWebVitals = (metric: NextWebVitalsMetric) => {
-  if (metric.label === 'web-vital') {
-    console.log(metric);
-  }
-};
+const sourceFont = localFont({
+  src: [
+    {
+      path: '../../public/assets/fonts/SourceSans3-VariableFont_wght.ttf',
+      weight: '400',
+      style: 'normal',
+    },
+    {
+      path: '../../public/assets/fonts/SourceSans3-Italic-VariableFont_wght.ttf',
+      weight: '400',
+      style: 'italic',
+    },
+  ],
+  variable: '--font-source',
+  display: 'swap',
+  preload: true,
+});
+
+const palatinoFont = localFont({
+  src: '../../public/assets/fonts/palatino.ttf',
+  variable: '--font-palatino',
+  display: 'swap',
+  preload: true,
+});
 
 /**
  * Root layout component that wraps the entire application
@@ -36,14 +48,16 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const session = await auth();
-
+  const headersList = await headers();
+  const pathname = headersList.get('x-url') || '';
+  console.log(pathname);
   return (
     <html
       lang="en"
       suppressHydrationWarning
       data-a11y-animated-images="system"
       data-a11y-link-underlines="false"
+      className={`${sourceFont.variable} ${palatinoFont.variable}`}
     >
       <head>
         <meta
@@ -60,22 +74,14 @@ export default async function RootLayout({
         <meta httpEquiv="X-XSS-Protection" content="1; mode=block" />
         <meta name="referrer" content="no-referrer" />
 
-        <link rel="canonical" href={env.NEXT_PUBLIC_APP_URL} />
+        <link rel="canonical" href={`${env.NEXT_PUBLIC_APP_URL}${pathname}`} />
         <meta name="language" content="English" />
         <meta name="geo.region" content="US" />
         <meta name="geo.placename" content="Miami, FL" />
 
-        <link rel="preconnect" href="https://www.googletagmanager.com" />
-        <link rel="preconnect" href="https://www.google-analytics.com" />
-        <link rel="preconnect" href="https://www.google.com" />
-
-        <link rel="preload" href="/assets/fonts/SourceSans3-VariableFont_wght.ttf" as="font" />
-        <link
-          rel="preload"
-          href="/assets/fonts/SourceSans3-Italic-VariableFont_wght.ttf"
-          as="font"
-        />
-        <link rel="preload" href="/assets/fonts/palatino.ttf" as="font" />
+        <link rel="preconnect" href="https://www.googletagmanager.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://www.google-analytics.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://www.google.com" crossOrigin="anonymous" />
 
         <Scripts />
       </head>
@@ -88,10 +94,7 @@ export default async function RootLayout({
             style={{ display: 'none', visibility: 'hidden' }}
           />
         </noscript>
-        <Providers session={session}>
-          <PageTransition>{children}</PageTransition>
-          <Analytics />
-        </Providers>
+        <GlobalProvider>{children}</GlobalProvider>
       </body>
     </html>
   );

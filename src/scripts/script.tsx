@@ -240,7 +240,7 @@ export function Scripts() {
 
       {/* External Scripts */}
       <Script
-        strategy="beforeInteractive"
+        strategy="lazyOnload"
         src={`https://maps.googleapis.com/maps/api/js?key=${Redacted.make(
           env.google.maps.apiKey,
         ).getValue()}&libraries=maps,marker&v=beta&callback=Function.prototype`}
@@ -248,7 +248,7 @@ export function Scripts() {
       />
 
       <Script
-        strategy="afterInteractive"
+        strategy="lazyOnload"
         src={`https://www.googletagmanager.com/gtag/js?id=${Redacted.make(
           env.analytics.ga.trackingId,
         ).getValue()}`}
@@ -256,7 +256,7 @@ export function Scripts() {
       />
 
       <Script
-        strategy="afterInteractive"
+        strategy="lazyOnload"
         id="google-analytics-config"
         dangerouslySetInnerHTML={{
           __html: `
@@ -271,29 +271,8 @@ export function Scripts() {
       />
 
       <Script
-        strategy="afterInteractive"
-        id="google-tag-manager"
-        dangerouslySetInnerHTML={{
-          __html: `
-            (function(w,d,s,l,i){
-              w[l]=w[l]||[];
-              w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});
-              var f=d.getElementsByTagName(s)[0],
-                  j=d.createElement(s),
-                  dl=l!='dataLayer'?'&l='+l:'';
-              j.async=true;
-              j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
-              f.parentNode.insertBefore(j,f);
-            })(window,document,'script','dataLayer','${Redacted.make(
-              env.analytics.gtm.id,
-            ).getValue()}');
-          `,
-        }}
-      />
-
-      <Script
+        strategy="lazyOnload"
         async
-        strategy="afterInteractive"
         src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${Redacted.make(
           env.analytics.adsense.id,
         ).getValue()}`}
@@ -304,6 +283,7 @@ export function Scripts() {
       <Script
         type="application/ld+json"
         id="schema-org"
+        strategy="afterInteractive"
         dangerouslySetInnerHTML={{
           __html: Stringify(schemaOrg),
         }}
@@ -311,7 +291,8 @@ export function Scripts() {
 
       <Script
         type="application/ld+json"
-        id="schema-org"
+        id="schema-org-extended"
+        strategy="afterInteractive"
         dangerouslySetInnerHTML={{
           __html: Stringify(organizationSchema),
         }}

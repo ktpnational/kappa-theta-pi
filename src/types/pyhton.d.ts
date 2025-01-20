@@ -870,3 +870,5 @@ Set.prototype.zip = function <T, U>(other: U): Zip<T, U> {
   }
   return result;
 };
+
+export {};

@@ -110,8 +110,14 @@ export const HeroVideoDialog = React.memo(
     const [isVideoOpen, setIsVideoOpen] = useState(false);
     const selectedAnimation = animationVariants[animationStyle];
 
-    const handleClose = useCallback(() => setIsVideoOpen(false), []);
-    const handleOpen = useCallback(() => setIsVideoOpen(true), []);
+    const handleClose = useCallback(() => {
+      setIsVideoOpen(false);
+      console.log('close');
+    }, []);
+    const handleOpen = useCallback(() => {
+      setIsVideoOpen(true);
+      console.log('open');
+    }, []);
 
     return (
       <div className={cn('relative', className)}>
@@ -123,7 +129,7 @@ export const HeroVideoDialog = React.memo(
           onKeyDown={(e) => e.key === 'Enter' && handleOpen()}
           aria-label="Open video"
         >
-          <div className="relative w-full">
+          <picture className="relative w-full">
             <Image
               src={thumbnailSrc}
               alt={thumbnailAlt}
@@ -132,7 +138,8 @@ export const HeroVideoDialog = React.memo(
               className="w-full transition-all duration-200 group-hover:brightness-[0.8] ease-out rounded-md shadow-lg border"
               {...imageProps}
             />
-          </div>
+            <source srcSet={thumbnailSrc} type="image/webp" />
+          </picture>
           <div className="absolute inset-0 flex items-center justify-center group-hover:scale-100 scale-[0.9] transition-all duration-200 ease-out rounded-2xl">
             <div className="bg-primary/10 flex items-center justify-center rounded-full backdrop-blur-md size-28">
               <div className="flex items-center justify-center bg-gradient-to-b from-primary/30 to-primary shadow-md rounded-full size-20 transition-all ease-out duration-200 relative group-hover:scale-[1.2] scale-100">
@@ -184,6 +191,7 @@ export const HeroVideoDialog = React.memo(
                     allowFullScreen
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   />
+                  <source src={videoSrc} type="video/mp4" />
                 </div>
               </motion.div>
             </motion.div>

@@ -158,6 +158,7 @@ const HeroImage = () => {
         thumbnailSrc="/assets/images/hero.webp"
         thumbnailAlt="Kappa Theta Pi Introduction Video"
         className="max-w-screen-md rounded-xl border border-blue-200/50 bg-white/50 shadow-xl shadow-blue-900/5 backdrop-blur-sm"
+        priority={true}
         loading={'eager'}
       />
     </motion.div>

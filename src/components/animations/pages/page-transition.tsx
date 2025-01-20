@@ -1,7 +1,7 @@
 'use client';
 
 import { navigationSections } from '@/constants/nav';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'motion/react';
 import { usePathname } from 'next/navigation';
 import { type ReactNode, useEffect } from 'react';
 
@@ -35,8 +35,8 @@ const getTransitionConfig = (path: string) => {
   return { transition: { duration: 0.5, ease: 'easeInOut' } };
 };
 
-export const PageTransition = ({ children }: PageTransitionProps) => {
-  const pathname = usePathname() || '/';
+export const PageTransition: React.FC<PageTransitionProps> = ({ children }) => {
+  const pathname = usePathname();
 
   useEffect(() => {
     if (!document.startViewTransition) return;
@@ -50,7 +50,7 @@ export const PageTransition = ({ children }: PageTransitionProps) => {
   }, []);
 
   return (
-    <AnimatePresence mode="wait">
+    <AnimatePresence mode="wait" initial={false}>
       <motion.main
         key={pathname}
         variants={variants}

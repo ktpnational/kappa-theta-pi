@@ -1,13 +1,112 @@
-import pwa from '@ducanh2912/next-pwa';
+import pwa, { type PluginOptions } from '@ducanh2912/next-pwa';
 import MillionLint from '@million/lint';
 import withBundleAnalyzer from '@next/bundle-analyzer';
 import { type SentryBuildOptions, withSentryConfig } from '@sentry/nextjs';
 import type { NextConfig } from 'next';
 import './src/env';
+import path from 'path';
+
+// Just in case you accidentally import these packages
+const EXEMPT_DEPS: Set<string> = new Set([
+  'lucide-react',
+  'date-fns',
+  'lodash-es',
+  'ramda',
+  'antd',
+  'react-bootstrap',
+  'ahooks',
+  '@ant-design/icons',
+  '@headlessui/react',
+  '@headlessui-float/react',
+  '@heroicons/react/20/solid',
+  '@heroicons/react/24/solid',
+  '@heroicons/react/24/outline',
+  '@visx/visx',
+  '@tremor/react',
+  'rxjs',
+  '@mui/material',
+  '@mui/icons-material',
+  'recharts',
+  'react-use',
+  '@material-ui/core',
+  '@material-ui/icons',
+  '@tabler/icons-react',
+  'mui-core',
+  'react-icons/*',
+]);
 
 const withPwa = pwa({
-  dest: 'public',
-});
+  dest: 'public', // Output directory for the service worker and other PWA files
+  disable: process.env.NODE_ENV === 'development', // Disable PWA in development mode
+  register: true, // Automatically register the service worker
+  dynamicStartUrl: true, // Enable dynamic start URL caching
+  cacheOnFrontEndNav: true, // Enable caching for front-end navigation
+  aggressiveFrontEndNavCaching: true, // Cache every `<link rel="stylesheet" />` and `<script />` on frontend navigation
+  cacheStartUrl: true, // Cache the start URL
+  reloadOnOnline: true, // Reload the app when it comes back online
+  fallbacks: {
+    document: '/offline', // Fallback route for pages
+    image: '/static/images/logo.webp', // Fallback route for images
+    font: '/static/fonts/fallback.woff2', // Fallback route for fonts
+  },
+  workboxOptions: {
+    exclude: [/\/_next\/static\/.*(?<!\.p)\.woff2/, /\.map$/, /^manifest.*\.js$/, /\.pdf$/], // Exclude specific files from precaching
+    ignoreURLParametersMatching: [/^utm_/, /^fbclid$/], // Ignore specific URL parameters
+    runtimeCaching: [
+      {
+        urlPattern: /\/offline/,
+        handler: 'CacheFirst',
+        options: {
+          cacheName: 'offline-page',
+          expiration: {
+            maxEntries: 1,
+          },
+        },
+      },
+      {
+        urlPattern: /\.(?:png|jpg|jpeg|svg|webp)$/,
+        handler: 'CacheFirst',
+        options: {
+          cacheName: 'images',
+          expiration: {
+            maxEntries: 100,
+            maxAgeSeconds: 30 * 24 * 60 * 60, // 30 days
+          },
+        },
+      },
+      {
+        urlPattern: /\.(?:js|css)$/,
+        handler: 'StaleWhileRevalidate',
+        options: {
+          cacheName: 'static-resources',
+        },
+      },
+      {
+        urlPattern: /\.(?:woff|woff2|eot|ttf|otf|pdf)$/,
+        handler: 'CacheFirst',
+        options: {
+          cacheName: 'fonts',
+          expiration: {
+            maxEntries: 50,
+            maxAgeSeconds: 365 * 24 * 60 * 60, // 1 year
+          },
+        },
+      },
+      {
+        urlPattern: /api\/.*/,
+        handler: 'NetworkFirst',
+        options: {
+          cacheName: 'api-responses',
+          networkTimeoutSeconds: 10, // Fallback to cache if the network takes longer than 10 seconds
+          expiration: {
+            maxEntries: 50,
+            maxAgeSeconds: 24 * 60 * 60, // 1 day
+          },
+        },
+      },
+    ],
+  },
+} satisfies PluginOptions);
 
 const withBundleAnalyzerConfig = withBundleAnalyzer({
   enabled: process.env.ANALYZE === 'true',
@@ -39,12 +138,43 @@ const nextConfig: NextConfig = {
       { protocol: 'https', hostname: 'pagead2.googlesyndication.com' },
     ],
   },
+  poweredByHeader: false,
   experimental: {
+    optimizePackageImports: [
+      ...new Set([
+        'react-email', // 149.2 MB
+        'next', // 120.6 MB
+        'react-icons', // 86.2 MB
+        'lucide-react', // 28.6 MB
+        'effect', // 24.8 MB
+        'typescript', // 22.7 MB
+        'date-fns', // 22.6 MB
+        '@prisma/client', // 8.6 MB
+        'react-dom', // 6.4 MB
+        'react-spinners', // 5.6 MB
+        'recharts', // 4.7 MB
+        '@radix-ui/react-icons', // 3.4 MB
+        '@sentry/nextjs', // 2.8 MB
+        'use-context-selector', // 19.8 MB
+        'usehooks-ts', // 18.8 MB
+        'uuid', // 18.7 MB
+        'vaul', // 18.6 MB
+        'vitest', // 18.5 MB
+        'yaml-eslint-parser', // 18.4 MB
+        'zod', // 18.3 MB
+        'motion', // 18.2 MB
+        'zustand', // 18.2 MB
+      ])
+        .difference(EXEMPT_DEPS)
+        .values(),
+    ],
     optimizeCss: true,
     serverActions: {
       allowedOrigins: ['localhost:3000', process.env.NEXT_PUBLIC_APP_URL || ''],
       bodySizeLimit: '2mb',
     },
+    webVitalsAttribution: ['CLS', 'LCP', 'TTFB', 'FCP', 'FID'],
+    authInterrupts: true,
     typedRoutes: false,
     turbo: {
       resolveAlias: {
@@ -86,6 +216,10 @@ const nextConfig: NextConfig = {
             value: 'camera=(), microphone=(), geolocation=(self), interest-cohort=()',
           },
           { key: 'X-Frame-Options', value: 'DENY' },
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=0, must-revalidate',
+          },
         ],
       },
       {
@@ -122,6 +256,18 @@ const nextConfig: NextConfig = {
             key: 'Cache-Control',
             value: 'public, max-age=31536000, immutable',
           },
+          {
+            key: 'Access-Control-Allow-Origin',
+            value: '*',
+          },
+          {
+            key: 'Access-Control-Allow-Methods',
+            value: 'GET',
+          },
+          {
+            key: 'Access-Control-Allow-Headers',
+            value: 'content-type, x-requested-with',
+          },
         ],
       },
     ];
@@ -148,6 +294,8 @@ const nextConfig: NextConfig = {
         'remark-parse': false,
         'remark-rehype': false,
         'rehype-stringify': false,
+        react: path.resolve('./node_modules/react'),
+        'react-dom': path.resolve('./node_modules/react-dom'),
       };
     }
 
@@ -218,7 +366,12 @@ const sentryConfig: SentryBuildOptions = {
   },
 };
 
-const finalConfig = withPwa(withSentryConfig(nextConfig, sentryConfig));
+const withSentry =
+  process.env.NODE_ENV === 'production'
+    ? (config: NextConfig) => withSentryConfig(config, sentryConfig)
+    : (config: NextConfig) => config;
+
+const finalConfig = withPwa(withSentry(nextConfig));
 const combinedConfig = millionConfig(withBundleAnalyzerConfig(finalConfig));
 
 export default combinedConfig;

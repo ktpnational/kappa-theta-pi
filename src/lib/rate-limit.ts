@@ -1,4 +1,4 @@
-import { redis } from '@/classes/redis.server';
+import { redis } from '@/classes/redis';
 import { logger } from '@/utils';
 import { Ratelimit } from '@upstash/ratelimit';
 import { isIpInBanListString } from './get-ip';

@@ -1,6 +1,5 @@
 'use server';
 
-import { env } from '@/env';
 import type { Database } from '@/types/supabase';
 import type { CookieOptions } from '@supabase/ssr';
 import { createServerClient } from '@supabase/ssr';
@@ -43,8 +42,8 @@ export const createServer = async () => {
     const cookieStore = await cookies();
 
     const client = createServerClient<Database>(
-      env.NEXT_PUBLIC_SUPABASE_URL,
-      env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+      process.env.NEXT_PUBLIC_SUPABASE_URL,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
       {
         cookies: {
           get(name: string) {
