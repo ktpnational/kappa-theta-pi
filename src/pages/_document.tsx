@@ -1,12 +1,11 @@
 // src/pages/_document.tsx
+// pages/_document.tsx
 import { Html, Head, Main, NextScript } from "next/document";
 
 export default function Document() {
   return (
-    <Html lang="en">
-      <Head>
-        <meta charSet="utf-8" />
-      </Head>
+    <Html>
+      <Head />
       <body>
         <Main />
         <NextScript />
