@@ -168,7 +168,7 @@
     "yallist": "^4.0.0"
   },
   "devDependencies": {
-    "@antfu/ni": "^0.23.2",
+    "@antfu/ni": "^23.3.0",
     "@apollo/server": "^4.11.3",
     "@arcjet/next": "^1.0.0-beta.1",
     "@auth/core": "^0.37.4",
