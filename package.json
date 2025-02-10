@@ -183,7 +183,7 @@
     "@elysiajs/eden": "^1.2.0",
     "@googlemaps/markerclusterer": "^2.5.3",
     "@hono/zod-validator": "^0.4.2",
-    "@hookform/resolvers": "^3.10.0",
+    "@hookform/resolvers": "^4.0.0",
     "@js-temporal/polyfill": "^0.4.4",
     "@million/lint": "^1.0.14",
     "@next/bundle-analyzer": "^15.1.6",
