@@ -1,9 +1,9 @@
-import { randomUUID as uuidv4 } from 'crypto';
-import { getS3Client } from '@/lib/s3';
-import { createClient } from '@/utils/supabase/client';
-import { PutObjectCommand } from '@aws-sdk/client-s3';
-import { Upload } from '@aws-sdk/lib-storage';
-import imageCompression from 'browser-image-compression';
+import { randomUUID as uuidv4 } from "crypto";
+import { getS3Client } from "@/lib/s3";
+import { createClient } from "@/utils/supabase/client";
+import { PutObjectCommand } from "@aws-sdk/client-s3";
+import { Upload } from "@aws-sdk/lib-storage";
+import imageCompression from "browser-image-compression";
 
 /**
  * Properties for the uploadImage function.
@@ -25,6 +25,14 @@ type UploadProps = {
   profileId: string;
   useMultipart?: boolean;
 };
+
+export async function uploadFile(file: File) {
+  const response = await fetch("/api/upload", {
+    method: "POST",
+    body: file,
+  });
+  return response.json();
+}
 
 /**
  * Uploads an image to S3 and creates associated database records.
@@ -68,8 +76,8 @@ export const uploadImage = async ({
 }: UploadProps) => {
   const supabase = createClient();
   const fileName = file.name;
-  const fileExtension = fileName.slice(fileName.lastIndexOf('.') + 1);
-  const path = `${folder ? `${folder}/` : ''}${uuidv4()}.${fileExtension}`;
+  const fileExtension = fileName.slice(fileName.lastIndexOf(".") + 1);
+  const path = `${folder ? `${folder}/` : ""}${uuidv4()}.${fileExtension}`;
 
   try {
     file = await imageCompression(file, {
@@ -101,10 +109,12 @@ export const uploadImage = async ({
       await s3Client.send(uploadCommand);
     }
 
-    const { data: publicUrlData } = supabase.storage.from(bucket).getPublicUrl(path);
+    const { data: publicUrlData } = supabase.storage
+      .from(bucket)
+      .getPublicUrl(path);
 
     const { data: imageData, error: insertError } = await supabase
-      .from('members')
+      .from("members")
       .insert({
         id: uuidv4(),
         resumeId,
@@ -117,15 +127,15 @@ export const uploadImage = async ({
       .single();
 
     if (insertError) {
-      console.error('Error inserting image data:', insertError);
-      return { imageUrl: '', error: 'Failed to save image information' };
+      console.error("Error inserting image data:", insertError);
+      return { imageUrl: "", error: "Failed to save image information" };
     }
 
-    return { imageUrl: publicUrlData.publicUrl, imageData, error: '' };
+    return { imageUrl: publicUrlData.publicUrl, imageData, error: "" };
   } catch (error) {
-    console.error('Unexpected error during upload:', error);
+    console.error("Unexpected error during upload:", error);
     return {
-      imageUrl: '',
+      imageUrl: "",
       error: `Unexpected error during upload: ${error instanceof Error ? error.message : String(error)}`,
     };
   }
@@ -160,11 +170,11 @@ export const uploadImage = async ({
  */
 export const deleteImage = async (imageUrl: string) => {
   const supabase = createClient();
-  const bucketAndPathString = imageUrl.split('/storage/v1/object/public/')[1];
+  const bucketAndPathString = imageUrl.split("/storage/v1/object/public/")[1];
   if (!bucketAndPathString) {
-    return { data: null, error: 'Invalid image URL' };
+    return { data: null, error: "Invalid image URL" };
   }
-  const firstSlashIndex = bucketAndPathString.indexOf('/');
+  const firstSlashIndex = bucketAndPathString.indexOf("/");
 
   const bucket = bucketAndPathString.slice(0, firstSlashIndex);
   const path = bucketAndPathString.slice(firstSlashIndex + 1);

@@ -1,13 +1,8 @@
 import pwa from "@ducanh2912/next-pwa";
-import MillionLint from "@million/lint";
 import withBundleAnalyzer from "@next/bundle-analyzer";
 import { type SentryBuildOptions, withSentryConfig } from "@sentry/nextjs";
 import type { NextConfig } from "next";
 import "./src/env";
-
-const withPwa = pwa({
-  dest: "public",
-});
 
 const withBundleAnalyzerConfig = withBundleAnalyzer({
   enabled: process.env.ANALYZE === "true",
@@ -16,15 +11,13 @@ const withBundleAnalyzerConfig = withBundleAnalyzer({
   logLevel: "error",
 });
 
+const withPwa = pwa({ dest: "public" });
+
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   pageExtensions: ["tsx", "mdx", "ts", "js"],
   compress: true,
-  logging: {
-    fetches: {
-      fullUrl: true,
-    },
-  },
+  logging: { fetches: { fullUrl: true } },
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "lh3.googleusercontent.com" },
@@ -40,6 +33,7 @@ const nextConfig: NextConfig = {
     ],
   },
   experimental: {
+    disablePostcssPresetEnv: true,
     optimizeCss: true,
     serverActions: {
       allowedOrigins: ["localhost:3000", process.env.NEXT_PUBLIC_APP_URL || ""],
@@ -47,12 +41,8 @@ const nextConfig: NextConfig = {
     },
     typedRoutes: false,
     turbo: {
-      resolveAlias: {
-        "@/*": "./src/*",
-      },
-      rules: {
-        "**/*.{ts,tsx}": ["typescript"],
-      },
+      resolveAlias: { "@/*": "./src/*" },
+      rules: { "**/*.{ts,tsx}": ["typescript"] },
     },
   },
   async headers() {
@@ -67,11 +57,10 @@ const nextConfig: NextConfig = {
           },
         ],
       },
-      // Additional headers remain unchanged
     ];
   },
   webpack: (config, { nextRuntime }) => {
-    config.resolve = config.resolve || {};
+    config.resolve ??= {};
     config.resolve.fallback = {
       ...config.resolve.fallback,
       crypto: false,
@@ -87,23 +76,13 @@ const nextConfig: NextConfig = {
       config.module.rules.push({
         test: /\.(woff|woff2|eot|ttf|otf)$/,
         type: "asset/resource",
-        generator: {
-          filename: "static/media/[name].[hash][ext]",
-        },
+        generator: { filename: "static/media/[name].[hash][ext]" },
       });
     }
 
     return config;
   },
 };
-
-const millionConfig = MillionLint.next({
-  rsc: true,
-  filter: {
-    include: "**/components/**/*.{mtsx,mjsx,tsx,jsx}",
-    exclude: ["**/api/**/*.{ts,tsx}", "**/components/html/**/*.{ts,tsx}"],
-  },
-});
 
 const sentryConfig: SentryBuildOptions = {
   org: "womb0comb0",
@@ -113,26 +92,18 @@ const sentryConfig: SentryBuildOptions = {
   release: {
     name: process.env.VERCEL_GIT_COMMIT_SHA || `local-${Date.now()}`,
     create: true,
-    setCommits: {
-      auto: true,
-      ignoreMissing: true,
-    },
+    setCommits: { auto: true, ignoreMissing: true },
   },
   sourcemaps: {
     assets: "./**/*.{js,map}",
     ignore: ["node_modules/**/*"],
+    deleteSourcemapsAfterUpload: true,
   },
   hideSourceMaps: process.env.NODE_ENV === "production",
   widenClientFileUpload: true,
-  autoInstrumentServerFunctions: true,
-  autoInstrumentMiddleware: true,
   autoInstrumentAppDirectory: true,
   tunnelRoute: "/monitoring",
   disableLogger: true,
-  automaticVercelMonitors: true,
-  reactComponentAnnotation: {
-    enabled: true,
-  },
   bundleSizeOptimizations: {
     excludeDebugStatements: true,
     excludeReplayShadowDom: true,
@@ -141,7 +112,6 @@ const sentryConfig: SentryBuildOptions = {
   },
 };
 
-const finalConfig = withPwa(withSentryConfig(nextConfig, sentryConfig));
-const combinedConfig = millionConfig(withBundleAnalyzerConfig(finalConfig));
-
-export default combinedConfig;
+export default withBundleAnalyzerConfig(
+  withSentryConfig(withPwa(nextConfig), sentryConfig),
+);

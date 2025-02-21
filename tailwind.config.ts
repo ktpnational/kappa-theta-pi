@@ -7,11 +7,14 @@ const config: Config = {
     "./src/app/**/*.{js,ts,jsx,tsx}",
     "./src/content/**/*.{md,mdx}",
     "./src/**/*.{js,jsx,ts,tsx,html}",
+    "./pages/**/*.{js,ts,jsx,tsx}",
+    "./public/**/*.html",
   ],
-  future: {
-    hoverOnlyWhenSupported: true,
-    respectDefaultRingColorOpacity: true,
-  },
+  safelist: [
+    { pattern: /delay-(100|200|300|500|700)/ },
+    { pattern: /duration-(100|200|300|500|700)/ },
+    { pattern: /hover:duration-(100|200|300|500|700)/ },
+  ],
   theme: {
     screens: {
       xs: "375px",
@@ -95,16 +98,6 @@ const config: Config = {
           "4": "hsl(var(--chart-4))",
           "5": "hsl(var(--chart-5))",
         },
-        sidebar: {
-          DEFAULT: "hsl(var(--sidebar-background))",
-          foreground: "hsl(var(--sidebar-foreground))",
-          primary: "hsl(var(--sidebar-primary))",
-          "primary-foreground": "hsl(var(--sidebar-primary-foreground))",
-          accent: "hsl(var(--sidebar-accent))",
-          "accent-foreground": "hsl(var(--sidebar-accent-foreground))",
-          border: "hsl(var(--sidebar-border))",
-          ring: "hsl(var(--sidebar-ring))",
-        },
       },
       animation: {
         "shiny-text": "shiny-text 8s infinite",
@@ -129,55 +122,29 @@ const config: Config = {
           },
         },
         marquee: {
-          from: {
-            transform: "translateX(0)",
-          },
-          to: {
-            transform: "translateX(calc(-100% - var(--gap)))",
-          },
+          from: { transform: "translateX(0)" },
+          to: { transform: "translateX(calc(-100% - var(--gap)))" },
         },
         "marquee-vertical": {
-          from: {
-            transform: "translateY(0)",
-          },
-          to: {
-            transform: "translateY(calc(-100% - var(--gap)))",
-          },
+          from: { transform: "translateY(0)" },
+          to: { transform: "translateY(calc(-100% - var(--gap)))" },
         },
         "accordion-down": {
-          from: {
-            height: "0",
-          },
-          to: {
-            height: "var(--radix-accordion-content-height)",
-          },
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height))" },
         },
         "accordion-up": {
-          from: {
-            height: "var(--radix-accordion-content-height)",
-          },
-          to: {
-            height: "0",
-          },
+          from: { height: "var(--radix-accordion-content-height))" },
+          to: { height: "0" },
         },
         "shimmer-slide": {
-          to: {
-            transform: "translate(calc(100cqw - 100%), 0)",
-          },
+          to: { transform: "translate(calc(100cqw - 100%), 0)" },
         },
         "spin-around": {
-          "0%": {
-            transform: "translateZ(0) rotate(0)",
-          },
-          "15%, 35%": {
-            transform: "translateZ(0) rotate(90deg)",
-          },
-          "65%, 85%": {
-            transform: "translateZ(0) rotate(270deg)",
-          },
-          "100%": {
-            transform: "translateZ(0) rotate(360deg)",
-          },
+          "0%": { transform: "translateZ(0) rotate(0)" },
+          "15%, 35%": { transform: "translateZ(0) rotate(90deg)" },
+          "65%, 85%": { transform: "translateZ(0) rotate(270deg)" },
+          "100%": { transform: "translateZ(0) rotate(360deg)" },
         },
       },
       container: {
@@ -209,9 +176,7 @@ const config: Config = {
   plugins: [
     require("tailwindcss-animate"),
     require("@tailwindcss/typography"),
-    require("@tailwindcss/forms")({
-      strategy: "class",
-    }),
+    require("@tailwindcss/forms")({ strategy: "class" }),
     require("@tailwindcss/aspect-ratio"),
   ],
 } satisfies Config;
