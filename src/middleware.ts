@@ -1,26 +1,26 @@
-import { rateLimiter } from '@/lib/rate-limit';
-import type { RateLimitHelper } from '@/lib/rate-limit';
-import { type CookieOptions, createServerClient } from '@supabase/ssr';
-import { type NextRequest, NextResponse } from 'next/server';
+import { rateLimiter } from "@/lib/rate-limit";
+import type { RateLimitHelper } from "@/lib/rate-limit";
+import { type CookieOptions, createServerClient } from "@supabase/ssr";
+import { type NextRequest, NextResponse } from "next/server";
 
 const publicAssetPaths: Set<string> = new Set([
-  '/assets/',
-  '/pwa/',
-  '/images/',
-  '/favicon.ico',
-  '/favicon-16x16.png',
-  '/favicon-32x32.png',
-  '/apple-touch-icon.png',
-  '/android-chrome-192x192.png',
-  '/android-chrome-512x512.png',
-  '/robots.txt',
-  '/sitemap.xml',
-  '/manifest.webmanifest',
-  '/sw.js',
+  "/assets/",
+  "/pwa/",
+  "/images/",
+  "/favicon.ico",
+  "/favicon-16x16.png",
+  "/favicon-32x32.png",
+  "/apple-touch-icon.png",
+  "/android-chrome-192x192.png",
+  "/android-chrome-512x512.png",
+  "/robots.txt",
+  "/sitemap.xml",
+  "/manifest.webmanifest",
+  "/sw.js",
 ]);
 
 // Add paths that should bypass rate limiting
-const rateLimitExemptPaths = [...publicAssetPaths, '/_next', '/api/health'];
+const rateLimitExemptPaths = [...publicAssetPaths, "/_next", "/api/health"];
 
 /**
  * Middleware function to handle authentication and session management for incoming requests.
@@ -44,19 +44,23 @@ const rateLimitExemptPaths = [...publicAssetPaths, '/_next', '/api/health'];
  */
 export async function middleware(request: NextRequest): Promise<NextResponse> {
   // Early return for exempt paths
-  if (rateLimitExemptPaths.some((path) => request.nextUrl.pathname.startsWith(path))) {
+  if (
+    rateLimitExemptPaths.some((path) =>
+      request.nextUrl.pathname.startsWith(path),
+    )
+  ) {
     return NextResponse.next();
   }
 
   try {
-    let rateLimitingType: RateLimitHelper['rateLimitingType'] = 'default';
-    if (request.nextUrl.pathname.startsWith('/api/auth')) {
-      rateLimitingType = 'forcedSlowMode';
-    } else if (request.nextUrl.pathname.startsWith('/api')) {
-      rateLimitingType = 'api';
+    let rateLimitingType: RateLimitHelper["rateLimitingType"] = "default";
+    if (request.nextUrl.pathname.startsWith("/api/auth")) {
+      rateLimitingType = "forcedSlowMode";
+    } else if (request.nextUrl.pathname.startsWith("/api")) {
+      rateLimitingType = "api";
     }
 
-    const identifier = request.headers.get('x-forwarded-for') || 'anonymous';
+    const identifier = request.headers.get("x-forwarded-for") || "anonymous";
     const result = await rateLimiter(rateLimitingType)({ identifier });
 
     let response = NextResponse.next({
@@ -65,25 +69,25 @@ export async function middleware(request: NextRequest): Promise<NextResponse> {
       },
     });
 
-    response.headers.set('X-RateLimit-Limit', result.limit.toString());
-    response.headers.set('X-RateLimit-Remaining', result.remaining.toString());
-    response.headers.set('X-RateLimit-Reset', result.reset.toString());
+    response.headers.set("X-RateLimit-Limit", result.limit.toString());
+    response.headers.set("X-RateLimit-Remaining", result.remaining.toString());
+    response.headers.set("X-RateLimit-Reset", result.reset.toString());
 
     if (!result.success) {
       return new NextResponse(
         JSON.stringify({
-          error: 'Too Many Requests',
-          message: 'Please try again later',
+          error: "Too Many Requests",
+          message: "Please try again later",
           retryAfter: result.reset,
         }),
         {
           status: 429,
           headers: {
-            'Content-Type': 'application/json',
-            'Retry-After': result.reset.toString(),
-            'X-RateLimit-Limit': result.limit.toString(),
-            'X-RateLimit-Remaining': '0',
-            'X-RateLimit-Reset': result.reset.toString(),
+            "Content-Type": "application/json",
+            "Retry-After": result.reset.toString(),
+            "X-RateLimit-Limit": result.limit.toString(),
+            "X-RateLimit-Remaining": "0",
+            "X-RateLimit-Reset": result.reset.toString(),
           },
         },
       );
@@ -119,7 +123,7 @@ export async function middleware(request: NextRequest): Promise<NextResponse> {
           remove(name: string, options: CookieOptions) {
             request.cookies.set({
               name,
-              value: '',
+              value: "",
               ...options,
             });
             response = NextResponse.next({
@@ -129,7 +133,7 @@ export async function middleware(request: NextRequest): Promise<NextResponse> {
             });
             response.cookies.set({
               name,
-              value: '',
+              value: "",
               ...options,
             });
           },
@@ -140,7 +144,7 @@ export async function middleware(request: NextRequest): Promise<NextResponse> {
     await supabase.auth.getUser();
     return response;
   } catch (error) {
-    console.error('Rate limiting error:', error);
+    console.error("Rate limiting error:", error);
     return NextResponse.next();
   }
 }
@@ -201,7 +205,7 @@ export const config = {
      * - favicon.ico (favicon file)
      * Feel free to modify this pattern to include more paths.
      */
-    '/((?!_next/static|_next/image|favicon.ico).*)',
+    "/((?!_next/static|_next/image|favicon.ico).*)",
   ],
-  runtime: 'nodejs',
+  runtime: "nodejs",
 };

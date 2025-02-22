@@ -11,9 +11,12 @@ const config: Config = {
     "./public/**/*.html",
   ],
   safelist: [
-    { pattern: /delay-(100|200|300|500|700)/ },
-    { pattern: /duration-(100|200|300|500|700)/ },
     { pattern: /hover:duration-(100|200|300|500|700)/ },
+    "hover:duration-100",
+    "hover:duration-200",
+    "hover:duration-300",
+    "hover:duration-500",
+    "hover:duration-700",
   ],
   theme: {
     screens: {

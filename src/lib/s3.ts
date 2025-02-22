@@ -1,5 +1,6 @@
-import { createClient } from '@/utils';
-import { S3Client } from '@aws-sdk/client-s3';
+"use server";
+import { createClient } from "@/utils";
+import { S3Client } from "@aws-sdk/client-s3";
 
 /** Singleton instance of the Supabase client */
 let supabase: ReturnType<typeof createClient>;
@@ -41,12 +42,13 @@ async function getS3Client(): Promise<S3Client> {
   } = await getSupabase().auth.getSession();
 
   if (!session) {
-    throw new Error('No active session');
+    throw new Error("No active session");
   }
 
-  const accessKeyId = process.env.NEXT_PUBLIC_SUPABASE_URL?.split('//')[1]?.split('.')[0];
+  const accessKeyId =
+    process.env.NEXT_PUBLIC_SUPABASE_URL?.split("//")[1]?.split(".")[0];
   if (!accessKeyId) {
-    throw new Error('Access Key ID is undefined');
+    throw new Error("Access Key ID is undefined");
   }
 
   return new S3Client({
@@ -55,7 +57,7 @@ async function getS3Client(): Promise<S3Client> {
     endpoint: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/s3`,
     credentials: {
       accessKeyId,
-      secretAccessKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '',
+      secretAccessKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "",
       sessionToken: session?.access_token,
     },
   });

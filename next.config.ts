@@ -1,4 +1,3 @@
-import pwa from "@ducanh2912/next-pwa";
 import withBundleAnalyzer from "@next/bundle-analyzer";
 import { type SentryBuildOptions, withSentryConfig } from "@sentry/nextjs";
 import type { NextConfig } from "next";
@@ -11,7 +10,10 @@ const withBundleAnalyzerConfig = withBundleAnalyzer({
   logLevel: "error",
 });
 
-const withPwa = pwa({ dest: "public" });
+const withPWA = require("@imbios/next-pwa")({
+  disable: process.env.NODE_ENV === "development", // Disable in dev
+  dest: "public",
+});
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
@@ -39,6 +41,7 @@ const nextConfig: NextConfig = {
       allowedOrigins: ["localhost:3000", process.env.NEXT_PUBLIC_APP_URL || ""],
       bodySizeLimit: "2mb",
     },
+    output: "standalone", // Ensures a Node.js runtime
     typedRoutes: false,
     turbo: {
       resolveAlias: { "@/*": "./src/*" },
@@ -113,5 +116,5 @@ const sentryConfig: SentryBuildOptions = {
 };
 
 export default withBundleAnalyzerConfig(
-  withSentryConfig(withPwa(nextConfig), sentryConfig),
+  withSentryConfig(withPWA(nextConfig), sentryConfig),
 );
