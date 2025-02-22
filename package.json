@@ -375,7 +375,7 @@
     "stylelint-config-standard-scss": "^14.0.0",
     "supabase": "^2.12.1",
     "superjson": "2.2.2",
-    "tailwind-merge": "^2.6.0",
+    "tailwind-merge": "^3.0.1",
     "tailwindcss-animate": "^1.0.7",
     "tslog": "^4.9.3",
     "tsx": "^4.19.2",
