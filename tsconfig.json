@@ -28,7 +28,7 @@
     "module": "ESNext",
     "moduleResolution": "bundler",
     "jsx": "preserve", // Use "react" if needed
-    "types": ["react"],
+    "types": ["react", "node", "vitest"],
     "plugins": [
       {
         "name": "next"

@@ -11,7 +11,6 @@ const config: Config = {
     "./public/**/*.html",
   ],
   safelist: [
-    { pattern: /hover:duration-(100|200|300|500|700)/ },
     "hover:duration-100",
     "hover:duration-200",
     "hover:duration-300",

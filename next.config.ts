@@ -10,12 +10,8 @@ const withBundleAnalyzerConfig = withBundleAnalyzer({
   logLevel: "error",
 });
 
-const withPWA = require("@imbios/next-pwa")({
-  disable: process.env.NODE_ENV === "development", // Disable in dev
-  dest: "public",
-});
-
 const nextConfig: NextConfig = {
+  output: "standalone",
   reactStrictMode: true,
   pageExtensions: ["tsx", "mdx", "ts", "js"],
   compress: true,
@@ -41,7 +37,6 @@ const nextConfig: NextConfig = {
       allowedOrigins: ["localhost:3000", process.env.NEXT_PUBLIC_APP_URL || ""],
       bodySizeLimit: "2mb",
     },
-    output: "standalone", // Ensures a Node.js runtime
     typedRoutes: false,
     turbo: {
       resolveAlias: { "@/*": "./src/*" },
@@ -115,6 +110,11 @@ const sentryConfig: SentryBuildOptions = {
   },
 };
 
-export default withBundleAnalyzerConfig(
-  withSentryConfig(withPWA(nextConfig), sentryConfig),
-);
+let finalConfig = withBundleAnalyzerConfig(nextConfig);
+
+// Apply Sentry only if the auth token is present
+if (process.env.NEXT_PUBLIC_SENTRY_AUTH_TOKEN) {
+  finalConfig = withSentryConfig(finalConfig, sentryConfig);
+}
+
+export default finalConfig;
