@@ -3,23 +3,6 @@ import axios, { type AxiosRequestConfig, AxiosError, type Method } from 'axios';
 
 /**
  * Configuration options for enhanced fetching that extends the base Axios request config
- *
- * @interface FetcherOptions
- * @extends {AxiosRequestConfig}
- * @property {number} [retries=0] - Number of retry attempts in case of failure. Defaults to 0 (no retries)
- * @property {number} [retryDelay=1000] - Base delay between retry attempts in milliseconds. Actual delay increases exponentially with each retry
- * @property {(error: AxiosError) => void} [onError] - Optional callback for custom error handling. Called before throwing on final retry
- * @property {number} [timeout=10000] - Request timeout in milliseconds. Defaults to 10 seconds
- *
- * @example
- * ```ts
- * const options: FetcherOptions = {
- *   retries: 3,
- *   retryDelay: 2000,
- *   onError: (error) => console.error(error),
- *   timeout: 5000
- * };
- * ```
  */
 export interface FetcherOptions extends AxiosRequestConfig {
   retries?: number;
@@ -30,24 +13,6 @@ export interface FetcherOptions extends AxiosRequestConfig {
 
 /**
  * Custom error class for handling fetcher-specific errors with additional context
- *
- * @class FetcherError
- * @extends {Error}
- * @property {string} url - The URL that was being fetched when the error occurred
- * @property {number} [status] - HTTP status code of the failed response, if available
- * @property {unknown} [responseData] - Response data from the failed request, if available
- * @property {number} [attempt] - The retry attempt number when the error occurred
- *
- * @example
- * ```ts
- * throw new FetcherError(
- *   'Request failed',
- *   'https://api.example.com/data',
- *   404,
- *   { message: 'Not found' },
- *   2
- * );
- * ```
  */
 export class FetcherError extends Error {
   constructor(
@@ -69,51 +34,6 @@ export class FetcherError extends Error {
 
 /**
  * Enhanced data fetching utility that provides advanced error handling, retry mechanism, and type safety.
- * Built on top of Axios with additional features for robust API interactions.
- *
- * @template T - The expected type of the successful response data
- * @template E - The expected type of the error response data
- *
- * @param {string} input - The URL or endpoint to fetch from
- * @param {FetcherOptions} [options={}] - Configuration options for the request
- * @returns {Promise<T>} A promise that resolves to the response data
- *
- * @throws {FetcherError}
- * - When max retries are exceeded
- * - When an Axios error occurs
- * - When an unexpected error occurs
- *
- * @example
- * ```ts
- * interface UserData {
- *   id: number;
- *   name: string;
- * }
- *
- * interface ErrorResponse {
- *   message: string;
- * }
- *
- * try {
- *   const userData = await fetcher<UserData, ErrorResponse>('/api/user', {
- *     retries: 3,
- *     retryDelay: 1000,
- *     timeout: 5000
- *   });
- *   console.log(userData.name);
- * } catch (error) {
- *   if (error instanceof FetcherError) {
- *     console.error(`Failed to fetch: ${error.message}`);
- *   }
- * }
- * ```
- *
- * @remarks
- * - Implements exponential backoff for retries
- * - Provides detailed error context through FetcherError
- * - Supports custom error handling through onError callback
- * - Preserves type safety throughout the request lifecycle
- * - Integrates with Axios interceptors for request/response processing
  */
 export async function fetcher<T, E = unknown>(
   input: string,
@@ -129,9 +49,7 @@ export async function fetcher<T, E = unknown>(
   });
 
   instance.interceptors.request.use(
-    (config) => {
-      return config;
-    },
+    (config) => config,
     (error) => Promise.reject(error),
   );
 
@@ -143,63 +61,49 @@ export async function fetcher<T, E = unknown>(
   try {
     let attempt = 0;
     while (attempt <= retries) {
-      const path = getURL(input);
+      const baseURL = getURL();
+      const path = params ? `${baseURL}/${input}?${buildQueryString(params)}` : `${baseURL}/${input}`;
+
       const result = await catchError(async (requestConfig: any) => {
-        if (method === 'GET') {
-          return instance.get<T>(
-            params ? `${path}?${buildQueryString(params)}` : `${path}`,
-            requestConfig,
-          );
-        } else if (method === 'DELETE') {
-          return instance.delete<T>(
-            params ? `${path}?${buildQueryString(params)}` : `${path}`,
-            requestConfig,
-          );
-        } else if (method === 'HEAD') {
-          return instance.head<T>(
-            params ? `${path}?${buildQueryString(params)}` : `${path}`,
-            requestConfig,
-          );
-        } else if (method === 'OPTIONS') {
-          return instance.options<T>(
-            params ? `${path}?${buildQueryString(params)}` : `${path}`,
-            requestConfig,
-          );
-        } else if (method === 'POST') {
-          return instance.post<T>(
-            params ? `${path}?${buildQueryString(params)}` : `${path}`,
-            null,
-            requestConfig,
-          );
-        } else if (method === 'PUT') {
-          return instance.put<T>(
-            params ? `${path}?${buildQueryString(params)}` : `${path}`,
-            null,
-            requestConfig,
-          );
-        } else if (method === 'PATCH') {
-          return instance.patch<T>(
-            params ? `${path}?${buildQueryString(params)}` : `${path}`,
-            null,
-            requestConfig,
-          );
+        switch (method) {
+          case 'GET':
+            return instance.get<T>(path, requestConfig);
+          case 'DELETE':
+            return instance.delete<T>(path, requestConfig);
+          case 'HEAD':
+            return instance.head<T>(path, requestConfig);
+          case 'OPTIONS':
+            return instance.options<T>(path, requestConfig);
+          case 'POST':
+            return instance.post<T>(path, null, requestConfig);
+          case 'PUT':
+            return instance.put<T>(path, null, requestConfig);
+          case 'PATCH':
+            return instance.patch<T>(path, null, requestConfig);
+          default:
+            throw new Error(`Unsupported HTTP method: ${method}`);
         }
-        throw new Error(`Unsupported HTTP method: ${method}`);
       }, axiosConfig);
 
-      if (result.success) {
-        return result.value.data;
+      // ✅ FIX 1: Ensure `result.value` Exists Before Accessing `.data`
+      if (result.success && result.value) {
+        return result.value.data; // ✅ Safe Access
       }
 
       if (attempt === retries) {
-        if (onError && result.error instanceof AxiosError) onError(result.error);
-        throw new FetcherError(
-          result.error.message,
-          path,
-          result.error instanceof AxiosError ? result.error.response?.status : undefined,
-          result.error instanceof AxiosError ? result.error.response?.data : undefined,
-          attempt,
-        );
+        // ✅ FIX 2: Ensure `result.error` Exists Before Accessing `.message`
+        if (result.error) {
+          if (onError && result.error instanceof AxiosError) onError(result.error);
+          throw new FetcherError(
+            result.error.message ?? 'Unknown error',
+            path,
+            result.error instanceof AxiosError ? result.error.response?.status : undefined,
+            result.error instanceof AxiosError ? result.error.response?.data : undefined,
+            attempt,
+          );
+        }
+
+        throw new FetcherError(`Unknown error occurred`, path, undefined, undefined, attempt);
       }
 
       await new Promise((resolve) => setTimeout(resolve, retryDelay * Math.pow(2, attempt)));

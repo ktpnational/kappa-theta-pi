@@ -1,14 +1,6 @@
-import withBundleAnalyzer from "@next/bundle-analyzer";
-import { type SentryBuildOptions, withSentryConfig } from "@sentry/nextjs";
+import { withSentryConfig, type SentryBuildOptions } from "@sentry/nextjs";
 import type { NextConfig } from "next";
-import "./src/env";
-
-const withBundleAnalyzerConfig = withBundleAnalyzer({
-  enabled: process.env.ANALYZE === "true",
-  openAnalyzer: false,
-  analyzerMode: "static",
-  logLevel: "error",
-});
+import withBundleAnalyzer from "@next/bundle-analyzer"; // ✅ Correct import
 
 const nextConfig: NextConfig = {
   output: "standalone",
@@ -39,7 +31,7 @@ const nextConfig: NextConfig = {
     },
     typedRoutes: false,
     turbo: {
-      resolveAlias: { "@/*": "./src/*" },
+      resolveAlias: { "@": "./src" },
       rules: { "**/*.{ts,tsx}": ["typescript"] },
     },
   },
@@ -68,6 +60,7 @@ const nextConfig: NextConfig = {
       crypto: false,
       stream: false,
       buffer: false,
+      path: false,
     };
     config.resolve.alias = {
       ...config.resolve.alias,
@@ -86,6 +79,10 @@ const nextConfig: NextConfig = {
   },
 };
 
+// ✅ Apply Bundle Analyzer Correctly
+const withBundle = withBundleAnalyzer({ enabled: process.env.ANALYZE === "true" });
+let finalConfig = withBundle(nextConfig);
+
 const sentryConfig: SentryBuildOptions = {
   org: "womb0comb0",
   project: "ktp",
@@ -101,7 +98,6 @@ const sentryConfig: SentryBuildOptions = {
     ignore: ["node_modules/**/*"],
     deleteSourcemapsAfterUpload: true,
   },
-  hideSourceMaps: process.env.NODE_ENV === "production",
   widenClientFileUpload: true,
   autoInstrumentAppDirectory: true,
   tunnelRoute: "/monitoring",
@@ -114,9 +110,7 @@ const sentryConfig: SentryBuildOptions = {
   },
 };
 
-let finalConfig = withBundleAnalyzerConfig(nextConfig);
-
-// Apply Sentry only if the auth token is present
+// ✅ Apply Sentry Only If the Auth Token Exists
 if (process.env.NEXT_PUBLIC_SENTRY_AUTH_TOKEN) {
   finalConfig = withSentryConfig(finalConfig, sentryConfig);
 }

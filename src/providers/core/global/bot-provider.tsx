@@ -1,9 +1,12 @@
 'use client';
 
-import { bind, logger, map, railway, success, tap } from '@/utils';
 import { type BotDetectionResult, load } from '@fingerprintjs/botd';
 import type React from 'react';
 import { createContext, useContext, useEffect, useState } from 'react';
+import { logger } from '@/utils/logger';
+
+// ✅ FIX: Import missing utility functions
+import { railway, success, bind, map, tap } from '@/utils/helpers'; // Update path accordingly
 
 type BotContextType = {
   botDetectionResult: BotDetectionResult | null;
@@ -18,6 +21,7 @@ export const BotProvider = ({ children }: { children: React.ReactNode }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
+  // ✅ Logger should now be defined correctly
   const log = logger.getSubLogger({ prefix: ['providers', 'core', 'global', 'bot-provider'] });
 
   useEffect(() => {

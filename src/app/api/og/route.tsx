@@ -5,6 +5,10 @@
 import { constructMetadata, getURL } from '@/utils';
 import { ImageResponse } from 'next/og';
 
+export const config = {
+  runtime: "nodejs",
+};
+
 /**
  * Generates an OpenGraph image for social media sharing
  * @async

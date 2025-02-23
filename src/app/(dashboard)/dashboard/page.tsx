@@ -18,38 +18,19 @@ import { notFound } from 'next/navigation';
  * @async
  * @throws {Error} Throws any errors encountered during role retrieval
  *
- * @example
- * // In app routing
- * import DashboardPage from './dashboard/page';
- *
- * // Route configuration
- * {
- *   path: '/dashboard',
- *   element: <DashboardPage />
- * }
- *
- * @example
- * // Role-based redirection examples:
- * // - Admin user -> redirects to /dashboard/admin
- * // - Member user -> redirects to /dashboard/member
- * // - No role -> shows 404 page
- *
- * @returns {Promise<React.JSX.Element>} A React fragment that handles redirection or 404 response
- * @since 1.0.0
- * @public
- *
- * @see {@link currentRole} For role retrieval implementation
- * @see {@link catchError} For error handling utility
- * @see {@link redirect} For Next.js redirection
- * @see {@link notFound} For Next.js 404 handling
+ * @returns {Promise<void>} Redirects user or shows a 404 page
  */
 const DashboardPage = async () => {
-  const res = await catchError(currentRole, []);
+  const res = await catchError(() => currentRole()); // ✅ Call currentRole() inside catchError
   if (res.success) {
     const role = res.value;
-    return <>{role ? redirect(`/dashboard/${role}`) : notFound()}</>;
+    if (role) {
+      redirect(`/dashboard/${role}`); // ✅ No need for JSX, call redirect directly
+    } else {
+      notFound(); // ✅ No need for JSX, call notFound directly
+    }
   }
-  throw res.error;
+  throw res.error; // ✅ Properly handle and throw errors
 };
 
 DashboardPage.displayName = 'DashboardPage';
