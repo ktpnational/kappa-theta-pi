@@ -176,7 +176,7 @@
     "workbox-webpack-plugin": "^7.3.0",
     "workbox-window": "^7.3.0",
     "ws": "^8.13.0",
-    "yallist": "^4.0.0"
+    "yallist": "^5.0.0"
   },
   "devDependencies": {
     "@antfu/ni": "^0.23.2",
@@ -397,7 +397,7 @@
     "zustand": "^5.0.3"
   },
   "resolutions": {
-    "yallist": "4.0.0",
+    "yallist": "5.0.0",
     "ws": "8.13.0",
     "@opentelemetry/api-logs": "^0.57.1"
   },
