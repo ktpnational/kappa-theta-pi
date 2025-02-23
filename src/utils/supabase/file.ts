@@ -5,9 +5,7 @@ import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { Upload } from "@aws-sdk/lib-storage";
 import imageCompression from "browser-image-compression";
 
-export const config = {
-  runtime: "nodejs",
-};
+export const runtime = "nodejs";
 
 /**
  * Properties for the uploadImage function.
