@@ -12,10 +12,7 @@ if (!process.env.NEXT_PUBLIC_SENTRY_DSN) {
     dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
 
     // Add optional integrations for additional features
-    integrations: [
-      Sentry.replayIntegration(),
-      Sentry.browserTracingIntegration()
-    ],
+    integrations: [Sentry.replayIntegration(), Sentry.browserTracingIntegration()],
 
     // Adjust the sample rate for traces in production
     tracesSampleRate: process.env.NODE_ENV === 'production' ? 0.1 : 1.0, // 10% in production, 100% in development

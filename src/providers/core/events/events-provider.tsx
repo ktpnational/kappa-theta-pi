@@ -31,8 +31,8 @@ export const Events: React.FC<
   return (
     <>
       <Toaster
-        theme={`system`}
-        position={`top-center`}
+        theme={'system'}
+        position={'top-center'}
         duration={5000}
         richColors
         toastOptions={{

@@ -140,7 +140,7 @@ export async function checkIfEmailVerified(rawInput: CheckIfEmailVerifiedInput):
     if (!validatedInput.success) return false;
 
     const user = await getUserByEmail(validatedInput.data.email);
-    return user?.emailVerified instanceof Date ? true : false;
+    return user?.emailVerified instanceof Date;
   } catch (error) {
     console.error(error);
     throw new Error('Error checking if email verified');

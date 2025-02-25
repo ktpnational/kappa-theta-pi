@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { navigationSections } from "@/constants/nav";
-import { AnimatePresence, motion } from "framer-motion";
-import { usePathname } from "next/navigation";
-import { type ReactNode, useEffect } from "react";
+import { navigationSections } from '@/constants/nav';
+import { AnimatePresence, motion } from 'framer-motion';
+import { usePathname } from 'next/navigation';
+import { type ReactNode, useEffect } from 'react';
 
 type PageTransitionProps = {
   children: ReactNode;
@@ -21,22 +21,22 @@ const getTransitionConfig = (path: string) => {
   );
 
   if (section) {
-    return { transition: { duration: 0.4, ease: "easeInOut" } };
+    return { transition: { duration: 0.4, ease: 'easeInOut' } };
   }
 
-  if (path.startsWith("/dashboard")) {
-    return { transition: { duration: 0.6, ease: "anticipate" } };
+  if (path.startsWith('/dashboard')) {
+    return { transition: { duration: 0.6, ease: 'anticipate' } };
   }
 
-  if (path.startsWith("/auth")) {
-    return { transition: { duration: 0.3, ease: "easeOut" } };
+  if (path.startsWith('/auth')) {
+    return { transition: { duration: 0.3, ease: 'easeOut' } };
   }
 
-  return { transition: { duration: 0.5, ease: "easeInOut" } };
+  return { transition: { duration: 0.5, ease: 'easeInOut' } };
 };
 
 export const PageTransition = ({ children }: PageTransitionProps) => {
-  const pathname = usePathname() || "/";
+  const pathname = usePathname() || '/';
 
   useEffect(() => {
     if (!document.startViewTransition) return;
@@ -45,8 +45,8 @@ export const PageTransition = ({ children }: PageTransitionProps) => {
       document.startViewTransition(() => {});
     };
 
-    window.addEventListener("navigate", handleNavigation);
-    return () => window.removeEventListener("navigate", handleNavigation);
+    window.addEventListener('navigate', handleNavigation);
+    return () => window.removeEventListener('navigate', handleNavigation);
   }, []);
 
   return (

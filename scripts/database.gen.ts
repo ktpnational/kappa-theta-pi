@@ -1,7 +1,7 @@
 'use server';
 
-import { exec } from 'node:child_process';
-import { promisify } from 'node:util';
+import { exec } from 'child_process';
+import { promisify } from 'util';
 import { env } from '@/env';
 
 /**

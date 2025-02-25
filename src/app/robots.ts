@@ -30,6 +30,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ['/api/', '/legal'],
       },
     ],
-    sitemap: `https://www.kappathetapi.org/sitemap.xml`,
+    sitemap: 'https://www.kappathetapi.org/sitemap.xml',
   };
 }

@@ -92,7 +92,7 @@ export function NewEnquiryEmail({ name, email, message }: NewEnquiryEmailProps):
           <Section>
             <Text style={styles.text}>{message}</Text>
           </Section>
-          <Section></Section>
+          <Section />
         </Container>
       </Body>
     </Html>

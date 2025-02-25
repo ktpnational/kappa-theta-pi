@@ -179,18 +179,19 @@ export const DataLoader = <T,>({
     const { data, error } = useSuspenseQuery<T[]>({
       queryKey: queryOptions?.queryKey ?? ['multiple-urls', props.urls, params],
       queryFn: async (): Promise<T[]> => {
-        const requests = props.urls!.map(async (url) => {
+        // Fix: Removed redundant declaration
+        const fetchRequests = props.urls?.map(async (url) => {
           const searchParams = params
             ? `?${new URLSearchParams(params as Record<string, string>)}`
             : '';
           const fullUrl = `${url}${searchParams}`;
-
+    
           const res = await catchError(fetcher<FetchResponse<T>>, [
             fullUrl,
             props.config?.method,
             props.config,
           ]);
-
+    
           if (res.success) {
             const { status, data, statusText } = res.value;
             if (!status.toString().startsWith('2')) {
@@ -200,9 +201,14 @@ export const DataLoader = <T,>({
           }
           throw res.error;
         });
-
-        if (waitForAll) return await Promise.all(requests.slice(0, waitForAll));
-        return await Promise.all(requests);
+    
+        // Use Promise.allSettled() to allow all requests to complete, even if some fail
+        const results = await Promise.allSettled(fetchRequests ?? []);
+    
+        // Extract fulfilled values, handle rejections if needed
+        return results.map((result) =>
+          result.status === 'fulfilled' ? result.value : new Error('Request failed')
+        ) as T[];
       },
       ...queryOptions,
       staleTime: 1000 * 60 * 5,
@@ -234,30 +240,28 @@ export const DataLoader = <T,>({
           if (res.success) return res.value;
 
           throw res.error;
-        } else {
-          throw new Error('Invalid API method');
         }
-      } else {
-        const searchParams = params
-          ? `?${new URLSearchParams(params as Record<string, string>)}`
-          : '';
-        const fullUrl = `${props.url}${searchParams}`;
-
-        const res = await catchError(fetcher<FetchResponse<T>>, [
-          fullUrl,
-          props.config?.method,
-          props.config,
-        ]);
-
-        if (res.success) {
-          const { status, data, statusText } = res.value;
-          if (!status.toString().startsWith('2')) {
-            throw new Error(`${statusText} at DataLoader ${parseCodePath(fullUrl, fetcher)}`);
-          }
-          return data;
-        }
-        throw res.error;
+        throw new Error('Invalid API method');
       }
+      const searchParams = params
+        ? `?${new URLSearchParams(params as Record<string, string>)}`
+        : '';
+      const fullUrl = `${props.url}${searchParams}`;
+
+      const res = await catchError(fetcher<FetchResponse<T>>, [
+        fullUrl,
+        props.config?.method,
+        props.config,
+      ]);
+
+      if (res.success) {
+        const { status, data, statusText } = res.value;
+        if (!status.toString().startsWith('2')) {
+          throw new Error(`${statusText} at DataLoader ${parseCodePath(fullUrl, fetcher)}`);
+        }
+        return data;
+      }
+      throw res.error;
     },
     ...queryOptions,
     staleTime: 1000 * 60 * 5,

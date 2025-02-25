@@ -52,7 +52,7 @@ export async function checkIfSubscribedToNewsletter(
         email: validatedInput.data.email,
       },
     });
-    return subscribed ? true : false;
+    return !!subscribed;
   } catch (error) {
     console.error(error);
     throw new Error('Error checking if already subscribed to newsletter');

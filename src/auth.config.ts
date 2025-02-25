@@ -1,9 +1,9 @@
-import { getUserByEmail } from "@/data/user";
-import { LoginSchema } from "@/schemas";
-import bcrypt from "bcryptjs";
-import type { AuthOptions } from "next-auth";
-import Credentials from "next-auth/providers/credentials";
-import Google from "next-auth/providers/google";
+import { getUserByEmail } from '@/data/user';
+import { LoginSchema } from '@/schemas';
+import bcrypt from 'bcryptjs';
+import type { AuthOptions } from 'next-auth';
+import Credentials from 'next-auth/providers/credentials';
+import Google from 'next-auth/providers/google';
 
 export default {
   providers: [
@@ -14,8 +14,8 @@ export default {
     Credentials({
       // Define the required fields for the Credentials provider
       credentials: {
-        email: { label: "Email", type: "text" },
-        password: { label: "Password", type: "password" },
+        email: { label: 'Email', type: 'text' },
+        password: { label: 'Password', type: 'password' },
       },
       /**
        * Authorizes a user based on provided credentials.

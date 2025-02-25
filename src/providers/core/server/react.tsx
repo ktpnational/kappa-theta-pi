@@ -56,9 +56,8 @@ let clientQueryClientSingleton: QueryClient | undefined = undefined;
 const getQueryClient = (): QueryClient => {
   if (typeof window === 'undefined') {
     return createQueryClient();
-  } else {
-    return (clientQueryClientSingleton ??= createQueryClient());
   }
+  return (clientQueryClientSingleton ??= createQueryClient());
 };
 
 /**

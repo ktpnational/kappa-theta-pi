@@ -1,10 +1,10 @@
-import "@/styles/globals.css";
-import { getServerSession } from "next-auth";
-import { PageTransition } from "@/components";
-import { Providers } from "@/providers";
-import { Scripts } from "@/scripts";
-import { constructMetadata, constructViewport } from "@/utils";
-import { Analytics } from "@vercel/analytics/react";
+import '@/styles/globals.css';
+import { PageTransition } from '@/components';
+import { Providers } from '@/providers';
+import { Scripts } from '@/scripts';
+import { constructMetadata, constructViewport } from '@/utils';
+import { Analytics } from '@vercel/analytics/react';
+import { getServerSession } from 'next-auth';
 
 /** Application metadata constructed from utility function */
 export const metadata = constructMetadata();
@@ -37,16 +37,10 @@ export default async function RootLayout({
           name="google-site-verification"
           content="VBE7MGGVF5cIh-gYXQcDVhonxXv3wJKQqCsQvCjUY1k"
         />
-        <meta
-          name="google-adsense-account"
-          content={process.env.NEXT_PUBLIC_ADSENSE_ID}
-        />
+        <meta name="google-adsense-account" content={process.env.NEXT_PUBLIC_ADSENSE_ID} />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta
-          name="apple-mobile-web-app-status-bar-style"
-          content="black-translucent"
-        />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="theme-color" content="#234c8b" />
         <meta httpEquiv="X-XSS-Protection" content="1; mode=block" />
         <meta name="referrer" content="no-referrer" />
@@ -68,7 +62,7 @@ export default async function RootLayout({
             src={`https://www.googletagmanager.com/ns.html?id=${process.env.NEXT_PUBLIC_GTM_ID}`}
             height="0"
             width="0"
-            style={{ display: "none", visibility: "hidden" }}
+            style={{ display: 'none', visibility: 'hidden' }}
           />
         </noscript>
         <Providers session={session}>
@@ -80,4 +74,4 @@ export default async function RootLayout({
   );
 }
 
-RootLayout.displayName = "RootLayout";
+RootLayout.displayName = 'RootLayout';

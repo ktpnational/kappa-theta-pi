@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 
 const ResourcesFoundersDayPage = () => {
-  const eventDate = new Date("2025-01-10T17:00:00Z"); // 9 AM PST in UTC
+  const eventDate = new Date('2025-01-10T17:00:00Z'); // 9 AM PST in UTC
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
   const [eventStarted, setEventStarted] = useState(false);
 
@@ -44,9 +44,7 @@ const ResourcesFoundersDayPage = () => {
       </h1>
       {timeLeft ? (
         <div className="bg-blue-100 p-8 rounded-lg shadow-md text-center">
-          <h2 className="text-2xl font-semibold text-blue-700 mb-4">
-            The celebration begins in:
-          </h2>
+          <h2 className="text-2xl font-semibold text-blue-700 mb-4">The celebration begins in:</h2>
           <div className="flex justify-center gap-4 text-4xl font-bold text-blue-900">
             <div>
               <span>{timeLeft.days}</span>
@@ -72,8 +70,7 @@ const ResourcesFoundersDayPage = () => {
             The celebration has started! 🎉
           </h2>
           <p className="text-blue-700">
-            Join us as we celebrate the day Kappa Theta Pi was founded and honor
-            our legacy!
+            Join us as we celebrate the day Kappa Theta Pi was founded and honor our legacy!
           </p>
         </div>
       )}
@@ -85,15 +82,12 @@ const ResourcesFoundersDayPage = () => {
           </h2>
           <div className="bg-blue-100 p-6 rounded-lg shadow-md">
             <p className="text-lg text-blue-700">
-              Founders Day is a celebration of the day Kappa Theta Pi was
-              founded, reflecting on our legacy and achievements.
+              Founders Day is a celebration of the day Kappa Theta Pi was founded, reflecting on our
+              legacy and achievements.
             </p>
-            <p className="text-lg mt-4 text-blue-900 font-semibold">
-              Here’s today’s prompt:
-            </p>
+            <p className="text-lg mt-4 text-blue-900 font-semibold">Here’s today’s prompt:</p>
             <blockquote className="border-l-4 border-blue-500 pl-4 mt-2 text-blue-800 italic">
-              "What does Founders Day mean to you? Share your thoughts and
-              stories!"
+              "What does Founders Day mean to you? Share your thoughts and stories!"
             </blockquote>
           </div>
         </div>
@@ -106,5 +100,5 @@ const ResourcesFoundersDayPage = () => {
   );
 };
 
-ResourcesFoundersDayPage.displayName = "ResourcesFoundersDayPage";
+ResourcesFoundersDayPage.displayName = 'ResourcesFoundersDayPage';
 export default ResourcesFoundersDayPage;

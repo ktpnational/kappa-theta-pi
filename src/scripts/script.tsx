@@ -135,7 +135,7 @@ export function Scripts() {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           const link = entry.target.getAttribute('href');
-          if (link && link.startsWith('/')) {
+          if (link?.startsWith('/')) {
             addDynamicSpeculation(link);
           }
         }

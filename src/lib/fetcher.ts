@@ -150,34 +150,40 @@ export async function fetcher<T, E = unknown>(
             params ? `${path}?${buildQueryString(params)}` : `${path}`,
             requestConfig,
           );
-        } else if (method === 'DELETE') {
+        }
+        if (method === 'DELETE') {
           return instance.delete<T>(
             params ? `${path}?${buildQueryString(params)}` : `${path}`,
             requestConfig,
           );
-        } else if (method === 'HEAD') {
+        }
+        if (method === 'HEAD') {
           return instance.head<T>(
             params ? `${path}?${buildQueryString(params)}` : `${path}`,
             requestConfig,
           );
-        } else if (method === 'OPTIONS') {
+        }
+        if (method === 'OPTIONS') {
           return instance.options<T>(
             params ? `${path}?${buildQueryString(params)}` : `${path}`,
             requestConfig,
           );
-        } else if (method === 'POST') {
+        }
+        if (method === 'POST') {
           return instance.post<T>(
             params ? `${path}?${buildQueryString(params)}` : `${path}`,
             null,
             requestConfig,
           );
-        } else if (method === 'PUT') {
+        }
+        if (method === 'PUT') {
           return instance.put<T>(
             params ? `${path}?${buildQueryString(params)}` : `${path}`,
             null,
             requestConfig,
           );
-        } else if (method === 'PATCH') {
+        }
+        if (method === 'PATCH') {
           return instance.patch<T>(
             params ? `${path}?${buildQueryString(params)}` : `${path}`,
             null,
@@ -202,11 +208,11 @@ export async function fetcher<T, E = unknown>(
         );
       }
 
-      await new Promise((resolve) => setTimeout(resolve, retryDelay * Math.pow(2, attempt)));
+      await new Promise((resolve) => setTimeout(resolve, retryDelay * 2 ** attempt));
       attempt++;
     }
 
-    throw new FetcherError(`Max retries exceeded`, input, undefined, undefined, retries);
+    throw new FetcherError('Max retries exceeded', input, undefined, undefined, retries);
   } catch (error) {
     if (error instanceof FetcherError) {
       throw error;

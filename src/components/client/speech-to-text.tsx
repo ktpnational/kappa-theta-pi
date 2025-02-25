@@ -65,7 +65,7 @@ export const SpeechToText = React.memo(
     useIsomorphicLayoutEffect(() => {
       if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
         const SpeechRecognition =
-          (window as any)['SpeechRecognition'] || (window as any)['webkitSpeechRecognition'];
+          (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
         recognitionRef.current = new SpeechRecognition();
 
         const recognition = recognitionRef.current;
@@ -112,10 +112,10 @@ export const SpeechToText = React.memo(
 
           if (finalTranscript) {
             if (finalTranscript.toLowerCase().includes('stop')) {
-              setContent((content) => content + ' ' + finalTranscript.replace(/stop/gi, '').trim());
+              setContent((content) => `${content} ${finalTranscript.replace(/stop/gi, '').trim()}`);
               recognition.stop();
             } else {
-              setContent((content) => content + ' ' + finalTranscript.trim());
+              setContent((content) => `${content} ${finalTranscript.trim()}`);
             }
           }
         };
@@ -166,7 +166,7 @@ export const SpeechToText = React.memo(
         >
           {isRecording ? <FaStop /> : <FaMicrophone />}
         </Button>
-        <div ref={resultRef} id="result" className={`hidden`}></div>
+        <div ref={resultRef} id="result" className={'hidden'} />
       </>
     );
   },

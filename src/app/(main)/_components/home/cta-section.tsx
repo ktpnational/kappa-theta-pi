@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
-import { ArrowRight } from "lucide-react";
-import { motion } from "motion/react";
-import Link from "next/link";
-import { Suspense } from "react";
-import type React from "react";
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
+import { ArrowRight } from 'lucide-react';
+import { motion } from 'motion/react';
+import Link from 'next/link';
+import { Suspense } from 'react';
+import type React from 'react';
 
 /**
  * Animation variants for the container element.
@@ -33,7 +33,7 @@ const itemVariants = {
     y: 0,
     opacity: 1,
     transition: {
-      type: "spring",
+      type: 'spring',
       stiffness: 100,
     },
   },
@@ -77,18 +77,14 @@ const CTAContent = () => (
       animate={{ opacity: 0.1, scale: 1 }}
       transition={{ duration: 1.5 }}
     /> */}
-    <motion.h2
-      className="text-3xl md:text-4xl font-bold mb-6 relative"
-      variants={itemVariants}
-    >
+    <motion.h2 className="text-3xl md:text-4xl font-bold mb-6 relative" variants={itemVariants}>
       Join Kappa Theta Pi
     </motion.h2>
     <motion.p
       className="text-lg md:text-xl mb-8 max-w-2xl mx-auto relative"
       variants={itemVariants}
     >
-      Be part of the premier national technology fraternity and shape the future
-      of tech
+      Be part of the premier national technology fraternity and shape the future of tech
     </motion.p>
     <motion.div variants={itemVariants}>
       <Link href="/chapters/start" passHref>
@@ -133,5 +129,5 @@ export const CtaSection: React.FC = () => {
   );
 };
 
-CtaSection.displayName = "CtaSection";
+CtaSection.displayName = 'CtaSection';
 export default CtaSection;

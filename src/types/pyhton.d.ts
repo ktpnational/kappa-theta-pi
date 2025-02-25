@@ -521,7 +521,7 @@ Number.prototype.inRange = function (start: number, end?: number, step = 1): boo
 };
 
 Number.prototype.round = function (decimals = 0): number {
-  const factor = Math.pow(10, decimals);
+  const factor = 10 ** decimals;
   return Math.round(Number(this) * factor) / factor;
 };
 

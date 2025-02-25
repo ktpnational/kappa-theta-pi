@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { HeroVideoDialog } from "@/components/lib/hero-video-dialog";
-import { app } from "@/constants";
-import { cn } from "@/lib/utils";
-import { ArrowRight, Sparkles } from "lucide-react";
-import { motion } from "motion/react";
-import Link from "next/link";
+import { HeroVideoDialog } from '@/components/lib/hero-video-dialog';
+import { app } from '@/constants';
+import { cn } from '@/lib/utils';
+import { ArrowRight, Sparkles } from 'lucide-react';
+import { motion } from 'motion/react';
+import Link from 'next/link';
 
 /**
  * Custom easing function for animations
@@ -37,9 +37,7 @@ const HeroPill = () => {
         </span>
       </div>
       <div className="flex items-center gap-2 px-2">
-        <span className="text-xs font-medium text-blue-900 sm:text-sm">
-          Founder's Day
-        </span>
+        <span className="text-xs font-medium text-blue-900 sm:text-sm">Founder's Day</span>
         <ArrowRight className="h-4 w-4 text-blue-600 transition-transform duration-300 ease-in-out group-hover:translate-x-0.5" />
       </div>
     </motion.a>
@@ -59,11 +57,11 @@ const HeroTitles = () => {
     <div className="flex w-full max-w-3xl flex-col space-y-6 overflow-hidden pt-8">
       <motion.h1
         className="bg-gradient-to-b from-blue-950 to-blue-800 bg-clip-text text-center text-4xl font-bold leading-tight text-transparent sm:text-5xl md:text-6xl"
-        initial={{ filter: "blur(10px)", opacity: 0, y: 50 }}
-        animate={{ filter: "blur(0px)", opacity: 1, y: 0 }}
+        initial={{ filter: 'blur(10px)', opacity: 0, y: 50 }}
+        animate={{ filter: 'blur(0px)', opacity: 1, y: 0 }}
         transition={{ duration: 1, ease }}
       >
-        {["Uniting", "Tech", "Enthusiasts", "Nationwide"].map((text, index) => (
+        {['Uniting', 'Tech', 'Enthusiasts', 'Nationwide'].map((text, index) => (
           <motion.span
             key={index}
             className="inline-block px-1 text-balance md:px-2"
@@ -114,10 +112,10 @@ const HeroCTA = () => {
       <Link
         href="/chapters/start"
         className={cn(
-          "relative w-full overflow-hidden sm:w-auto",
-          "group inline-flex items-center justify-center rounded-lg text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
-          "bg-gradient-to-r from-blue-600 to-blue-500 text-white hover:from-blue-500 hover:to-blue-400",
-          "h-12 px-8 text-base",
+          'relative w-full overflow-hidden sm:w-auto',
+          'group inline-flex items-center justify-center rounded-lg text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
+          'bg-gradient-to-r from-blue-600 to-blue-500 text-white hover:from-blue-500 hover:to-blue-400',
+          'h-12 px-8 text-base',
         )}
       >
         <span className="relative z-10">Start a Chapter</span>
@@ -126,10 +124,10 @@ const HeroCTA = () => {
       <Link
         href="/chapters"
         className={cn(
-          "w-full sm:w-auto",
-          "inline-flex items-center justify-center rounded-lg text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
-          "border-2 border-blue-200 bg-white text-blue-700 hover:bg-blue-50",
-          "h-12 px-8 text-base",
+          'w-full sm:w-auto',
+          'inline-flex items-center justify-center rounded-lg text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
+          'border-2 border-blue-200 bg-white text-blue-700 hover:bg-blue-50',
+          'h-12 px-8 text-base',
         )}
       >
         Explore Our Chapters

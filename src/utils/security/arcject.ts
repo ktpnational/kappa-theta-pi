@@ -1,3 +1,4 @@
+import { env } from '@/env';
 import arcjet, {
   detectBot,
   fixedWindow,
@@ -7,7 +8,6 @@ import arcjet, {
   validateEmail,
   slidingWindow,
 } from '@arcjet/next';
-import { env } from '@/env';
 export {
   detectBot,
   fixedWindow,

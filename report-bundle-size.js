@@ -7,9 +7,9 @@
 
 // edited to work with the appdir by @raphaelbadia
 
-import fs from 'node:fs';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 // @ts-check
 import { gzipSize } from 'gzip-size';
 import { mkdirp } from 'mkdirp';
