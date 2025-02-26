@@ -60,8 +60,7 @@ export const SponsorsSection = () => {
   return (
     <section id="sponsors" className="w-full py-12">
       <div className="container px-4 md:px-6">
-        {/* Title */}
-        <h2 className="text-center text-4xl font-bold tracking-wide text-[#234c8b] mb-4 sr-only">
+        <h2 className="text-center text-4xl font-bold tracking-wide text-[#234c8b] mb-4">
           Our Network
         </h2>
         <div className="relative w-full">

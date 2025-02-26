@@ -50,6 +50,30 @@ const boardMembers = [
     linkedin: 'https://www.linkedin.com/in/beatrizp%C3%A9rez602/?originalSubdomain=pr',
     headshot: '/assets/headshots/Beatriz-Perez-Headshot.webp',
   },
+  {
+    name: 'Emily Jennett ',
+    role: 'Director of Branding and Marketing',
+    location: 'University of Michigan',
+    email: 'ejennett@umich.edu',
+    linkedin: 'https://www.linkedin.com/in/ejennett?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app',
+    headshot: '/assets/headshots/Emily-Jennett-Headshot.webp',
+  },
+  {
+    name: 'Makayla Tajalle',
+    role: 'Director of Correspondence',
+    location: 'Boston University',
+    email: 'mtajalle@bu.edu',
+    linkedin: 'https://www.linkedin.com/in/makayla-tajalle/',
+    headshot: '/assets/headshots/Makayla-Tajalle-Headshot.webp',
+  },  
+  {
+    name: 'Pranav Boopalam',
+    role: 'Director of Outreach',
+    location: 'University of Michigan',
+    email: 'boopalam@umich.edu',
+    linkedin: 'https://www.linkedin.com/in/pranav-boopalam',
+    headshot: '/assets/headshots/Pranav-Boopalam-Headshot.webp',
+  },
 ];
 
 const inauguralBoardMember = {

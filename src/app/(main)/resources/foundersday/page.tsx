@@ -1,101 +1,51 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 const ResourcesFoundersDayPage = () => {
-  const eventDate = new Date('2025-01-10T17:00:00Z'); // 9 AM PST in UTC
-  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
-  const [eventStarted, setEventStarted] = useState(false);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      const calculatedTime = calculateTimeLeft();
-      setTimeLeft(calculatedTime);
-
-      if (!calculatedTime) {
-        setEventStarted(true); // Mark event as started
-        clearInterval(timer); // Stop the timer
-      }
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, []);
-
-  function calculateTimeLeft() {
-    const now = new Date();
-    const difference = eventDate.getTime() - now.getTime();
-
-    if (difference <= 0) {
-      return null; // Event has started
-    }
-
-    return {
-      days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-      hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-      minutes: Math.floor((difference / 1000 / 60) % 60),
-      seconds: Math.floor((difference / 1000) % 60),
-    };
-  }
-
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-200 to-blue-500 text-navy-blue py-12 px-6 flex flex-col items-center">
-      <h1 className="text-5xl font-bold text-center text-white mb-6">
-        🎉 Countdown to Founders Day! 🎉
+    <div className="min-h-screen text-navy-blue py-12 px-6 flex flex-col items-center">
+      <h1 className="text-5xl font-bold text-center text-navy-blue mb-6">
+        🎉 Founders Day Event Winners! 🎉
       </h1>
-      {timeLeft ? (
-        <div className="bg-blue-100 p-8 rounded-lg shadow-md text-center">
-          <h2 className="text-2xl font-semibold text-blue-700 mb-4">The celebration begins in:</h2>
-          <div className="flex justify-center gap-4 text-4xl font-bold text-blue-900">
-            <div>
-              <span>{timeLeft.days}</span>
-              <p className="text-sm font-medium text-blue-600">Days</p>
-            </div>
-            <div>
-              <span>{timeLeft.hours}</span>
-              <p className="text-sm font-medium text-blue-600">Hours</p>
-            </div>
-            <div>
-              <span>{timeLeft.minutes}</span>
-              <p className="text-sm font-medium text-blue-600">Minutes</p>
-            </div>
-            <div>
-              <span>{timeLeft.seconds}</span>
-              <p className="text-sm font-medium text-blue-600">Seconds</p>
-            </div>
-          </div>
-        </div>
-      ) : (
-        <div className="bg-blue-100 p-8 rounded-lg shadow-md text-center">
-          <h2 className="text-2xl font-semibold text-green-700 mb-4">
-            The celebration has started! 🎉
-          </h2>
-          <p className="text-blue-700">
-            Join us as we celebrate the day Kappa Theta Pi was founded and honor our legacy!
+      
+      <div className="p-8 bg-[#DBEAFE] rounded-lg shadow-md text-center w-full max-w-4xl">
+        <h2 className="text-3xl font-semibold text-blue-700 mb-4">Congratulations to our Winners!</h2>
+        
+        <div className="mb-6">
+          <h3 className="text-2xl font-bold text-blue-900">🥇 First Place: KTP Time Capsule</h3>
+          <p className="text-lg text-blue-700">Chapter: Alpha, University of Michigan</p>
+          <p className="mt-2 text-blue-800">
+            The KTP Time Capsule App is a fun, engaging way to preserve fraternity memories through digital time capsules tailored to KTP events and traditions. 
+            Features include a public gallery, messaging with future delivery, and tailored notifications. Future updates will enhance alumni engagement and profile customization.
           </p>
         </div>
-      )}
-
-      {eventStarted && (
-        <div className="mt-12 w-full max-w-3xl">
-          <h2 className="text-3xl font-bold text-center text-white mb-6">
-            🎈 Founders Day Prompt 🎈
-          </h2>
-          <div className="bg-blue-100 p-6 rounded-lg shadow-md">
-            <p className="text-lg text-blue-700">
-              Founders Day is a celebration of the day Kappa Theta Pi was founded, reflecting on our
-              legacy and achievements.
-            </p>
-            <p className="text-lg mt-4 text-blue-900 font-semibold">Here’s today’s prompt:</p>
-            <blockquote className="border-l-4 border-blue-500 pl-4 mt-2 text-blue-800 italic">
-              "What does Founders Day mean to you? Share your thoughts and stories!"
-            </blockquote>
-          </div>
+        
+        <div className="mb-6">
+          <h3 className="text-2xl font-bold text-blue-900">🥈 Second Place: KTP Galactic Glide</h3>
+          <p className="text-lg text-blue-700">Chapter: Nu, University of Colorado Boulder</p>
+          <p className="mt-2 text-blue-800">
+            An interactive webpage where users pilot a spaceship to explore photos from Nu Chapter's history. This interactive experience will grow as the chapter's history expands.
+          </p>
         </div>
-      )}
+        
+        <div className="mb-6">
+          <h3 className="text-2xl font-bold text-blue-900">🥉 Third Place: Founder's Day Project</h3>
+          <p className="text-lg text-blue-700">Chapter: Iota, University of Texas at Austin</p>
+          <p className="mt-2 text-blue-800">
+            A dedicated tab on the chapter website that serves as a digital memory lane, allowing users to explore different pledge classes and their shared history.
+          </p>
+        </div>
+        
+        <div>
+          <h3 className="text-2xl font-bold text-blue-900">🏅 Honorary Mention: ThirdTry</h3>
+          <p className="text-lg text-blue-700">Chapter: Alpha Alpha, University of Central Arkansas</p>
+          <p className="mt-2 text-blue-800">
+            An engaging image quiz challenging members to match project visuals with descriptions, adding an interactive and educational twist to the digital archives.
+          </p>
+        </div>
+      </div>
 
-      <footer className="mt-12 text-center text-blue-100">
-        <p>© 2025 Founders Day | Created with ❤️ by the Kappa Theta Pi Team</p>
-      </footer>
     </div>
   );
 };

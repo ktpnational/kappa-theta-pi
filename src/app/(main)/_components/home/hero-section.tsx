@@ -61,7 +61,7 @@ const HeroTitles = () => {
         animate={{ filter: 'blur(0px)', opacity: 1, y: 0 }}
         transition={{ duration: 1, ease }}
       >
-        {['Uniting', 'Tech', 'Enthusiasts', 'Nationwide'].map((text, index) => (
+        {['Kappa', 'Theta', 'Pi'].map((text, index) => (
           <motion.span
             key={index}
             className="inline-block px-1 text-balance md:px-2"
