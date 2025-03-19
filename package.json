@@ -158,7 +158,7 @@
     "util": "^0.12.5"
   },
   "devDependencies": {
-    "@antfu/ni": "^0.23.2",
+    "@antfu/ni": "^24.2.0",
     "@apollo/server": "^4.11.3",
     "@arcjet/next": "^1.0.0-alpha.34",
     "@auth/core": "^0.38.0",
