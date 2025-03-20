@@ -55,7 +55,7 @@ export function Scripts() {
    */
   const config: PreloadConfig = {
     prerenderPaths: ['/', '/about/board', '/chapters', '/contact', '/resources'],
-    prefetchPaths: ['/auth/login', '/auth/register', '/legal/privacy', '/legal/terms'],
+    prefetchPaths: ['/auth/login', '/auth/register', '/privacy', '/terms', '/copyright'],
     excludePaths: ['/auth/*', '/dashboard/*', '/settings', '/api/*', '/about/history'],
   };
 

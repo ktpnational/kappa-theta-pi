@@ -15,7 +15,7 @@ interface BoardProps {
 
 const Board: React.FC<BoardProps> = React.memo(({ boardMembers, inauguralBoardMember }) => {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#EEF3FF] to-[#F8FAFF]">
+    <div className="min-h-screen bg-linear-to-b from-[#EEF3FF] to-[#F8FAFF]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
         <motion.div
           className="space-y-16"
@@ -49,7 +49,7 @@ const Board: React.FC<BoardProps> = React.memo(({ boardMembers, inauguralBoardMe
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.1 * index }}
               >
-                <div className="aspect-[3/4] relative">
+                <div className="aspect-3/4 relative">
                   <picture>
                     <Image
                       src={member.headshot}
@@ -64,7 +64,7 @@ const Board: React.FC<BoardProps> = React.memo(({ boardMembers, inauguralBoardMe
                     <source srcSet={member.headshot} type="image/webp" />
                   </picture>
                   <motion.article
-                    className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-b from-transparent via-white/90 to-white"
+                    className="absolute inset-x-0 bottom-0 h-1/2 bg-linear-to-b from-transparent via-white/90 to-white"
                     initial={{ y: '100%' }}
                     whileHover={{ y: 0 }}
                     transition={{
@@ -74,10 +74,10 @@ const Board: React.FC<BoardProps> = React.memo(({ boardMembers, inauguralBoardMe
                   >
                     <div className="absolute inset-0 p-6 flex justify-between items-end">
                       <div className="space-y-1.5">
-                        <p className="text-sm font-semibold text-[#234b8b] drop-shadow-sm">
+                        <p className="text-sm font-semibold text-[#234b8b] drop-shadow-xs">
                           {member.role}
                         </p>
-                        <h2 className="text-lg font-bold text-gray-900 drop-shadow-sm">
+                        <h2 className="text-lg font-bold text-gray-900 drop-shadow-xs">
                           {member.name}
                         </h2>
                         <p className="text-sm font-medium text-gray-700">{member.location}</p>
@@ -85,7 +85,7 @@ const Board: React.FC<BoardProps> = React.memo(({ boardMembers, inauguralBoardMe
                       <div className="flex flex-col gap-2">
                         <Link
                           href={`mailto:${member.email}`}
-                          className="p-2 text-[#234b8b] hover:text-[#1a3866] bg-white/90 hover:bg-white rounded-lg transition-colors shadow-sm"
+                          className="p-2 text-[#234b8b] hover:text-[#1a3866] bg-white/90 hover:bg-white rounded-lg transition-colors shadow-xs"
                         >
                           <Mail className="w-5 h-5" />
                           <span className="sr-only">Email {member.name}</span>
@@ -95,7 +95,7 @@ const Board: React.FC<BoardProps> = React.memo(({ boardMembers, inauguralBoardMe
                             href={member.linkedin}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="p-2 text-[#234b8b] hover:text-[#1a3866] bg-white/90 hover:bg-white rounded-lg transition-colors shadow-sm"
+                            className="p-2 text-[#234b8b] hover:text-[#1a3866] bg-white/90 hover:bg-white rounded-lg transition-colors shadow-xs"
                           >
                             <Icons.logos.linkedin className="w-5 h-5" />
                             <span className="sr-only">View {member.name}'s LinkedIn profile</span>
@@ -122,7 +122,7 @@ const Board: React.FC<BoardProps> = React.memo(({ boardMembers, inauguralBoardMe
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="bg-gradient-to-br from-[#234b8b] to-[#1a3866] shadow-lg rounded-xl p-8 text-center max-w-lg mx-auto border border-white/10"
+              className="bg-linear-to-br from-[#234b8b] to-[#1a3866] shadow-lg rounded-xl p-8 text-center max-w-lg mx-auto border border-white/10"
             >
               <div className="space-y-3">
                 <h3 className="text-2xl font-bold text-white mb-2">{inauguralBoardMember.name}</h3>

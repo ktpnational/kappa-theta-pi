@@ -36,11 +36,14 @@ const getTransitionConfig = (path: string) => {
 };
 
 export const PageTransition: React.FC<PageTransitionProps> = ({ children }) => {
+  let path: string = '';
   const pathname = usePathname();
-
+  
   useEffect(() => {
     if (!document.startViewTransition) return;
-
+    if (pathname) {
+      path = pathname
+    } 
     const handleNavigation = () => {
       document.startViewTransition(() => {});
     };
@@ -52,12 +55,12 @@ export const PageTransition: React.FC<PageTransitionProps> = ({ children }) => {
   return (
     <AnimatePresence mode="wait" initial={false}>
       <motion.main
-        key={pathname}
+        key={path}
         variants={variants}
         initial="hidden"
         animate="enter"
         exit="exit"
-        {...getTransitionConfig(pathname)}
+        {...getTransitionConfig(path)}
         className="min-h-screen"
       >
         {children}

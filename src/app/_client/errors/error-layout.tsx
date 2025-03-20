@@ -49,7 +49,6 @@ const ErrorLayout: React.FC<{
         </p>
         <div className="mt-6 flex flex-col gap-2">
           <Button
-            asChild
             size="lg"
             className="w-full bg-white/10 text-white hover:bg-white/20"
             variant="outline"

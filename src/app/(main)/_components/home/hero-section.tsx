@@ -25,12 +25,12 @@ const HeroPill = () => {
   return (
     <motion.a
       href="/resources/foundersday"
-      className="group relative flex items-center gap-1 overflow-hidden rounded-full bg-gradient-to-r from-blue-100/90 to-blue-50/90 p-1 pr-4 shadow-sm backdrop-blur-sm transition-all hover:shadow-md"
+      className="group relative flex items-center gap-1 overflow-hidden rounded-full bg-linear-to-r from-blue-100/90 to-blue-50/90 p-1 pr-4 shadow-xs backdrop-blur-xs transition-all hover:shadow-md"
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, ease }}
     >
-      <div className="rounded-full bg-gradient-to-r from-blue-600 to-blue-500 px-3 py-1.5">
+      <div className="rounded-full bg-linear-to-r from-blue-600 to-blue-500 px-3 py-1.5">
         <span className="flex items-center gap-1.5 text-xs font-semibold text-white sm:text-sm">
           <Sparkles className="h-3.5 w-3.5" />
           New
@@ -56,7 +56,7 @@ const HeroTitles = () => {
   return (
     <div className="flex w-full max-w-3xl flex-col space-y-6 overflow-hidden pt-8">
       <motion.h1
-        className="bg-gradient-to-b from-blue-950 to-blue-800 bg-clip-text text-center text-4xl font-bold leading-tight text-transparent sm:text-5xl md:text-6xl"
+        className="bg-linear-to-b from-blue-950 to-blue-800 bg-clip-text text-center text-4xl font-bold leading-tight text-transparent sm:text-5xl md:text-6xl"
         initial={{ filter: 'blur(10px)', opacity: 0, y: 50 }}
         animate={{ filter: 'blur(0px)', opacity: 1, y: 0 }}
         transition={{ duration: 1, ease }}
@@ -113,8 +113,8 @@ const HeroCTA = () => {
         href="/chapters/start"
         className={cn(
           'relative w-full overflow-hidden sm:w-auto',
-          'group inline-flex items-center justify-center rounded-lg text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
-          'bg-gradient-to-r from-blue-600 to-blue-500 text-white hover:from-blue-500 hover:to-blue-400',
+          'group inline-flex items-center justify-center rounded-lg text-sm font-medium ring-offset-background transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
+          'bg-linear-to-r from-blue-600 to-blue-500 text-white hover:from-blue-500 hover:to-blue-400',
           'h-12 px-8 text-base',
         )}
       >
@@ -125,7 +125,7 @@ const HeroCTA = () => {
         href="/chapters"
         className={cn(
           'w-full sm:w-auto',
-          'inline-flex items-center justify-center rounded-lg text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
+          'inline-flex items-center justify-center rounded-lg text-sm font-medium ring-offset-background transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
           'border-2 border-blue-200 bg-white text-blue-700 hover:bg-blue-50',
           'h-12 px-8 text-base',
         )}
@@ -149,7 +149,7 @@ const HeroCTA = () => {
         videoSrc="https://www.youtube.com/embed/dQw4w9WgXcQ"
         thumbnailSrc="/assets/images/hero.webp"
         thumbnailAlt="Kappa Theta Pi Introduction Video"
-        className="max-w-screen-md rounded-xl border border-blue-200/50 bg-white/50 shadow-xl shadow-blue-900/5 backdrop-blur-sm"
+        className="max-w-(--breakpoint-md) rounded-xl border border-blue-200/50 bg-white/50 shadow-xl shadow-blue-900/5 backdrop-blur-xs"
       />
  */
 const HeroImage = () => {
@@ -178,7 +178,7 @@ export const HeroSection = () => {
         <HeroPill />
         <HeroTitles />
         <HeroCTA />
-        <div className="pointer-events-none absolute inset-x-0 -bottom-12 h-1/3 bg-gradient-to-t from-white via-white to-transparent lg:h-1/4" />
+        <div className="pointer-events-none absolute inset-x-0 -bottom-12 h-1/3 bg-linear-to-t from-white via-white to-transparent lg:h-1/4" />
         <HeroImage />
       </div>
     </section>

@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-const ResourcesFoundersDayPage = () => {
+export const FoundersDay = () => {
   return (
     <div className="min-h-screen text-navy-blue py-12 px-6 flex flex-col items-center">
       <h1 className="text-5xl font-bold text-center text-navy-blue mb-6">
@@ -48,7 +48,7 @@ const ResourcesFoundersDayPage = () => {
 
     </div>
   );
-});
+};
 
-ResourcesFoundersDayPage.displayName = 'ResourcesFoundersDayPage';
-export default ResourcesFoundersDayPage;
+FoundersDay.displayName = 'FoundersDay';
+export default FoundersDay;

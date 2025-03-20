@@ -135,7 +135,7 @@ export const Contact = () => {
               <Link href={article.href} key={article.title}>
                 <Card className="hover:bg-accent/50 transition-colors group cursor-pointer border-muted">
                   <div className="flex items-center p-6 gap-6">
-                    <div className="flex-shrink-0 w-24 h-24 relative rounded-lg overflow-hidden">
+                    <div className="shrink-0 w-24 h-24 relative rounded-lg overflow-hidden">
                       <Image
                         src={article.image || '/assets/images/logo.webp'}
                         alt=""
@@ -145,7 +145,7 @@ export const Contact = () => {
                         priority
                       />
                     </div>
-                    <div className="flex-grow">
+                    <div className="grow">
                       <h3 className="text-lg font-semibold group-hover:text-primary transition-colors mb-1">
                         {article.title}
                       </h3>

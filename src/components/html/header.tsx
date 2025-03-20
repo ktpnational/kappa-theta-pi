@@ -50,7 +50,7 @@ const ListItem = React.forwardRef<React.ComponentRef<'a'>, React.ComponentPropsW
             ref={ref}
             onClick={handleClick}
             className={cn(
-              'block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground',
+              'block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-hidden transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground',
               className,
             )}
             {...props}
@@ -130,7 +130,7 @@ export const Header = memo(() => {
   return (
     <header
       className={cn(
-        'fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md shadow-sm transition-transform duration-300',
+        'fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md shadow-xs transition-transform duration-300',
         visible ? 'translate-y-0' : '-translate-y-full',
       )}
     >

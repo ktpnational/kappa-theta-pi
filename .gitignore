@@ -72,3 +72,10 @@ sw.js.*
 .contentlayer
 
 .fake
+
+fallback-*.js
+fallback-*.js.map
+
+swe-worker-*.js
+swe-worker-*.js.map
+

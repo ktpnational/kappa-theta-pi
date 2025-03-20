@@ -28,7 +28,7 @@ export const Chapters: React.FC<ChaptersProps> = React.memo(({ chapters }) => {
   );
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-[#EEF3FF] to-[#F8FAFF]">
+    <main className="min-h-screen bg-linear-to-b from-[#EEF3FF] to-[#F8FAFF]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
         <motion.div
           className="space-y-16"
@@ -86,7 +86,7 @@ export const Chapters: React.FC<ChaptersProps> = React.memo(({ chapters }) => {
                       <source srcSet={card.src} type="image/webp" />
                     </picture>
                     <div
-                      className="absolute inset-0 bg-gradient-to-t from-[#234b8b] via-[#234b8b]/25 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                      className="absolute inset-0 bg-linear-to-t from-[#234b8b] via-[#234b8b]/25 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                       aria-hidden="true"
                     />
                     <div className="absolute inset-0 p-6 flex flex-col justify-end items-start text-white opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-4 group-hover:translate-y-0">
@@ -94,7 +94,7 @@ export const Chapters: React.FC<ChaptersProps> = React.memo(({ chapters }) => {
                       <p className="text-sm text-white/90 mb-4">{card.subtitle}</p>
                       <Link
                         href={card.link}
-                        className="inline-flex items-center justify-center px-4 py-2 text-sm font-medium bg-white text-[#234b8b] rounded-lg transition-all duration-200 hover:bg-gray-100 hover:scale-105 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-[#234b8b] focus:outline-none"
+                        className="inline-flex items-center justify-center px-4 py-2 text-sm font-medium bg-white text-[#234b8b] rounded-lg transition-all duration-200 hover:bg-gray-100 hover:scale-105 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-[#234b8b] focus:outline-hidden"
                       >
                         {card.linkText}
                       </Link>

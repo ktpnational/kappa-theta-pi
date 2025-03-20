@@ -211,7 +211,7 @@ export const GoogleMaps = memo(() => {
   }, [isLoading, toast]);
 
   return (
-    <Card className="max-w-screen-lg bg-white shadow-none p-0 m-0 border-none mx-auto">
+    <Card className="max-w-(--breakpoint-lg) bg-white shadow-none p-0 m-0 border-none mx-auto">
       <CardContent className="p-0 space-y-6">
         {isLoading ? (
           <>

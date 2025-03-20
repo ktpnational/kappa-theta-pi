@@ -142,7 +142,7 @@ export const HeroVideoDialog = React.memo(
           </picture>
           <div className="absolute inset-0 flex items-center justify-center group-hover:scale-100 scale-[0.9] transition-all duration-200 ease-out rounded-2xl">
             <div className="bg-primary/10 flex items-center justify-center rounded-full backdrop-blur-md size-28">
-              <div className="flex items-center justify-center bg-gradient-to-b from-primary/30 to-primary shadow-md rounded-full size-20 transition-all ease-out duration-200 relative group-hover:scale-[1.2] scale-100">
+              <div className="flex items-center justify-center bg-linear-to-b from-primary/30 to-primary shadow-md rounded-full size-20 transition-all ease-out duration-200 relative group-hover:scale-[1.2] scale-100">
                 <Play
                   className="size-8 text-white fill-white group-hover:scale-105 scale-100 transition-transform duration-200 ease-out"
                   style={{
@@ -172,7 +172,7 @@ export const HeroVideoDialog = React.memo(
                 animate={selectedAnimation.animate}
                 exit={selectedAnimation.exit}
                 transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-                className="relative w-full max-w-4xl mx-4 md:mx-0 aspect-[3/2]"
+                className="relative w-full max-w-4xl mx-4 md:mx-0 aspect-3/2"
                 onClick={(e) => e.stopPropagation()}
               >
                 <motion.button
@@ -182,7 +182,7 @@ export const HeroVideoDialog = React.memo(
                 >
                   <XIcon className="size-5" />
                 </motion.button>
-                <div className="size-full border-2 border-white rounded-2xl overflow-hidden isolate z-[1] relative">
+                <div className="size-full border-2 border-white rounded-2xl overflow-hidden isolate z-1 relative">
                   <iframe
                     src={videoSrc}
                     title={thumbnailAlt}

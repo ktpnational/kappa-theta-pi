@@ -10,7 +10,7 @@ import { type Configuration, registerOTel } from '@vercel/otel';
  * This includes OpenTelemetry for observability and Sentry for error tracking.
  *
  * @async
- * @function register
+ * @const register
  * @returns {Promise<void>} A promise that resolves when all instrumentation is configured
  *
  * @example
@@ -27,7 +27,7 @@ import { type Configuration, registerOTel } from '@vercel/otel';
  *
  * @throws {Error} May throw if Sentry config imports fail or if OTel registration fails
  */
-export async function register() {
+export const register = async (): Promise<void> => {
   const runtime = process.env.NEXT_RUNTIME;
 
   try {
@@ -39,7 +39,6 @@ export async function register() {
           fetch: {
             ignoreUrls: [/health/, /metrics/],
             propagateContextUrls: [
-              // /api/v1/*
               /api\.kappathetapi\.org/, // API domain for Kappa Theta Pi
               /vercel\.app/,
             ],
@@ -51,23 +50,20 @@ export async function register() {
     }
 
     if (env.NEXT_PUBLIC_SENTRY_DSN) {
-      if (runtime === 'edge') {
-        await import('../sentry.edge.config');
-      } else if (runtime === 'nodejs') {
-        await import('../sentry.server.config');
-      }
+      const sentryConfigPath = runtime === 'edge' ? '../sentry.edge.config' : '../sentry.server.config';
+      await import(sentryConfigPath);
     }
   } catch (error) {
     console.error(`[${runtime} Instrumentation] Initialization error:`, error);
   }
-}
+};
 
 /**
  * Error handler function that captures and reports request errors to Sentry.
  * Direct export of Sentry's captureRequestError function for use in error boundaries
  * or request handlers.
  *
- * @function onRequestError
+ * @const onRequestError
  * @type {typeof Sentry.captureRequestError}
  *
  * @example
