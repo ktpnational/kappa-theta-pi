@@ -2,6 +2,7 @@
 
 import crypto from 'crypto';
 import { getUserByEmail } from '@/data';
+import { env } from '@/env';
 import { db, resend } from '@/lib';
 import {
   type CheckIfEmailVerifiedInput,
@@ -106,7 +107,7 @@ export async function resendEmailVerificationLink(
     );
 
     const emailSent = await resend.emails.send({
-      from: process.env.NEXT_PUBLIC_RESEND_EMAIL_FROM!,
+      from: env.NEXT_PUBLIC_RESEND_EMAIL_FROM,
       to: [validatedInput.data.email],
       subject: 'Verify your email address',
       react: emailTemplate,
@@ -231,8 +232,8 @@ export async function submitContactForm(rawInput: ContactFormInput): Promise<'er
     );
 
     const emailSent = await resend.emails.send({
-      from: process.env.NEXT_PUBLIC_RESEND_EMAIL_FROM!,
-      to: process.env.NEXT_PUBLIC_RESEND_EMAIL_TO!,
+      from: env.NEXT_PUBLIC_RESEND_EMAIL_FROM,
+      to: env.NEXT_PUBLIC_RESEND_EMAIL_TO,
       subject: 'Exciting news! New enquiry awaits',
       react: emailTemplate,
     });

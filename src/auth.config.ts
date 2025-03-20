@@ -1,15 +1,21 @@
 import { getUserByEmail } from '@/data/user';
+import { env } from '@/env';
 import { LoginSchema } from '@/schemas';
+import { logger } from '@/utils';
 import bcrypt from 'bcryptjs';
-import type { AuthOptions } from 'next-auth';
+import type NextAuthConfig from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 import Google from 'next-auth/providers/google';
+
+const log = logger.getSubLogger({
+  name: 'auth.config',
+});
 
 export default {
   providers: [
     Google({
-      clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
-      clientSecret: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET,
+      clientId: env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
+      clientSecret: env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET,
     }),
     Credentials({
       // Define the required fields for the Credentials provider
@@ -23,6 +29,7 @@ export default {
        * @returns {Promise<Object|null>} - Returns the user object if authorization is successful, otherwise null.
        */
       async authorize(credentials) {
+        log.info('Authorizing user');
         if (!credentials) return null;
 
         const validatedFields = LoginSchema.safeParse(credentials);
@@ -38,8 +45,41 @@ export default {
           if (passwordsMatch) return user;
         }
 
+        log.error('Invalid credentials');
         return null;
       },
     }),
+    // EmailProvider({
+    //   server: {
+    //     host: env.NEXT_PUBLIC_RESEND_HOST,
+    //     port: Number(env.NEXT_PUBLIC_RESEND_PORT),
+    //     auth: {
+    //       user: env.NEXT_PUBLIC_RESEND_USERNAME,
+    //       pass: env.NEXT_PUBLIC_RESEND_API_KEY,
+    //     },
+    //   },
+    //   from: env.NEXT_PUBLIC_RESEND_EMAIL_FROM,
+    //   async sendVerificationRequest({
+    //     identifier,
+    //     url,
+    //   }: {
+    //     identifier: string;
+    //     url: string;
+    //   }) {
+    //     try {
+    //       await resend.emails.send({
+    //         from: env.NEXT_PUBLIC_RESEND_EMAIL_FROM,
+    //         to: [identifier],
+    //         subject: `${app.name} magic link sign in`,
+    //         react: MagicLinkEmail({ identifier, url }),
+    //       });
+
+    //       log.info('Verification email sent');
+    //     } catch (error) {
+    //       log.error(error, 'Failed to send verification email');
+    //       throw new Error('Failed to send verification email');
+    //     }
+    //   },
+    // }),
   ],
-} satisfies AuthOptions;
+} satisfies Parameters<typeof NextAuthConfig>[2];

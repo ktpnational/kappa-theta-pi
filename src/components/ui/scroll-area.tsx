@@ -5,26 +5,8 @@ import * as React from 'react';
 
 import { cn } from '@/lib/utils';
 
-/**
- * A scrollable area component that provides custom styling and behavior for overflow content.
- * Built on top of Radix UI's ScrollArea primitive.
- *
- * @component
- * @param {object} props - The component props
- * @param {string} [props.className] - Additional CSS class names
- * @param {React.ReactNode} props.children - The content to be scrolled
- * @param {React.Ref<HTMLDivElement>} ref - Forwarded ref to the root element
- * @returns {React.JSX.Element} A scrollable container with custom scrollbars
- *
- * @example
- * ```tsx
- * <ScrollArea className="h-[200px]">
- *   <div>Scrollable content goes here</div>
- * </ScrollArea>
- * ```
- */
 const ScrollArea = React.forwardRef<
-  React.ElementRef<typeof ScrollAreaPrimitive.Root>,
+  React.ComponentRef<typeof ScrollAreaPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof ScrollAreaPrimitive.Root>
 >(({ className, children, ...props }, ref) => (
   <ScrollAreaPrimitive.Root
@@ -41,24 +23,8 @@ const ScrollArea = React.forwardRef<
 ));
 ScrollArea.displayName = ScrollAreaPrimitive.Root.displayName;
 
-/**
- * A custom scrollbar component that provides styled scrollbars for the ScrollArea component.
- * Can be oriented vertically or horizontally.
- *
- * @component
- * @param {object} props - The component props
- * @param {string} [props.className] - Additional CSS class names
- * @param {('vertical'|'horizontal')} [props.orientation='vertical'] - The scrollbar orientation
- * @param {React.Ref<HTMLDivElement>} ref - Forwarded ref to the scrollbar element
- * @returns {React.JSX.Element} A styled scrollbar component
- *
- * @example
- * ```tsx
- * <ScrollBar orientation="horizontal" />
- * ```
- */
 const ScrollBar = React.forwardRef<
-  React.ElementRef<typeof ScrollAreaPrimitive.ScrollAreaScrollbar>,
+  React.ComponentRef<typeof ScrollAreaPrimitive.ScrollAreaScrollbar>,
   React.ComponentPropsWithoutRef<typeof ScrollAreaPrimitive.ScrollAreaScrollbar>
 >(({ className, orientation = 'vertical', ...props }, ref) => (
   <ScrollAreaPrimitive.ScrollAreaScrollbar

@@ -1,6 +1,5 @@
 'use client';
 
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import {
   NavigationMenu,
@@ -9,40 +8,18 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
-  // NavigationMenuViewport,
 } from '@/components/ui/navigation-menu';
-import {
-  type NavItem,
-  authLinks,
-  dashboardLinks,
-  legalLinks,
-  navigationSections,
-  utilityLinks,
-} from '@/constants';
+import { type NavItem, legalLinks, navigationSections } from '@/constants';
 import { handleScrollAtom, isMenuOpenAtom, visibleAtom } from '@/core/atoms';
 import { cn } from '@/lib/utils';
 import { ScrollIntoCenterView } from '@/utils';
 import { useAtom } from 'jotai/react';
 import { throttle } from 'lodash';
 import { Menu, X } from 'lucide-react';
-import { useSession } from 'next-auth/react';
-import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
 import * as React from 'react';
 import { memo, useCallback, useEffect } from 'react';
-
-const UserNav = dynamic(() => import('@/components/user-nav').then((mod) => mod.UserNav), {
-  loading: () => (
-    <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-      <Avatar className="h-8 w-8">
-        <AvatarFallback>...</AvatarFallback>
-      </Avatar>
-    </Button>
-  ),
-  ssr: false,
-});
 
 /**
  * A custom list item component for use within the navigation menu.
@@ -56,7 +33,7 @@ const UserNav = dynamic(() => import('@/components/user-nav').then((mod) => mod.
  * @param {React.Ref<HTMLAnchorElement>} ref - Forwarded ref for the anchor element
  * @returns {React.JSX.Element} A styled list item with title and description
  */
-const ListItem = React.forwardRef<React.ElementRef<'a'>, React.ComponentPropsWithoutRef<'a'>>(
+const ListItem = React.forwardRef<React.ComponentRef<'a'>, React.ComponentPropsWithoutRef<'a'>>(
   ({ className, title, children, href, ...props }, ref) => {
     const handleClick = (e: React.MouseEvent) => {
       if (href?.startsWith('#')) {
@@ -140,7 +117,6 @@ MobileMenuItem.displayName = 'MobileMenuItem';
  * \`\`\`
  */
 export const Header = memo(() => {
-  const { data: session, status } = useSession();
   const [isMenuOpen, setIsMenuOpen] = useAtom(isMenuOpenAtom);
   const [visible] = useAtom(visibleAtom);
   const [, handleScroll] = useAtom(handleScrollAtom);
@@ -151,30 +127,6 @@ export const Header = memo(() => {
     return () => window.removeEventListener('scroll', throttledScroll);
   }, [handleScroll]);
 
-  const renderAuthSection = () => {
-    if (status === 'loading') {
-      return null;
-    }
-
-    if (session?.user) {
-      return <UserNav user={session.user} />;
-    }
-
-    return (
-      <div className="flex items-center gap-4">
-        {authLinks.map((item) => (
-          <Button
-            key={item.href}
-            variant={item.href === '/auth/login' ? 'default' : 'outline'}
-            asChild
-          >
-            <Link href={item.href}>{item.title}</Link>
-          </Button>
-        ))}
-      </div>
-    );
-  };
-
   return (
     <header
       className={cn(
@@ -182,7 +134,7 @@ export const Header = memo(() => {
         visible ? 'translate-y-0' : '-translate-y-full',
       )}
     >
-      <div className="container mx-auto px-4">
+      <nav className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
           <Link href="/" className="flex items-center space-x-2">
             <Image
@@ -191,10 +143,11 @@ export const Header = memo(() => {
               width={40}
               height={40}
               className="w-10 h-10"
+              priority
             />
             <span className="font-bold text-xl text-[#234C8B]">ΚΘΠ</span>
           </Link>
-          <nav className="hidden lg:flex lg:items-center lg:gap-6">
+          <div className="hidden lg:flex lg:items-center lg:gap-6">
             <NavigationMenu>
               <NavigationMenuList>
                 {navigationSections.map((section) => (
@@ -211,39 +164,9 @@ export const Header = memo(() => {
                     </NavigationMenuContent>
                   </NavigationMenuItem>
                 ))}
-
-                {/* Conditional Dashboard Links */}
-                {session?.user && (
-                  <NavigationMenuItem>
-                    <NavigationMenuTrigger>Dashboard</NavigationMenuTrigger>
-                    <NavigationMenuContent>
-                      <ul className="grid w-[400px] gap-3 p-4">
-                        {dashboardLinks.map((item) => (
-                          <ListItem key={item.href} title={item.title} href={item.href}>
-                            {item.description}
-                          </ListItem>
-                        ))}
-                      </ul>
-                    </NavigationMenuContent>
-                  </NavigationMenuItem>
-                )}
-
-                {/* Utility Links */}
-                {utilityLinks.map((item) => (
-                  <NavigationMenuItem key={item.href}>
-                    <Link href={item.href} legacyBehavior passHref>
-                      <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                        {item.title}
-                      </NavigationMenuLink>
-                    </Link>
-                  </NavigationMenuItem>
-                ))}
               </NavigationMenuList>
             </NavigationMenu>
-          </nav>
-
-          {/* Auth Section */}
-          <div className="hidden lg:block">{renderAuthSection()}</div>
+          </div>
 
           <Button
             variant="ghost"
@@ -255,7 +178,7 @@ export const Header = memo(() => {
             <span className="sr-only">Toggle navigation menu</span>
           </Button>
         </div>
-      </div>
+      </nav>
       {isMenuOpen && (
         <div className="lg:hidden bg-white border-t overflow-y-auto max-h-[calc(100vh-4rem)] transition-all duration-200 ease-in-out">
           <nav className="container mx-auto px-4 py-6 space-y-6">
@@ -268,34 +191,6 @@ export const Header = memo(() => {
                 ))}
               </div>
             ))}
-
-            {/* Conditional Dashboard Section */}
-            {session?.user && (
-              <div className="space-y-2">
-                <h3 className="font-semibold text-lg text-[#234C8B] px-2 mb-2">Dashboard</h3>
-                {dashboardLinks.map((item) => (
-                  <MobileMenuItem key={item.href} item={item} />
-                ))}
-              </div>
-            )}
-
-            {/* Auth Section for Mobile */}
-            {!session?.user && (
-              <div className="space-y-2">
-                <h3 className="font-semibold text-lg text-[#234C8B] px-2 mb-2">Account</h3>
-                {authLinks.map((item) => (
-                  <MobileMenuItem key={item.href} item={item} />
-                ))}
-              </div>
-            )}
-
-            {/* Utility Links Section */}
-            <div className="space-y-2">
-              <h3 className="font-semibold text-lg text-[#234C8B] px-2 mb-2">Quick Links</h3>
-              {utilityLinks.map((item) => (
-                <MobileMenuItem key={item.href} item={item} />
-              ))}
-            </div>
 
             {/* Legal Links Section */}
             <div className="space-y-2">

@@ -1,6 +1,9 @@
 'use client';
 
 import { Redacted } from '@/classes';
+import { config as env } from '@/config';
+import { Stringify } from '@/utils';
+import { generateSchema } from '@/utils/helpers/schema';
 import Script from 'next/script';
 import { useCallback, useEffect, useRef } from 'react';
 import { flushSync } from 'react-dom';
@@ -51,9 +54,9 @@ export function Scripts() {
    * Configuration object defining paths for preloading behavior
    */
   const config: PreloadConfig = {
-    prerenderPaths: ['/', '/about', '/chapters', '/contact', '/resources'],
+    prerenderPaths: ['/', '/about/board', '/chapters', '/contact', '/resources'],
     prefetchPaths: ['/auth/login', '/auth/register', '/legal/privacy', '/legal/terms'],
-    excludePaths: ['/auth/*', '/dashboard/*', '/settings', '/api/*'],
+    excludePaths: ['/auth/*', '/dashboard/*', '/settings', '/api/*', '/about/history'],
   };
 
   /**
@@ -97,7 +100,7 @@ export function Scripts() {
   const createSpeculationScript = useCallback((rules: object) => {
     const script = document.createElement('script');
     script.type = 'speculationrules';
-    script.text = JSON.stringify(rules);
+    script.text = Stringify(rules);
     return script;
   }, []);
 
@@ -214,6 +217,16 @@ export function Scripts() {
       },
     ],
   };
+
+  const organizationSchema = generateSchema({
+    type: 'Organization',
+    name: 'Kappa Theta Pi',
+    url: 'https://www.kappathetapi.org',
+    thumbnailUrl: 'https://www.kappathetapi.com/logo.png',
+    logo: 'https://www.kappathetapi.com/logo.png',
+    sameAs: ['https://www.facebook.com/kappathetapi', 'https://www.instagram.com/kappathetapi'],
+  });
+
   return (
     <>
       <Script
@@ -221,36 +234,36 @@ export function Scripts() {
         strategy="beforeInteractive"
         type="speculationrules"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(baseSpeculationRules),
+          __html: Stringify(baseSpeculationRules),
         }}
       />
 
       {/* External Scripts */}
       <Script
-        strategy="beforeInteractive"
+        strategy="lazyOnload"
         src={`https://maps.googleapis.com/maps/api/js?key=${Redacted.make(
-          process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
+          env.google.maps.apiKey,
         ).getValue()}&libraries=maps,marker&v=beta&callback=Function.prototype`}
         id="google-maps"
       />
 
       <Script
-        strategy="afterInteractive"
+        strategy="lazyOnload"
         src={`https://www.googletagmanager.com/gtag/js?id=${Redacted.make(
-          process.env.NEXT_PUBLIC_GA_TRACKING_ID,
+          env.analytics.ga.trackingId,
         ).getValue()}`}
         id="google-analytics-script"
       />
 
       <Script
-        strategy="afterInteractive"
+        strategy="lazyOnload"
         id="google-analytics-config"
         dangerouslySetInnerHTML={{
           __html: `
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', '${Redacted.make(process.env.NEXT_PUBLIC_GA_TRACKING_ID).getValue()}', {
+            gtag('config', '${Redacted.make(env.analytics.ga.trackingId).getValue()}', {
               page_path: window.location.pathname,
             });
           `,
@@ -258,31 +271,10 @@ export function Scripts() {
       />
 
       <Script
-        strategy="afterInteractive"
-        id="google-tag-manager"
-        dangerouslySetInnerHTML={{
-          __html: `
-            (function(w,d,s,l,i){
-              w[l]=w[l]||[];
-              w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});
-              var f=d.getElementsByTagName(s)[0],
-                  j=d.createElement(s),
-                  dl=l!='dataLayer'?'&l='+l:'';
-              j.async=true;
-              j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
-              f.parentNode.insertBefore(j,f);
-            })(window,document,'script','dataLayer','${Redacted.make(
-              process.env.NEXT_PUBLIC_GTM_ID,
-            ).getValue()}');
-          `,
-        }}
-      />
-
-      <Script
+        strategy="lazyOnload"
         async
-        strategy="afterInteractive"
         src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${Redacted.make(
-          process.env.NEXT_PUBLIC_ADSENSE_ID,
+          env.analytics.adsense.id,
         ).getValue()}`}
         crossOrigin="anonymous"
         id="google-adsense"
@@ -291,8 +283,18 @@ export function Scripts() {
       <Script
         type="application/ld+json"
         id="schema-org"
+        strategy="afterInteractive"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(schemaOrg),
+          __html: Stringify(schemaOrg),
+        }}
+      />
+
+      <Script
+        type="application/ld+json"
+        id="schema-org-extended"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: Stringify(organizationSchema),
         }}
       />
     </>

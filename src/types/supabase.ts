@@ -922,7 +922,7 @@ export type Database = {
       [_ in never]: never;
     };
     Enums: {
-      Role: 'GUEST' | 'MEMBER' | 'COMPANY';
+      Role: 'SPONSOR';
     };
     CompositeTypes: {
       [_ in never]: never;
@@ -1135,56 +1135,6 @@ export type Database = {
           },
         ];
       };
-      Event: {
-        Row: {
-          chapterId: string | null;
-          createdAt: string;
-          description: string | null;
-          endDate: string;
-          id: string;
-          location: string;
-          name: string;
-          startDate: string;
-          status: string;
-          type: string;
-          updatedAt: string;
-        };
-        Insert: {
-          chapterId?: string | null;
-          createdAt?: string;
-          description?: string | null;
-          endDate: string;
-          id: string;
-          location: string;
-          name: string;
-          startDate: string;
-          status: string;
-          type: string;
-          updatedAt: string;
-        };
-        Update: {
-          chapterId?: string | null;
-          createdAt?: string;
-          description?: string | null;
-          endDate?: string;
-          id?: string;
-          location?: string;
-          name?: string;
-          startDate?: string;
-          status?: string;
-          type?: string;
-          updatedAt?: string;
-        };
-        Relationships: [
-          {
-            foreignKeyName: 'Event_chapterId_fkey';
-            columns: ['chapterId'];
-            isOneToOne: false;
-            referencedRelation: 'chapters';
-            referencedColumns: ['id'];
-          },
-        ];
-      };
       members: {
         Row: {
           chapterId: string;
@@ -1285,59 +1235,6 @@ export type Database = {
         };
         Relationships: [];
       };
-      resources: {
-        Row: {
-          category: string;
-          chapterId: string | null;
-          createdAt: string;
-          createdBy: string;
-          description: string | null;
-          id: string;
-          tags: string[] | null;
-          title: string;
-          type: string;
-          updatedAt: string;
-          url: string;
-          userId: string;
-        };
-        Insert: {
-          category: string;
-          chapterId?: string | null;
-          createdAt?: string;
-          createdBy: string;
-          description?: string | null;
-          id: string;
-          tags?: string[] | null;
-          title: string;
-          type: string;
-          updatedAt: string;
-          url: string;
-          userId: string;
-        };
-        Update: {
-          category?: string;
-          chapterId?: string | null;
-          createdAt?: string;
-          createdBy?: string;
-          description?: string | null;
-          id?: string;
-          tags?: string[] | null;
-          title?: string;
-          type?: string;
-          updatedAt?: string;
-          url?: string;
-          userId?: string;
-        };
-        Relationships: [
-          {
-            foreignKeyName: 'resources_chapterId_fkey';
-            columns: ['chapterId'];
-            isOneToOne: false;
-            referencedRelation: 'chapters';
-            referencedColumns: ['id'];
-          },
-        ];
-      };
       resumes: {
         Row: {
           createdAt: string;
@@ -1364,41 +1261,6 @@ export type Database = {
           updatedAt?: string;
         };
         Relationships: [];
-      };
-      rsvps: {
-        Row: {
-          createdAt: string;
-          eventId: string;
-          id: string;
-          status: string;
-          updatedAt: string;
-          userId: string;
-        };
-        Insert: {
-          createdAt?: string;
-          eventId: string;
-          id: string;
-          status: string;
-          updatedAt: string;
-          userId: string;
-        };
-        Update: {
-          createdAt?: string;
-          eventId?: string;
-          id?: string;
-          status?: string;
-          updatedAt?: string;
-          userId?: string;
-        };
-        Relationships: [
-          {
-            foreignKeyName: 'rsvps_eventId_fkey';
-            columns: ['eventId'];
-            isOneToOne: false;
-            referencedRelation: 'Event';
-            referencedColumns: ['id'];
-          },
-        ];
       };
     };
     Views: {

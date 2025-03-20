@@ -16,6 +16,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
+import { config } from '@/config';
 import { type ChapterInfo, chapters } from '@/data/map';
 import { useToast } from '@/hooks/use-toast';
 import { MarkerClusterer } from '@googlemaps/markerclusterer';
@@ -222,12 +223,12 @@ export const GoogleMaps = memo(() => {
               ref={mapContainerRef}
               className="w-full h-[600px] rounded-xl overflow-hidden shadow-xl border border-gray-200"
             >
-              <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}>
+              <APIProvider apiKey={config.google.maps.apiKey}>
                 <Map
                   defaultCenter={DEFAULT_CENTER}
                   zoom={mapZoom}
                   onCameraChanged={(ev) => setMapZoom(ev.detail.zoom)}
-                  mapId={process.env.NEXT_PUBLIC_GOOGLE_MAPS_MAP_ID}
+                  mapId={config.google.maps.mapId}
                   {...mapOptions}
                 >
                   <Markers chapters={chapters} mapZoom={mapZoom} />

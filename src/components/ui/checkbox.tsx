@@ -1,42 +1,13 @@
+'use client';
+
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
 import { Check } from 'lucide-react';
 import * as React from 'react';
 
 import { cn } from '@/lib/utils';
 
-/**
- *
- * @component
- * @param {Object} props - The component props
- * @param {string} [props.className] - Additional CSS classes to apply to the checkbox
- * @param {React.Ref<HTMLButtonElement>} ref - Forwarded ref to access the underlying checkbox element
- * @param {...React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root>} props - All other props are passed to the underlying Radix UI Checkbox
- *
- * @example
- * // Basic usage
- * <Checkbox />
- *
- * // With custom class
- * <Checkbox className="my-custom-class" />
- *
- * // Controlled checkbox
- * const [checked, setChecked] = useState(false);
- * <Checkbox checked={checked} onCheckedChange={setChecked} />
- *
- * @description
- * This component wraps Radix UI's Checkbox primitive and adds custom styling.
- * It supports all standard checkbox functionality including:
- * - Keyboard navigation
- * - Focus states
- * - Disabled states
- * - Custom styling via className prop
- * - Form integration
- *
- * The checkbox uses a custom check icon from lucide-react and applies
- * tailwind classes for consistent styling across the application.
- */
 const Checkbox = React.forwardRef<
-  React.ElementRef<typeof CheckboxPrimitive.Root>,
+  React.ComponentRef<typeof CheckboxPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root>
 >(({ className, ...props }, ref) => (
   <CheckboxPrimitive.Root

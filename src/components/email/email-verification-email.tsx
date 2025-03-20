@@ -1,3 +1,4 @@
+import { config } from '@/config';
 import { app } from '@/constants';
 import {
   Body,
@@ -71,7 +72,7 @@ export function EmailVerificationEmail({
   emailVerificationToken,
 }: Readonly<EmailVerificationEmailProps>): React.JSX.Element {
   const previewText = `${app.name} email verification.`;
-  const verificationUrl = `${process.env.NEXT_PUBLIC_APP_URL}/signup/verify-email?token=${emailVerificationToken}`;
+  const verificationUrl = `${config.app.url}/signup/verify-email?token=${emailVerificationToken}`;
 
   return (
     <Html>

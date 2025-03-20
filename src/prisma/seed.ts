@@ -14,7 +14,6 @@ async function main() {
   try {
     // Clean up existing data
     await prisma.$transaction([
-      prisma.newsletterSubscriber.deleteMany(),
       prisma.candidate.deleteMany(),
       prisma.company.deleteMany(),
       prisma.member.deleteMany(),

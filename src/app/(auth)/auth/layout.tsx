@@ -1,5 +1,16 @@
+import { AuthProvider } from '@/app/_providers';
+// import { auth } from '@/auth';
 import { AnimatedBackground } from '@/components';
+import { SHOULD_USE_SUPABASE } from '@/config';
 import { constructMetadata } from '@/utils';
+import dynamic from 'next/dynamic';
+
+const ServiceUnavailableError = dynamic(
+  () => import('@/app/_client').then((mod) => mod.ServiceUnavailableError),
+  {
+    ssr: true,
+  },
+);
 
 export const metadata = constructMetadata({
   title: 'Auth',
@@ -27,16 +38,26 @@ export const metadata = constructMetadata({
  * - Conic gradient background from neutral-900 through neutral-600 back to neutral-900
  * - Flexible child content rendering
  */
-const AuthLayout = ({ children }: { children: React.ReactNode }) => {
+const AuthLayout = async ({ children }: { children: React.ReactNode }) => {
+  // await auth();
+  const session = null;
   return (
-    <main
-      className="
+    <>
+      {SHOULD_USE_SUPABASE ? (
+        <AuthProvider session={session}>
+          <main
+            className="
           min-h-screen flex items-center justify-center container mx-auto
-        "
-    >
-      {children}
-      <AnimatedBackground />
-    </main>
+          "
+          >
+            {children}
+            <AnimatedBackground />
+          </main>
+        </AuthProvider>
+      ) : (
+        <ServiceUnavailableError />
+      )}
+    </>
   );
 };
 

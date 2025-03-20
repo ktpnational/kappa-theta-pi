@@ -6,8 +6,12 @@ import * as React from 'react';
 import { cn } from '@/lib/utils';
 
 import { Button } from '@/components/ui/button';
-import { Input, type InputProps } from '@/components/ui/input';
+import { Input } from '@/components/ui/input';
 import { useGlobalStore } from '@/providers';
+
+// React.ComponentProps<'input'>;
+type InputProps = Parameters<typeof Input>[0];
+
 /**
  * A password input component that allows toggling password visibility.
  *

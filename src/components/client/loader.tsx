@@ -49,17 +49,18 @@ export const Loader = React.memo(
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5 }}
             />
-            <motion.div
-              className="absolute inset-0 flex items-center justify-center"
-              animate={{ rotate: 360 }}
-              transition={{
-                duration: 2,
-                repeat: Number.POSITIVE_INFINITY,
-                ease: 'linear',
-              }}
-            >
-              <Loader2 className="w-12 h-12 text-primary-foreground" />
-            </motion.div>
+            <div className="absolute inset-0 flex items-center justify-center">
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{
+                  duration: 2,
+                  repeat: Number.POSITIVE_INFINITY,
+                  ease: 'linear',
+                }}
+              >
+                <Loader2 className="w-12 h-12 text-primary-foreground" />
+              </motion.div>
+            </div>
           </div>
         </motion.div>
       </div>

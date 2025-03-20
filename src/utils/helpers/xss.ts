@@ -5,8 +5,8 @@ export const sanitizeHtml = (html: string): string => {
   return DOMPurify.sanitize(html);
 };
 
-export const sanitizeMarkdown = (markdown: string): string => {
-  const htmlContent = marked.parse(markdown);
+export const sanitizeMarkdown = async (markdown: string): Promise<string> => {
+  const htmlContent = await marked.parse(markdown);
   return sanitizeHtml(htmlContent);
 };
 

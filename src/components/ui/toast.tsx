@@ -7,19 +7,10 @@ import * as React from 'react';
 
 import { cn } from '@/lib/utils';
 
-/**
- * Provider component that wraps toast notifications
- */
 const ToastProvider = ToastPrimitives.Provider;
 
-/**
- * Component that contains and positions toast notifications
- * @param className - Optional className to override styles
- * @param props - Additional props passed to the viewport element
- * @param ref - Forwarded ref
- */
 const ToastViewport = React.forwardRef<
-  React.ElementRef<typeof ToastPrimitives.Viewport>,
+  React.ComponentRef<typeof ToastPrimitives.Viewport>,
   React.ComponentPropsWithoutRef<typeof ToastPrimitives.Viewport>
 >(({ className, ...props }, ref) => (
   <ToastPrimitives.Viewport
@@ -33,9 +24,6 @@ const ToastViewport = React.forwardRef<
 ));
 ToastViewport.displayName = ToastPrimitives.Viewport.displayName;
 
-/**
- * Style variants for toast notifications
- */
 const toastVariants = cva(
   'group pointer-events-auto relative flex w-full items-center justify-between space-x-4 overflow-hidden rounded-md border p-6 pr-8 shadow-lg transition-all data-[swipe=cancel]:translate-x-0 data-[swipe=end]:translate-x-[var(--radix-toast-swipe-end-x)] data-[swipe=move]:translate-x-[var(--radix-toast-swipe-move-x)] data-[swipe=move]:transition-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[swipe=end]:animate-out data-[state=closed]:fade-out-80 data-[state=closed]:slide-out-to-right-full data-[state=open]:slide-in-from-top-full data-[state=open]:sm:slide-in-from-bottom-full',
   {
@@ -52,15 +40,8 @@ const toastVariants = cva(
   },
 );
 
-/**
- * Main toast notification component
- * @param className - Optional className to override styles
- * @param variant - Visual variant of the toast ('default' or 'destructive')
- * @param props - Additional props passed to the toast element
- * @param ref - Forwarded ref
- */
 const Toast = React.forwardRef<
-  React.ElementRef<typeof ToastPrimitives.Root>,
+  React.ComponentRef<typeof ToastPrimitives.Root>,
   React.ComponentPropsWithoutRef<typeof ToastPrimitives.Root> & VariantProps<typeof toastVariants>
 >(({ className, variant, ...props }, ref) => {
   return (
@@ -73,14 +54,8 @@ const Toast = React.forwardRef<
 });
 Toast.displayName = ToastPrimitives.Root.displayName;
 
-/**
- * Action button component for toast notifications
- * @param className - Optional className to override styles
- * @param props - Additional props passed to the action element
- * @param ref - Forwarded ref
- */
 const ToastAction = React.forwardRef<
-  React.ElementRef<typeof ToastPrimitives.Action>,
+  React.ComponentRef<typeof ToastPrimitives.Action>,
   React.ComponentPropsWithoutRef<typeof ToastPrimitives.Action>
 >(({ className, ...props }, ref) => (
   <ToastPrimitives.Action
@@ -94,14 +69,8 @@ const ToastAction = React.forwardRef<
 ));
 ToastAction.displayName = ToastPrimitives.Action.displayName;
 
-/**
- * Close button component for toast notifications
- * @param className - Optional className to override styles
- * @param props - Additional props passed to the close element
- * @param ref - Forwarded ref
- */
 const ToastClose = React.forwardRef<
-  React.ElementRef<typeof ToastPrimitives.Close>,
+  React.ComponentRef<typeof ToastPrimitives.Close>,
   React.ComponentPropsWithoutRef<typeof ToastPrimitives.Close>
 >(({ className, ...props }, ref) => (
   <ToastPrimitives.Close
@@ -118,28 +87,16 @@ const ToastClose = React.forwardRef<
 ));
 ToastClose.displayName = ToastPrimitives.Close.displayName;
 
-/**
- * Title component for toast notifications
- * @param className - Optional className to override styles
- * @param props - Additional props passed to the title element
- * @param ref - Forwarded ref
- */
 const ToastTitle = React.forwardRef<
-  React.ElementRef<typeof ToastPrimitives.Title>,
+  React.ComponentRef<typeof ToastPrimitives.Title>,
   React.ComponentPropsWithoutRef<typeof ToastPrimitives.Title>
 >(({ className, ...props }, ref) => (
   <ToastPrimitives.Title ref={ref} className={cn('text-sm font-semibold', className)} {...props} />
 ));
 ToastTitle.displayName = ToastPrimitives.Title.displayName;
 
-/**
- * Description component for toast notifications
- * @param className - Optional className to override styles
- * @param props - Additional props passed to the description element
- * @param ref - Forwarded ref
- */
 const ToastDescription = React.forwardRef<
-  React.ElementRef<typeof ToastPrimitives.Description>,
+  React.ComponentRef<typeof ToastPrimitives.Description>,
   React.ComponentPropsWithoutRef<typeof ToastPrimitives.Description>
 >(({ className, ...props }, ref) => (
   <ToastPrimitives.Description
@@ -150,14 +107,8 @@ const ToastDescription = React.forwardRef<
 ));
 ToastDescription.displayName = ToastPrimitives.Description.displayName;
 
-/**
- * Props type for the Toast component
- */
 type ToastProps = React.ComponentPropsWithoutRef<typeof Toast>;
 
-/**
- * Type for toast action elements
- */
 type ToastActionElement = React.ReactElement<typeof ToastAction>;
 
 export {

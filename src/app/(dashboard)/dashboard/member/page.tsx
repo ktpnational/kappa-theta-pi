@@ -10,5 +10,4 @@ const DashboardMemberPage = () => {
 };
 
 DashboardMemberPage.displayName = 'DashboardMemberPage';
-
 export default DashboardMemberPage;

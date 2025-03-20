@@ -37,6 +37,11 @@ const navigationSections: NavSection[] = [
         title: 'Our History',
         href: '/about/history',
         description: 'Explore our founding and growth',
+      }, // contact
+      {
+        title: 'Contact Us',
+        href: '/contact',
+        description: 'Get in touch with us',
       },
     ],
   },
@@ -147,17 +152,6 @@ export const legalLinks: NavItem[] = [
     title: 'Copyright Policy',
     href: '/copyright',
     description: 'Learn about our copyright policy',
-  },
-];
-
-/**
- * Utility navigation links
- */
-export const utilityLinks: NavItem[] = [
-  {
-    title: 'Contact',
-    href: '/contact',
-    description: 'Get in touch with us',
   },
 ];
 

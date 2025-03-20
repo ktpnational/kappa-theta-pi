@@ -147,4 +147,29 @@ declare global {
   interface AppRouterInstance {
     push(href: Parameters<typeof import('next/link')['default']>[0]['href'], options?: { scroll?: boolean }): void;
   }
+  interface Window {
+    location: Location;
+    startViewTransition: (callback: () => void) => void;
+    currentYear: number;
+    timeZone: string;
+    googleSiteVerification: string;
+    googleAdsenseAccount: string;
+    mobileWebAppCapable: boolean;
+    themeColor: string;
+    manifest: string;
+    metadataBase: string;
+    other: {
+      currentYear: number;
+      timeZone: string;
+    };
+        gtag: (
+      command: string,
+      eventName: string,
+      eventParams: {
+        value?: number
+        event_label?: string
+        non_interaction?: boolean
+      }
+    ) => void
+  }
 }
