@@ -1,6 +1,6 @@
-import { execSync } from 'child_process';
-import fs from 'fs';
-import path from 'path';
+import { execSync } from 'node:child_process';
+import fs from 'node:fs';
+import path from 'node:path';
 import type { PackageJson } from 'type-fest';
 
 const packageJsonPath = path.join(process.cwd(), 'package.json');

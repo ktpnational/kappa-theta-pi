@@ -24,6 +24,7 @@
       }
     ],
     "incremental": true,
+    "baseUrl": ".",
     "removeComments": true,
     "preserveConstEnums": true,
     "alwaysStrict": true,
@@ -39,7 +40,11 @@
     "declaration": true,
     "sourceMap": true,
     "allowSyntheticDefaultImports": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "paths": {
+      "@testing": ["./test-fixtures.ts"],
+      "@/*": ["./src/*"]
+    }
   },
   "include": [
     "next-env.d.ts",

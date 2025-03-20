@@ -59,7 +59,7 @@
   ],
   "homepage": "https:eadme",
   "bugs": {
-    "url": "https:sues"
+    "url": "https://github.com/ktpnational/kappa-theta-pi/sues"
   },
   "repository": {
     "type": "git",
@@ -72,7 +72,7 @@
     "README.md"
   ],
   "scripts": {
-    "predev": "bun install --yarn > yarn.lock",
+    "predev": "rm -rf yarn.lock && bun install --yarn",
     "dev": "cross-env SENTRY_SUPPRESS_TURBOPACK_WARNING=1 NODE_OPTIONS='--inspect' next dev",
     "build": "next build",
     "start": "next start",
@@ -126,7 +126,8 @@
     "update-deps": "bun run npm-check-updates -u",
     "package-cost": "bun run ./scripts/package-cost.ts",
     "unused": "bun run ./scripts/check-unused.ts",
-    "hash-gen": "bun run ./scripts/img-to-b64.ts"
+    "hash-gen": "bun run ./scripts/img-to-b64.ts",
+    "remove-duplicates": "bun run ./scripts/remove-duplicates.ts"
   },
   "browserslist": {
     "development": [
@@ -143,20 +144,17 @@
     ]
   },
   "dependencies": {
-    "@fingerprintjs/botd": "^1.9.1",
     "@fingerprintjs/fingerprintjs-pro-react": "^2.6.3",
-    "@t3-oss/env-nextjs": "^0.11.1",
+    "@tailwindcss/postcss": "^4.0.14",
     "assert": "^2.1.0",
     "browserify-zlib": "^0.2.0",
     "crypto-browserify": "^3.12.1",
     "hoist-non-react-statics": "^3.3.2",
-    "jiti": "^2.4.2",
     "next": "^15.1.7",
     "process": "^0.11.10",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-is": "^19.0.0",
-    "server-only": "^0.0.1",
     "stream-browserify": "^3.0.0",
     "unplugin": "^1.16.1",
     "util": "^0.12.5"

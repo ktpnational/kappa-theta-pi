@@ -109,7 +109,7 @@ export const Chapters: React.FC<ChaptersProps> = React.memo(({ chapters }) => {
               Our Chapters Map
             </h2>
             <GoogleMaps />
-         </section>
+          </section>
         </motion.div>
       </div>
     </main>

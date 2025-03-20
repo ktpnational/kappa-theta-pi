@@ -5,7 +5,6 @@ import { PutObjectCommand } from '@aws-sdk/client-s3';
 import { Upload } from '@aws-sdk/lib-storage';
 import imageCompression from 'browser-image-compression';
 
-
 /**
  * Properties for the uploadImage function.
  * @interface UploadProps

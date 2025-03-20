@@ -1,11 +1,11 @@
 'use client';
 
 //import { HeroVideoDialog } from "@/components/lib/hero-video-dialog";
-import { app } from "@/constants";
-import { cn } from "@/lib/utils";
-import { ArrowRight, Sparkles } from "lucide-react";
-import { motion } from "motion/react";
-import Link from "next/link";
+import { app } from '@/constants';
+import { cn } from '@/lib/utils';
+import { ArrowRight, Sparkles } from 'lucide-react';
+import { motion } from 'motion/react';
+import Link from 'next/link';
 
 /**
  * Custom easing function for animations
@@ -61,7 +61,7 @@ const HeroTitles = () => {
         animate={{ filter: 'blur(0px)', opacity: 1, y: 0 }}
         transition={{ duration: 1, ease }}
       >
-        {["Kappa", "Theta", "Pi"].map((text, index) => (
+        {['Kappa', 'Theta', 'Pi'].map((text, index) => (
           <motion.span
             key={index}
             className="inline-block px-1 text-balance md:px-2"

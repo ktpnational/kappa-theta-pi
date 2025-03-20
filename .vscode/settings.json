@@ -15,5 +15,6 @@
   ],
   "eslint.rules.customizations": [{ "rule": "*", "severity": "warn" }],
   "eslint.useFlatConfig": true,
-  "typescript.tsdk": "node_modules/typescript/lib"
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "postman.settings.dotenv-detection-notification-visibility": false
 }
