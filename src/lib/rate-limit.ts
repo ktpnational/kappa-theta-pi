@@ -39,7 +39,7 @@ const limiter = {
     analytics: true,
     prefix: 'ratelimit:ai',
   }),
-};
+} as const;
 
 export const rateLimiter = (rateLimitingType: RateLimitHelper['rateLimitingType'] = 'default') => {
   const log = logger.getSubLogger({ prefix: ['RateLimit', rateLimitingType] });
