@@ -81,3 +81,5 @@ swe-worker-*.js.map
 
 
 .vercel
+
+manifest.webmanifest
