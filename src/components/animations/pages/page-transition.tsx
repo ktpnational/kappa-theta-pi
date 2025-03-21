@@ -16,6 +16,10 @@ const variants = {
 };
 
 const getTransitionConfig = (path: string) => {
+  if (!path) {
+    return { transition: { duration: 0.5, ease: 'easeInOut' } };
+  }
+
   const section = navigationSections.find((section) =>
     section.items.some((item) => item.href === path),
   );
@@ -36,16 +40,13 @@ const getTransitionConfig = (path: string) => {
 };
 
 export const PageTransition: React.FC<PageTransitionProps> = ({ children }) => {
-  let path: string = '';
   const pathname = usePathname();
-  
+
   useEffect(() => {
     if (!document.startViewTransition) return;
-    if (pathname) {
-      path = pathname
-    } 
+
     const handleNavigation = () => {
-      document.startViewTransition(() => {});
+      document.startViewTransition(() => { });
     };
 
     window.addEventListener('navigate', handleNavigation);
@@ -55,12 +56,12 @@ export const PageTransition: React.FC<PageTransitionProps> = ({ children }) => {
   return (
     <AnimatePresence mode="wait" initial={false}>
       <motion.main
-        key={path}
+        key={pathname}
         variants={variants}
         initial="hidden"
         animate="enter"
         exit="exit"
-        {...getTransitionConfig(path)}
+        {...getTransitionConfig(pathname)}
         className="min-h-screen"
       >
         {children}

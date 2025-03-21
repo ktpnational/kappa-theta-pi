@@ -5,6 +5,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { promisify } from 'node:util';
 import { logger } from '@/utils';
+import { Redacted } from '@/classes';
 
 const execPromise = promisify(exec);
 
@@ -37,7 +38,7 @@ const updateShouldUseSupabase = (shouldUseSupabase: boolean) => {
 };
 
 (async () => {
-  const projectRef = process.env.NEXT_PUBLIC_SUPABASE_URL?.split('//')[1]?.split('.')[0];
+  const projectRef = Redacted.make(process.env.NEXT_PUBLIC_SUPABASE_URL?.split('//')[1]?.split('.')[0]);
 
   if (!process.env.SUPABASE_ACCESS_TOKEN) {
     logger.error('SUPABASE_ACCESS_TOKEN environment variable is not set');
@@ -51,7 +52,7 @@ const updateShouldUseSupabase = (shouldUseSupabase: boolean) => {
 
     logger.info('Logging in to Supabase CLI...');
     const { stdout: loginOutput, stderr: loginError } = await retry(() =>
-      execPromise(`bunx supabase login --token ${process.env.SUPABASE_ACCESS_TOKEN}`),
+      execPromise(`bunx supabase login --token ${Redacted.make(process.env.SUPABASE_ACCESS_TOKEN).getValue()}`),
     );
 
     if (loginError) {
@@ -95,7 +96,7 @@ const updateShouldUseSupabase = (shouldUseSupabase: boolean) => {
     logger.info('Migrations completed:', { output: migrateOutput });
 
     logger.info('Generating Supabase types...');
-    const supabaseCommand = `npx supabase gen types --lang=typescript --project-id "${projectRef}" --schema public,auth,storage,next_auth > src/types/supabase.ts`;
+    const supabaseCommand = `npx supabase gen types --lang=typescript --project-id "${projectRef.getValue()}" --schema public,auth,storage,next_auth > src/types/supabase.ts`;
     const { stdout: supabaseOutput, stderr: supabaseError } = await retry(() =>
       execPromise(supabaseCommand),
     );

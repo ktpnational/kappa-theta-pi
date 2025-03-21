@@ -2,6 +2,8 @@
 export default {
   plugins: {
     '@tailwindcss/postcss': {},
-    cssnano: {},
+    cssnano: {
+      preset: 'default',
+    },
   },
 };

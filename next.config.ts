@@ -336,7 +336,7 @@ const sentryConfig: SentryBuildOptions = {
   authToken: process.env.NEXT_PUBLIC_SENTRY_AUTH_TOKEN,
   silent: true,
   release: {
-    name: process.env.VERCEL_GIT_COMMIT_SHA || `local-${Date.now()}`,
+    name: `local-${Date.now()}`,
     create: true,
     setCommits: {
       auto: true,
@@ -347,7 +347,6 @@ const sentryConfig: SentryBuildOptions = {
     assets: './**/*.{js,map}',
     ignore: ['node_modules/**/*'],
   },
-  hideSourceMaps: true,
   widenClientFileUpload: true,
   autoInstrumentServerFunctions: true,
   autoInstrumentMiddleware: true,
@@ -372,6 +371,7 @@ const withSentry =
     : (config: NextConfig) => config;
 
 const finalConfig = withPwa(withSentry(nextConfig));
+// const finalConfig = withPwa(nextConfig);
 const combinedConfig = millionConfig(withBundleAnalyzerConfig(finalConfig));
 
 export default combinedConfig;

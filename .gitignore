@@ -79,3 +79,5 @@ fallback-*.js.map
 swe-worker-*.js
 swe-worker-*.js.map
 
+
+.vercel
