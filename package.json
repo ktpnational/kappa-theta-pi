@@ -127,7 +127,7 @@
     "package-cost": "bun run ./scripts/package-cost.ts",
     "unused": "bun run ./scripts/check-unused.ts",
     "hash-gen": "bun run ./scripts/img-to-b64.ts",
-    "remove-duplicates": "bun run ./scripts/remove-duplicates.ts"
+    "remove-duplicates": "bun run ./scripts/remove-duplicate-packages.ts"
   },
   "browserslist": {
     "development": [
