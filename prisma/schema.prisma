@@ -6,7 +6,7 @@ generator client {
 datasource db {
   provider  = "postgresql"
   url       = env("DATABASE_URL")
-  schemas   = ["public", "next_auth"]
+  schemas   = ["public", "auth"]
 }
 
 model User {
@@ -26,7 +26,7 @@ model User {
   profile                 Profile?
 
   @@map("users")
-  @@schema("next_auth")
+  @@schema("auth")
 }
 
 model Account {
@@ -46,7 +46,7 @@ model Account {
 
   @@unique([provider, providerAccountId])
   @@map("accounts")
-  @@schema("next_auth")
+  @@schema("auth")
 }
 
 model Session {
@@ -57,7 +57,7 @@ model Session {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("sessions")
-  @@schema("next_auth")
+  @@schema("auth")
 }
 
 model VerificationToken {
@@ -68,7 +68,7 @@ model VerificationToken {
 
   @@unique([email, token])
   @@map("verification_tokens")
-  @@schema("next_auth")
+  @@schema("auth")
 }
 
 model PasswordResetToken {
@@ -79,7 +79,7 @@ model PasswordResetToken {
 
   @@unique([email, token])
   @@map("password_reset_tokens")
-  @@schema("next_auth")
+  @@schema("auth")
 }
 
 model TwoFactorToken {
@@ -90,7 +90,7 @@ model TwoFactorToken {
 
   @@unique([email, token])
   @@map("two_factor_tokens")
-  @@schema("next_auth")
+  @@schema("auth")
 }
 
 model TwoFactorConfirmation {
@@ -100,7 +100,7 @@ model TwoFactorConfirmation {
 
   @@unique([userId])
   @@map("two_factor_confirmations")
-  @@schema("next_auth")
+  @@schema("auth")
 }
 
 model Profile {
@@ -125,7 +125,7 @@ model Profile {
 enum Role {
   SPONSOR
 
-  @@schema("next_auth")
+  @@schema("auth")
 }
 
 model Address {

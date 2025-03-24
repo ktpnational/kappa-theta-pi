@@ -71,6 +71,13 @@ declare global {
 
       // Arcjet
       ARCJET_KEY: string;
+
+      // Better Auth
+      BETTER_AUTH_SECRET: string;
+
+      // Cloudflare
+      TURNSTILE_SECRET_KEY: string;
+      TURNSTILE_WEBSITE_KEY: string;
     }
   }
 }
