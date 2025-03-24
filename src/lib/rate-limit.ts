@@ -47,7 +47,7 @@ export const rateLimiter = (rateLimitingType: RateLimitHelper['rateLimitingType'
     if (isIpInBanListString(identifier)) {
       log.info('IP is in ban list', { identifier });
       return limiter.forcedSlowMode.limit(identifier);
-    }
+    }.
     log.info('Rate limiting', { identifier });
     return limiter[rateLimitingType].limit(identifier);
   };
