@@ -37,7 +37,7 @@ export const register = async (): Promise<void> => {
         instrumentations: runtime === 'edge' ? [] : undefined,
         instrumentationConfig: {
           fetch: {
-            ignoreUrls: [/health/, /metrics/],
+            ignoreUrls: [/health/, /metrics/, /api\.kappathetapi\.org/],
             propagateContextUrls: [
               /api\.kappathetapi\.org/, // API domain for Kappa Theta Pi
               /vercel\.app/,
@@ -50,11 +50,20 @@ export const register = async (): Promise<void> => {
     }
 
     if (env.NEXT_PUBLIC_SENTRY_DSN) {
-      const sentryConfigPath = runtime === 'edge' ? '../sentry.edge.config' : '../sentry.server.config';
-      await import(sentryConfigPath);
+      try {
+        if (runtime === 'edge') {
+          await import('../sentry.edge.config');
+        } else {
+          await import('../sentry.server.config');
+        }
+      } catch (e) {
+        console.warn('Could not load Sentry config:', e);
+        // Optionally continue without Sentry rather than crashing
+      }
     }
   } catch (error) {
     console.error(`[${runtime} Instrumentation] Initialization error:`, error);
+    throw new Error(`[${runtime} Instrumentation] Initialization error: ${error}`);
   }
 };
 
