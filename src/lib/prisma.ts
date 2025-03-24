@@ -4,28 +4,31 @@
  */
 
 import { PrismaClient } from '@prisma/client';
+import { withAccelerate } from '@prisma/extension-accelerate'
+
+const prismaClientSingleton = () => {
+  return new PrismaClient().$extends(withAccelerate())
+}
 
 /**
  * Extends the global namespace to include prisma client type
  * This allows for global singleton pattern implementation
  */
-declare global {
-  var prisma: PrismaClient | undefined;
-}
+declare const globalThis: {
+  prisma: ReturnType<typeof prismaClientSingleton>
+} & typeof global
 
-let prisma: PrismaClient;
+let prisma = globalThis.prisma ?? prismaClientSingleton();
 
 if (process.env.NODE_ENV === 'production') {
   prisma = new PrismaClient({
     log: ['error'],
   });
 } else {
-  if (!global.prisma) {
-    global.prisma = new PrismaClient({
-      log: ['query', 'error', 'warn'],
-    });
+  if (!globalThis.prisma) {
+    globalThis.prisma = prismaClientSingleton()
   }
-  prisma = global.prisma;
+  prisma = globalThis.prisma;
 }
 
 /**
