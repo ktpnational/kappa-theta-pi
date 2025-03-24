@@ -144,6 +144,7 @@
     ]
   },
   "dependencies": {
+    "better-auth": "^1.2.4",
     "next": "^15.2.3",
     "next-csrf": "^0.2.1",
     "react": "^19.0.0",
@@ -157,7 +158,6 @@
     "@auth/prisma-adapter": "^2.7.4",
     "@auth/supabase-adapter": "^1.8.0",
     "@aws-sdk/client-s3": "^3.772.0",
-    "@prisma/extension-accelerate": "1.2.2",
     "@aws-sdk/lib-storage": "^3.772.0",
     "@biomejs/biome": "1.9.4",
     "@commitlint/cli": "^19.8.0",
@@ -200,6 +200,7 @@
     "@opentelemetry/semantic-conventions": "^1.30.0",
     "@playwright/test": "^1.51.1",
     "@prisma/client": "^6.5.0",
+    "@prisma/extension-accelerate": "1.2.2",
     "@radix-ui/react-accordion": "^1.2.3",
     "@radix-ui/react-alert-dialog": "^1.1.6",
     "@radix-ui/react-aspect-ratio": "^1.1.2",
