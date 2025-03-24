@@ -1,126 +1,95 @@
-import authConfig from '@/auth.config';
-import { getTwoFactorConfirmationByUserId } from '@/data/two-factor-confirmation';
-import { getUserById } from '@/data/user';
-import { db } from '@/lib/prisma';
-import { PrismaAdapter } from '@auth/prisma-adapter';
-import type { Role } from '@prisma/client';
-import jwt from 'jsonwebtoken';
-import NextAuth from 'next-auth';
-import { getAccountByUserId } from './data/account';
+import { betterAuth } from "better-auth";
+import { prismaAdapter } from "better-auth/adapters/prisma";
+import { db } from "@/lib/prisma";
+import { twoFactor } from "better-auth/plugins";
+import { username } from "better-auth/plugins";
+import { magicLink } from "better-auth/plugins";
+import { jwt } from "better-auth/plugins";
+import { nextCookies } from "better-auth/next-js";
 
-export const { handlers, auth, signIn, signOut } = NextAuth({
-  adapter: PrismaAdapter(db),
-  ...authConfig,
-  pages: {
-    signIn: '/auth/login',
-    error: '/auth/error',
-  },
-  secret: process.env.AUTH_SECRET,
-  events: {
-    /**
-     * Event triggered when a user links an account.
-     * @param {Object} param - The parameter object.
-     * @param {Object} param.user - The user object.
-     */
-    async linkAccount({ user }) {
-      await db.user.update({
-        where: { id: user.id },
-        data: { emailVerified: new Date() },
-      });
+export const auth = betterAuth({
+  // Database adapter
+  database: prismaAdapter(db, {
+    provider: "postgresql",
+  }),
+
+  // App name (used for 2FA and other features)
+  appName: "Your App Name",
+
+  // Email and password authentication
+  emailAndPassword: {
+    enabled: true,
+    async sendVerificationEmail({ email, url }) {
+      // Implement your email sending logic here
+      console.log(`Sending verification email to ${email} with URL: ${url}`);
+    },
+    async sendResetPassword(url, user) {
+      // Implement your password reset email logic here
+      console.log(`Sending reset password email to ${user.email} with URL: ${url}`);
     },
   },
-  callbacks: {
-    /**
-     * Callback triggered during sign-in.
-     * @param {Object} param - The parameter object.
-     * @param {Object} param.user - The user object.
-     * @param {Object} param.account - The account object.
-     * @returns {Promise<boolean>} - Returns true if sign-in is allowed, false otherwise.
-     */
-    async signIn({ user, account }) {
-      if (account?.provider !== 'credentials') return true;
 
-      if (!user.id) return false;
-      const existingUser = await getUserById(user.id);
-
-      if (!existingUser?.emailVerified) return false;
-
-      if (existingUser.isTwoFactorEnabled) {
-        const twoFactorConfirmation = await getTwoFactorConfirmationByUserId(existingUser.id);
-
-        if (!twoFactorConfirmation) return false;
-
-        await db.twoFactorConfirmation.delete({
-          where: { id: twoFactorConfirmation.id },
-        });
-      }
-
-      return true;
+  // Social providers
+  socialProviders: {
+    google: {
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     },
-    /**
-     * Callback triggered when a session is created or updated.
-     * @param {Object} param - The parameter object.
-     * @param {Object} param.token - The token object.
-     * @param {Object} param.session - The session object.
-     * @returns {Promise<Object>} - Returns the updated session object.
-     */
-    async session({ token, session }) {
-      if (token.sub && session.user) {
-        session.user.id = token.sub;
-      }
+  },
 
-      if (token.role && session.user) {
-        session.user.role = token.role as Role;
-      }
+  // Plugins
+  plugins: [
+    // Two-factor authentication
+    twoFactor({
+      otpOptions: {
+        async sendOTP({ user, otp }, request) {
+          // Implement your OTP sending logic here
+          console.log(`Sending OTP ${otp} to user ${user.email}`);
+        },
+      },
+    }),
 
-      if (session.user) {
-        session.user.isTwoFactorEnabled = token.isTwoFactorEnabled as boolean;
-        session.user.name = token.name as string;
-        session.user.email = token.email as string;
-        session.user.isOAuth = token.isOAuth as boolean;
-      }
+    // Username plugin
+    username(),
 
-      const signingSecret = process.env.NEXT_PUBLIC_SUPABASE_JWT_SECRET;
-      if (signingSecret && token.sub && token.email) {
-        const payload = {
+    // Magic link authentication
+    magicLink({
+      sendMagicLink: async ({ email, token, url }, request) => {
+        // Implement your magic link email sending logic here
+        console.log(`Sending magic link to ${email} with URL: ${url}`);
+      }
+    }),
+
+    // JWT plugin for Supabase integration
+    jwt({
+      jwt: {
+        issuer: process.env.NEXT_PUBLIC_SUPABASE_URL,
+        audience: process.env.NEXT_PUBLIC_SUPABASE_URL,
+        expirationTime: "30d", // Match your current session maxAge
+        definePayload: (user) => ({
           aud: 'authenticated',
-          exp: Math.floor(new Date(session.expires).getTime() / 1000),
-          sub: token.sub,
-          email: token.email,
+          sub: user.id,
+          email: user.email,
           role: 'authenticated',
-        };
-        session.supabaseAccessToken = jwt.sign(payload, signingSecret);
+        }),
       }
+    }),
 
-      return session;
+    // Make sure nextCookies is the last plugin
+    nextCookies()
+  ],
+
+  // Database hooks (similar to your current events)
+  databaseHooks: {
+    user: {
+      create: {
+        after: async (user) => {
+          // Any logic you want to run after user creation
+        },
+      },
     },
-    /**
-     * Callback triggered when a JWT is created or updated.
-     * @param {Object} param - The parameter object.
-     * @param {Object} param.token - The token object.
-     * @returns {Promise<Object>} - Returns the updated token object.
-     */
-    async jwt({ token }) {
-      if (!token.sub) return token;
-
-      const existingUser = await getUserById(token.sub);
-
-      if (!existingUser) return token;
-
-      const existingAccount = await getAccountByUserId(existingUser.id);
-
-      token.isOAuth = !!existingAccount;
-      token.name = existingUser.name;
-      token.email = existingUser.email;
-      token.role = existingUser.role;
-      token.isTwoFactorEnabled = existingUser.isTwoFactorEnabled;
-
-      return token;
-    },
-  },
-  session: {
-    strategy: 'jwt',
-    maxAge: 30 * 24 * 60 * 60,
-    updateAge: 24 * 60 * 60,
   },
 });
+
+// Export client for use in components
+export const { api } = auth;
