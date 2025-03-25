@@ -8,6 +8,7 @@ import {
   jwt
 } from "better-auth/plugins";
 import { nextCookies } from "better-auth/next-js";
+import { getURL } from "./utils";
 
 export const auth = betterAuth({
   // Database adapter
@@ -68,17 +69,20 @@ export const auth = betterAuth({
     // JWT plugin for Supabase integration
     jwt({
       jwks: {
-
-      }
+        keyPairConfig: {
+          alg: "EdDSA",
+          crv: "Ed25519"
+        }
+      },
       jwt: {
-        issuer: process.env.NEXT_PUBLIC_SUPABASE_URL,
-        audience: process.env.NEXT_PUBLIC_SUPABASE_URL,
+        issuer: getURL(),
+        audience: getURL(),
         expirationTime: "30d", // Match your current session maxAge
-        definePayload: (user) => ({
-          aud: 'authenticated',
-          sub: user.id,
+        definePayload: ({ session, user }) => ({
+          aud: session.id ? 'authenticated' : 'public',
+          sub: session.id,
           email: user.email,
-          role: 'authenticated',
+          role: user.role,
         }),
       }
     }),
