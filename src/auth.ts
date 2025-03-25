@@ -1,10 +1,12 @@
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { db } from "@/lib/prisma";
-import { twoFactor } from "better-auth/plugins";
-import { username } from "better-auth/plugins";
-import { magicLink } from "better-auth/plugins";
-import { jwt } from "better-auth/plugins";
+import {
+  twoFactor,
+  captcha,
+  magicLink,
+  jwt
+} from "better-auth/plugins";
 import { nextCookies } from "better-auth/next-js";
 
 export const auth = betterAuth({
@@ -14,12 +16,12 @@ export const auth = betterAuth({
   }),
 
   // App name (used for 2FA and other features)
-  appName: "Your App Name",
+  appName: "Kappa Theta PI",
 
   // Email and password authentication
   emailAndPassword: {
     enabled: true,
-    async sendVerificationEmail({ email, url }) {
+    async sendVerificationEmail({ email, url }: { email: string; url: string }) {
       // Implement your email sending logic here
       console.log(`Sending verification email to ${email} with URL: ${url}`);
     },
@@ -32,13 +34,19 @@ export const auth = betterAuth({
   // Social providers
   socialProviders: {
     google: {
-      clientId: process.env.GOOGLE_CLIENT_ID as string,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+      clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
+      clientSecret: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET,
     },
   },
 
   // Plugins
   plugins: [
+    // Captcha
+    captcha({
+      provider: "cloudflare-turnstile",
+      secretKey: process.env.TURNSTILE_SECRET_KEY,
+    }),
+
     // Two-factor authentication
     twoFactor({
       otpOptions: {
@@ -48,9 +56,6 @@ export const auth = betterAuth({
         },
       },
     }),
-
-    // Username plugin
-    username(),
 
     // Magic link authentication
     magicLink({
@@ -62,6 +67,9 @@ export const auth = betterAuth({
 
     // JWT plugin for Supabase integration
     jwt({
+      jwks: {
+
+      }
       jwt: {
         issuer: process.env.NEXT_PUBLIC_SUPABASE_URL,
         audience: process.env.NEXT_PUBLIC_SUPABASE_URL,
@@ -75,7 +83,6 @@ export const auth = betterAuth({
       }
     }),
 
-    // Make sure nextCookies is the last plugin
     nextCookies()
   ],
 
