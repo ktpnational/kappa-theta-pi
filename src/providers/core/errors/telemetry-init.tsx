@@ -6,10 +6,10 @@ import { registerInstrumentations } from '@opentelemetry/instrumentation';
 import { DocumentLoadInstrumentation } from '@opentelemetry/instrumentation-document-load';
 import { FetchInstrumentation } from '@opentelemetry/instrumentation-fetch';
 import { UserInteractionInstrumentation } from '@opentelemetry/instrumentation-user-interaction';
-import { Resource } from '@opentelemetry/resources';
+import * as resources from '@opentelemetry/resources';
 import { BatchSpanProcessor } from '@opentelemetry/sdk-trace-base';
 import { WebTracerProvider } from '@opentelemetry/sdk-trace-web';
-import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions';
+import { ATTR_SERVICE_NAME, ATTR_SERVICE_VERSION, SemanticResourceAttributes, SEMRESATTRS_DEPLOYMENT_ENVIRONMENT, SEMRESATTRS_SERVICE_NAME } from '@opentelemetry/semantic-conventions';
 import { memo, useEffect } from 'react';
 
 /**
@@ -35,12 +35,11 @@ import { memo, useEffect } from 'react';
 export const initTelemetry = (): void => {
   if (typeof window !== 'undefined') {
     const provider = new WebTracerProvider({
-      resource: new Resource({
-        [SemanticResourceAttributes.SERVICE_NAME]: 'ktp-web',
-        [SemanticResourceAttributes.SERVICE_VERSION]:
-          process.env.NEXT_PUBLIC_APP_VERSION || '1.0.0',
-        environment: process.env.NODE_ENV,
-      }),
+      resource: resources.resourceFromAttributes({
+        [ATTR_SERVICE_NAME]: 'ktp-web',
+        [ATTR_SERVICE_VERSION]: process.env.NEXT_PUBLIC_APP_VERSION || '0.0.0',
+        [SEMRESATTRS_DEPLOYMENT_ENVIRONMENT]: process.env.NODE_ENV || 'development'
+      })
     });
 
     // Configure the OTLP exporter
