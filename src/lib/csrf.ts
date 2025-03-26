@@ -2,7 +2,7 @@ import { nextCsrf } from 'next-csrf';
 
 
 export const { setup, csrf } = nextCsrf({
-    tokenKey: 'x-csrf-token',
+    tokenKey: 'qx-csrf-token',
     cookieOptions: {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
