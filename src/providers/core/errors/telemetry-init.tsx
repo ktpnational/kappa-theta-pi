@@ -1,15 +1,13 @@
 'use client';
 
 import { ZoneContextManager } from '@opentelemetry/context-zone';
-import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-http';
 import { registerInstrumentations } from '@opentelemetry/instrumentation';
 import { DocumentLoadInstrumentation } from '@opentelemetry/instrumentation-document-load';
 import { FetchInstrumentation } from '@opentelemetry/instrumentation-fetch';
 import { UserInteractionInstrumentation } from '@opentelemetry/instrumentation-user-interaction';
 import * as resources from '@opentelemetry/resources';
-import { BatchSpanProcessor } from '@opentelemetry/sdk-trace-base';
 import { WebTracerProvider } from '@opentelemetry/sdk-trace-web';
-import { ATTR_SERVICE_NAME, ATTR_SERVICE_VERSION, SemanticResourceAttributes, SEMRESATTRS_DEPLOYMENT_ENVIRONMENT, SEMRESATTRS_SERVICE_NAME, SEMRESATTRS_SERVICE_VERSION } from '@opentelemetry/semantic-conventions';
+import { ATTR_SERVICE_NAME, ATTR_SERVICE_VERSION } from '@opentelemetry/semantic-conventions';
 import { memo, useEffect } from 'react';
 
 /**
@@ -42,12 +40,6 @@ export const initTelemetry = (): void => {
       })
     });
 
-    // Configure the OTLP exporter
-    const otlpExporter = new OTLPTraceExporter({
-      url: process.env.NEXT_PUBLIC_OTEL_COLLECTOR_URL || 'http://localhost:4318/v1/traces',
-    });
-
-    provider.addSpanProcessor(new BatchSpanProcessor(otlpExporter));
     provider.register({
       contextManager: new ZoneContextManager(),
     });

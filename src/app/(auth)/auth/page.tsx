@@ -1,4 +1,3 @@
-import { SHOULD_USE_SUPABASE } from '@/config';
 import dynamic from 'next/dynamic';
 import { redirect } from 'next/navigation';
 // import { auth } from '@/auth';
