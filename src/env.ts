@@ -16,6 +16,10 @@ const env = createEnv({
     SERVER_URL_KEY: z.literal('x-url').default('x-url'),
     SEVEN_DAYS: z.number().default(7),
 
+    // Turnstile
+    TURNSTILE_SECRET_KEY: z.string().min(1, 'Turnstile Secret Key is required'),
+    TURNSTILE_SITE_KEY: z.string().min(1, 'Turnstile Site Key is required'),
+
     // External Services
     GITHUB_TOKEN: z.string().optional(),
     ARCJET_KEY: z.string().min(1, 'Arcjet Key is required'),
@@ -86,6 +90,8 @@ const env = createEnv({
     ARCJET_KEY: process.env.ARCJET_KEY,
     NODE_ENV: process.env.NODE_ENV,
     ANALYZE: process.env.ANALYZE,
+    TURNSTILE_SECRET_KEY: process.env.TURNSTILE_SECRET_KEY,
+    TURNSTILE_SITE_KEY: process.env.TURNSTILE_SITE_KEY,
 
     // Client variables
     NEXT_PUBLIC_APP_VERSION: process.env.NEXT_PUBLIC_APP_VERSION,

@@ -1,16 +1,18 @@
+import { LoginSchema } from '@/schemas';
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { db } from "@/lib/prisma";
-import {
-  twoFactor,
-  captcha,
-  magicLink,
-  jwt
-} from "better-auth/plugins";
-import { nextCookies } from "better-auth/next-js";
-import { getURL } from "./utils";
+import { logger } from '@/utils';
+import bcrypt from 'bcryptjs';
+import { getUserByEmail } from '@/data/user';
+import authConfig from '@/auth.config';
+
+const log = logger.getSubLogger({
+  name: 'auth.config',
+});
 
 export const auth = betterAuth({
+  ...authConfig,
   // Database adapter
   database: prismaAdapter(db, {
     provider: "postgresql",
@@ -31,64 +33,6 @@ export const auth = betterAuth({
       console.log(`Sending reset password email to ${user.email} with URL: ${url}`);
     },
   },
-
-  // Social providers
-  socialProviders: {
-    google: {
-      clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
-      clientSecret: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET,
-    },
-  },
-
-  // Plugins
-  plugins: [
-    // Captcha
-    captcha({
-      provider: "cloudflare-turnstile",
-      secretKey: process.env.TURNSTILE_SECRET_KEY,
-    }),
-
-    // Two-factor authentication
-    twoFactor({
-      otpOptions: {
-        async sendOTP({ user, otp }, request) {
-          // Implement your OTP sending logic here
-          console.log(`Sending OTP ${otp} to user ${user.email}`);
-        },
-      },
-    }),
-
-    // Magic link authentication
-    magicLink({
-      sendMagicLink: async ({ email, token, url }, request) => {
-        // Implement your magic link email sending logic here
-        console.log(`Sending magic link to ${email} with URL: ${url}`);
-      }
-    }),
-
-    // JWT plugin for Supabase integration
-    jwt({
-      jwks: {
-        keyPairConfig: {
-          alg: "EdDSA",
-          crv: "Ed25519"
-        }
-      },
-      jwt: {
-        issuer: getURL(),
-        audience: getURL(),
-        expirationTime: "30d", // Match your current session maxAge
-        definePayload: ({ session, user }) => ({
-          aud: session.id ? 'authenticated' : 'public',
-          sub: session.id,
-          email: user.email,
-          role: user.role,
-        }),
-      }
-    }),
-
-    nextCookies()
-  ],
 
   // Database hooks (similar to your current events)
   databaseHooks: {

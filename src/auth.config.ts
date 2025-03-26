@@ -1,85 +1,66 @@
-import { getUserByEmail } from '@/data/user';
 import { env } from '@/env';
-import { LoginSchema } from '@/schemas';
-import { logger } from '@/utils';
-import bcrypt from 'bcryptjs';
-import type NextAuthConfig from 'next-auth';
-import Credentials from 'next-auth/providers/credentials';
-import Google from 'next-auth/providers/google';
-
-const log = logger.getSubLogger({
-  name: 'auth.config',
-});
+import type { BetterAuthOptions } from 'better-auth';
+import {
+  twoFactor,
+  captcha,
+  magicLink,
+  jwt
+} from "better-auth/plugins";
+import { nextCookies } from "better-auth/next-js";
+import { getURL } from "./utils";
 
 export default {
-  providers: [
-    Google({
+  socialProviders: {
+    google: {
       clientId: env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
       clientSecret: env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET,
+    },
+  },
+  plugins: [
+    captcha({
+      provider: "cloudflare-turnstile",
+      secretKey: env.TURNSTILE_SECRET_KEY,
     }),
-    Credentials({
-      // Define the required fields for the Credentials provider
-      credentials: {
-        email: { label: 'Email', type: 'text' },
-        password: { label: 'Password', type: 'password' },
+
+    // Two-factor authentication
+    twoFactor({
+      otpOptions: {
+        async sendOTP({ user, otp }, request) {
+          // Implement your OTP sending logic here
+          console.log(`Sending OTP ${otp} to user ${user.email}`);
+        },
       },
-      /**
-       * Authorizes a user based on provided credentials.
-       * @param {Object} credentials - The credentials object containing user input.
-       * @returns {Promise<Object|null>} - Returns the user object if authorization is successful, otherwise null.
-       */
-      async authorize(credentials) {
-        log.info('Authorizing user');
-        if (!credentials) return null;
+    }),
 
-        const validatedFields = LoginSchema.safeParse(credentials);
+    // Magic link authentication
+    magicLink({
+      sendMagicLink: async ({ email, token, url }, request) => {
+        // Implement your magic link email sending logic here
+        console.log(`Sending magic link to ${email} with URL: ${url}`);
+      }
+    }),
 
-        if (validatedFields.success) {
-          const { email, password } = validatedFields.data;
-          const user = await getUserByEmail(email);
-
-          if (!user || !user.password) return null;
-
-          const passwordsMatch = await bcrypt.compare(password, user.password);
-
-          if (passwordsMatch) return user;
+    // JWT plugin for Supabase integration
+    jwt({
+      jwks: {
+        keyPairConfig: {
+          alg: "EdDSA",
+          crv: "Ed25519"
         }
-
-        log.error('Invalid credentials');
-        return null;
       },
+      jwt: {
+        issuer: getURL(),
+        audience: getURL(),
+        expirationTime: "30d", // Match your current session maxAge
+        definePayload: ({ session, user }) => ({
+          aud: session.id ? 'authenticated' : 'public',
+          sub: session.id,
+          email: user.email,
+          role: user.role,
+        }),
+      }
     }),
-    // EmailProvider({
-    //   server: {
-    //     host: env.NEXT_PUBLIC_RESEND_HOST,
-    //     port: Number(env.NEXT_PUBLIC_RESEND_PORT),
-    //     auth: {
-    //       user: env.NEXT_PUBLIC_RESEND_USERNAME,
-    //       pass: env.NEXT_PUBLIC_RESEND_API_KEY,
-    //     },
-    //   },
-    //   from: env.NEXT_PUBLIC_RESEND_EMAIL_FROM,
-    //   async sendVerificationRequest({
-    //     identifier,
-    //     url,
-    //   }: {
-    //     identifier: string;
-    //     url: string;
-    //   }) {
-    //     try {
-    //       await resend.emails.send({
-    //         from: env.NEXT_PUBLIC_RESEND_EMAIL_FROM,
-    //         to: [identifier],
-    //         subject: `${app.name} magic link sign in`,
-    //         react: MagicLinkEmail({ identifier, url }),
-    //       });
 
-    //       log.info('Verification email sent');
-    //     } catch (error) {
-    //       log.error(error, 'Failed to send verification email');
-    //       throw new Error('Failed to send verification email');
-    //     }
-    //   },
-    // }),
+    nextCookies()
   ],
-} satisfies Parameters<typeof NextAuthConfig>[2];
+} satisfies BetterAuthOptions;
