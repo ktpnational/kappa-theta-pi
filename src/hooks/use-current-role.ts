@@ -1,6 +1,6 @@
 'use client';
 
-import { useSession } from 'next-auth/react';
+// TODO: NEXT_AUTH
 
 /**
  * Custom hook to retrieve the current user's role from the active session.

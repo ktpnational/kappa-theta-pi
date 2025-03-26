@@ -1,7 +1,7 @@
 'use client';
 
 import { createAuthenticatedClient, createClient } from '@/utils/supabase/client';
-import { useSession } from 'next-auth/react';
+// TODO: NEXT_AUTH
 import { useEffect, useState } from 'react';
 
 /**

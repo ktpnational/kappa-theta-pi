@@ -1,7 +1,7 @@
 'use client';
 
 // import { AuthProvider as NextAuthProvider, Providers } from '@/providers';
-import type { Session } from 'next-auth';
+// TODO: NEXT_AUTH
 import type React from 'react';
 
 const AuthProvider: React.FC<{ children: React.ReactNode; session: Session | null }> = ({

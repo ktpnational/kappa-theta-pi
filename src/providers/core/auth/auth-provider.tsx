@@ -1,7 +1,6 @@
 'use client';
 
-import type { Session } from 'next-auth';
-import { SessionProvider } from 'next-auth/react';
+// TODO: NEXT_AUTH
 
 /**
  * Authentication provider component that wraps the application with session context

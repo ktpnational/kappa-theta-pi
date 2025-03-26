@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { DEFAULT_LOGIN_REDIRECT } from '@/routes';
-import { signIn } from 'next-auth/react';
+// TODO: NEXT_AUTH
 import { useSearchParams } from 'next/navigation';
 import { FcGoogle } from 'react-icons/fc';
 

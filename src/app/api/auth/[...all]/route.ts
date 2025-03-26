@@ -7,10 +7,8 @@
  * Import the auth object which contains authentication methods and middleware
  * from the local authentication configuration.
  */
-import {  } from ''
+import { auth } from '@/auth';
 import { toNextJsHandler } from 'better-auth/next-js';
-
-import type { NextRequest } from 'next/server';
 
 /**
  * Force dynamic rendering of this route to ensure authentication state is always fresh.

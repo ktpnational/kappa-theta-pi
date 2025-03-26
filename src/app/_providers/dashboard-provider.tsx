@@ -1,7 +1,7 @@
 'use client';
 
 import { Providers, QueryProvider, ThemeProvider } from '@/providers';
-// import type { Session } from 'next-auth';
+// TODO: NEXT_AUTH
 import type React from 'react';
 
 const DashboardProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {

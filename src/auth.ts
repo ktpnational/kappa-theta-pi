@@ -26,11 +26,14 @@ export const auth = betterAuth({
     enabled: true,
     async sendVerificationEmail({ email, url }: { email: string; url: string }) {
       // Implement your email sending logic here
-      console.log(`Sending verification email to ${email} with URL: ${url}`);
+      log.info('Sending verification email', { email, url: url.substring(0, 20) + '...' });
     },
     async sendResetPassword(url, user) {
       // Implement your password reset email logic here
-      console.log(`Sending reset password email to ${user.email} with URL: ${url}`);
+      log.info('Sending password reset email', {
+        email: user?.email,
+        url: url.substring(0, 20) + '...'
+      });
     },
   },
 
@@ -40,6 +43,7 @@ export const auth = betterAuth({
       create: {
         after: async (user) => {
           // Any logic you want to run after user creation
+          log.info('User created successfully', { userId: user.id });
         },
       },
     },
