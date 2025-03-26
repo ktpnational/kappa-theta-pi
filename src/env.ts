@@ -27,6 +27,9 @@ const env = createEnv({
     // Node Environment
     NODE_ENV: z.enum(['development', 'production', 'test']),
     ANALYZE: z.string().optional(),
+
+    // CSRF
+    CSRF_SECRET: z.string().min(1, 'CSRF Secret is required'),
   },
   client: {
     // App Configuration
@@ -92,7 +95,8 @@ const env = createEnv({
     ANALYZE: process.env.ANALYZE,
     TURNSTILE_SECRET_KEY: process.env.TURNSTILE_SECRET_KEY,
     TURNSTILE_SITE_KEY: process.env.TURNSTILE_SITE_KEY,
-
+    CSRF_SECRET: process.env.CSRF_SECRET,
+    
     // Client variables
     NEXT_PUBLIC_APP_VERSION: process.env.NEXT_PUBLIC_APP_VERSION,
     NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,

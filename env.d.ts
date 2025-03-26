@@ -77,7 +77,10 @@ declare global {
 
       // Cloudflare
       TURNSTILE_SECRET_KEY: string;
-      TURNSTILE_WEBSITE_KEY: string;
+      TURNSTILE_SITE_KEY: string;
+
+      // CSRF
+      CSRF_SECRET: string;
     }
   }
 }
