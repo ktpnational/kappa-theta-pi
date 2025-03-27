@@ -1,11 +1,8 @@
-import { LoginSchema } from '@/schemas';
-import { betterAuth } from "better-auth";
-import { prismaAdapter } from "better-auth/adapters/prisma";
-import { db } from "@/lib/prisma";
-import { logger } from '@/utils';
-import bcrypt from 'bcryptjs';
-import { getUserByEmail } from '@/data/user';
 import authConfig from '@/auth.config';
+import { db } from '@/lib';
+import { logger } from '@/utils';
+import { betterAuth } from 'better-auth';
+import { prismaAdapter } from 'better-auth/adapters/prisma';
 
 const log = logger.getSubLogger({
   name: 'auth.config',
@@ -15,27 +12,27 @@ export const auth = betterAuth({
   ...authConfig,
   // Database adapter
   database: prismaAdapter(db, {
-    provider: "postgresql",
+    provider: 'postgresql',
   }),
 
   // App name (used for 2FA and other features)
-  appName: "Kappa Theta PI",
+  appName: 'Kappa Theta PI',
 
   // Email and password authentication
-  emailAndPassword: {
-    enabled: true,
-    async sendVerificationEmail({ email, url }: { email: string; url: string }) {
-      // Implement your email sending logic here
-      log.info('Sending verification email', { email, url: url.substring(0, 20) + '...' });
-    },
-    async sendResetPassword(url, user) {
-      // Implement your password reset email logic here
-      log.info('Sending password reset email', {
-        email: user?.email,
-        url: url.substring(0, 20) + '...'
-      });
-    },
-  },
+  // emailAndPassword: {
+  //   enabled: true,
+  //   async sendVerificationEmail({ email, url }: { email: string; url: string }) {
+  //     // Implement your email sending logic here
+  //     log.info('Sending verification email', { email, url: url.substring(0, 20) + '...' });
+  //   },
+  //   async sendResetPassword(url, user) {
+  //     // Implement your password reset email logic here
+  //     log.info('Sending password reset email', {
+  //       email: user?.email,
+  //       url: url.substring(0, 20) + '...'
+  //     });
+  //   },
+  // },
 
   // Database hooks (similar to your current events)
   databaseHooks: {

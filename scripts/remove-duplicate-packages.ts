@@ -28,11 +28,7 @@ const picked = {
     })
     .reduce(
       (acc, [key, value]) => {
-        if (
-          !key ||
-          !value ||
-          acc[key]
-        ) return acc;
+        if (!key || !value || acc[key]) return acc;
         acc[key] = value;
         return acc;
       },

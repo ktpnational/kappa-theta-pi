@@ -46,7 +46,7 @@ export const PageTransition: React.FC<PageTransitionProps> = ({ children }) => {
     if (!document.startViewTransition) return;
 
     const handleNavigation = () => {
-      document.startViewTransition(() => { });
+      document.startViewTransition(() => {});
     };
 
     window.addEventListener('navigate', handleNavigation);

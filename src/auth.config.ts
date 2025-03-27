@@ -1,13 +1,8 @@
 import { env } from '@/env';
 import type { BetterAuthOptions } from 'better-auth';
-import {
-  twoFactor,
-  captcha,
-  magicLink,
-  jwt
-} from "better-auth/plugins";
-import { nextCookies } from "better-auth/next-js";
-import { getURL } from "./utils";
+import { nextCookies } from 'better-auth/next-js';
+import { captcha, jwt, magicLink, twoFactor } from 'better-auth/plugins';
+import { getURL } from './utils';
 
 export default {
   socialProviders: {
@@ -18,7 +13,7 @@ export default {
   },
   plugins: [
     captcha({
-      provider: "cloudflare-turnstile",
+      provider: 'cloudflare-turnstile',
       secretKey: env.TURNSTILE_SECRET_KEY,
     }),
 
@@ -37,30 +32,30 @@ export default {
       sendMagicLink: async ({ email, token, url }, request) => {
         // Implement your magic link email sending logic here
         console.log(`Sending magic link to ${email} with URL: ${url}`);
-      }
+      },
     }),
 
     // JWT plugin for Supabase integration
     jwt({
       jwks: {
         keyPairConfig: {
-          alg: "EdDSA",
-          crv: "Ed25519"
-        }
+          alg: 'EdDSA',
+          crv: 'Ed25519',
+        },
       },
       jwt: {
         issuer: getURL(),
         audience: getURL(),
-        expirationTime: "30d", // Match your current session maxAge
+        expirationTime: '30d', // Match your current session maxAge
         definePayload: ({ session, user }) => ({
           aud: session.id ? 'authenticated' : 'public',
           sub: session.id,
           email: user.email,
           role: user.role,
         }),
-      }
+      },
     }),
 
-    nextCookies()
+    nextCookies(),
   ],
 } satisfies BetterAuthOptions;

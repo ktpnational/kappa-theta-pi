@@ -4,8 +4,8 @@ import { exec } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 import { promisify } from 'node:util';
-import { logger } from '@/utils';
 import { Redacted } from '@/classes';
+import { logger } from '@/utils';
 
 const execPromise = promisify(exec);
 
@@ -38,7 +38,9 @@ const updateShouldUseSupabase = (shouldUseSupabase: boolean) => {
 };
 
 (async () => {
-  const projectRef = Redacted.make(process.env.NEXT_PUBLIC_SUPABASE_URL?.split('//')[1]?.split('.')[0]);
+  const projectRef = Redacted.make(
+    process.env.NEXT_PUBLIC_SUPABASE_URL?.split('//')[1]?.split('.')[0],
+  );
 
   if (!process.env.SUPABASE_ACCESS_TOKEN) {
     logger.error('SUPABASE_ACCESS_TOKEN environment variable is not set');
@@ -52,7 +54,9 @@ const updateShouldUseSupabase = (shouldUseSupabase: boolean) => {
 
     logger.info('Logging in to Supabase CLI...');
     const { stdout: loginOutput, stderr: loginError } = await retry(() =>
-      execPromise(`bunx supabase login --token ${Redacted.make(process.env.SUPABASE_ACCESS_TOKEN).getValue()}`),
+      execPromise(
+        `bunx supabase login --token ${Redacted.make(process.env.SUPABASE_ACCESS_TOKEN).getValue()}`,
+      ),
     );
 
     if (loginError) {

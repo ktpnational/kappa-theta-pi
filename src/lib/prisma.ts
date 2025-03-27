@@ -21,16 +21,17 @@ import { withAccelerate } from '@prisma/extension-accelerate';
 const prismaClientSingleton = () => {
   return new PrismaClient({
     errorFormat: 'pretty',
-    log: process.env.NODE_ENV === 'production'
-      ? ['error'] // Only log errors in production
-      : ['query', 'error', 'warn'], // Log queries, errors, and warnings in development
+    log:
+      process.env.NODE_ENV === 'production'
+        ? ['error'] // Only log errors in production
+        : ['query', 'error', 'warn'], // Log queries, errors, and warnings in development
     transactionOptions: {
       maxWait: 10000,
       timeout: 10000,
       isolationLevel: 'Serializable',
     },
   }).$extends(withAccelerate()); // Apply Prisma Accelerate for improved performance
-}
+};
 
 /**
  * Extends the global namespace to include prisma client type
@@ -41,7 +42,7 @@ const prismaClientSingleton = () => {
  * @property {ReturnType<typeof prismaClientSingleton>} prisma - The Prisma client instance
  */
 declare const globalThis: {
-  prisma: ReturnType<typeof prismaClientSingleton>
+  prisma: ReturnType<typeof prismaClientSingleton>;
 } & typeof global;
 
 /**

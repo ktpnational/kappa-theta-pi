@@ -96,7 +96,7 @@ const env = createEnv({
     TURNSTILE_SECRET_KEY: process.env.TURNSTILE_SECRET_KEY,
     TURNSTILE_SITE_KEY: process.env.TURNSTILE_SITE_KEY,
     CSRF_SECRET: process.env.CSRF_SECRET,
-    
+
     // Client variables
     NEXT_PUBLIC_APP_VERSION: process.env.NEXT_PUBLIC_APP_VERSION,
     NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,

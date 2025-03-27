@@ -36,8 +36,8 @@ export const initTelemetry = (): void => {
       resource: resources.resourceFromAttributes({
         [ATTR_SERVICE_NAME]: 'ktp-web',
         [ATTR_SERVICE_VERSION]: process.env.NEXT_PUBLIC_APP_VERSION || '0.0.0',
-        environment: process.env.NODE_ENV || 'development'
-      })
+        environment: process.env.NODE_ENV || 'development',
+      }),
     });
 
     provider.register({

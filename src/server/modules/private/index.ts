@@ -1,6 +1,6 @@
-import { Hono } from "hono";
-import { auth } from "@/auth";
-import privateRoutesMiddleware from "@/server/middleware";
+import type { auth } from '@/auth';
+import privateRoutesMiddleware from '@/server/middleware';
+import { Hono } from 'hono';
 
 const privateRoutes = new Hono<{
   Variables: {
@@ -9,8 +9,8 @@ const privateRoutes = new Hono<{
   };
 }>()
   .use(privateRoutesMiddleware)
-  .get("/", (c) => {
-    return c.json({ message: "Private route", user: c.get("user") });
+  .get('/', (c) => {
+    return c.json({ message: 'Private route', user: c.get('user') });
   });
 
 export default privateRoutes;
