@@ -71,7 +71,14 @@ declare global {
 
       // Arcjet
       ARCJET_KEY: string;
-
+      ALLOWED_BOT_SIGNATURES:
+        | import('@arcjet/core').ArcjetWellKnownBot
+        | import('@arcjet/core').ArcjetBotCategory;
+      BLOCKED_BOT_SIGNATURES:
+        | typeof import('@arcjet/core').ArcjetWellKnownBot
+        | import('@arcjet/core').ArcjetBotCategory;
+      ARCJET_CHARACTERISTICS: string;
+      ARCJET_RULES: string;
       // Better Auth
       BETTER_AUTH_SECRET: string;
 

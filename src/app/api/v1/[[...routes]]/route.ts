@@ -1,9 +1,29 @@
 import { Elysia } from 'elysia';
 import { rateLimit } from 'elysia-rate-limit';
 import { dashboardRoute } from './elysia';
-import { setup } from '@/lib/csrf';
+import { cors } from '@elysiajs/cors';
+import { serverTiming } from '@elysiajs/server-timing'
+
+// import { setup } from '@/lib/csrf';
+
+import { getURL } from '@/utils';
+
+type test = (Parameters<(typeof import('@elysiajs/server-timing')['default'])>)[0]
 
 const app = new Elysia({ prefix: '/api/v1' })
+  .use(serverTiming({
+    trace: {
+    },
+  }))
+  .use(
+    cors({
+      origin: getURL(),
+      methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+      exposeHeaders: ['Content-Type', 'Authorization'],
+      maxAge: 86400,
+      credentials: true,
+    }),
+  )
   .use(dashboardRoute)
   .use(
     rateLimit({

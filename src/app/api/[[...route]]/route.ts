@@ -1,3 +1,4 @@
+import { getURL } from '@/utils';
 import { Hono } from 'hono';
 import { bodyLimit } from 'hono/body-limit';
 import { contextStorage } from 'hono/context-storage';
@@ -25,7 +26,7 @@ const api = app
   .use(
     '*',
     cors({
-      origin: process.env.NODE_ENV === 'production' ? ['https://www.kappathetapi.org'] : ['*'],
+      origin: getURL(),
       allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
       allowHeaders: ['Content-Type', 'Authorization'],
       maxAge: 86400,

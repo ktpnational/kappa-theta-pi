@@ -144,6 +144,7 @@
   },
   "dependencies": {
     "@elysiajs/cors": "^1.2.0",
+    "@elysiajs/server-timing": "^1.2.1",
     "better-auth": "^1.2.4",
     "next": "^15.2.3",
     "next-csrf": "^0.2.1",
