@@ -205,3 +205,7 @@ type ExtractNthProperty<T, N extends number> = T extends readonly [infer First, 
   : never;
 
 type ExtractPropertyByName<T, K extends keyof T> = T[K];
+
+type FirstArgument<T> = T extends (first: infer First, ...args: any[]) => any ? First : never;
+
+type AllArguments<T> = T extends (...args: infer Args) => any ? Args : never;
