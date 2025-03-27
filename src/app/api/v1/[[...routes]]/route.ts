@@ -1,6 +1,7 @@
 import { Elysia } from 'elysia';
 import { rateLimit } from 'elysia-rate-limit';
 import { dashboardRoute } from './elysia';
+import { setup } from '@/lib/csrf';
 
 const app = new Elysia({ prefix: '/api/v1' })
   .use(dashboardRoute)
@@ -24,7 +25,7 @@ const app = new Elysia({ prefix: '/api/v1' })
     console.error(`[Elysia Error] ${code}:`, error);
     set.status = code === 'NOT_FOUND' ? 404 : 500;
     return {
-      error: error.message,
+      error: error,
       status: set.status,
     };
   });
