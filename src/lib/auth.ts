@@ -1,5 +1,5 @@
 import { auth } from '@/auth';
-import type { Context } from 'hono';
+import { headers } from 'next/headers';
 
 /**
  * Retrieves the current authenticated user from the session
@@ -15,8 +15,11 @@ import type { Context } from 'hono';
  *   console.log(user.name); // Access user properties
  * }
  */
-export const currentUser = async (c: Context) => {
-  const session = await auth.api.getSession({ headers: c.req.raw.headers });
+export const currentUser = async () => {
+  "use server"
+  const session = await auth.api.getSession({
+    headers: await headers()
+  });
 
   return session?.user;
 };
@@ -35,8 +38,10 @@ export const currentUser = async (c: Context) => {
  *   // Perform admin-only operations
  * }
  */
-export const currentRole = async (c: Context) => {
-  const session = await auth.api.getSession({ headers: c.req.raw.headers });
+export const currentRole = async () => {
+  "use server"
+  const session = await auth.api.getSession({ headers: await headers() });
 
-  return session?.user?.role;
+  // TODO: use Prisma to get role
+  return session?.user?.id;
 };

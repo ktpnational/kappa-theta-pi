@@ -3,7 +3,7 @@
 import bcrypt from 'bcryptjs';
 import type * as z from 'zod';
 
-import { signIn } from '@/auth';
+import { signIn } from '@/lib/auth-client';
 import { getTwoFactorConfirmationByUserId, getTwoFactorTokenByEmail, getUserByEmail } from '@/data';
 import {
   db,

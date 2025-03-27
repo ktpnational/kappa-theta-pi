@@ -2,8 +2,9 @@ import { randomBytes } from 'node:crypto';
 import { env } from '@/env';
 import { rateLimiter } from '@/lib/rate-limit';
 import type { RateLimitHelper } from '@/lib/rate-limit';
-import { type CookieOptions, createServerClient } from '@supabase/ssr';
 import { type NextRequest, NextResponse } from 'next/server';
+import { auth } from '@/auth';
+import { headers } from 'next/headers';
 
 const publicAssetPaths: Set<string> = new Set([
   '/assets/',
@@ -105,53 +106,6 @@ export async function middleware(request: NextRequest): Promise<NextResponse> {
 
     if (isPublicAsset(request)) return response;
 
-    const supabase = createServerClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-      {
-        cookies: {
-          get(name: string) {
-            return request.cookies.get(name)?.value;
-          },
-          set(name: string, value: string, options: CookieOptions) {
-            request.cookies.set({
-              name,
-              value,
-              ...options,
-            });
-            response = NextResponse.next({
-              request: {
-                headers: request.headers,
-              },
-            });
-            response.cookies.set({
-              name,
-              value,
-              ...options,
-            });
-          },
-          remove(name: string, options: CookieOptions) {
-            request.cookies.set({
-              name,
-              value: '',
-              ...options,
-            });
-            response = NextResponse.next({
-              request: {
-                headers: request.headers,
-              },
-            });
-            response.cookies.set({
-              name,
-              value: '',
-              ...options,
-            });
-          },
-        },
-      },
-    );
-
-    await supabase.auth.getUser();
     return response;
   } catch (error) {
     console.error('Rate limiting error:', error);

@@ -10,36 +10,17 @@ const log = logger.getSubLogger({
 
 export const auth = betterAuth({
   ...authConfig,
-  // Database adapter
+
   database: prismaAdapter(db, {
     provider: 'postgresql',
   }),
 
-  // App name (used for 2FA and other features)
   appName: 'Kappa Theta PI',
 
-  // Email and password authentication
-  // emailAndPassword: {
-  //   enabled: true,
-  //   async sendVerificationEmail({ email, url }: { email: string; url: string }) {
-  //     // Implement your email sending logic here
-  //     log.info('Sending verification email', { email, url: url.substring(0, 20) + '...' });
-  //   },
-  //   async sendResetPassword(url, user) {
-  //     // Implement your password reset email logic here
-  //     log.info('Sending password reset email', {
-  //       email: user?.email,
-  //       url: url.substring(0, 20) + '...'
-  //     });
-  //   },
-  // },
-
-  // Database hooks (similar to your current events)
   databaseHooks: {
     user: {
       create: {
         after: async (user) => {
-          // Any logic you want to run after user creation
           log.info('User created successfully', { userId: user.id });
         },
       },
@@ -47,5 +28,4 @@ export const auth = betterAuth({
   },
 });
 
-// Export client for use in components
 export const { api } = auth;
