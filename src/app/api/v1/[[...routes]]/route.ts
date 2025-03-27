@@ -1,11 +1,11 @@
+import { cors } from '@elysiajs/cors';
+import { serverTiming } from '@elysiajs/server-timing';
 import { Elysia } from 'elysia';
 import { rateLimit } from 'elysia-rate-limit';
 import { dashboardRoute } from './elysia';
-import { cors } from '@elysiajs/cors';
-import { serverTiming } from '@elysiajs/server-timing';
 
-import { getURL } from '@/utils';
 import { randomBytes } from 'node:crypto';
+import { getURL } from '@/utils';
 
 const csrfMiddleware = new Elysia()
   .onParse(({ request, response }) => {
@@ -16,7 +16,7 @@ const csrfMiddleware = new Elysia()
       const csrfToken = randomBytes(32).toString('hex');
 
       const cookieValue = `csrfToken=${csrfToken}; HttpOnly; ${process.env.NODE_ENV === 'production' ? 'Secure; ' : ''}`;
-      
+
       // TODO: Fix if breaks ;3
       (response as Response).headers.set('Set-Cookie', cookieValue);
 
@@ -33,23 +33,24 @@ const csrfMiddleware = new Elysia()
       sameSite: 'strict',
     };
   })
-  .as('plugin')
+  .as('plugin');
 
 const app = new Elysia({ prefix: '/api/v1' })
   .use(csrfMiddleware)
-  .use(serverTiming({
-    trace: {
-      request: true,
-      parse: true,
-      transform: true,
-      beforeHandle: true,
-      handle: true,
-      afterHandle: true,
-      error: true,
-      mapResponse: true,
-      total: true,
-    },
-  }),
+  .use(
+    serverTiming({
+      trace: {
+        request: true,
+        parse: true,
+        transform: true,
+        beforeHandle: true,
+        handle: true,
+        afterHandle: true,
+        error: true,
+        mapResponse: true,
+        total: true,
+      },
+    }),
   )
   .use(
     cors({

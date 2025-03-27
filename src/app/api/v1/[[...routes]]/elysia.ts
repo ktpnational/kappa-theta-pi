@@ -1,9 +1,8 @@
 import { auth } from '@/auth';
 import { db } from '@/lib/prisma';
 import { handleEden } from '@/utils';
-import type { Session } from '@auth/core/types';
 import type { EdenFetchError } from 'custom';
-import Elysia, { t } from 'elysia';
+import Elysia, { type Context, t } from 'elysia';
 
 /**
  * Schema for creating a new member
@@ -75,15 +74,13 @@ const chapterUpdateSchema = t.Object({
 
 export const createContext = new Elysia()
   .derive(
-    async (): Promise<{
+    async (
+      c: Context,
+    ): Promise<{
       db: typeof db;
       session: Session;
     }> => {
-      const session = await auth().then((res: Session | null) => {
-        if (!res) throw new Error('Unauthorized');
-        return res;
-      });
-
+      const session = await auth.api.getSession({ headers: c.headers });
       return { db, session };
     },
   )

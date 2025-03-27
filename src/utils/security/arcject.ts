@@ -10,6 +10,7 @@ import arcjet, {
   type ArcjetOptions,
   type Primitive,
   type Product,
+  tokenBucket,
 } from '@arcjet/next';
 export {
   detectBot,
@@ -23,13 +24,19 @@ export {
 
 export default arcjet({
   key: env.ARCJET_KEY,
-
+  characteristics: ['ip.src'],
   rules: [
+    tokenBucket({
+      mode: env.NODE_ENV === 'production' ? 'LIVE' : 'DRY_RUN',
+      refillRate: 10,
+      interval: 10,
+      capacity: 20,
+    }),
     // Shield protects your app from common attacks e.g. SQL injection
-    shield({ mode: 'LIVE' }),
+    shield({ mode: env.NODE_ENV === 'production' ? 'LIVE' : 'DRY_RUN' }),
     // Create a bot detection rule
     detectBot({
-      mode: 'LIVE', // Blocks requests. Use "DRY_RUN" to log only
+      mode: env.NODE_ENV === 'production' ? 'LIVE' : 'DRY_RUN', // Blocks requests. Use "DRY_RUN" to log only
       // Block all bots except the following
       allow: [
         'CATEGORY:SEARCH_ENGINE', // Google, Bing, etc - essential for SEO
