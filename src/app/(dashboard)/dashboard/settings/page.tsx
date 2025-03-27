@@ -35,6 +35,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
+import { useSession } from '@/lib/auth-client';
 
 /**
  * SettingsPage Component
@@ -64,7 +65,7 @@ const SettingsPage = () => {
   const [, startTransition] = useTransition();
 
   /** Hook to access and update session data */
-  const { update } = useSession();
+  const { refetch } = useSession();
 
   /** Hook to access current user data */
   const user = useCurrentUser();
@@ -101,7 +102,7 @@ const SettingsPage = () => {
         .then((data) => {
           setError(data.error);
           if (data.success) {
-            update();
+            refetch();
             setSuccess(data.success);
           }
         })

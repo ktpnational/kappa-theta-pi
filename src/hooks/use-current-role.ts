@@ -1,5 +1,7 @@
 'use client';
 
+import { useSession } from "@/lib/auth-client";
+
 // TODO: NEXT_AUTH
 
 /**
@@ -23,5 +25,6 @@
 export const useCurrentRole = () => {
   const session = useSession();
 
+  // TODO: get rol from prisma
   return session.data?.user.role;
 };
