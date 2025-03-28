@@ -3,6 +3,13 @@ type Prettify<T> = {
   [K in keyof T]: T[K];
 } & {};
 
+// PrettifyFunction - Prettifies a function type by preserving its parameters and return type
+type PrettifyFunction<T extends (...args: any[]) => any> =
+  T extends (...args: infer P) => infer R
+    ? (...args: P) => R
+    : never;
+
+
 // Head - Gets the first element of an array
 type Head<T extends Array<any>> = T extends [infer U, ...infer _Rest] ? U : never;
 

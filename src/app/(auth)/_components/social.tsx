@@ -11,13 +11,13 @@ const Social = () => {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams?.get('callbackUrl') ?? DEFAULT_LOGIN_REDIRECT;
 
-  const onClick = () => {
-    signIn.social;
+  const onClick = (provider: 'google') => {
+    signIn.social({ provider: provider, callbackURL: callbackUrl });
   };
 
   return (
     <div className="flex items-center w-full gap-x-2">
-      <Button size="lg" className="w-full" variant="outline" onClick={() => onClick()}>
+      <Button size="lg" className="w-full" variant="outline" onClick={() => onClick('google')}>
         <FcGoogle className="h-5 w-5" />
       </Button>
     </div>

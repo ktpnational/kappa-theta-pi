@@ -78,10 +78,10 @@ export const login = async (values: z.infer<typeof LoginSchema>, callbackUrl?: s
   }
 
   try {
-    await signIn('credentials', {
+    signIn.email({
       email,
       password,
-      redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT,
+      callbackURL: callbackUrl || DEFAULT_LOGIN_REDIRECT,
     });
 
     return { success: 'Login Success!' };
