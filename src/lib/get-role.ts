@@ -1,3 +1,4 @@
+"use server"
 import { bind, logger, map, railway, success, tap } from '@/utils';
 import type { $Enums } from '@prisma/client';
 import { unauthorized } from 'next/navigation';

@@ -1,3 +1,4 @@
+import 'server-only';
 import authConfig from '@/auth.config';
 import { db } from '@/lib';
 import { logger } from '@/utils';
@@ -9,12 +10,10 @@ const log = logger.getSubLogger({
 });
 
 export const auth = betterAuth({
-  ...authConfig,
-
-  database: prismaAdapter(db, {
+  database:  prismaAdapter(db, {
     provider: 'postgresql',
   }),
-
+  ...authConfig,
   appName: 'Kappa Theta PI',
 
   databaseHooks: {
