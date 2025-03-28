@@ -81,7 +81,7 @@ const SettingsPage = () => {
       email: user?.email || undefined,
       password: undefined,
       newPassword: undefined,
-      role: (user?.role as Exclude<Role, 'GUEST'>) || undefined,
+      role: user?.role as Role || undefined,
       isTwoFactorEnabled: user?.isTwoFactorEnabled || undefined,
     },
   });
@@ -211,7 +211,8 @@ const SettingsPage = () => {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value={Role.SPONSOR}>Sponsor</SelectItem>
+                        <SelectItem value={Role.COMPANY}>Company</SelectItem>
+                        <SelectItem value={Role.MEMBER}>Member</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />

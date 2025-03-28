@@ -1,9 +1,8 @@
-import { AuthProvider } from '@/app/_providers';
-// import { auth } from '@/auth';
+import { auth } from '@/auth';
 import { AnimatedBackground } from '@/components';
-import { SHOULD_USE_SUPABASE } from '@/config';
 import { constructMetadata } from '@/utils';
 import dynamic from 'next/dynamic';
+import { headers } from 'next/headers';
 
 const ServiceUnavailableError = dynamic(
   () => import('@/app/_client').then((mod) => mod.ServiceUnavailableError),
@@ -40,20 +39,18 @@ export const metadata = constructMetadata({
  */
 const AuthLayout = async ({ children }: { children: React.ReactNode }) => {
   // await auth();
-  const session = null;
+  const session = await auth.api.getSession({ headers: await headers() });
   return (
     <>
-      {SHOULD_USE_SUPABASE ? (
-        <AuthProvider session={session}>
-          <main
-            className="
+      {session ? (
+        <main
+          className="
           min-h-screen flex items-center justify-center container mx-auto
           "
-          >
-            {children}
-            <AnimatedBackground />
-          </main>
-        </AuthProvider>
+        >
+          {children}
+          <AnimatedBackground />
+        </main>
       ) : (
         <ServiceUnavailableError />
       )}

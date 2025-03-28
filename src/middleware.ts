@@ -1,10 +1,10 @@
 import { randomBytes } from 'node:crypto';
+import { auth } from '@/auth';
 import { env } from '@/env';
 import { rateLimiter } from '@/lib/rate-limit';
 import type { RateLimitHelper } from '@/lib/rate-limit';
-import { type NextRequest, NextResponse } from 'next/server';
-import { auth } from '@/auth';
 import { headers } from 'next/headers';
+import { type NextRequest, NextResponse } from 'next/server';
 
 const publicAssetPaths: Set<string> = new Set([
   '/assets/',
@@ -52,7 +52,7 @@ export async function middleware(request: NextRequest): Promise<NextResponse> {
   }
 
   try {
-    let response = NextResponse.next({
+    const response = NextResponse.next({
       request: {
         headers: request.headers,
       },

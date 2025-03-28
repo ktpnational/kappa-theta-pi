@@ -1,4 +1,5 @@
 import { getURL } from '@/utils';
+import arcject from '@/utils/security/arcject';
 import { Hono } from 'hono';
 import { bodyLimit } from 'hono/body-limit';
 import { contextStorage } from 'hono/context-storage';
@@ -8,7 +9,6 @@ import { secureHeaders } from 'hono/secure-headers';
 import { timing } from 'hono/timing';
 import type { ContentfulStatusCode } from 'hono/utils/http-status';
 import { handle } from 'hono/vercel';
-import arcject from '@/utils/security/arcject';
 
 const timingMiddleware = timing({
   total: true,
@@ -59,37 +59,25 @@ const api = app
   .use('/arcjet', async (c) => {
     const req = c.req.raw;
     const decision = await arcject.protect(req, { requested: 5 });
-    console.log("Arcjet decision", decision);
+    console.log('Arcjet decision', decision);
 
     if (decision.isDenied()) {
       if (decision.reason.isBot()) {
-        return c.json(
-          { error: "No bots allowed", reason: decision.reason },
-          { status: 403 },
-        );
+        return c.json({ error: 'No bots allowed', reason: decision.reason }, { status: 403 });
       } else if (decision.reason.isRateLimit()) {
-        return c.json(
-          { error: "Too many requests", reason: decision.reason },
-          { status: 429 },
-        );
+        return c.json({ error: 'Too many requests', reason: decision.reason }, { status: 429 });
       } else {
-        return c.json(
-          { error: "Forbidden", reason: decision.reason },
-          { status: 403 },
-        );
+        return c.json({ error: 'Forbidden', reason: decision.reason }, { status: 403 });
       }
     }
 
     // Arcjet Pro plan verifies the authenticity of common bots using IP data.
     // Verification isn't always possible, so we recommend checking the decision separately.
     if (decision.reason.isBot() && decision.reason.isSpoofed()) {
-      return c.json(
-        { error: "Forbidden", reason: decision.reason },
-        { status: 403 },
-      );
+      return c.json({ error: 'Forbidden', reason: decision.reason }, { status: 403 });
     }
 
-    return c.json({ message: "Hello world" });
+    return c.json({ message: 'Hello world' });
   })
   .use('*', async (c, next) => {
     try {

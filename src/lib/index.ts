@@ -10,3 +10,4 @@ export * from './password';
 export * from './rate-limit';
 export * from './get-ip';
 export * from './csrf';
+export * from './get-role';

@@ -1,7 +1,7 @@
 'use client';
 
-import { useSession } from "@/lib/auth-client";
-
+import { getRole } from '@/lib';
+import { useSession } from '@/lib/auth-client';
 // TODO: NEXT_AUTH
 
 /**
@@ -23,8 +23,8 @@ import { useSession } from "@/lib/auth-client";
  * @see {@link https://next-auth.js.org/getting-started/client#usesession Next-auth useSession documentation}
  */
 export const useCurrentRole = () => {
-  const session = useSession();
+  const id = useSession().data?.user.id;
 
-  // TODO: get rol from prisma
-  return session.data?.user.role;
+  if (!id) throw new Error('No user id found');
+  return getRole({ userId: id });
 };

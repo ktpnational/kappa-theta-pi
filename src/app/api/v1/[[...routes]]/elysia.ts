@@ -1,10 +1,10 @@
 import { auth } from '@/auth';
 import { db } from '@/lib/prisma';
 import { handleEden } from '@/utils';
-import { Session } from 'better-auth';
+import type { Session } from 'better-auth';
 import type { EdenFetchError } from 'custom';
 import Elysia, { t } from 'elysia';
-import { unauthorized } from 'next/navigation'
+import { unauthorized } from 'next/navigation';
 
 /**
  * Schema for creating a new member
@@ -77,7 +77,7 @@ const chapterUpdateSchema = t.Object({
 export const createContext = new Elysia()
   .derive(
     async (
-      c ,
+      c,
     ): Promise<{
       db: typeof db;
       session: Session;

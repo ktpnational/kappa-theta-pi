@@ -1,6 +1,7 @@
 import { auth } from '@/auth';
 import { headers } from 'next/headers';
-
+import { unauthorized } from 'next/navigation';
+import { getRole } from './get-role';
 /**
  * Retrieves the current authenticated user from the session
  *
@@ -16,9 +17,9 @@ import { headers } from 'next/headers';
  * }
  */
 export const currentUser = async () => {
-  "use server"
+  'use server';
   const session = await auth.api.getSession({
-    headers: await headers()
+    headers: await headers(),
   });
 
   return session?.user;
@@ -39,9 +40,11 @@ export const currentUser = async () => {
  * }
  */
 export const currentRole = async () => {
-  "use server"
-  const session = await auth.api.getSession({ headers: await headers() });
+  'use server';
+  const id = await auth.api.getSession({ headers: await headers() }).then((res) => {
+    if (!res || !res.user) throw unauthorized();
+    return res.user.id;
+  });
 
-  // TODO: use Prisma to get role
-  return session?.user?.id;
+  return getRole({ userId: id });
 };
