@@ -1,1 +1,1 @@
-export * from '.';
+export * from './middleware-auth';

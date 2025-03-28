@@ -1,8 +1,9 @@
-"use server"
+'use server';
 import { bind, logger, map, railway, success, tap } from '@/utils';
 import type { $Enums } from '@prisma/client';
 import { unauthorized } from 'next/navigation';
 import { db } from './prisma';
+
 /**
  * Retrieves the role of a user by their user ID
  *

@@ -1,10 +1,9 @@
 import { randomBytes } from 'crypto';
-import { auth } from '@/auth';
 import { env } from '@/env';
 import { rateLimiter } from '@/lib/rate-limit';
 import type { RateLimitHelper } from '@/lib/rate-limit';
-import { headers } from 'next/headers';
 import { type NextRequest, NextResponse } from 'next/server';
+import { getSessionForMiddleware } from '@/middlewares';
 
 const publicAssetPaths: Set<string> = new Set([
   '/assets/',
@@ -46,15 +45,6 @@ const rateLimitExemptPaths = [...publicAssetPaths, '/_next', '/api/health'];
  * ```
  */
 export async function middleware(request: NextRequest): Promise<NextResponse> {
-  if (request.nextUrl.pathname.startsWith('/dashboard')) {
-    const session = await auth.api.getSession({
-      headers: await headers(),
-    });
-
-    if (!session) {
-      return NextResponse.redirect(new URL('/auth/login', request.url));
-    }
-  }
 
   // Early return for exempt paths
   if (rateLimitExemptPaths.some((path) => request.nextUrl.pathname.startsWith(path))) {
@@ -68,6 +58,12 @@ export async function middleware(request: NextRequest): Promise<NextResponse> {
       },
     });
 
+    if (request.nextUrl.pathname.startsWith('/dashboard')) {
+      const session = await getSessionForMiddleware();
+      if (!session) {
+        return NextResponse.redirect(new URL('/auth/login', request.url));
+      }
+    }
     if (!request.cookies.get('csrfToken')) {
       const csrfToken = randomBytes(32).toString('hex');
       response.cookies.set('csrfToken', csrfToken, {

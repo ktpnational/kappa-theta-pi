@@ -2,9 +2,12 @@
 import { PrismaClient } from '@prisma/client';
 import { withAccelerate } from '@prisma/extension-accelerate';
 
-// Prevent Prisma from being instantiated in browser
-if (typeof window !== 'undefined') {
-  throw new Error('PrismaClient cannot be used in browser environment');
+// Detect Edge Runtime
+const isEdgeRuntime = typeof globalThis.EdgeRuntime === 'string';
+
+// Prevent Prisma from being instantiated in browser or Edge Runtime
+if (typeof window !== 'undefined' || isEdgeRuntime) {
+  throw new Error(`PrismaClient cannot be used in ${isEdgeRuntime ? 'Edge Runtime' : 'browser'} environment`);
 }
 
 const prismaClientSingleton = () => {
