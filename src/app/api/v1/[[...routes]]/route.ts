@@ -4,7 +4,7 @@ import { Elysia } from 'elysia';
 import { rateLimit } from 'elysia-rate-limit';
 import { dashboardRoute } from './elysia';
 
-import { randomBytes } from 'node:crypto';
+import { randomBytes } from 'crypto';
 import { getURL } from '@/utils';
 
 const csrfMiddleware = new Elysia()

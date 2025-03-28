@@ -1,4 +1,4 @@
-import { randomBytes } from 'node:crypto';
+import { randomBytes } from 'crypto';
 import { auth } from '@/auth';
 import { env } from '@/env';
 import { rateLimiter } from '@/lib/rate-limit';

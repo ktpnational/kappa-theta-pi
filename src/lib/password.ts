@@ -1,4 +1,5 @@
-import crypto from 'node:crypto';
+'use server';
+import crypto from 'crypto';
 import bcrypt from 'bcryptjs';
 
 const PEPPER = process.env.PASSWORD_PEPPER || crypto.randomBytes(32).toString('hex');
