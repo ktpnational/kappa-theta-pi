@@ -1,10 +1,7 @@
 'use server';
 
 import { exec } from 'node:child_process';
-import fs from 'node:fs';
-import path from 'node:path';
 import { promisify } from 'node:util';
-import { Redacted } from '@/classes';
 import { logger } from '@/utils';
 
 const execPromise = promisify(exec);
@@ -22,51 +19,15 @@ const retry = async (fn: () => Promise<any>, retries = 3, delay = 1000) => {
   }
 };
 
-const updateShouldUseSupabase = (shouldUseSupabase: boolean) => {
-  const filePath = path.join(process.cwd(), 'src/config/supabase.ts');
-  const fileContent = fs.readFileSync(filePath, 'utf8').split('\n');
-
-  const updatedContent = fileContent.map((line) => {
-    if (line.includes('export const SHOULD_USE_SUPABASE =')) {
-      return `export const SHOULD_USE_SUPABASE = ${shouldUseSupabase};`;
-    }
-    return line;
-  });
-
-  fs.writeFileSync(filePath, updatedContent.join('\n'));
-  logger.info(`Updated SHOULD_USE_SUPABASE to ${shouldUseSupabase} in src/config/supabase.ts`);
-};
-
 (async () => {
-  const projectRef = Redacted.make(
-    process.env.NEXT_PUBLIC_SUPABASE_URL?.split('//')[1]?.split('.')[0],
-  );
-
-  if (!process.env.SUPABASE_ACCESS_TOKEN) {
-    logger.error('SUPABASE_ACCESS_TOKEN environment variable is not set');
-    process.exit(1);
-  }
-
   const isDev = process.env.NODE_ENV !== 'production';
 
   try {
-    logger.info('Starting database setup...', { env: process.env.NODE_ENV, projectRef });
-
-    logger.info('Logging in to Supabase CLI...');
-    const { stdout: loginOutput, stderr: loginError } = await retry(() =>
-      execPromise(
-        `bunx supabase login --token ${Redacted.make(process.env.SUPABASE_ACCESS_TOKEN).getValue()}`,
-      ),
-    );
-
-    if (loginError) {
-      logger.warn('Supabase login produced warnings:', { error: loginError });
-    }
-    logger.info('Supabase CLI login completed:', { output: loginOutput });
+    logger.info('Starting database setup...', { env: process.env.NODE_ENV });
 
     logger.info('Generating Prisma client...');
     const { stdout: generateOutput, stderr: generateError } = await retry(() =>
-      execPromise('bunx prisma generate'),
+      execPromise('bun run prisma:generate'),
     );
 
     if (generateError) {
@@ -78,7 +39,7 @@ const updateShouldUseSupabase = (shouldUseSupabase: boolean) => {
       logger.info('Pushing schema changes (development only)...');
       try {
         const { stdout: pushOutput, stderr: pushError } = await retry(() =>
-          execPromise('bunx prisma db push --accept-data-loss --skip-generate'),
+          execPromise('bun run prisma:push'),
         );
         if (pushError) {
           logger.warn('Schema push produced warnings:', { error: pushError });
@@ -91,7 +52,7 @@ const updateShouldUseSupabase = (shouldUseSupabase: boolean) => {
 
     logger.info('Applying migrations...');
     const { stdout: migrateOutput, stderr: migrateError } = await retry(() =>
-      execPromise('bunx prisma migrate deploy'),
+      execPromise('bun run prisma:migrate'),
     );
 
     if (migrateError) {
@@ -99,26 +60,20 @@ const updateShouldUseSupabase = (shouldUseSupabase: boolean) => {
     }
     logger.info('Migrations completed:', { output: migrateOutput });
 
-    logger.info('Generating Supabase types...');
-    const supabaseCommand = `npx supabase gen types --lang=typescript --project-id "${projectRef.getValue()}" --schema public,auth,storage,next_auth > src/types/supabase.ts`;
-    const { stdout: supabaseOutput, stderr: supabaseError } = await retry(() =>
-      execPromise(supabaseCommand),
+    logger.info('Seeding database...');
+    const { stdout: seedOutput, stderr: seedError } = await retry(() =>
+      execPromise('bun run prisma:seed'),
     );
 
-    if (supabaseError) {
-      logger.warn('Supabase types generation produced warnings:', { error: supabaseError });
+    if (seedError) {
+      logger.warn('Database seeding produced warnings:', { error: seedError });
     }
-    logger.info('Supabase types generated successfully:', { output: supabaseOutput });
+    logger.info('Database seeding completed:', { output: seedOutput });
 
     logger.info('Database setup completed successfully!');
 
-    updateShouldUseSupabase(true);
-    logger.info('Updated SHOULD_USE_SUPABASE to true in src/config/supabase.ts');
   } catch (error) {
     logger.error('Failed to complete database setup:', { error });
-
-    updateShouldUseSupabase(false);
-    logger.info('Updated SHOULD_USE_SUPABASE to false in src/config/supabase.ts');
 
     if (error instanceof Error) {
       logger.error('Error details:', {

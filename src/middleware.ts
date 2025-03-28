@@ -46,6 +46,16 @@ const rateLimitExemptPaths = [...publicAssetPaths, '/_next', '/api/health'];
  * ```
  */
 export async function middleware(request: NextRequest): Promise<NextResponse> {
+  if (request.nextUrl.pathname.startsWith('/dashboard')) {
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+
+    if (!session) {
+      return NextResponse.redirect(new URL('/auth/login', request.url));
+    }
+  }
+
   // Early return for exempt paths
   if (rateLimitExemptPaths.some((path) => request.nextUrl.pathname.startsWith(path))) {
     return NextResponse.next();

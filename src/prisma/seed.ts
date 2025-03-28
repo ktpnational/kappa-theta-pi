@@ -40,11 +40,11 @@ async function main() {
           password: await bcrypt.hash('password123', 10),
           emailVerified: new Date(),
           image: 'https://avatars.githubusercontent.com/u/1234567',
-          role: Role.SPONSOR,
+          role: Role.COMPANY,
           isTwoFactorEnabled: false,
           profile: {
             create: {
-              role: Role.SPONSOR,
+              role: Role.COMPANY,
               active: true,
               version: '1.0',
               address: {
@@ -70,12 +70,12 @@ async function main() {
             name: `${companyName} Manager`,
             password: await bcrypt.hash('password123', 10),
             emailVerified: new Date(),
-            role: Role.SPONSOR,
+            role: Role.COMPANY,
             isTwoFactorEnabled: false,
             image: `https://logo.clearbit.com/${companyName.toLowerCase().replace(/\s+/g, '')}.com`,
             profile: {
               create: {
-                role: Role.SPONSOR,
+                role: Role.COMPANY,
                 active: true,
                 version: '1.0',
                 company: {
@@ -112,12 +112,12 @@ async function main() {
               name: `Test User ${index + 1}`,
               password: await bcrypt.hash('password123', 10),
               emailVerified: new Date(),
-              role: Role.SPONSOR,
+              role: Role.MEMBER,
               isTwoFactorEnabled: false,
               image: `https://avatars.dicebear.com/api/human/${index}.svg`,
               profile: {
                 create: {
-                  role: Role.SPONSOR,
+                  role: Role.MEMBER,
                   active: true,
                   version: '1.0',
                 },
@@ -232,7 +232,7 @@ async function main() {
         if (!profile) {
           profile = await prisma.profile.create({
             data: {
-              role: Role.SPONSOR,
+              role: Role.MEMBER,
               active: true,
               version: '1.0',
               userId: user.id,
