@@ -4,6 +4,7 @@ import crypto from 'crypto';
 import { getUserByEmail } from '@/data';
 import { env } from '@/env';
 import { db, resend } from '@/lib';
+import { unauthorized } from 'next/navigation'
 import {
   type CheckIfEmailVerifiedInput,
   type ContactFormInput,
@@ -141,7 +142,8 @@ export async function checkIfEmailVerified(rawInput: CheckIfEmailVerifiedInput):
     if (!validatedInput.success) return false;
 
     const user = await getUserByEmail(validatedInput.data.email);
-    return user?.emailVerified instanceof Date;
+    if (!user) throw unauthorized();
+    return user.emailVerified ?? false;
   } catch (error) {
     console.error(error);
     throw new Error('Error checking if email verified');
@@ -183,7 +185,7 @@ export async function markEmailAsVerified(
         emailVerificationToken: validatedInput.data.token,
       },
       data: {
-        emailVerified: new Date(),
+        emailVerified: true,
         emailVerificationToken: null,
       },
     });

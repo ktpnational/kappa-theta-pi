@@ -1,8 +1,7 @@
 'use server';
 import type { $Enums } from '@prisma/client';
-import { bind, logger, map, railway, success, tap } from '@/utils';
-import { db } from './prisma';
 import { unauthorized } from 'next/navigation';
+import { db } from './prisma';
 
 /**
  * Retrieves the role of a user by their user ID
@@ -24,24 +23,10 @@ export const getRole = async ({ userId }: { userId: string }): Promise<$Enums.Ro
       })
       .withAccelerateInfo();
 
-  const result = railway(
-    'GUEST',
-    () => success(role()),
-    bind((result: ReturnType<typeof role>) => success(result.then((res) => res?.data?.role))),
-    map((data: Awaited<ReturnType<typeof role>>) => data?.data?.role),
-    tap((role) => {
-      if (role) {
-        logger.info('Role fetched successfully', { userId, role });
-      } else {
-        logger.warn('No role found for user', { userId });
-      }
-    }),
-  );
+  const { data }  = await role()
 
-  if (!result.success) {
-    logger.error('Role fetch failed', { userId, error: 'Failed to fetch role' });
-    throw unauthorized();
+  if (!data) {
+    throw unauthorized()
   }
-
-  return result.value as $Enums.Role;
+  return data.role
 };

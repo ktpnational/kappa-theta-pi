@@ -1,17 +1,27 @@
-// src/lib/prisma.ts
+import { env } from '@/env';
 import { PrismaClient } from '@prisma/client';
 import { withAccelerate } from '@prisma/extension-accelerate';
 
-// Detect Edge Runtime
-const isEdgeRuntime = typeof globalThis.EdgeRuntime === 'string';
+declare global {
+  var prisma: ReturnType<typeof prismaClientSingleton> | undefined;
+  var EdgeRuntime: string | undefined;
+}
 
-// Prevent Prisma from being instantiated in browser or Edge Runtime
-if (typeof window !== 'undefined' || isEdgeRuntime) {
-  throw new Error(`PrismaClient cannot be used in ${isEdgeRuntime ? 'Edge Runtime' : 'browser'} environment`);
+const isEdgeRuntime = typeof globalThis.EdgeRuntime === 'string';
+const isBrowser = typeof window !== 'undefined';
+
+if (isBrowser) {
+  throw new Error('PrismaClient cannot be used in browser environment');
 }
 
 const prismaClientSingleton = () => {
-  return new PrismaClient().$extends(withAccelerate());
+  if (!isEdgeRuntime) {
+    return new PrismaClient().$extends(withAccelerate());
+  }
+
+  return new PrismaClient({
+    datasourceUrl: env.DATABASE_URL,
+  }).$extends(withAccelerate());
 };
 
 declare global {
@@ -20,4 +30,4 @@ declare global {
 
 export const db = globalThis.prisma ?? prismaClientSingleton();
 
-if (process.env.NODE_ENV !== 'production') globalThis.prisma = db;
+if (env.NODE_ENV !== 'production' && !isEdgeRuntime) globalThis.prisma = db;

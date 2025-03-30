@@ -3,6 +3,7 @@
 import { FormError } from '@/components/form-error';
 import { useCurrentRole } from '@/hooks/use-current-role';
 import type { Role } from '@prisma/client';
+import { useEffect, useState } from 'react';
 
 // TODO: Implement admin (if needed, hard if )
 
@@ -35,9 +36,17 @@ interface RoleGateProps {
  * ```
  */
 export const RoleGate = ({ children, allowedRole }: RoleGateProps) => {
-  const role = useCurrentRole();
+  const [role, setRole] = useState<Role | undefined>(undefined);
+  useEffect(() => {
+    const getRole = async () => {
+      const res = await useCurrentRole();
+      setRole(res);
+    }
+    getRole()
+  }, [setRole])
 
-  if (async () => (await role) !== allowedRole) {
+
+  if (role !== allowedRole) {
     return <FormError message="You do not have permission to view this content!" />;
   }
   return <>{children}</>;

@@ -2,8 +2,8 @@ import { randomBytes } from 'crypto';
 import { env } from '@/env';
 import { rateLimiter } from '@/lib/rate-limit';
 import type { RateLimitHelper } from '@/lib/rate-limit';
-import { type NextRequest, NextResponse } from 'next/server';
 import { getSessionForMiddleware } from '@/middlewares';
+import { type NextRequest, NextResponse } from 'next/server';
 
 const publicAssetPaths: Set<string> = new Set([
   '/assets/',
@@ -45,7 +45,6 @@ const rateLimitExemptPaths = [...publicAssetPaths, '/_next', '/api/health'];
  * ```
  */
 export async function middleware(request: NextRequest): Promise<NextResponse> {
-
   // Early return for exempt paths
   if (rateLimitExemptPaths.some((path) => request.nextUrl.pathname.startsWith(path))) {
     return NextResponse.next();

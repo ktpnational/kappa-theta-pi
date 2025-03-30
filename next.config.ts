@@ -277,7 +277,6 @@ const nextConfig: NextConfig = {
     config.resolve.fallback = config.resolve.fallback || {};
     config.resolve.alias = config.resolve.alias || {};
 
-
     if (nextRuntime === 'edge' && !isServer) {
       config.module.rules.push({
         test: /\.(woff|woff2|eot|ttf|otf)$/,

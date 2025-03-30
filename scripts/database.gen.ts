@@ -71,7 +71,6 @@ const retry = async (fn: () => Promise<any>, retries = 3, delay = 1000) => {
     logger.info('Database seeding completed:', { output: seedOutput });
 
     logger.info('Database setup completed successfully!');
-
   } catch (error) {
     logger.error('Failed to complete database setup:', { error });
 

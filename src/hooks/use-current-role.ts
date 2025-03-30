@@ -2,7 +2,7 @@
 
 import { getRole } from '@/lib';
 import { useSession } from '@/lib/auth-client';
-// TODO: NEXT_AUTH
+
 
 /**
  * Custom hook to retrieve the current user's role from the active session.

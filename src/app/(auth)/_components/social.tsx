@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/button';
 import { signIn } from '@/lib/auth-client';
 import { DEFAULT_LOGIN_REDIRECT } from '@/routes';
-// TODO: NEXT_AUTH
+
 import { useSearchParams } from 'next/navigation';
 import { FcGoogle } from 'react-icons/fc';
 

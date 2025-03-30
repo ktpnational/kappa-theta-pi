@@ -15,20 +15,46 @@ async function main() {
     // Clean up existing data
     await prisma.$transaction(async (tx) => {
       await Promise.all([
-        tx.candidate.deleteMany().catch((e: Error) => console.log('Skipping candidate deletion:', e.message)),
-        tx.company.deleteMany().catch((e: Error) => console.log('Skipping company deletion:', e.message)),
-        tx.member.deleteMany().catch((e: Error) => console.log('Skipping member deletion:', e.message)),
-        tx.resume.deleteMany().catch((e: Error) => console.log('Skipping resume deletion:', e.message)),
-        tx.chapter.deleteMany().catch((e: Error) => console.log('Skipping chapter deletion:', e.message)),
-        tx.address.deleteMany().catch((e: Error) => console.log('Skipping address deletion:', e.message)),
-        tx.profile.deleteMany().catch((e: Error) => console.log('Skipping profile deletion:', e.message)),
+        tx.candidate
+          .deleteMany()
+          .catch((e: Error) => console.log('Skipping candidate deletion:', e.message)),
+        tx.company
+          .deleteMany()
+          .catch((e: Error) => console.log('Skipping company deletion:', e.message)),
+        tx.member
+          .deleteMany()
+          .catch((e: Error) => console.log('Skipping member deletion:', e.message)),
+        tx.resume
+          .deleteMany()
+          .catch((e: Error) => console.log('Skipping resume deletion:', e.message)),
+        tx.chapter
+          .deleteMany()
+          .catch((e: Error) => console.log('Skipping chapter deletion:', e.message)),
+        tx.address
+          .deleteMany()
+          .catch((e: Error) => console.log('Skipping address deletion:', e.message)),
+        tx.profile
+          .deleteMany()
+          .catch((e: Error) => console.log('Skipping profile deletion:', e.message)),
         // Skip twoFactorConfirmation if table doesn't exist
-        tx.twoFactorConfirmation.deleteMany().catch((e: Error) => console.log('Skipping twoFactorConfirmation deletion:', e.message)),
-        tx.twoFactorToken.deleteMany().catch((e: Error) => console.log('Skipping twoFactorToken deletion:', e.message)),
-        tx.passwordResetToken.deleteMany().catch((e: Error) => console.log('Skipping passwordResetToken deletion:', e.message)),
-        tx.verificationToken.deleteMany().catch((e: Error) => console.log('Skipping verificationToken deletion:', e.message)),
-        tx.session.deleteMany().catch((e: Error) => console.log('Skipping session deletion:', e.message)),
-        tx.account.deleteMany().catch((e: Error) => console.log('Skipping account deletion:', e.message)),
+        tx.twoFactorConfirmation
+          .deleteMany()
+          .catch((e: Error) => console.log('Skipping twoFactorConfirmation deletion:', e.message)),
+        tx.twoFactorToken
+          .deleteMany()
+          .catch((e: Error) => console.log('Skipping twoFactorToken deletion:', e.message)),
+        tx.passwordResetToken
+          .deleteMany()
+          .catch((e: Error) => console.log('Skipping passwordResetToken deletion:', e.message)),
+        tx.verificationToken
+          .deleteMany()
+          .catch((e: Error) => console.log('Skipping verificationToken deletion:', e.message)),
+        tx.session
+          .deleteMany()
+          .catch((e: Error) => console.log('Skipping session deletion:', e.message)),
+        tx.account
+          .deleteMany()
+          .catch((e: Error) => console.log('Skipping account deletion:', e.message)),
         tx.user.deleteMany().catch((e: Error) => console.log('Skipping user deletion:', e.message)),
       ]);
     });
@@ -41,7 +67,7 @@ async function main() {
           email: 'admin@example.com',
           name: 'Admin User',
           password: await bcrypt.hash('password123', 10),
-          emailVerified: new Date(),
+          emailVerified: true,
           image: 'https://avatars.githubusercontent.com/u/1234567',
           role: Role.COMPANY,
           isTwoFactorEnabled: false,
@@ -72,7 +98,7 @@ async function main() {
             email: `company@${companyName.toLowerCase().replace(/\s+/g, '')}.com`,
             name: `${companyName} Manager`,
             password: await bcrypt.hash('password123', 10),
-            emailVerified: new Date(),
+            emailVerified: true,
             role: Role.COMPANY,
             isTwoFactorEnabled: false,
             image: `https://logo.clearbit.com/${companyName.toLowerCase().replace(/\s+/g, '')}.com`,
@@ -114,7 +140,7 @@ async function main() {
               email: `user${index + 1}@example.com`,
               name: `Test User ${index + 1}`,
               password: await bcrypt.hash('password123', 10),
-              emailVerified: new Date(),
+              emailVerified: true,
               role: Role.MEMBER,
               isTwoFactorEnabled: false,
               image: `https://avatars.dicebear.com/api/human/${index}.svg`,

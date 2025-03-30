@@ -1,8 +1,9 @@
-"use server"
+'use server';
 import { auth } from '@/auth';
 import { headers } from 'next/headers';
 import { unauthorized } from 'next/navigation';
 import { getRole } from './get-role';
+
 /**
  * Retrieves the current authenticated user from the session
  *
@@ -47,5 +48,5 @@ export const currentRole = async () => {
     return res.user.id;
   });
 
-  return getRole({ userId: id });
+  return await getRole({ userId: id });
 };

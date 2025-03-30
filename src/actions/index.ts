@@ -5,4 +5,3 @@ export * from './new-password';
 export * from './new-verification';
 export * from './register';
 export * from './reset';
-export * from './settings';
