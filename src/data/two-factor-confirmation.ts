@@ -28,9 +28,12 @@ import { db } from '@/lib';
  */
 export const getTwoFactorConfirmationByUserId = async (userId: string) => {
   try {
-    const twoFactorConfirmation = await db.twoFactorConfirmation.findUnique({
-      where: { userId },
-    });
+    const twoFactorConfirmation = await db.twoFactorConfirmation
+      .findUnique({
+        where: { userId },
+      })
+      .withAccelerateInfo()
+      .then(({ data }) => data);
 
     return twoFactorConfirmation;
   } catch (error) {

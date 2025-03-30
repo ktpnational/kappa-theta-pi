@@ -2,8 +2,6 @@
 
 import { useSession } from '@/lib/auth-client';
 
-
-
 /**
  * Custom React hook that retrieves the currently authenticated user.
  *

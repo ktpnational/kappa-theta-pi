@@ -16,9 +16,11 @@ import { db } from '@/lib';
  */
 export const getVerificationTokenByEmail = async (email: string) => {
   try {
-    const verificationToken = await db.verificationToken.findFirst({
-      where: { email },
-    });
+    const verificationToken = await db.verificationToken
+      .findFirst({
+        where: { email },
+      })
+      .withAccelerateInfo().then(({ data }) => data);
 
     return verificationToken;
   } catch (error) {
@@ -42,9 +44,12 @@ export const getVerificationTokenByEmail = async (email: string) => {
  */
 export const getVerificationTokenByToken = async (token: string) => {
   try {
-    const verificationToken = await db.verificationToken.findUnique({
-      where: { token },
-    });
+    const verificationToken = await db.verificationToken
+      .findUnique({
+        where: { token },
+      })
+      .withAccelerateInfo()
+      .then(({ data }) => data);
 
     return verificationToken;
   } catch (error) {

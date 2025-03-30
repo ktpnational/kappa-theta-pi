@@ -18,7 +18,10 @@ import { db } from '@/lib';
  */
 export const getUserByEmail = async (email: string) => {
   try {
-    const user = await db.user.findUnique({ where: { email } });
+    const user = await db.user
+      .findUnique({ where: { email } })
+      .withAccelerateInfo()
+      .then(({ data }) => data);
 
     return user;
   } catch (error) {

@@ -3,7 +3,6 @@
 import { getRole } from '@/lib';
 import { useSession } from '@/lib/auth-client';
 
-
 /**
  * Custom hook to retrieve the current user's role from the active session.
  *

@@ -67,10 +67,12 @@ export default {
           sub: user?.id || '',
           email: user?.email || '',
           role: user?.role || 'GUEST',
-          profile: user?.profile ? {
-            id: user.profile.id,
-            role: user.profile.role,
-          } : null,
+          profile: user?.profile
+            ? {
+                id: user.profile.id,
+                role: user.profile.role,
+              }
+            : null,
         }),
       },
     }),

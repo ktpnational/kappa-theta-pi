@@ -22,7 +22,7 @@ export const auth = betterAuth({
     autoSignInAfterVerification: true,
     onEmailVerification: async (user) => {
       log.info('Email verified', { userId: user.id });
-    }
+    },
   },
 
   // Email and password configuration
@@ -64,8 +64,8 @@ export const auth = betterAuth({
       },
       afterDelete: async (user) => {
         log.info('User deleted', { userId: user.id });
-      }
-    }
+      },
+    },
   },
 
   // Session configuration
@@ -76,7 +76,7 @@ export const auth = betterAuth({
     cookieCache: {
       enabled: true,
       maxAge: 30 * 24 * 60 * 60, // 30 days
-    }
+    },
   },
 
   // Account configuration for social providers
@@ -85,7 +85,7 @@ export const auth = betterAuth({
     accountLinking: {
       enabled: true,
       allowDifferentEmails: false,
-    }
+    },
   },
 
   // Verification token settings
@@ -98,7 +98,7 @@ export const auth = betterAuth({
     useSecureCookies: process.env.NODE_ENV === 'production',
     ipAddress: {
       disableIpTracking: false,
-    }
+    },
   },
 
   databaseHooks: {
@@ -116,15 +116,15 @@ export const auth = betterAuth({
                 email: user.email,
                 emailVerified: user.emailVerified || null,
                 image: user.image,
-                role: await getRole({ userId: user.id }) || 'MEMBER',
+                role: (await getRole({ userId: user.id })) || 'MEMBER',
                 profile: {
                   create: {
-                    role: await getRole({ userId: user.id }) || 'MEMBER',
+                    role: (await getRole({ userId: user.id })) || 'MEMBER',
                     active: true,
                     // Initialize with empty values for other relations if needed
-                  }
-                }
-              }
+                  },
+                },
+              },
             });
           } catch (error) {
             log.error('Failed to create user profile', { userId: user.id, error });
@@ -151,8 +151,8 @@ export const auth = betterAuth({
                 email: user.email,
                 emailVerified: user.emailVerified || null,
                 image: user.image,
-                role: await getRole({ userId: user.id }) || undefined,
-              }
+                role: (await getRole({ userId: user.id })) || undefined,
+              },
             });
 
             // Also update profile if role changed
@@ -161,34 +161,34 @@ export const auth = betterAuth({
                 where: { userId: user.id },
                 data: {
                   role: await getRole({ userId: user.id }),
-                }
+                },
               });
             }
           } catch (error) {
             log.error('Failed to update user data', { userId: user.id, error });
           }
-        }
-      }
+        },
+      },
     },
     session: {
       create: {
         after: async (session) => {
           log.info('Session created', { sessionId: session.id, userId: session.userId });
-        }
+        },
       },
       update: {
         after: async (session) => {
           log.info('Session updated', { sessionId: session.id, userId: session.userId });
-        }
-      }
+        },
+      },
     },
     account: {
       create: {
         after: async (account) => {
           log.info('Account linked', { provider: account.providerId, userId: account.userId });
-        }
-      }
-    }
+        },
+      },
+    },
   },
 
   // Error handling

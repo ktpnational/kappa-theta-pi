@@ -4,7 +4,6 @@ import crypto from 'crypto';
 import { getUserByEmail } from '@/data';
 import { env } from '@/env';
 import { db, resend } from '@/lib';
-import { unauthorized } from 'next/navigation'
 import {
   type CheckIfEmailVerifiedInput,
   type ContactFormInput,
@@ -15,6 +14,7 @@ import {
   emailVerificationSchema,
   markEmailAsVerifiedSchema,
 } from '@/schemas';
+import { unauthorized } from 'next/navigation';
 
 /**
  * Renders the email verification template with provided email and token

@@ -20,9 +20,12 @@ import { db } from '@/lib';
  */
 export const getPasswordResetTokenByToken = async (token: string) => {
   try {
-    const passwordResetToken = await db.passwordResetToken.findUnique({
-      where: { token },
-    });
+    const passwordResetToken = await db.passwordResetToken
+      .findUnique({
+        where: { token },
+      })
+      .withAccelerateInfo()
+      .then(({ data }) => data);
 
     return passwordResetToken;
   } catch (error) {

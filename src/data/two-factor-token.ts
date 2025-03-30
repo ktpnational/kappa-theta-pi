@@ -18,9 +18,12 @@ import { db } from '@/lib';
  */
 export const getTwoFactorTokenByToken = async (token: string) => {
   try {
-    const twoFactorToken = await db.twoFactorToken.findUnique({
-      where: { token },
-    });
+    const twoFactorToken = await db.twoFactorToken
+      .findUnique({
+        where: { token },
+      })
+      .withAccelerateInfo()
+      .then(({ data }) => data);
 
     return twoFactorToken;
   } catch (error) {

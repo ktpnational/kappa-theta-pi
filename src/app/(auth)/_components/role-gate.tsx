@@ -41,10 +41,9 @@ export const RoleGate = ({ children, allowedRole }: RoleGateProps) => {
     const getRole = async () => {
       const res = await useCurrentRole();
       setRole(res);
-    }
-    getRole()
-  }, [setRole])
-
+    };
+    getRole();
+  }, [setRole]);
 
   if (role !== allowedRole) {
     return <FormError message="You do not have permission to view this content!" />;

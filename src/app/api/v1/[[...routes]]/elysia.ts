@@ -302,31 +302,35 @@ export const dashboardRoute = new Elysia()
    */
   .get('/members/:id', async ({ db, params }) => {
     try {
-      const member = await db.member.findUnique({
-        where: { id: params.id },
-        include: {
-          profile: {
-            include: {
-              user: {
-                select: {
-                  id: true,
-                  name: true,
-                  email: true,
-                  image: true,
+      const { data } = await db.member
+        .findUnique({
+          where: { id: params.id },
+          include: {
+            profile: {
+              include: {
+                user: {
+                  select: {
+                    id: true,
+                    name: true,
+                    email: true,
+                    image: true,
+                  },
                 },
+                address: true,
               },
-              address: true,
+            },
+            resume: true,
+            chapter: true,
+            candidates: {
+              include: {
+                company: true,
+              },
             },
           },
-          resume: true,
-          chapter: true,
-          candidates: {
-            include: {
-              company: true,
-            },
-          },
-        },
-      });
+        })
+        .withAccelerateInfo();
+
+      const member = data;
 
       if (!member) return { error: 'Member not found', status: 404 };
       return { data: member, status: 200 };
