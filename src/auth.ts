@@ -16,7 +16,6 @@ export const auth = betterAuth({
   ...authConfig,
   appName: 'Kappa Theta PI',
 
-  // Configure email verification
   emailVerification: {
     sendOnSignUp: true,
     autoSignInAfterVerification: true,
@@ -25,7 +24,6 @@ export const auth = betterAuth({
     },
   },
 
-  // Email and password configuration
   emailAndPassword: {
     enabled: true,
     requireEmailVerification: true,
@@ -33,7 +31,6 @@ export const auth = betterAuth({
     autoSignIn: true,
   },
 
-  // User model configuration
   user: {
     modelName: 'User',
     fields: {
@@ -56,7 +53,6 @@ export const auth = betterAuth({
     changeEmail: {
       enabled: true,
     },
-    // Enable account deletion
     deleteUser: {
       enabled: true,
       beforeDelete: async (user) => {
@@ -68,7 +64,6 @@ export const auth = betterAuth({
     },
   },
 
-  // Session configuration
   session: {
     modelName: 'Session',
     expiresIn: 30 * 24 * 60 * 60, // 30 days
@@ -79,7 +74,6 @@ export const auth = betterAuth({
     },
   },
 
-  // Account configuration for social providers
   account: {
     modelName: 'Account',
     accountLinking: {
@@ -88,12 +82,10 @@ export const auth = betterAuth({
     },
   },
 
-  // Verification token settings
   verification: {
     modelName: 'VerificationToken',
   },
 
-  // Advanced settings
   advanced: {
     useSecureCookies: process.env.NODE_ENV === 'production',
     ipAddress: {
@@ -108,7 +100,6 @@ export const auth = betterAuth({
           log.info('User created successfully', { userId: user.id });
 
           try {
-            // Create user in auth schema with profile in public schema
             await db.user.create({
               data: {
                 id: user.id,
@@ -191,7 +182,6 @@ export const auth = betterAuth({
     },
   },
 
-  // Error handling
   onAPIError: {
     throw: true,
     onError: async (error, ctx) => {

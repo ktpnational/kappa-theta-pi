@@ -46,7 +46,7 @@ import { notFound } from 'next/navigation';
 const DashboardPage = async () => {
   const res = await catchError(currentRole, []);
   if (res.success) {
-    const role = res.value;
+    const role = res.value.toLowerCase();
     return <>{role ? redirect(`/dashboard/${role}`) : notFound()}</>;
   }
   throw res.error;
