@@ -1,6 +1,6 @@
-import { auth } from '@/server';
 import { db } from '@/lib/prisma';
-import { handleEden, Stringify } from '@/utils';
+import { auth } from '@/server';
+import { Stringify, handleEden } from '@/utils';
 import type { Session } from 'better-auth';
 import type { EdenFetchError } from 'custom';
 import Elysia, { t } from 'elysia';
@@ -126,16 +126,16 @@ export const dashboardRoute = new Elysia()
           AND: [
             search
               ? {
-                profile: {
-                  user: { name: { contains: search, mode: 'insensitive' } },
-                },
-              }
+                  profile: {
+                    user: { name: { contains: search, mode: 'insensitive' } },
+                  },
+                }
               : {},
             chapter ? { chapterId: chapter } : {},
             active !== undefined
               ? {
-                profile: { active: Boolean(active) },
-              }
+                  profile: { active: Boolean(active) },
+                }
               : {},
           ],
         },
@@ -222,12 +222,12 @@ export const dashboardRoute = new Elysia()
             status ? { status } : {},
             search
               ? {
-                OR: [
-                  { name: { contains: search, mode: 'insensitive' } },
-                  { greekName: { contains: search, mode: 'insensitive' } },
-                  { university: { contains: search, mode: 'insensitive' } },
-                ],
-              }
+                  OR: [
+                    { name: { contains: search, mode: 'insensitive' } },
+                    { greekName: { contains: search, mode: 'insensitive' } },
+                    { university: { contains: search, mode: 'insensitive' } },
+                  ],
+                }
               : {},
           ],
         },
@@ -302,32 +302,31 @@ export const dashboardRoute = new Elysia()
    */
   .get('/members/:id', async ({ db, params }) => {
     try {
-      const member = await db.member
-        .findUnique({
-          where: { id: params.id },
-          include: {
-            profile: {
-              include: {
-                user: {
-                  select: {
-                    id: true,
-                    name: true,
-                    email: true,
-                    image: true,
-                  },
+      const member = await db.member.findUnique({
+        where: { id: params.id },
+        include: {
+          profile: {
+            include: {
+              user: {
+                select: {
+                  id: true,
+                  name: true,
+                  email: true,
+                  image: true,
                 },
-                address: true,
               },
-            },
-            resume: true,
-            chapter: true,
-            candidates: {
-              include: {
-                company: true,
-              },
+              address: true,
             },
           },
-        })
+          resume: true,
+          chapter: true,
+          candidates: {
+            include: {
+              company: true,
+            },
+          },
+        },
+      });
 
       if (!member) return { error: 'Member not found', status: 404 };
       return { data: member, status: 200 };
@@ -433,15 +432,14 @@ export const utilityRoute = new Elysia()
   .get('/get-role', async ({ db, session }) => {
     try {
       const { userId } = session;
-      const role = await db.user
-        .findUnique({
-          where: {
-            id: userId,
-          },
-          select: {
-            role: true,
-          },
-        })
+      const role = await db.user.findUnique({
+        where: {
+          id: userId,
+        },
+        select: {
+          role: true,
+        },
+      });
 
       // TODO: 🚩 This is a temporary fix to get the role
       if (!role) return { error: 'User not found', status: 404 };
@@ -450,12 +448,12 @@ export const utilityRoute = new Elysia()
     } catch (err) {
       return handleEden({
         data: null,
-        error:  err as EdenFetchError<number, string> | null,
+        error: err as EdenFetchError<number, string> | null,
         status: 500,
-        response: {}
-      })
+        response: {},
+      });
     }
   })
   .get('/health', () => {
     return Stringify({ message: 'ok', status: 200 });
-  })
+  });

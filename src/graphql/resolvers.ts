@@ -38,10 +38,9 @@ export const resolvers: {
       (): Resolver<User | null, unknown, { id: string }> =>
       async (_parent, { id }, ctx) => {
         const [error, user] = await catchError<User | null>(
-          ctx.db.user
-            .findUnique({
-              where: { id },
-            })
+          ctx.db.user.findUnique({
+            where: { id },
+          }),
         );
 
         if (error) throw error;
@@ -78,10 +77,9 @@ export const resolvers: {
       (): Resolver<Chapter | null, unknown, { id: string }> =>
       async (_parent, { id }, ctx) => {
         const [error, chapter] = await catchError<Chapter | null>(
-          ctx.db.chapter
-            .findUnique({
-              where: { id },
-            })
+          ctx.db.chapter.findUnique({
+            where: { id },
+          }),
         );
 
         if (error) throw error;
@@ -93,10 +91,9 @@ export const resolvers: {
   User: {
     profile: (): Resolver<Profile | null, User> => async (parent, _args, ctx) => {
       const [error, profile] = await catchError<Profile | null>(
-        ctx.db.profile
-          .findUnique({
-            where: { userId: parent.id },
-          })
+        ctx.db.profile.findUnique({
+          where: { userId: parent.id },
+        }),
       );
 
       if (error) throw error;

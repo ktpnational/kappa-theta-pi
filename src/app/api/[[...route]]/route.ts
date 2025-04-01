@@ -25,12 +25,15 @@ const api = app
   .use('*', contextStorage())
   .use('*', timingMiddleware)
   .use('*', logger())
-  .use('*', bodyLimit({
-    maxSize: 1024 * 1024 * 2,
-    onError: (c) => {
-      return c.json({ error: 'Request body too large' }, { status: 413 });
-    }
-  }))
+  .use(
+    '*',
+    bodyLimit({
+      maxSize: 1024 * 1024 * 2,
+      onError: (c) => {
+        return c.json({ error: 'Request body too large' }, { status: 413 });
+      },
+    }),
+  )
   .use(
     '*',
     cors({

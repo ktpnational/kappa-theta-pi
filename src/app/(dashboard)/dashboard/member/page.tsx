@@ -1,14 +1,14 @@
-import { constructMetadata } from '@/utils';
-import { Metadata } from 'next';
-import { redirect } from 'next/navigation';
-import React from 'react';
-import { auth } from '@/server';
-import { headers } from 'next/headers';
-import { db } from '@/lib/prisma';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
+import { db } from '@/lib/prisma';
+import { auth } from '@/server';
+import { constructMetadata } from '@/utils';
+import type { Metadata } from 'next';
+import { headers } from 'next/headers';
+import { redirect } from 'next/navigation';
+import React from 'react';
 
 export const metadata: Metadata = constructMetadata({
   title: 'Member Dashboard',
@@ -28,10 +28,10 @@ const DashboardMemberPage = async () => {
       member: {
         include: {
           chapter: true,
-          resume: true
-        }
-      }
-    }
+          resume: true,
+        },
+      },
+    },
   });
 
   if (!profile) {
@@ -39,7 +39,9 @@ const DashboardMemberPage = async () => {
   }
 
   if (!profile.member) {
-    return <div className="p-6">Member information not found. Please complete your profile setup.</div>;
+    return (
+      <div className="p-6">Member information not found. Please complete your profile setup.</div>
+    );
   }
 
   const { member } = profile;
@@ -88,15 +90,27 @@ const DashboardMemberPage = async () => {
             <div className="grid grid-cols-1 gap-2">
               <div className="flex justify-between">
                 <span className="text-sm text-muted-foreground">Education:</span>
-                <span>{member.resume.education ? `${Object.keys(member.resume.education).length} entries` : 'Not provided'}</span>
+                <span>
+                  {member.resume.education
+                    ? `${Object.keys(member.resume.education).length} entries`
+                    : 'Not provided'}
+                </span>
               </div>
               <div className="flex justify-between">
                 <span className="text-sm text-muted-foreground">Experience:</span>
-                <span>{member.resume.experience ? `${Object.keys(member.resume.experience).length} entries` : 'Not provided'}</span>
+                <span>
+                  {member.resume.experience
+                    ? `${Object.keys(member.resume.experience).length} entries`
+                    : 'Not provided'}
+                </span>
               </div>
               <div className="flex justify-between">
                 <span className="text-sm text-muted-foreground">Skills:</span>
-                <span>{member.resume.skills ? `${Object.keys(member.resume.skills).length} entries` : 'Not provided'}</span>
+                <span>
+                  {member.resume.skills
+                    ? `${Object.keys(member.resume.skills).length} entries`
+                    : 'Not provided'}
+                </span>
               </div>
             </div>
           </div>

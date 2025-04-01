@@ -1,13 +1,13 @@
-import { constructMetadata } from '@/utils';
 import { db } from '@/lib/prisma';
 import { auth } from '@/server';
-import { redirect } from 'next/navigation';
-import { Metadata } from 'next';
+import { constructMetadata } from '@/utils';
+import type { Metadata } from 'next';
 import { headers } from 'next/headers';
+import { redirect } from 'next/navigation';
 
 export const metadata: Metadata = constructMetadata({
   title: 'Company Dashboard',
-  description: 'Manage your company profile and view candidates'
+  description: 'Manage your company profile and view candidates',
 });
 
 export default async function DashboardCompanyPage() {
@@ -20,7 +20,7 @@ export default async function DashboardCompanyPage() {
   // Get the user's profile and associated company data
   const profile = await db.profile.findUnique({
     where: { userId: session.user.id },
-    include: { company: true }
+    include: { company: true },
   });
 
   if (!profile?.company) {

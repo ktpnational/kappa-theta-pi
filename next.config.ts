@@ -279,7 +279,7 @@ const nextConfig: NextConfig = {
       ...config.resolve.fallback,
       crypto: require.resolve('crypto-browserify'),
       stream: require.resolve('stream-browserify'),
-      buffer: require.resolve('buffer/')
+      buffer: require.resolve('buffer/'),
     };
     config.resolve.alias = config.resolve.alias || {};
 
@@ -294,8 +294,8 @@ const nextConfig: NextConfig = {
       config.plugins.push(
         new webpack.ProvidePlugin({
           Buffer: ['buffer', 'Buffer'],
-        })
-      )
+        }),
+      );
       config.resolve.alias = {
         ...config.resolve.alias,
         'decode-named-character-reference': false,
@@ -310,7 +310,7 @@ const nextConfig: NextConfig = {
         'browserify-sign': false,
         'create-hmac': false,
         'create-hash': false,
-        'randombytes': false,
+        randombytes: false,
       };
     }
 

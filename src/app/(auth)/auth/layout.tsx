@@ -1,5 +1,5 @@
-import { auth } from '@/server';
 import { AnimatedBackground } from '@/components';
+import { auth } from '@/server';
 import { constructMetadata } from '@/utils';
 import dynamic from 'next/dynamic';
 import { headers } from 'next/headers';

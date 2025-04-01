@@ -1,7 +1,7 @@
 import { env } from '@/env';
-import { PrismaClient } from '@prisma/client';
-import { Prisma } from '@prisma/client';
 import { logger } from '@/utils';
+import { PrismaClient } from '@prisma/client';
+import type { Prisma } from '@prisma/client';
 
 if (typeof window !== 'undefined') {
   throw new Error('PrismaClient cannot be used in browser environment');
@@ -26,9 +26,7 @@ const options: Record<string, Prisma.PrismaClientOptions> = {
   production: {
     datasourceUrl: env.DATABASE_URL,
     errorFormat: 'minimal' as const,
-    log: [
-      { emit: 'event', level: 'error' },
-    ] as const,
+    log: [{ emit: 'event', level: 'error' }] as const,
     transactionOptions: {
       maxWait: 10000,
       timeout: 10000,
@@ -45,8 +43,8 @@ const options: Record<string, Prisma.PrismaClientOptions> = {
     transactionOptions: {
       maxWait: 10000,
       timeout: 10000,
-    }
-  }
+    },
+  },
 };
 
 /**

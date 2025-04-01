@@ -106,7 +106,7 @@ export const auth = betterAuth({
           log.info('User created successfully', { userId: user.id });
 
           try {
-            const role = await getRole()
+            const role = await getRole();
             log.debug('Retrieved role for new user', { userId: user.id, role });
             await db.user.create({
               data: {
@@ -143,7 +143,7 @@ export const auth = betterAuth({
           log.info('User updated', { userId: user.id });
 
           try {
-            const role = await getRole()
+            const role = await getRole();
             log.debug('Retrieved role for user update', { userId: user.id, role });
             // Update user in auth schema
             await db.user.update({
@@ -195,7 +195,7 @@ export const auth = betterAuth({
               userId: string;
               expiresAt: Date;
               token: string;
-            }
+            },
           };
         },
         after: async (session) => {
@@ -214,7 +214,10 @@ export const auth = betterAuth({
     account: {
       create: {
         before: async (accountData) => {
-          log.debug('Preparing to create account', { provider: accountData.providerId, userId: accountData.userId });
+          log.debug('Preparing to create account', {
+            provider: accountData.providerId,
+            userId: accountData.userId,
+          });
           return { data: accountData };
         },
         after: async (account) => {

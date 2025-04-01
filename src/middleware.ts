@@ -1,11 +1,11 @@
-import { csrfToken } from '@/lib/csrf';
 import { env } from '@/env';
+import { csrfToken } from '@/lib/csrf';
 import { rateLimiter } from '@/lib/rate-limit';
 import type { RateLimitHelper } from '@/lib/rate-limit';
-import { type NextRequest, NextResponse } from 'next/server';
-import { betterFetch } from "@better-fetch/fetch";
-import { auth } from '@/server';
+import type { auth } from '@/server';
 import { logger } from '@/utils';
+import { betterFetch } from '@better-fetch/fetch';
+import { type NextRequest, NextResponse } from 'next/server';
 
 type Session = typeof auth.$Infer.Session;
 
@@ -52,7 +52,7 @@ const rateLimitExemptPaths = [...publicAssetPaths, '/_next', '/api/health'];
  */
 export async function middleware(request: NextRequest): Promise<NextResponse> {
   log.debug('Processing middleware request', { path: request.nextUrl.pathname });
-  
+
   // Early return for exempt paths
   if (rateLimitExemptPaths.some((path) => request.nextUrl.pathname.startsWith(path))) {
     log.debug('Skipping middleware for exempt path', { path: request.nextUrl.pathname });
@@ -68,23 +68,22 @@ export async function middleware(request: NextRequest): Promise<NextResponse> {
 
     if (request.nextUrl.pathname.startsWith('/dashboard')) {
       log.debug('Checking authentication for dashboard access');
-      const { data: session } = await betterFetch<Session>(
-        "/api/auth/get-session",
-        {
-          baseURL: request.nextUrl.origin,
-          headers: {
-            //get the cookie from the request
-            cookie: request.headers.get("cookie") || "",
-          },
-        }
-      );
+      const { data: session } = await betterFetch<Session>('/api/auth/get-session', {
+        baseURL: request.nextUrl.origin,
+        headers: {
+          //get the cookie from the request
+          cookie: request.headers.get('cookie') || '',
+        },
+      });
       if (!session) {
-        log.info('Redirecting unauthenticated user from dashboard', { path: request.nextUrl.pathname });
+        log.info('Redirecting unauthenticated user from dashboard', {
+          path: request.nextUrl.pathname,
+        });
         return NextResponse.redirect(new URL('/auth/login', request.url));
       }
       log.debug('User authenticated for dashboard access', { userId: session.user?.id });
     }
-    
+
     if (!request.cookies.get('csrfToken')) {
       log.debug('Setting CSRF token cookie');
       response.cookies.set('csrfToken', csrfToken, {
@@ -103,7 +102,10 @@ export async function middleware(request: NextRequest): Promise<NextResponse> {
         rateLimitingType = 'api';
       }
 
-      log.debug('Applying rate limiting', { type: rateLimitingType, path: request.nextUrl.pathname });
+      log.debug('Applying rate limiting', {
+        type: rateLimitingType,
+        path: request.nextUrl.pathname,
+      });
       const identifier = request.headers.get('x-forwarded-for') || 'anonymous';
       const result = await rateLimiter(rateLimitingType)({ identifier });
 
@@ -112,11 +114,11 @@ export async function middleware(request: NextRequest): Promise<NextResponse> {
       response.headers.set('X-RateLimit-Reset', result.reset.toString());
 
       if (!result.success) {
-        log.warn('Rate limit exceeded', { 
-          identifier, 
-          path: request.nextUrl.pathname, 
+        log.warn('Rate limit exceeded', {
+          identifier,
+          path: request.nextUrl.pathname,
           remaining: result.remaining,
-          reset: result.reset
+          reset: result.reset,
         });
         return new NextResponse(
           JSON.stringify({
@@ -146,9 +148,9 @@ export async function middleware(request: NextRequest): Promise<NextResponse> {
     log.debug('Middleware processing complete', { path: request.nextUrl.pathname });
     return response;
   } catch (error) {
-    log.error('Middleware error', { 
-      path: request.nextUrl.pathname, 
-      error: error instanceof Error ? error.message : String(error) 
+    log.error('Middleware error', {
+      path: request.nextUrl.pathname,
+      error: error instanceof Error ? error.message : String(error),
     });
     return NextResponse.next();
   }

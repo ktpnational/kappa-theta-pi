@@ -27,7 +27,7 @@ const retry = async (fn: () => Promise<any>, retries = 3, delay = 1000) => {
 
     logger.info('Generating Prisma client...');
     const { stdout: generateOutput, stderr: generateError } = await retry(() =>
-      execPromise('bun run prisma:generate'),
+      execPromise('bun run prisma generate --schema=./prisma/schema.prisma'),
     );
 
     if (generateError) {

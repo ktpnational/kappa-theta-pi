@@ -1,9 +1,9 @@
 import 'server-only';
+import type { HonoApp } from '@/app/api/[[...route]]/route';
 import type { App } from '@/app/api/v1/[[...routes]]/route';
 import { getURL } from '@/utils';
 import { edenTreaty } from '@elysiajs/eden';
 import { hc } from 'hono/client';
-import { HonoApp } from '@/app/api/[[...route]]/route';
 /**
  * Server-side API client instance created using Elysia's Eden treaty pattern.
  *

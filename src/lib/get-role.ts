@@ -12,14 +12,16 @@ import type { $Enums } from '@prisma/client';
  */
 export const getRole = async (): Promise<$Enums.Role> => {
   try {
-    const res = await elysia_server_api.api.v1['get-role'].get()
+    const res = await elysia_server_api.api.v1['get-role'].get();
 
     if (res.error || !res.data) {
-      parseCodePath(res, getRole)
-      throw new Error(res.error?.message || 'Failed to get role')
+      parseCodePath(res, getRole);
+      throw new Error(res.error?.message || 'Failed to get role');
     }
-    return res.data as $Enums.Role
+    return res.data as $Enums.Role;
   } catch (err) {
-    throw new Error(parseCodePath(`${err instanceof Error ? err.message : 'Failed to get role'}`, getRole))
+    throw new Error(
+      parseCodePath(`${err instanceof Error ? err.message : 'Failed to get role'}`, getRole),
+    );
   }
 };
