@@ -9,6 +9,8 @@ const log = logger.getSubLogger({
   name: 'auth.config',
 });
 
+log.info('Initializing authentication system');
+
 export const auth = betterAuth({
   database: prismaAdapter(db, {
     provider: 'postgresql',
@@ -96,11 +98,16 @@ export const auth = betterAuth({
   databaseHooks: {
     user: {
       create: {
+        before: async (userData, _context) => {
+          log.info('Preparing to create user', { email: userData.email });
+          return { data: userData };
+        },
         after: async (user, _context) => {
           log.info('User created successfully', { userId: user.id });
 
           try {
             const role = await getRole()
+            log.debug('Retrieved role for new user', { userId: user.id, role });
             await db.user.create({
               data: {
                 id: user.id,
@@ -118,6 +125,7 @@ export const auth = betterAuth({
                 },
               },
             });
+            log.info('User profile created', { userId: user.id, role: role || 'GUEST' });
           } catch (error) {
             log.error('Failed to create user profile', { userId: user.id, error });
             throw error;
@@ -136,6 +144,7 @@ export const auth = betterAuth({
 
           try {
             const role = await getRole()
+            log.debug('Retrieved role for user update', { userId: user.id, role });
             // Update user in auth schema
             await db.user.update({
               where: { id: user.id },
@@ -147,6 +156,7 @@ export const auth = betterAuth({
                 role: role || undefined,
               },
             });
+            log.debug('User record updated in database', { userId: user.id });
 
             // Also update profile if role changed
             if (role) {
@@ -156,6 +166,7 @@ export const auth = betterAuth({
                   role: role,
                 },
               });
+              log.debug('User profile role updated', { userId: user.id, role });
             }
           } catch (error) {
             log.error('Failed to update user data', { userId: user.id, error });
@@ -165,20 +176,57 @@ export const auth = betterAuth({
     },
     session: {
       create: {
+        before: async (sessionData) => {
+          log.debug('Preparing to create session', { userId: sessionData.userId });
+          return { data: sessionData };
+        },
         after: async (session) => {
           log.info('Session created', { sessionId: session.id, userId: session.userId });
         },
       },
       update: {
+        before: async (sessionData, _context) => {
+          log.debug('Preparing to update session', { sessionId: sessionData.id });
+          return {
+            data: sessionData as typeof sessionData & {
+              id: string;
+              createdAt: Date;
+              updatedAt: Date;
+              userId: string;
+              expiresAt: Date;
+              token: string;
+            }
+          };
+        },
         after: async (session) => {
           log.info('Session updated', { sessionId: session.id, userId: session.userId });
+        },
+      },
+      delete: {
+        before: async (sessionId: string) => {
+          log.debug('Preparing to delete session', { sessionId });
+        },
+        after: async (sessionId: string) => {
+          log.info('Session deleted', { sessionId });
         },
       },
     },
     account: {
       create: {
+        before: async (accountData) => {
+          log.debug('Preparing to create account', { provider: accountData.providerId, userId: accountData.userId });
+          return { data: accountData };
+        },
         after: async (account) => {
           log.info('Account linked', { provider: account.providerId, userId: account.userId });
+        },
+      },
+      delete: {
+        before: async (accountId: string) => {
+          log.debug('Preparing to delete account', { accountId });
+        },
+        after: async (accountId: string) => {
+          log.info('Account unlinked', { accountId });
         },
       },
     },
@@ -192,5 +240,7 @@ export const auth = betterAuth({
     },
   },
 });
+
+log.info('Authentication system initialized successfully');
 
 export const { api } = auth;

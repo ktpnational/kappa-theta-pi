@@ -5,8 +5,11 @@ import type { RateLimitHelper } from '@/lib/rate-limit';
 import { type NextRequest, NextResponse } from 'next/server';
 import { betterFetch } from "@better-fetch/fetch";
 import { auth } from '@/server';
+import { logger } from '@/utils';
 
 type Session = typeof auth.$Infer.Session;
+
+const log = logger.getSubLogger({ prefix: ['Middleware'] });
 
 const publicAssetPaths: Set<string> = new Set([
   '/assets/',
@@ -48,8 +51,11 @@ const rateLimitExemptPaths = [...publicAssetPaths, '/_next', '/api/health'];
  * ```
  */
 export async function middleware(request: NextRequest): Promise<NextResponse> {
+  log.debug('Processing middleware request', { path: request.nextUrl.pathname });
+  
   // Early return for exempt paths
   if (rateLimitExemptPaths.some((path) => request.nextUrl.pathname.startsWith(path))) {
+    log.debug('Skipping middleware for exempt path', { path: request.nextUrl.pathname });
     return NextResponse.next();
   }
 
@@ -61,6 +67,7 @@ export async function middleware(request: NextRequest): Promise<NextResponse> {
     });
 
     if (request.nextUrl.pathname.startsWith('/dashboard')) {
+      log.debug('Checking authentication for dashboard access');
       const { data: session } = await betterFetch<Session>(
         "/api/auth/get-session",
         {
@@ -72,10 +79,14 @@ export async function middleware(request: NextRequest): Promise<NextResponse> {
         }
       );
       if (!session) {
+        log.info('Redirecting unauthenticated user from dashboard', { path: request.nextUrl.pathname });
         return NextResponse.redirect(new URL('/auth/login', request.url));
       }
+      log.debug('User authenticated for dashboard access', { userId: session.user?.id });
     }
+    
     if (!request.cookies.get('csrfToken')) {
+      log.debug('Setting CSRF token cookie');
       response.cookies.set('csrfToken', csrfToken, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
@@ -92,6 +103,7 @@ export async function middleware(request: NextRequest): Promise<NextResponse> {
         rateLimitingType = 'api';
       }
 
+      log.debug('Applying rate limiting', { type: rateLimitingType, path: request.nextUrl.pathname });
       const identifier = request.headers.get('x-forwarded-for') || 'anonymous';
       const result = await rateLimiter(rateLimitingType)({ identifier });
 
@@ -100,6 +112,12 @@ export async function middleware(request: NextRequest): Promise<NextResponse> {
       response.headers.set('X-RateLimit-Reset', result.reset.toString());
 
       if (!result.success) {
+        log.warn('Rate limit exceeded', { 
+          identifier, 
+          path: request.nextUrl.pathname, 
+          remaining: result.remaining,
+          reset: result.reset
+        });
         return new NextResponse(
           JSON.stringify({
             error: 'Too Many Requests',
@@ -120,11 +138,18 @@ export async function middleware(request: NextRequest): Promise<NextResponse> {
       }
     }
 
-    if (isPublicAsset(request)) return response;
+    if (isPublicAsset(request)) {
+      log.debug('Serving public asset', { path: request.nextUrl.pathname });
+      return response;
+    }
 
+    log.debug('Middleware processing complete', { path: request.nextUrl.pathname });
     return response;
   } catch (error) {
-    console.error('Rate limiting error:', error);
+    log.error('Middleware error', { 
+      path: request.nextUrl.pathname, 
+      error: error instanceof Error ? error.message : String(error) 
+    });
     return NextResponse.next();
   }
 }
