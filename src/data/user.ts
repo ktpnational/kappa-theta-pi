@@ -1,4 +1,4 @@
-import { db } from '@/lib';
+import { db } from '@/lib/prisma';
 
 /**
  * Retrieves a user from the database by their email address

@@ -2,8 +2,11 @@ import { csrfToken } from '@/lib/csrf';
 import { env } from '@/env';
 import { rateLimiter } from '@/lib/rate-limit';
 import type { RateLimitHelper } from '@/lib/rate-limit';
-import { getSessionForMiddleware } from '@/middlewares';
 import { type NextRequest, NextResponse } from 'next/server';
+import { betterFetch } from "@better-fetch/fetch";
+import { auth } from '@/server';
+
+type Session = typeof auth.$Infer.Session;
 
 const publicAssetPaths: Set<string> = new Set([
   '/assets/',
@@ -58,7 +61,16 @@ export async function middleware(request: NextRequest): Promise<NextResponse> {
     });
 
     if (request.nextUrl.pathname.startsWith('/dashboard')) {
-      const session = await getSessionForMiddleware();
+      const { data: session } = await betterFetch<Session>(
+        "/api/auth/get-session",
+        {
+          baseURL: request.nextUrl.origin,
+          headers: {
+            //get the cookie from the request
+            cookie: request.headers.get("cookie") || "",
+          },
+        }
+      );
       if (!session) {
         return NextResponse.redirect(new URL('/auth/login', request.url));
       }

@@ -3,7 +3,8 @@
 import crypto from 'crypto';
 import { getUserByEmail } from '@/data';
 import { env } from '@/env';
-import { db, resend } from '@/lib';
+import { resend } from '@/lib';
+import { db } from '@/lib/prisma';
 import {
   type CheckIfEmailVerifiedInput,
   type ContactFormInput,

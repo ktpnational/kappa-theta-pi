@@ -1,3 +1,4 @@
+import authController from '@/server/modules/auth';
 import { getURL } from '@/utils';
 import arcject from '@/utils/security/arcject';
 import { Hono } from 'hono';
@@ -91,6 +92,7 @@ const api = app
 
     return c.json({ message: 'Hello world' });
   })
+  .route('/auth', authController)
   .use('*', async (c, next) => {
     try {
       await next();

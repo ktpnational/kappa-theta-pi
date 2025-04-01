@@ -1,7 +1,8 @@
 'use server';
 
 import { getUserByEmail } from '@/data';
-import { db, generateVerificationToken, hashPassword, sendVerificationEmail } from '@/lib';
+import { generateVerificationToken, hashPassword, sendVerificationEmail } from '@/lib';
+import { db } from '@/lib/prisma';
 import { RegisterSchema } from '@/schemas';
 import type * as z from 'zod';
 

@@ -1,4 +1,4 @@
-import { auth } from '@/auth';
+import { auth } from '@/server';
 import { Hono } from 'hono';
 
 const authController = new Hono().on(['POST', 'GET'], '/**', (c) => {

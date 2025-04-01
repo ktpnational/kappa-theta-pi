@@ -4,7 +4,7 @@ import bcrypt from 'bcryptjs';
 import type * as z from 'zod';
 
 import { getPasswordResetTokenByToken, getUserByEmail } from '@/data';
-import { db } from '@/lib';
+import { db } from '@/lib/prisma';
 import { NewPasswordSchema } from '@/schemas';
 
 /**

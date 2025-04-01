@@ -1,9 +1,9 @@
-import 'server-only';
-import authConfig from '@/auth.config';
-import { db, getRole } from '@/lib';
+import { getRole } from '@/lib';
+import { db } from '@/lib/prisma';
 import { logger } from '@/utils';
 import { betterAuth } from 'better-auth';
 import { prismaAdapter } from 'better-auth/adapters/prisma';
+import authConfig from './auth.config';
 
 const log = logger.getSubLogger({
   name: 'auth.config',

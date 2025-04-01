@@ -2,7 +2,7 @@ import { constructMetadata } from '@/utils';
 import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import React from 'react';
-import { auth } from '@/auth';
+import { auth } from '@/server';
 import { headers } from 'next/headers';
 import { db } from '@/lib/prisma';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';

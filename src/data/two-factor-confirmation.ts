@@ -1,4 +1,4 @@
-import { db } from '@/lib';
+import { db } from '@/lib/prisma';
 
 /**
  * Retrieves a two-factor confirmation record for a specific user from the database.

@@ -1,6 +1,6 @@
 import { constructMetadata } from '@/utils';
 import { db } from '@/lib/prisma';
-import { auth } from '@/auth';
+import { auth } from '@/server';
 import { redirect } from 'next/navigation';
 import { Metadata } from 'next';
 import { headers } from 'next/headers';

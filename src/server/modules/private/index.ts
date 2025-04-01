@@ -1,4 +1,4 @@
-import type { auth } from '@/auth';
+import type { auth } from '@/server';
 import privateRoutesMiddleware from '@/server/middleware';
 import { Hono } from 'hono';
 

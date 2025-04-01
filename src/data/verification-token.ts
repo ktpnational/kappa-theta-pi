@@ -1,4 +1,4 @@
-import { db } from '@/lib';
+import { db } from '@/lib/prisma';
 
 /**
  * Retrieves a verification token from the database by email address

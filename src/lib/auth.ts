@@ -1,5 +1,5 @@
 'use server';
-import { auth } from '@/auth';
+import { auth } from '@/server';
 import { headers } from 'next/headers';
 import { getRole } from './get-role';
 

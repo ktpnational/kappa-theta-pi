@@ -1,4 +1,4 @@
-import { auth } from '@/auth';
+import { auth } from '@/server';
 import { createMiddleware } from 'hono/factory';
 
 const privateRoutesMiddleware = createMiddleware(async (c, next) => {

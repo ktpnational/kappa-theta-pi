@@ -4,7 +4,7 @@ import { randomUUID as uuidv4 } from 'crypto';
 import { getPasswordResetTokenByEmail } from '@/data/password-token';
 import { getTwoFactorTokenByEmail } from '@/data/two-factor-token';
 import { getVerificationTokenByEmail } from '@/data/verification-token';
-import { db } from '@/lib';
+import { db } from '@/lib/prisma';
 
 /**
  * Generates a new password reset token for a given email address

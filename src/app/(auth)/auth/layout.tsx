@@ -1,4 +1,4 @@
-import { auth } from '@/auth';
+import { auth } from '@/server';
 import { AnimatedBackground } from '@/components';
 import { constructMetadata } from '@/utils';
 import dynamic from 'next/dynamic';

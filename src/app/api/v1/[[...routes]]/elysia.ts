@@ -1,4 +1,4 @@
-import { auth } from '@/auth';
+import { auth } from '@/server';
 import { db } from '@/lib/prisma';
 import { handleEden, Stringify } from '@/utils';
 import type { Session } from 'better-auth';

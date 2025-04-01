@@ -20,7 +20,7 @@
  *   console.error('Error:', error);
  * }
  */
-import { db } from '@/lib';
+import { db } from '@/lib/prisma';
 
 export const getAccountByUserId = async (userId: string) => {
   try {

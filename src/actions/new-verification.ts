@@ -1,7 +1,7 @@
 'use server';
 
 import { getUserByEmail, getVerificationTokenByToken } from '@/data';
-import { db } from '@/lib';
+import { db } from '@/lib/prisma';
 
 /**
  * Server action that verifies a user's email address using a verification token

@@ -1,4 +1,4 @@
-import { db } from '@/lib';
+import { db } from '@/lib/prisma';
 
 /**
  * Retrieves a two-factor authentication token record by its token value

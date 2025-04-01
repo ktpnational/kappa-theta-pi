@@ -5,6 +5,7 @@ import { type SentryBuildOptions, withSentryConfig } from '@sentry/nextjs';
 import type { NextConfig } from 'next';
 import './src/env';
 import path from 'path';
+import webpack from 'webpack';
 
 // Just in case you accidentally import these packages
 const EXEMPT_DEPS: Set<string> = new Set([
@@ -277,6 +278,8 @@ const nextConfig: NextConfig = {
     config.resolve.fallback = {
       ...config.resolve.fallback,
       crypto: require.resolve('crypto-browserify'),
+      stream: require.resolve('stream-browserify'),
+      buffer: require.resolve('buffer/')
     };
     config.resolve.alias = config.resolve.alias || {};
 
@@ -288,6 +291,11 @@ const nextConfig: NextConfig = {
           filename: 'static/media/[name].[hash][ext]',
         },
       });
+      config.plugins.push(
+        new webpack.ProvidePlugin({
+          Buffer: ['buffer', 'Buffer'],
+        })
+      )
       config.resolve.alias = {
         ...config.resolve.alias,
         'decode-named-character-reference': false,
@@ -299,6 +307,10 @@ const nextConfig: NextConfig = {
         'rehype-stringify': false,
         react: path.resolve('./node_modules/react'),
         'react-dom': path.resolve('./node_modules/react-dom'),
+        'browserify-sign': false,
+        'create-hmac': false,
+        'create-hash': false,
+        'randombytes': false,
       };
     }
 

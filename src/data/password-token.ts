@@ -1,4 +1,4 @@
-import { db } from '@/lib';
+import { db } from '@/lib/prisma';
 
 /**
  * Retrieves a password reset token record from the database by its token value
