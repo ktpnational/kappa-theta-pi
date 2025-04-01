@@ -3,43 +3,29 @@
 import { organizationClient } from 'better-auth/client/plugins';
 import { createAuthClient } from 'better-auth/react';
 import { toast } from 'sonner';
+import { logger } from '@/utils';
+
+const log = logger.getSubLogger({ prefix: ['AuthClient'] });
 
 export const authClient = createAuthClient({
   plugins: [organizationClient()],
   fetchOptions: {
-    onSuccess: (ctx) => {
-      console.log('Auth operation succeeded:', ctx);
-    },
     onError: (ctx) => {
-      console.error('Auth operation failed:', ctx.error);
+      log.error('Authentication error', {
+        error: ctx.error.message,
+        code: ctx.error.code
+      });
       toast.error(ctx.error.message);
+    },
+    onSuccess: () => {
+      log.info('Authentication request successful');
+    },
+    onRequest: (url) => {
+      log.debug('Authentication request initiated', { url });
     },
   },
 });
 
-console.log('Auth client initialized');
+log.info('Auth client initialized');
 
 export const { useSession, signOut, signIn, signUp } = authClient;
-
-// Update type annotations to access email authentication methods
-const originalSignIn = signIn.social;
-const originalSignOut = signOut;
-const originalSignUp = signUp.email;
-
-// Update parameter types to match email authentication signature
-export const signInWithLogging = (
-  ...args: Parameters<typeof originalSignIn>
-) => {
-  console.log('Attempting sign in', { args });
-  return originalSignIn(...args);
-};
-
-export const signOutWithLogging = (...args: Parameters<typeof originalSignOut>) => {
-  console.log('Attempting sign out', { args });
-  return originalSignOut(...args);
-};
-
-export const signUpWithLogging = (...args: Parameters<typeof originalSignUp>) => {
-  console.log('Attempting sign up', { args });
-  return originalSignUp(...args);
-};
