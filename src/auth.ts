@@ -100,6 +100,7 @@ export const auth = betterAuth({
           log.info('User created successfully', { userId: user.id });
 
           try {
+            const role = await getRole()
             await db.user.create({
               data: {
                 id: user.id,
@@ -107,10 +108,10 @@ export const auth = betterAuth({
                 email: user.email,
                 emailVerified: user.emailVerified || null,
                 image: user.image,
-                role: (await getRole({ userId: user.id })) || 'MEMBER',
+                role: role || 'GUEST',
                 profile: {
                   create: {
-                    role: (await getRole({ userId: user.id })) || 'MEMBER',
+                    role: role || 'GUEST',
                     active: true,
                     // Initialize with empty values for other relations if needed
                   },
@@ -134,6 +135,7 @@ export const auth = betterAuth({
           log.info('User updated', { userId: user.id });
 
           try {
+            const role = await getRole()
             // Update user in auth schema
             await db.user.update({
               where: { id: user.id },
@@ -142,16 +144,16 @@ export const auth = betterAuth({
                 email: user.email,
                 emailVerified: user.emailVerified || null,
                 image: user.image,
-                role: (await getRole({ userId: user.id })) || undefined,
+                role: role || undefined,
               },
             });
 
             // Also update profile if role changed
-            if (await getRole({ userId: user.id })) {
+            if (role) {
               await db.profile.update({
                 where: { userId: user.id },
                 data: {
-                  role: await getRole({ userId: user.id }),
+                  role: role,
                 },
               });
             }

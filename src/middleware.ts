@@ -1,4 +1,4 @@
-import { randomBytes } from 'crypto';
+import { csrfToken } from '@/lib/csrf';
 import { env } from '@/env';
 import { rateLimiter } from '@/lib/rate-limit';
 import type { RateLimitHelper } from '@/lib/rate-limit';
@@ -19,7 +19,7 @@ const publicAssetPaths: Set<string> = new Set([
   '/sitemap.xml',
   '/manifest.webmanifest',
   '/sw.js',
-]);
+] as const);
 
 // Add paths that should bypass rate limiting
 const rateLimitExemptPaths = [...publicAssetPaths, '/_next', '/api/health'];
@@ -64,7 +64,6 @@ export async function middleware(request: NextRequest): Promise<NextResponse> {
       }
     }
     if (!request.cookies.get('csrfToken')) {
-      const csrfToken = randomBytes(32).toString('hex');
       response.cookies.set('csrfToken', csrfToken, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
@@ -174,7 +173,7 @@ export const config = {
      * - favicon.ico (favicon file)
      * Feel free to modify this pattern to include more paths.
      */
-    '/((?!_next/static|_next/image|favicon.ico).*)',
+    '/((?!_next/static|_next/image|favicon.ico|dashboard).*)',
   ],
   runtime: 'nodejs',
 };

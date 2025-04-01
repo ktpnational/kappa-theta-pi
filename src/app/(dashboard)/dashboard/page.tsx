@@ -53,5 +53,4 @@ const DashboardPage = async () => {
 };
 
 DashboardPage.displayName = 'DashboardPage';
-
 export default DashboardPage;

@@ -274,7 +274,10 @@ const nextConfig: NextConfig = {
   },
   webpack: (config, { nextRuntime, isServer }) => {
     config.resolve = config.resolve || {};
-    config.resolve.fallback = config.resolve.fallback || {};
+    config.resolve.fallback = {
+      ...config.resolve.fallback,
+      crypto: require.resolve('crypto-browserify'),
+    };
     config.resolve.alias = config.resolve.alias || {};
 
     if (nextRuntime === 'edge' && !isServer) {

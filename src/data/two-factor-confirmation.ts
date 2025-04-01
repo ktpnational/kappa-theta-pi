@@ -32,8 +32,6 @@ export const getTwoFactorConfirmationByUserId = async (userId: string) => {
       .findUnique({
         where: { userId },
       })
-      .withAccelerateInfo()
-      .then(({ data }) => data);
 
     return twoFactorConfirmation;
   } catch (error) {

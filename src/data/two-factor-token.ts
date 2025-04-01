@@ -22,8 +22,6 @@ export const getTwoFactorTokenByToken = async (token: string) => {
       .findUnique({
         where: { token },
       })
-      .withAccelerateInfo()
-      .then(({ data }) => data);
 
     return twoFactorToken;
   } catch (error) {

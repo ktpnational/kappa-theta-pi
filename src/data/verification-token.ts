@@ -20,7 +20,6 @@ export const getVerificationTokenByEmail = async (email: string) => {
       .findFirst({
         where: { email },
       })
-      .withAccelerateInfo().then(({ data }) => data);
 
     return verificationToken;
   } catch (error) {
@@ -48,8 +47,6 @@ export const getVerificationTokenByToken = async (token: string) => {
       .findUnique({
         where: { token },
       })
-      .withAccelerateInfo()
-      .then(({ data }) => data);
 
     return verificationToken;
   } catch (error) {

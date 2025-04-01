@@ -2,7 +2,7 @@ import { cors } from '@elysiajs/cors';
 import { serverTiming } from '@elysiajs/server-timing';
 import { Elysia } from 'elysia';
 import { rateLimit } from 'elysia-rate-limit';
-import { dashboardRoute } from './elysia';
+import { dashboardRoute, utilityRoute } from './elysia';
 
 import { randomBytes } from 'crypto';
 import { getURL } from '@/utils';
@@ -62,6 +62,7 @@ const app = new Elysia({ prefix: '/api/v1' })
     }),
   )
   .use(dashboardRoute)
+  .use(utilityRoute)
   .use(
     rateLimit({
       duration: 60000,

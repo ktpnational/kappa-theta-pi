@@ -1,7 +1,8 @@
 import { env } from '@/env';
 import { nextCsrf } from 'next-csrf';
+import { randomBytes } from 'crypto';
 
-export const { setup, csrf } = nextCsrf({
+const { setup, csrf } = nextCsrf({
   tokenKey: 'x-csrf-token',
   cookieOptions: {
     httpOnly: true,
@@ -10,3 +11,7 @@ export const { setup, csrf } = nextCsrf({
   },
   secret: env.CSRF_SECRET,
 });
+
+const csrfToken = randomBytes(32).toString('hex')
+
+export { setup, csrf, csrfToken };

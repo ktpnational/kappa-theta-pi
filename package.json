@@ -143,22 +143,18 @@
     ]
   },
   "dependencies": {
-    "@elysiajs/cors": "^1.2.0",
-    "@elysiajs/server-timing": "^1.2.1",
-    "better-auth": "^1.2.4",
     "next": "^15.2.3",
-    "next-csrf": "^0.2.1",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "stylelint-config-tailwindcss": "^1.0.0"
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
     "@antfu/ni": "^24.3.0",
     "@apollo/server": "^4.11.3",
-    "@arcjet/next": "^1.0.0-beta.4",
+    "@arcjet/next": "^1.0.0-beta.5",
     "@aws-sdk/client-s3": "^3.772.0",
     "@aws-sdk/lib-storage": "^3.772.0",
     "@biomejs/biome": "1.9.4",
+    "@bogeychan/elysia-logger": "^0.1.8",
     "@commitlint/cli": "^19.8.0",
     "@commitlint/config-conventional": "^19.8.0",
     "@cspell/dict-bash": "^4.2.0",
@@ -175,7 +171,9 @@
     "@ducanh2912/next-pwa": "^10.2.9",
     "@elastic/elasticsearch": "^8.17.1",
     "@elysiajs/apollo": "^1.2.0",
+    "@elysiajs/cors": "^1.2.0",
     "@elysiajs/eden": "^1.2.0",
+    "@elysiajs/server-timing": "^1.2.1",
     "@fingerprintjs/botd": "^1.9.1",
     "@fingerprintjs/fingerprintjs-pro-react": "^2.6.3",
     "@googlemaps/markerclusterer": "^2.5.3",
@@ -234,6 +232,7 @@
     "@sentry/react": "^9.7.0",
     "@sentry/types": "^9.7.0",
     "@sinclair/typebox": "^0.34.30",
+    "@smithy/core": "^3.2.0",
     "@supabase/ssr": "^0.6.1",
     "@supabase/supabase-js": "^2.49.1",
     "@t3-oss/env-nextjs": "^0.12.0",
@@ -273,6 +272,7 @@
     "autoprefixer": "^10.4.21",
     "axios": "^1.8.4",
     "bcryptjs": "^3.0.2",
+    "better-auth": "^1.2.4",
     "browser-image-compression": "^2.0.2",
     "browserify-zlib": "^0.2.0",
     "canvas-confetti": "^1.9.3",
@@ -326,6 +326,7 @@
     "motion": "^12.5.0",
     "nanoid": "^5.1.5",
     "next-compose-plugins": "^2.2.1",
+    "next-csrf": "^0.2.1",
     "next-pwa": "^5.6.0",
     "next-themes": "^0.4.6",
     "node-emoji": "^2.2.0",
@@ -366,6 +367,7 @@
     "stream-browserify": "^3.0.0",
     "stylelint": "^16.16.0",
     "stylelint-config-standard-scss": "^14.0.0",
+    "stylelint-config-tailwindcss": "^1.0.0",
     "supabase": "^2.19.7",
     "superjson": "2.2.2",
     "tailwind-merge": "^3.0.2",
@@ -386,7 +388,7 @@
     "zod": "^3.24.2",
     "zustand": "^5.0.3"
   },
-  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e",
+  "packageManager": "yarn@4.8.1",
   "prisma": {
     "schema": "prisma/schema.prisma",
     "seed": "tsx src/prisma/seed.ts"

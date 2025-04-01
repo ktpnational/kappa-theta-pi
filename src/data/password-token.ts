@@ -24,8 +24,6 @@ export const getPasswordResetTokenByToken = async (token: string) => {
       .findUnique({
         where: { token },
       })
-      .withAccelerateInfo()
-      .then(({ data }) => data);
 
     return passwordResetToken;
   } catch (error) {

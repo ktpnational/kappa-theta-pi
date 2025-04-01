@@ -1,7 +1,6 @@
 'use server';
 import { auth } from '@/auth';
 import { headers } from 'next/headers';
-import { unauthorized } from 'next/navigation';
 import { getRole } from './get-role';
 
 /**
@@ -42,11 +41,5 @@ export const currentUser = async () => {
  * }
  */
 export const currentRole = async () => {
-  'use server';
-  const id = await auth.api.getSession({ headers: await headers() }).then((res) => {
-    if (!res || !res.user) throw unauthorized();
-    return res.user.id;
-  });
-
-  return await getRole({ userId: id });
+  return await getRole();
 };

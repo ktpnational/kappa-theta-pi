@@ -42,8 +42,6 @@ export const resolvers: {
             .findUnique({
               where: { id },
             })
-            .withAccelerateInfo()
-            .then(({ data }) => data),
         );
 
         if (error) throw error;
@@ -84,8 +82,6 @@ export const resolvers: {
             .findUnique({
               where: { id },
             })
-            .withAccelerateInfo()
-            .then(({ data }) => data),
         );
 
         if (error) throw error;
@@ -101,8 +97,6 @@ export const resolvers: {
           .findUnique({
             where: { userId: parent.id },
           })
-          .withAccelerateInfo()
-          .then(({ data }) => data),
       );
 
       if (error) throw error;

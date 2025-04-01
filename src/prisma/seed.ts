@@ -1,14 +1,13 @@
 import {
   CandidateStatus,
   type Chapter,
-  PrismaClient,
-  // Profile,
   Role,
   type User,
 } from '@prisma/client';
 import bcrypt from 'bcryptjs';
+import { db } from '@/lib/prisma';
 
-const prisma = new PrismaClient();
+const prisma = db
 
 async function main() {
   try {

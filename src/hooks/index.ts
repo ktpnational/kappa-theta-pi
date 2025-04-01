@@ -1,5 +1,4 @@
 export * from './use-copy-to-clipboard';
-export * from './use-current-role';
 export * from './use-current-user';
 export * from './use-mobile';
 export * from './use-outside-click';

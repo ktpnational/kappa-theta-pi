@@ -1,6 +1,5 @@
 import { env } from '@/env';
 import { PrismaClient } from '@prisma/client';
-import { withAccelerate } from '@prisma/extension-accelerate';
 import { Prisma } from '@prisma/client';
 
 if (typeof window !== 'undefined') {
@@ -42,19 +41,15 @@ const options: Record<string, Prisma.PrismaClientOptions> = {
  */
 const createPrismaClient = () => {
   const nodeEnv = (env.NODE_ENV || 'development') as keyof typeof options;
-  return new PrismaClient(options[nodeEnv]).$extends(withAccelerate());
+  return new PrismaClient(options[nodeEnv]);
 };
 
-declare global {
-  var prisma: ReturnType<typeof createPrismaClient> | undefined;
-}
+type PrismaClientSingleton = ReturnType<typeof createPrismaClient>;
 
-// Establish the singleton pattern properly
-const prisma = global.prisma || createPrismaClient();
+const globalForPrisma = globalThis as unknown as {
+  prisma: PrismaClientSingleton | undefined;
+};
 
-// Only set global.prisma in non-production environments to avoid memory leaks
-if (process.env.NODE_ENV !== 'production') {
-  global.prisma = prisma;
-}
+export const db = globalForPrisma.prisma ?? createPrismaClient();
 
-export const db = prisma;
+if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = db;

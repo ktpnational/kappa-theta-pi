@@ -1,13 +1,7 @@
-"use server";
+'use server';
+import { elysia_server_api } from '@/providers/core/server/server';
 import { parseCodePath } from '@/utils';
-import { logger } from '@/utils';
 import type { $Enums } from '@prisma/client';
-import { unauthorized } from 'next/navigation';
-import { db } from './prisma';
-
-const log = logger.getSubLogger({
-  name: 'get-role',
-});
 
 /**
  * Retrieves the role of a user by their user ID
@@ -16,32 +10,16 @@ const log = logger.getSubLogger({
  * @param {string} params.userId - The ID of the user to get the role for
  * @returns {Promise<$Enums.Role | undefined>} The user's role or undefined if not found
  */
-export const getRole = async ({ userId }: { userId: string }): Promise<$Enums.Role> => {
-  const role = await db.user
-    .findUnique({
-      where: {
-        id: userId,
-      },
-      select: {
-        role: true,
-      },
-    })
-    .withAccelerateInfo()
-    .then(({ data }) => {
-      if (!data) {
-        log.error(`${parseCodePath(``, getRole)}: User[${userId}] not found`);
-        throw new Error(`${parseCodePath(``, getRole)}: User[${userId}] not found`);
-      }
-      if (!data.role) {
-        unauthorized();
-      }
-      return data.role;
-    })
-    .catch((err) => {
-      log.error('getRole', { err });
-      throw new Error(
-        `${parseCodePath(``, getRole)}: ${err instanceof Error ? err.message : err}`,
-      );
-    });
-  return role;
+export const getRole = async (): Promise<$Enums.Role> => {
+  try {
+    const res = await elysia_server_api.api.v1['get-role'].get()
+
+    if (res.error || !res.data) {
+      parseCodePath(res, getRole)
+      throw new Error(res.error?.message || 'Failed to get role')
+    }
+    return res.data as $Enums.Role
+  } catch (err) {
+    throw new Error(parseCodePath(`${err instanceof Error ? err.message : 'Failed to get role'}`, getRole))
+  }
 };

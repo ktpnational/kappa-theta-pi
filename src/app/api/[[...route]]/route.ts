@@ -2,6 +2,7 @@ import { getURL } from '@/utils';
 import arcject from '@/utils/security/arcject';
 import { Hono } from 'hono';
 import { bodyLimit } from 'hono/body-limit';
+import { cache } from 'hono/cache';
 import { contextStorage } from 'hono/context-storage';
 import { cors } from 'hono/cors';
 import { logger } from 'hono/logger';
@@ -23,7 +24,12 @@ const api = app
   .use('*', contextStorage())
   .use('*', timingMiddleware)
   .use('*', logger())
-  .use('*', bodyLimit({ maxSize: 1024 * 1024 * 2 }))
+  .use('*', bodyLimit({
+    maxSize: 1024 * 1024 * 2,
+    onError: (c) => {
+      return c.json({ error: 'Request body too large' }, { status: 413 });
+    }
+  }))
   .use(
     '*',
     cors({
@@ -32,6 +38,12 @@ const api = app
       allowHeaders: ['Content-Type', 'Authorization'],
       maxAge: 86400,
       credentials: true,
+    }),
+  )
+  .use(
+    cache({
+      cacheName: 'kappa-theta-pi-cache',
+      cacheControl: 'max-age=60',
     }),
   )
   .use(
