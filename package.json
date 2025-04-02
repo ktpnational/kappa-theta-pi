@@ -71,9 +71,9 @@
     "README.md"
   ],
   "scripts": {
-    "predev": "rm -rf yarn.lock && bun install --yarn",
+    "predev": "rm -rf bun.lock bun.lockb && bun install",
     "dev": "cross-env SENTRY_SUPPRESS_TURBOPACK_WARNING=1 NODE_OPTIONS='--inspect' next dev",
-    "build": "next build",
+    "build": "bun run prisma:generate && bun run prisma:migrat &&  next build",
     "start": "next start",
     "preinstall": "bun ./scripts/database.gen.ts || true",
     "postinstall": "bunx prisma generate",
@@ -81,7 +81,7 @@
     "audit": "bun run prepare-audit && bunx audit-ci@^7 --critical --report-type important",
     "audit:high": "bun run prepare-audit && bunx audit-ci@^7 --high --report-type full",
     "audit:moderate": "bun run prepare-audit && bunx audit-ci@^7 --moderate --report-type summary",
-    "prepare-audit": "bun install --yarn > yarn.lock",
+    "prepare-audit": "bun install",
     "analyze": "cross-env ANALYZE=true next build && bun report-bundle-size.js",
     "analyze:browser": "cross-env BUNDLE_ANALYZE=browser next build",
     "analyze:server": "cross-env BUNDLE_ANALYZE=server next build",
@@ -100,10 +100,10 @@
     "supabase:link": "bunx supabase link",
     "supabase:up": "bunx supabase migration up",
     "supabase:status": "bunx supabase status",
-    "prisma:generate": "bun run prisma generate",
+    "prisma:generate": "prisma generate --schema=prisma/schema.prisma",
     "prisma:generate:watch": "bun run prisma generate --watch",
-    "prisma:migrate": "bun run prisma migrate dev --skip-seed",
-    "prisma:push": "bun run prisma db push",
+    "prisma:migrate": "prisma migrate deploy --schema=prisma/schema.prisma",
+    "prisma:push": "prisma db push --schema=prisma/schema.prisma",
     "prisma:seed": "bun run prisma db seed",
     "prisma:reset": "bun run prisma migrate reset",
     "prisma:studio": "bun run prisma studio",
@@ -391,9 +391,9 @@
     "zod": "^3.24.2",
     "zustand": "^5.0.3"
   },
-  "packageManager": "yarn@4.8.1",
+  "packageManager": "bun@1.2.8",
   "prisma": {
     "schema": "prisma/schema.prisma",
-    "seed": "tsx src/prisma/seed.ts"
+    "seed": "bunx tsx src/prisma/seed.ts"
   }
 }
