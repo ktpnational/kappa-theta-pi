@@ -1,3 +1,4 @@
+"use server"
 /**
  * Retrieves an account from the database by user ID.
  *

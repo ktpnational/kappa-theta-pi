@@ -2,6 +2,14 @@ import { currentRole } from '@/lib';
 import { catchError } from '@/utils';
 import { redirect } from 'next/navigation';
 import { notFound } from 'next/navigation';
+import dynamic  from 'next/dynamic';
+
+const ForbiddenError = dynamic(
+  () => import('@/app/_client').then((mod) => mod.ForbiddenError),
+  {
+    ssr: true,
+  }
+)
 
 /**
  * DashboardPage component - Main dashboard routing component that handles role-based redirection
@@ -49,7 +57,7 @@ const DashboardPage = async () => {
     const role = res.value.toLowerCase();
     return <>{role ? redirect(`/dashboard/${role}`) : notFound()}</>;
   }
-  throw res.error;
+  return <ForbiddenError />;
 };
 
 DashboardPage.displayName = 'DashboardPage';

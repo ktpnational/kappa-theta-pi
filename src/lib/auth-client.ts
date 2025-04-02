@@ -19,9 +19,11 @@ export const authClient = createAuthClient({
     },
     onSuccess: () => {
       log.info('Authentication request successful');
+      toast.success('Authentication request successful');
     },
     onRequest: (url) => {
       log.debug('Authentication request initiated', { url });
+      toast.info('Authentication request initiated');
     },
   },
 });

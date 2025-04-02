@@ -1,3 +1,5 @@
+'use server';
+
 import crypto from 'crypto';
 import { randomUUID as uuidv4 } from 'crypto';
 

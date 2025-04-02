@@ -165,6 +165,7 @@ const nextConfig: NextConfig = {
         'zod', // 18.3 MB
         'motion', // 18.2 MB
         'zustand', // 18.2 MB
+        '@prisma/client', // ???
       ])
         .difference(EXEMPT_DEPS)
         .values(),
@@ -307,7 +308,6 @@ const nextConfig: NextConfig = {
         'rehype-stringify': false,
         react: path.resolve('./node_modules/react'),
         'react-dom': path.resolve('./node_modules/react-dom'),
-        'browserify-sign': false,
         'create-hmac': false,
         'create-hash': false,
         randombytes: false,

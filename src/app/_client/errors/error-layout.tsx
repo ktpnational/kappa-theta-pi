@@ -12,7 +12,12 @@ const ErrorLayout: React.FC<{
   description: string;
   error?: Error & { digest?: string };
   reset?: () => void;
-}> = memo(({ title, description, reset, error }): React.JSX.Element => {
+}> = memo(({ title, description, reset, error }: {
+  title: string;
+  description: string;
+  error?: Error & { digest?: string };
+  reset?: () => void;
+}): React.JSX.Element => {
   return (
     <div className="relative flex flex-col items-center justify-center min-h-screen overflow-hidden p-4">
       <AnimatedBackground />

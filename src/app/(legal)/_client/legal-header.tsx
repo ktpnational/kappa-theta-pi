@@ -1,3 +1,5 @@
+'use client';
+
 import { cn } from '@/lib';
 import type React from 'react';
 import { memo } from 'react';

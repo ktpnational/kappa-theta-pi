@@ -52,9 +52,9 @@ export const register = async (): Promise<void> => {
     if (env.NEXT_PUBLIC_SENTRY_DSN) {
       try {
         if (runtime === 'edge') {
-          await import('../sentry.edge.config');
+          await import('../instrumentation-edge');
         } else {
-          await import('../sentry.server.config');
+          await import('../instrumentation-server');
         }
       } catch (e) {
         console.warn('Could not load Sentry config:', e);

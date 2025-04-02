@@ -1,3 +1,4 @@
+'use server';
 import { db } from '@/lib/prisma';
 import { CandidateStatus, type Chapter, Role, type User } from '@prisma/client';
 import bcrypt from 'bcryptjs';

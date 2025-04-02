@@ -1,4 +1,4 @@
-import { randomBytes } from 'crypto';
+import crypto from 'crypto';
 import { env } from '@/env';
 import { nextCsrf } from 'next-csrf';
 
@@ -12,6 +12,6 @@ const { setup, csrf } = nextCsrf({
   secret: env.CSRF_SECRET,
 });
 
-const csrfToken = randomBytes(32).toString('hex');
+const csrfToken = crypto.randomBytes(32).toString('hex');
 
 export { setup, csrf, csrfToken };
