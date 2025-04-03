@@ -1,9 +1,8 @@
-import { constructMetadata } from '@/utils';
-import type { Metadata } from 'next';
-import { elysia_api } from '@/providers';
 import { DataLoader } from '@/server';
+import { constructMetadata } from '@/utils';
+import type { Company } from '@prisma/client';
+import type { Metadata } from 'next';
 import dynamic from 'next/dynamic';
-import { Company } from '@prisma/client';
 
 export const metadata: Metadata = constructMetadata({
   title: 'Company Dashboard',
@@ -11,26 +10,16 @@ export const metadata: Metadata = constructMetadata({
 });
 
 const DashboardCompany = dynamic(() => import('@/app/(dashboard)/_components/company/company'), {
-  ssr: false
-})
+  ssr: false,
+});
 
 const DashboardCompanyPage = async () => {
-  try {
-    const profile = await elysia_api('/api/v1/company/profile', {
-      method: 'GET'
-    }).then(res => res.data?.data)
-    return (
-      <DataLoader<Company>
-        type='elysia'
-        apiPath="api.v1.company.profile"
-      >
-        {(data) => <DashboardCompany {...data} />}
-      </DataLoader>
-    )
-  } catch (err) {
-
-  }
-}
+  return (
+    <DataLoader<Company> type="elysia" apiPath="/api/v1/company/profile">
+      {(data) => <DashboardCompany {...data} />}
+    </DataLoader>
+  );
+};
 
 DashboardCompanyPage.displayName = 'DashboardCompanyPage';
 export default DashboardCompanyPage;

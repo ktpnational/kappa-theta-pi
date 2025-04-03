@@ -1,6 +1,6 @@
 import { env } from '@/env';
 import { csrfToken } from '@/lib/csrf';
-import { rateLimiter, getRateLimitReset } from '@/lib/rate-limit';
+import { getRateLimitReset, rateLimiter } from '@/lib/rate-limit';
 import type { RateLimitHelper } from '@/lib/rate-limit';
 import type { auth } from '@/server';
 import { logger } from '@/utils';

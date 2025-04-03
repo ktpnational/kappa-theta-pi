@@ -4,7 +4,7 @@ import { ClientError, Loader } from '@/components';
 import { fetcher } from '@/lib';
 import { elysia_api } from '@/providers/core/server/react';
 import { catchError, parseCodePath } from '@/utils';
-import type { EdenFetch } from '@elysiajs/eden/fetch';
+// import type { EdenFetch } from '@elysiajs/eden/fetch';
 import {
   type QueryOptions,
   type UseSuspenseQueryOptions,
@@ -65,7 +65,7 @@ type FetchResponse<T> = {
  */
 type ElysiaProp<T extends ElysiaApiMethod> = {
   type: 'elysia';
-  params?: Parameters<EdenFetch.Fn<typeof elysia_api>>[1];
+  elysiaParams?: any;
   apiPath: T;
 };
 
@@ -82,7 +82,7 @@ type ElysiaProp<T extends ElysiaApiMethod> = {
  */
 type NextJSProp = {
   type: 'nextjs';
-  params?: Record<string, unknown> | { id: string | number };
+  nextParams?: Record<string, unknown> | { id: string | number };
   url?: string;
   urls?: string[];
   config?: FetchConfig;
@@ -108,7 +108,7 @@ type DataLoaderProps<T> = {
   LoadingComponent?: React.ReactNode;
   ErrorComponent?: React.ComponentType<{ error: Error }> | React.ReactElement;
   waitForAll?: number;
-} & (| ElysiaProp<ElysiaApiMethod> | NextJSProp);
+} & (ElysiaProp<ElysiaApiMethod> | NextJSProp);
 
 /**
  * A versatile data loading component that supports both Elysia and NextJS API endpoints.
@@ -170,7 +170,6 @@ type DataLoaderProps<T> = {
  */
 export const DataLoader = <T,>({
   children,
-  params,
   queryOptions,
   LoadingComponent = <Loader />,
   ErrorComponent = ClientError,
@@ -178,20 +177,21 @@ export const DataLoader = <T,>({
   ...props
 }: DataLoaderProps<T>): React.ReactElement => {
   if (props.type === 'nextjs' && props.urls) {
+    const { nextParams, urls, config } = props;
     const { data, error } = useSuspenseQuery<T[]>({
-      queryKey: queryOptions?.queryKey ?? ['multiple-urls', props.urls, params],
+      queryKey: queryOptions?.queryKey ?? ['multiple-urls', urls, nextParams],
       queryFn: async (): Promise<T[]> => {
         // Fix: Removed redundant declaration
-        const fetchRequests = props.urls?.map(async (url) => {
-          const searchParams = params
-            ? `?${new URLSearchParams(params as Record<string, string>)}`
+        const fetchRequests = urls?.map(async (url) => {
+          const searchParams = nextParams
+            ? `?${new URLSearchParams(nextParams as Record<string, string>)}`
             : '';
           const fullUrl = `${url}${searchParams}`;
 
           const res = await catchError(fetcher<FetchResponse<T>>, [
             fullUrl,
-            props.config?.method,
-            props.config,
+            config?.method,
+            config,
           ]);
 
           if (res.success) {
@@ -228,35 +228,48 @@ export const DataLoader = <T,>({
   const { data, error } = useSuspenseQuery<T>({
     queryKey: queryOptions?.queryKey ?? [
       props.type === 'elysia' ? props.apiPath : props.url,
-      params,
+      props.type === 'elysia' ? props.elysiaParams : props.nextParams,
     ],
     queryFn: async (): Promise<T> => {
       if (props.type === 'elysia') {
+        const { elysiaParams, apiPath } = props;
+
+        // Ensure we pass the parameters in the format expected by elysia_api
+        // Creating an empty object with the required structure
+        const formattedParams = {
+          method: 'GET' as const,
+          params: {},
+          query: {},
+          headers: {},
+          body: undefined
+        };
+
         const apiMethod = await elysia_api(
-          props.apiPath,
-          params as Parameters<typeof elysia_api[typeof props.apiPath]>[1],
+          apiPath,
+          formattedParams
         );
 
         if (typeof apiMethod === 'function') {
-          const res = await catchError<[typeof params], T>(
-            apiMethod as (_: typeof params) => Promise<T>,
-            params,
+          const res = await catchError<[typeof elysiaParams], T>(
+            apiMethod as (_: typeof elysiaParams) => Promise<T>,
+            [elysiaParams],
           );
           if (res.success) return res.value;
-
           throw res.error;
         }
         throw new Error('Invalid API method');
       }
-      const searchParams = params
-        ? `?${new URLSearchParams(params as Record<string, string>)}`
+
+      const { url, nextParams, config } = props;
+      const searchParams = nextParams
+        ? `?${new URLSearchParams(nextParams as Record<string, string>)}`
         : '';
-      const fullUrl = `${props.url}${searchParams}`;
+      const fullUrl = `${url}${searchParams}`;
 
       const res = await catchError(fetcher<FetchResponse<T>>, [
         fullUrl,
-        props.config?.method,
-        props.config,
+        config?.method,
+        config,
       ]);
 
       if (res.success) {

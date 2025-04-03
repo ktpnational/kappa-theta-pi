@@ -1,7 +1,7 @@
 import { logger } from '@/utils';
 import { PrismaClient } from '@prisma/client';
 import type { Prisma } from '@prisma/client';
-import { withAccelerate } from "@prisma/extension-accelerate";
+import { withAccelerate } from '@prisma/extension-accelerate';
 
 const log = logger.getSubLogger({ prefix: ['Prisma'] });
 

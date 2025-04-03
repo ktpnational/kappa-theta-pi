@@ -83,9 +83,10 @@ const boardMembers: BoardMemberProps[] = [
     role: 'Director of Branding and Marketing',
     location: 'University of Michigan',
     email: 'ejennett@umich.edu',
-    linkedin: 'https://www.linkedin.com/in/ejennett?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app',
+    linkedin:
+      'https://www.linkedin.com/in/ejennett?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app',
     headshot: `${PREFIX}emily-jennett${POSTFIX}${EXTENSION}`.toLowerCase(),
-    lqip: `data:image/${EXTENSION};base64,UklGRsYBAABXRUJQVlA4ILoBAADwBwCdASoeAB4APm0okUWkIqGb+qwAQAbEsgBOmXG+QLgfUveD4YlgQQByGYCvSHTPd5Qe5Mrj4jW5BoZjRLwAWMp0+rYtNgAA/v1xqlZk7aJTI1YVTxWNIVPZTmWb7JD+vsav5jmSRSHqnHFoL/r2pYBRuPUs1cHSBv6Hp/NILopZAjh8Slri1Y3+quK5QQNlZuQq3Qe3+iw7eMDwGXCUrz1nvhgQQXaxksaooz/v7xGuIBDfliG4LiMvU54rP5k3VPyP7Ssjeu/rDlDAmNy9YNKEhpxBDsvcWOwoKLWGIobQ/zX8J1r9cFsjwVdBHP+fdsO1APNl45Wec7JEdOlQQzAcTLP06ETtdRTWqtZvxVZHDLYXNymCyJ7JybfopmPxYW/NFxyQ8Sa5hA8sHbNhjLolfELjjhI9Kz3Gms/M7jR5OReNYfRiOg+rpQ5BkATfUEyOdIJLBW3ozsCuqaZ+aEhf9sX2J0Qe5S2q4+gXofC4lp6Vqiksw5igeAPqltCxapOQhz6E+9pNv+XRKMuZtCD2Z1G0J+VWjejJwoaLentvoqYlqpzpYzGIkQk4OWFm/iHuczgSAAAA`
+    lqip: `data:image/${EXTENSION};base64,UklGRsYBAABXRUJQVlA4ILoBAADwBwCdASoeAB4APm0okUWkIqGb+qwAQAbEsgBOmXG+QLgfUveD4YlgQQByGYCvSHTPd5Qe5Mrj4jW5BoZjRLwAWMp0+rYtNgAA/v1xqlZk7aJTI1YVTxWNIVPZTmWb7JD+vsav5jmSRSHqnHFoL/r2pYBRuPUs1cHSBv6Hp/NILopZAjh8Slri1Y3+quK5QQNlZuQq3Qe3+iw7eMDwGXCUrz1nvhgQQXaxksaooz/v7xGuIBDfliG4LiMvU54rP5k3VPyP7Ssjeu/rDlDAmNy9YNKEhpxBDsvcWOwoKLWGIobQ/zX8J1r9cFsjwVdBHP+fdsO1APNl45Wec7JEdOlQQzAcTLP06ETtdRTWqtZvxVZHDLYXNymCyJ7JybfopmPxYW/NFxyQ8Sa5hA8sHbNhjLolfELjjhI9Kz3Gms/M7jR5OReNYfRiOg+rpQ5BkATfUEyOdIJLBW3ozsCuqaZ+aEhf9sX2J0Qe5S2q4+gXofC4lp6Vqiksw5igeAPqltCxapOQhz6E+9pNv+XRKMuZtCD2Z1G0J+VWjejJwoaLentvoqYlqpzpYzGIkQk4OWFm/iHuczgSAAAA`,
   },
   {
     name: 'Makayla Tajalle',
@@ -94,7 +95,7 @@ const boardMembers: BoardMemberProps[] = [
     email: 'mtajalle@bu.edu',
     linkedin: 'https://www.linkedin.com/in/makayla-tajalle/',
     headshot: `${PREFIX}makayla-tajalle${POSTFIX}${EXTENSION}`.toLowerCase(),
-    lqip: `data:image/${EXTENSION};base64,UklGRgYBAABXRUJQVlA4IPoAAADQBQCdASoUAB4APm0wlEckIqIhKAqogA2JYwDE2YvWd9Ts9ZzMoh5qamf8AoFI8UDfnrhBiogAAP75pzJDKhXYgck3ClF+Y4SBbBMsFv7pLWS6C+1Imz0mL0xxqs6hTmMOcw2YGk7oUj5xj4rAd4a7ru7Jt+ny8NduGqPNy/1Z10bCy/7WD6KRpUu09GUYNWvO3gCTAOAr1SQyfMMqKup9siZgjN9XBagllCf5+YNME3LaAPjQQ02KFnpnAzvsZqjuxHeeXcmYcxllqjZ0bIn7NCvpB2YiN9CgeLQC8Z9kJUMA+8kl6pEx7clXQvee7Irrianzw8/f+wAA`
+    lqip: `data:image/${EXTENSION};base64,UklGRgYBAABXRUJQVlA4IPoAAADQBQCdASoUAB4APm0wlEckIqIhKAqogA2JYwDE2YvWd9Ts9ZzMoh5qamf8AoFI8UDfnrhBiogAAP75pzJDKhXYgck3ClF+Y4SBbBMsFv7pLWS6C+1Imz0mL0xxqs6hTmMOcw2YGk7oUj5xj4rAd4a7ru7Jt+ny8NduGqPNy/1Z10bCy/7WD6KRpUu09GUYNWvO3gCTAOAr1SQyfMMqKup9siZgjN9XBagllCf5+YNME3LaAPjQQ02KFnpnAzvsZqjuxHeeXcmYcxllqjZ0bIn7NCvpB2YiN9CgeLQC8Z9kJUMA+8kl6pEx7clXQvee7Irrianzw8/f+wAA`,
   },
   {
     name: 'Pranav Boopalam',
@@ -103,7 +104,7 @@ const boardMembers: BoardMemberProps[] = [
     email: 'boopalam@umich.edu',
     linkedin: 'https://www.linkedin.com/in/pranav-boopalam',
     headshot: `${PREFIX}pranav-boopalam${POSTFIX}${EXTENSION}`.toLowerCase(),
-    lqip: `data:image/${EXTENSION};base64,UklGRnQBAABXRUJQVlA4IGgBAACwBgCdASoeABwAPm0qk0WkIqGYDAYAQAbEsQBOgteuMDSXtGnr/9rAPaN5zKCp8HZFLm245NILMes/tS8rgAD+8KxcfqHdynlnkD+vIFXfxhWmpO6/MIfPTA9qyNPaLT9g/Rt/1aAdVfzwAQpgs/+mq59IHyCtO9awfT3+Hm+Z3U0VvjTHzxevizIlf9IaATxwsscxdL8a3oLWThB/XxiAuf1Z7w7fvGRkE3ncCE0OkUyveejibJVrN8TAq6pH//G4ifyBn80/YoSaO3czuWWgN1qAcjzybnftHq73Vs40Uk102kS2FWeGfNNl8bbsRcF/X/98R8n/GLNq17/m6/PauFfk+tCmTipzQ/3JdxFv3//vX/wq76v+Bh1CW0Q0esVuiy3e86pbI+ed6uRvqFnIllFlevzdlSUSd9Cq7Og8C0dkUHP9PwRjhwdnbbJ4O1zvYbl0J4KFkwLTNAUQ18A5JS6KrynsAAA=`
+    lqip: `data:image/${EXTENSION};base64,UklGRnQBAABXRUJQVlA4IGgBAACwBgCdASoeABwAPm0qk0WkIqGYDAYAQAbEsQBOgteuMDSXtGnr/9rAPaN5zKCp8HZFLm245NILMes/tS8rgAD+8KxcfqHdynlnkD+vIFXfxhWmpO6/MIfPTA9qyNPaLT9g/Rt/1aAdVfzwAQpgs/+mq59IHyCtO9awfT3+Hm+Z3U0VvjTHzxevizIlf9IaATxwsscxdL8a3oLWThB/XxiAuf1Z7w7fvGRkE3ncCE0OkUyveejibJVrN8TAq6pH//G4ifyBn80/YoSaO3czuWWgN1qAcjzybnftHq73Vs40Uk102kS2FWeGfNNl8bbsRcF/X/98R8n/GLNq17/m6/PauFfk+tCmTipzQ/3JdxFv3//vX/wq76v+Bh1CW0Q0esVuiy3e86pbI+ed6uRvqFnIllFlevzdlSUSd9Cq7Og8C0dkUHP9PwRjhwdnbbJ4O1zvYbl0J4KFkwLTNAUQ18A5JS6KrynsAAA=`,
   },
 ];
 

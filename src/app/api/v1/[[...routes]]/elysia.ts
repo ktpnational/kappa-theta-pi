@@ -4,8 +4,8 @@ import { Stringify, handleEden } from '@/utils';
 import type { Session } from 'better-auth';
 import type { EdenFetchError } from 'custom';
 import Elysia, { t } from 'elysia';
-import { unauthorized } from 'next/navigation';
 import { headers } from 'next/headers';
+import { unauthorized } from 'next/navigation';
 
 /**
  * Schema for creating a new member
@@ -432,18 +432,18 @@ export const dashboardRoute = new Elysia()
         where: { userId },
         include: {
           company: true,
-        }
-      })
+        },
+      });
 
       return { data: profile, error: null, status: 200 };
     } catch (err) {
       return {
         data: null,
         error: {
-          message: err instanceof Error ? err.message : 'Internal server error'
+          message: err instanceof Error ? err.message : 'Internal server error',
         },
-        status: 500
-      }
+        status: 500,
+      };
     }
   })
   .get('/member/profile', async ({ db, session }) => {
@@ -455,22 +455,22 @@ export const dashboardRoute = new Elysia()
           member: {
             include: {
               chapter: true,
-              resume: true
-            }
-          }
-        }
-      })
+              resume: true,
+            },
+          },
+        },
+      });
       return { data: profile, error: null, status: 200 };
     } catch (err) {
       return {
         data: null,
         error: {
-          message: err instanceof Error ? err.message : 'Internal server error'
+          message: err instanceof Error ? err.message : 'Internal server error',
         },
-        status: 500
-      }
+        status: 500,
+      };
     }
-  })
+  });
 
 export const utilityRoute = new Elysia()
   .use(createContext)

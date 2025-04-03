@@ -1,15 +1,12 @@
 import { currentRole } from '@/lib';
 import { catchError } from '@/utils';
+import dynamic from 'next/dynamic';
 import { redirect } from 'next/navigation';
 import { notFound } from 'next/navigation';
-import dynamic  from 'next/dynamic';
 
-const ForbiddenError = dynamic(
-  () => import('@/app/_client').then((mod) => mod.ForbiddenError),
-  {
-    ssr: true,
-  }
-)
+const ForbiddenError = dynamic(() => import('@/app/_client').then((mod) => mod.ForbiddenError), {
+  ssr: true,
+});
 
 /**
  * DashboardPage component - Main dashboard routing component that handles role-based redirection
