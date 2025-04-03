@@ -1,17 +1,12 @@
-import { env } from '@/env';
 import { logger } from '@/utils';
 import { PrismaClient } from '@prisma/client';
 import type { Prisma } from '@prisma/client';
-
-if (typeof window !== 'undefined') {
-  throw new Error('PrismaClient cannot be used in browser environment');
-}
+import { withAccelerate } from "@prisma/extension-accelerate";
 
 const log = logger.getSubLogger({ prefix: ['Prisma'] });
 
 const options: Record<string, Prisma.PrismaClientOptions> = {
   development: {
-    datasourceUrl: env.DATABASE_URL,
     errorFormat: 'pretty' as const,
     log: [
       { emit: 'event', level: 'query' },
@@ -24,7 +19,6 @@ const options: Record<string, Prisma.PrismaClientOptions> = {
     },
   },
   production: {
-    datasourceUrl: env.DATABASE_URL,
     errorFormat: 'minimal' as const,
     log: [{ emit: 'event', level: 'error' }] as const,
     transactionOptions: {
@@ -33,7 +27,6 @@ const options: Record<string, Prisma.PrismaClientOptions> = {
     },
   },
   test: {
-    datasourceUrl: env.DATABASE_URL,
     errorFormat: 'pretty' as const,
     log: [
       { emit: 'event', level: 'query' },
@@ -51,24 +44,10 @@ const options: Record<string, Prisma.PrismaClientOptions> = {
  * Creates a new PrismaClient instance with appropriate options
  */
 const createPrismaClient = () => {
-  const nodeEnv = (env.NODE_ENV || 'development') as keyof typeof options;
+  const nodeEnv = (process.env.NODE_ENV || 'development') as keyof typeof options;
   log.info(`Creating PrismaClient with ${nodeEnv} configuration`);
 
-  const prisma = new PrismaClient(options[nodeEnv]);
-
-  prisma.$on('query' as never, (e: Prisma.QueryEvent) => {
-    log.debug('Query', { query: e.query, params: e.params, duration: `${e.duration}ms` });
-  });
-
-  prisma.$on('error' as never, (e: Prisma.LogEvent) => {
-    log.error('Database error', { message: e.message, target: e.target });
-  });
-
-  prisma.$on('warn' as never, (e: Prisma.LogEvent) => {
-    log.warn('Database warning', { message: e.message, target: e.target });
-  });
-
-  return prisma;
+  return new PrismaClient(options[nodeEnv]).$extends(withAccelerate());
 };
 
 type PrismaClientSingleton = ReturnType<typeof createPrismaClient>;

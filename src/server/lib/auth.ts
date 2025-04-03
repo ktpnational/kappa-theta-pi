@@ -1,12 +1,11 @@
 // 'use server';
 
 import { getRole } from '@/lib';
-// import { db } from '@/lib/prisma';
+import { db } from '@/lib/prisma';
 import { logger } from '@/utils';
 import { betterAuth } from 'better-auth';
 import { prismaAdapter } from 'better-auth/adapters/prisma';
 import authConfig from './auth.config';
-import { PrismaClient } from '@prisma/client';
 
 const log = logger.getSubLogger({
   name: 'auth.config',
@@ -14,10 +13,8 @@ const log = logger.getSubLogger({
 
 log.info('Initializing authentication system');
 
-const prisma = new PrismaClient();
-
 export const auth = betterAuth({
-  database: prismaAdapter(prisma, {
+  database: prismaAdapter(db, {
     provider: 'postgresql',
   }),
   ...authConfig,
@@ -113,7 +110,7 @@ export const auth = betterAuth({
           try {
             const role = await getRole();
             log.debug('Retrieved role for new user', { userId: user.id, role });
-            await prisma.user.create({
+            await db.user.create({
               data: {
                 id: user.id,
                 name: user.name,
@@ -151,7 +148,7 @@ export const auth = betterAuth({
             const role = await getRole();
             log.debug('Retrieved role for user update', { userId: user.id, role });
             // Update user in auth schema
-            await prisma.user.update({
+            await db.user.update({
               where: { id: user.id },
               data: {
                 name: user.name,
@@ -165,7 +162,7 @@ export const auth = betterAuth({
 
             // Also update profile if role changed
             if (role) {
-              await prisma.profile.update({
+              await db.profile.update({
                 where: { userId: user.id },
                 data: {
                   role: role,

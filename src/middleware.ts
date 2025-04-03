@@ -1,6 +1,6 @@
 import { env } from '@/env';
 import { csrfToken } from '@/lib/csrf';
-import { rateLimiter } from '@/lib/rate-limit';
+import { rateLimiter, getRateLimitReset } from '@/lib/rate-limit';
 import type { RateLimitHelper } from '@/lib/rate-limit';
 import type { auth } from '@/server';
 import { logger } from '@/utils';
@@ -123,17 +123,17 @@ export async function middleware(request: NextRequest): Promise<NextResponse> {
         return new NextResponse(
           JSON.stringify({
             error: 'Too Many Requests',
-            message: `Please try again later. Reset time: ${result.reset}`,
-            retryAfter: result.reset,
+            message: `Please try again later. Reset time: ${getRateLimitReset(result.reset)}`,
+            retryAfter: getRateLimitReset(result.reset),
           }),
           {
             status: 429,
             headers: {
               'Content-Type': 'application/json',
-              'Retry-After': result.reset.toString(),
+              'Retry-After': getRateLimitReset(result.reset),
               'X-RateLimit-Limit': result.limit.toString(),
               'X-RateLimit-Remaining': '0',
-              'X-RateLimit-Reset': result.reset.toString(),
+              'X-RateLimit-Reset': getRateLimitReset(result.reset),
             },
           },
         );

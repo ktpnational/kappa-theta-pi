@@ -141,6 +141,7 @@ const nextConfig: NextConfig = {
   },
   poweredByHeader: false,
   experimental: {
+    // nodeMiddleware: true,
     optimizePackageImports: [
       ...new Set([
         'react-email', // 149.2 MB

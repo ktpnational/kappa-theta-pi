@@ -4,6 +4,7 @@ import { ClientError, Loader } from '@/components';
 import { fetcher } from '@/lib';
 import { elysia_api } from '@/providers/core/server/react';
 import { catchError, parseCodePath } from '@/utils';
+import type { EdenFetch } from '@elysiajs/eden/fetch';
 import {
   type QueryOptions,
   type UseSuspenseQueryOptions,
@@ -21,7 +22,7 @@ import { Suspense } from 'react';
  * @typedef {keyof typeof elysia_api} ElysiaApiMethod
  * @category Types
  */
-type ElysiaApiMethod = keyof typeof elysia_api;
+type ElysiaApiMethod = Parameters<typeof elysia_api>[0];
 /**
  * Configuration options for fetch requests.
  * Used to customize the HTTP request behavior.
@@ -62,9 +63,10 @@ type FetchResponse<T> = {
  * @property {ElysiaApiMethod} apiPath - Path to the Elysia API method in elysia_api
  * @category Props
  */
-type ElysiaProp = {
+type ElysiaProp<T extends ElysiaApiMethod> = {
   type: 'elysia';
-  apiPath: ElysiaApiMethod;
+  params?: Parameters<EdenFetch.Fn<typeof elysia_api>>[1];
+  apiPath: T;
 };
 
 /**
@@ -80,6 +82,7 @@ type ElysiaProp = {
  */
 type NextJSProp = {
   type: 'nextjs';
+  params?: Record<string, unknown> | { id: string | number };
   url?: string;
   urls?: string[];
   config?: FetchConfig;
@@ -101,12 +104,11 @@ type NextJSProp = {
  */
 type DataLoaderProps<T> = {
   children: (data: T) => React.ReactNode;
-  params?: Record<string, unknown> | { id: string | number };
   queryOptions?: QueryOptions;
   LoadingComponent?: React.ReactNode;
   ErrorComponent?: React.ComponentType<{ error: Error }> | React.ReactElement;
   waitForAll?: number;
-} & (ElysiaProp | NextJSProp);
+} & (| ElysiaProp<ElysiaApiMethod> | NextJSProp);
 
 /**
  * A versatile data loading component that supports both Elysia and NextJS API endpoints.
@@ -230,7 +232,10 @@ export const DataLoader = <T,>({
     ],
     queryFn: async (): Promise<T> => {
       if (props.type === 'elysia') {
-        const apiMethod = elysia_api[props.apiPath as ElysiaApiMethod];
+        const apiMethod = await elysia_api(
+          props.apiPath,
+          params as Parameters<typeof elysia_api[typeof props.apiPath]>[1],
+        );
 
         if (typeof apiMethod === 'function') {
           const res = await catchError<[typeof params], T>(

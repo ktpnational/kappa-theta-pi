@@ -6,10 +6,10 @@ import { Upload } from '@aws-sdk/lib-storage';
 import imageCompression from 'browser-image-compression';
 
 /**
- * Properties for the uploadImage function.
+ * Properties for the upload file functions.
  * @interface UploadProps
- * @property {File} file - The image file to be uploaded
- * @property {string} bucket - The S3 bucket name where the image will be stored
+ * @property {File} file - The file to be uploaded
+ * @property {string} bucket - The S3 bucket name where the file will be stored
  * @property {string} [folder] - Optional subfolder path within the bucket
  * @property {string} resumeId - The ID of the associated resume
  * @property {string} chapterId - The ID of the associated chapter
@@ -24,6 +24,106 @@ type UploadProps = {
   chapterId: string;
   profileId: string;
   useMultipart?: boolean;
+};
+
+/**
+ * Uploads a PDF file to S3 and creates associated database records.
+ *
+ * @async
+ * @param {UploadProps} props - The upload properties
+ * @param {File} props.file - The PDF file to upload
+ * @param {string} props.bucket - Target S3 bucket name
+ * @param {string} [props.folder] - Optional subfolder path in bucket
+ * @param {string} props.resumeId - Associated resume ID
+ * @param {string} props.chapterId - Associated chapter ID
+ * @param {string} props.profileId - Associated profile ID
+ * @param {boolean} [props.useMultipart=false] - Whether to use multipart upload
+ *
+ * @returns {Promise<{
+ *   fileUrl: string,
+ *   fileData?: any,
+ *   error: string
+ * }>} Object containing:
+ * - fileUrl: Public URL of uploaded PDF (empty string if failed)
+ * - fileData: Database record data if successful
+ * - error: Error message if failed, empty string if successful
+ *
+ * @throws Will not throw directly, but returns error information in result object
+ *
+ * @description
+ * This function performs several operations:
+ * 1. Uploads the PDF to S3 using either multipart or standard upload
+ * 2. Gets the public URL for the uploaded file
+ * 3. Creates a database record linking the PDF to resume/chapter/profile
+ */
+export const uploadPdf = async ({
+  file,
+  bucket,
+  folder,
+  resumeId,
+  chapterId,
+  profileId,
+  useMultipart = false,
+}: UploadProps) => {
+  const supabase = createClient();
+  const fileName = file.name;
+  const fileExtension = fileName.slice(fileName.lastIndexOf('.') + 1);
+  const path = `${folder ? `${folder}/` : ''}${uuidv4()}.${fileExtension}`;
+
+  try {
+    const s3Client = await getS3Client();
+
+    if (useMultipart) {
+      const upload = new Upload({
+        client: s3Client,
+        params: {
+          Bucket: bucket,
+          Key: path,
+          Body: file,
+          ContentType: file.type,
+        },
+      });
+
+      await upload.done();
+    } else {
+      const uploadCommand = new PutObjectCommand({
+        Bucket: bucket,
+        Key: path,
+        Body: file,
+        ContentType: file.type,
+      });
+
+      await s3Client.send(uploadCommand);
+    }
+
+    const { data: publicUrlData } = supabase.storage.from(bucket).getPublicUrl(path);
+
+    const { data: fileData, error: insertError } = await supabase
+      .from('members')
+      .insert({
+        id: uuidv4(),
+        resumeId,
+        chapterId,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        profileId,
+      })
+      .select()
+      .single();
+
+    if (insertError) {
+      console.error('Error inserting file data:', insertError);
+      return { fileUrl: '', error: 'Failed to save file information' };
+    }
+
+    return { fileUrl: publicUrlData.publicUrl, fileData, error: '' };
+  } catch (error) {
+    console.error('Unexpected error during upload:', error);
+    return {
+      fileUrl: '',
+      error: `Unexpected error during upload: ${error instanceof Error ? error.message : String(error)}`,
+    };
+  }
 };
 
 /**
@@ -132,10 +232,10 @@ export const uploadImage = async ({
 };
 
 /**
- * Deletes an image from Supabase storage.
+ * Deletes a file from Supabase storage.
  *
  * @async
- * @param {string} imageUrl - The public URL of the image to delete
+ * @param {string} fileUrl - The public URL of the file to delete
  *
  * @returns {Promise<{
  *   data: any | null,
@@ -152,17 +252,17 @@ export const uploadImage = async ({
  *
  * @example
  * ```ts
- * const { data, error } = await deleteImage('https://example.com/storage/v1/object/public/bucket-name/path/to/image.jpg');
+ * const { data, error } = await deleteFile('https://example.com/storage/v1/object/public/bucket-name/path/to/file.pdf');
  * if (error) {
  *   console.error('Failed to delete:', error);
  * }
  * ```
  */
-export const deleteImage = async (imageUrl: string) => {
+export const deleteFile = async (fileUrl: string) => {
   const supabase = createClient();
-  const bucketAndPathString = imageUrl.split('/storage/v1/object/public/')[1];
+  const bucketAndPathString = fileUrl.split('/storage/v1/object/public/')[1];
   if (!bucketAndPathString) {
-    return { data: null, error: 'Invalid image URL' };
+    return { data: null, error: 'Invalid file URL' };
   }
   const firstSlashIndex = bucketAndPathString.indexOf('/');
 
@@ -173,3 +273,5 @@ export const deleteImage = async (imageUrl: string) => {
 
   return { data, error };
 };
+
+export const deleteImage = deleteFile;

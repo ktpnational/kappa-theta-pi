@@ -52,3 +52,5 @@ export const rateLimiter = (rateLimitingType: RateLimitHelper['rateLimitingType'
     return limiter[rateLimitingType].limit(identifier);
   };
 };
+
+export const getRateLimitReset = (result: number) => new Date(result * 1000).toLocaleString();

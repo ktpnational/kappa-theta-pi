@@ -1,65 +1,36 @@
-import { db } from '@/lib/prisma';
-import { auth } from '@/server';
 import { constructMetadata } from '@/utils';
 import type { Metadata } from 'next';
-import { headers } from 'next/headers';
-import { redirect } from 'next/navigation';
+import { elysia_api } from '@/providers';
+import { DataLoader } from '@/server';
+import dynamic from 'next/dynamic';
+import { Company } from '@prisma/client';
 
 export const metadata: Metadata = constructMetadata({
   title: 'Company Dashboard',
   description: 'Manage your company profile and view candidates',
 });
 
-export default async function DashboardCompanyPage() {
-  const session = await auth.api.getSession({ headers: await headers() });
+const DashboardCompany = dynamic(() => import('@/app/(dashboard)/_components/company/company'), {
+  ssr: false
+})
 
-  if (!session?.user) {
-    redirect('/auth/login');
-  }
-
-  // Get the user's profile and associated company data
-  const profile = await db.profile.findUnique({
-    where: { userId: session.user.id },
-    include: { company: true },
-  });
-
-  if (!profile?.company) {
+const DashboardCompanyPage = async () => {
+  try {
+    const profile = await elysia_api('/api/v1/company/profile', {
+      method: 'GET'
+    }).then(res => res.data?.data)
     return (
-      <div className="p-4">
-        <h1 className="text-2xl font-bold mb-4">Company Dashboard</h1>
-        <p>Please complete your company profile to continue.</p>
-      </div>
-    );
+      <DataLoader<Company>
+        type='elysia'
+        apiPath="api.v1.company.profile"
+      >
+        {(data) => <DashboardCompany {...data} />}
+      </DataLoader>
+    )
+  } catch (err) {
+
   }
-
-  return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Company Dashboard</h1>
-      <div className="space-y-4">
-        <div>
-          <h2 className="text-lg font-semibold">Company Name</h2>
-          <p>{profile.company.companyName}</p>
-        </div>
-
-        {profile.company.website && (
-          <div>
-            <h2 className="text-lg font-semibold">Website</h2>
-            <p>{profile.company.website}</p>
-          </div>
-        )}
-
-        {profile.company.industry && (
-          <div>
-            <h2 className="text-lg font-semibold">Industry</h2>
-            <p>{profile.company.industry}</p>
-          </div>
-        )}
-
-        <div>
-          <h2 className="text-lg font-semibold">Created</h2>
-          <p>{profile.company.createdAt.toLocaleDateString()}</p>
-        </div>
-      </div>
-    </div>
-  );
 }
+
+DashboardCompanyPage.displayName = 'DashboardCompanyPage';
+export default DashboardCompanyPage;

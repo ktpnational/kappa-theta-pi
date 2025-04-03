@@ -5,6 +5,7 @@ import type { Session } from 'better-auth';
 import type { EdenFetchError } from 'custom';
 import Elysia, { t } from 'elysia';
 import { unauthorized } from 'next/navigation';
+import { headers } from 'next/headers';
 
 /**
  * Schema for creating a new member
@@ -77,13 +78,12 @@ const chapterUpdateSchema = t.Object({
 export const createContext = new Elysia()
   .derive(
     async (
-      c,
+      _,
     ): Promise<{
       db: typeof db;
       session: Session;
     }> => {
-      const headers = new Headers(c.headers as HeadersInit);
-      const session = (await auth.api.getSession({ headers }))?.session;
+      const session = (await auth.api.getSession({ headers: await headers() }))?.session;
 
       if (!session) {
         unauthorized();
@@ -424,7 +424,53 @@ export const dashboardRoute = new Elysia()
       }
     },
     { body: chapterUpdateSchema },
-  );
+  )
+  .get('/company/profile', async ({ db, session }) => {
+    try {
+      const { userId } = session;
+      const profile = await db.profile.findUnique({
+        where: { userId },
+        include: {
+          company: true,
+        }
+      })
+
+      return { data: profile, error: null, status: 200 };
+    } catch (err) {
+      return {
+        data: null,
+        error: {
+          message: err instanceof Error ? err.message : 'Internal server error'
+        },
+        status: 500
+      }
+    }
+  })
+  .get('/member/profile', async ({ db, session }) => {
+    try {
+      const { userId } = session;
+      const profile = await db.profile.findUnique({
+        where: { userId },
+        include: {
+          member: {
+            include: {
+              chapter: true,
+              resume: true
+            }
+          }
+        }
+      })
+      return { data: profile, error: null, status: 200 };
+    } catch (err) {
+      return {
+        data: null,
+        error: {
+          message: err instanceof Error ? err.message : 'Internal server error'
+        },
+        status: 500
+      }
+    }
+  })
 
 export const utilityRoute = new Elysia()
   .use(createContext)
