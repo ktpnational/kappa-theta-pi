@@ -8,7 +8,11 @@ import type {
 } from '@prisma/client';
 import type { Metadata } from 'next';
 import React from 'react';
-import DashboardMember from '../../_components/member/member';
+import dynamic from 'next/dynamic';
+
+const DashboardMember = dynamic(() => import('../../_components/member/member'), {
+  ssr: true,
+});
 
 interface MemberProps extends Member {
   profile: Profile

@@ -234,19 +234,9 @@ export const DataLoader = <T,>({
       if (props.type === 'elysia') {
         const { elysiaParams, apiPath } = props;
 
-        // Ensure we pass the parameters in the format expected by elysia_api
-        // Creating an empty object with the required structure
-        const formattedParams = {
-          method: 'GET' as const,
-          params: {},
-          query: {},
-          headers: {},
-          body: undefined
-        };
-
         const apiMethod = await elysia_api(
           apiPath,
-          formattedParams
+          elysiaParams
         );
 
         if (typeof apiMethod === 'function') {

@@ -1,18 +1,19 @@
 'use client';
 
-import { Icons } from '@/components';
 import type { Company } from '@prisma/client';
-import { ArrowUpRight, Building2, CalendarDays, Globe } from 'lucide-react';
+import { ArrowUpRight, Building2, CalendarDays, Globe, Briefcase } from 'lucide-react';
 import { motion } from 'motion/react';
-import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 
-interface CompanyProps extends Company {}
+interface CompanyProps extends Company { }
 
 const DashboardCompany: React.FC<CompanyProps> = React.memo(
-  ({ id, profileId, companyName, website, industry, createdAt, updatedAt }) => {
-    if (!profile?.company) {
+  ({ companyName, website, industry, createdAt }) => {
+    // Check if essential company data is available
+    const isCompanyProfileComplete = !!companyName;
+
+    if (!isCompanyProfileComplete) {
       return (
         <motion.div
           initial={{ opacity: 0 }}
@@ -68,7 +69,7 @@ const DashboardCompany: React.FC<CompanyProps> = React.memo(
               className="p-4 rounded-lg bg-muted/20 border"
             >
               <div className="flex items-center gap-3 mb-2">
-                <Icons.industry className="w-5 h-5 text-muted-foreground" />
+                <Briefcase className="w-5 h-5 text-muted-foreground" />
                 <h2 className="text-sm font-medium text-muted-foreground">Industry</h2>
               </div>
               <p className="text-lg font-medium">{industry}</p>

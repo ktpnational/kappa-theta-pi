@@ -10,7 +10,7 @@ export const metadata: Metadata = constructMetadata({
 });
 
 const DashboardCompany = dynamic(() => import('@/app/(dashboard)/_components/company/company'), {
-  ssr: false,
+  ssr: true,
 });
 
 const DashboardCompanyPage = async () => {
