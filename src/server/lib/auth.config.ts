@@ -7,7 +7,7 @@ import {
   // magicLink,
   // twoFactor
 } from 'better-auth/plugins';
-import { getURL } from '../../utils';
+import { getURL } from '@/utils';
 
 export default {
   socialProviders: {

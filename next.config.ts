@@ -167,6 +167,7 @@ const nextConfig: NextConfig = {
         'motion', // 18.2 MB
         'zustand', // 18.2 MB
         '@prisma/client', // ???
+        'better-auth', // ???
       ])
         .difference(EXEMPT_DEPS)
         .values(),

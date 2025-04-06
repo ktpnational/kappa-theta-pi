@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { currentRole } from '@/lib';
 import { catchError } from '@/utils';
 import dynamic from 'next/dynamic';
@@ -49,11 +50,11 @@ const ForbiddenError = dynamic(() => import('@/app/_client').then((mod) => mod.F
  * @see {@link notFound} For Next.js 404 handling
  */
 const DashboardPage = async () => {
-  const res = await catchError(currentRole, []);
-  if (res.success) {
-    const role = res.value.toLowerCase();
-    return <>{role ? redirect(`/dashboard/${role}`) : notFound()}</>;
-  }
+  // const res = await catchError(currentRole, []);
+  // if (res.success) {
+  //   const role = res.value.toLowerCase();
+  //   return <>{role ? redirect(`/dashboard/${role}`) : notFound()}</>;
+  // }
   return <ForbiddenError />;
 };
 

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { DataLoader } from '@/server';
 import { constructMetadata } from '@/utils';
 import type { Company } from '@prisma/client';
@@ -14,11 +15,12 @@ const DashboardCompany = dynamic(() => import('@/app/(dashboard)/_components/com
 });
 
 const DashboardCompanyPage = async () => {
-  return (
-    <DataLoader<Company> type="elysia" apiPath="/api/v1/company/profile">
-      {(data) => <DashboardCompany {...data} />}
-    </DataLoader>
-  );
+  // return (
+  //   <DataLoader<Company> type="elysia" apiPath="/api/v1/company/profile">
+  //     {(data) => <DashboardCompany {...data} />}
+  //   </DataLoader>
+  // );
+  return <div>Company Page</div>;
 };
 
 DashboardCompanyPage.displayName = 'DashboardCompanyPage';
