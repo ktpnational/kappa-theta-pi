@@ -2,12 +2,12 @@ import { env } from '@/env';
 import { csrfToken } from '@/lib/csrf';
 import { getRateLimitReset, rateLimiter } from '@/lib/rate-limit';
 import type { RateLimitHelper } from '@/lib/rate-limit';
-import type { auth } from '@/server';
+// import type { auth } from '@/server';
 import { logger } from '@/utils';
-import { betterFetch } from '@better-fetch/fetch';
+// import { betterFetch } from '@better-fetch/fetch';
 import { type NextRequest, NextResponse } from 'next/server';
 
-type Session = typeof auth.$Infer.Session;
+// type Session = typeof auth.$Infer.Session;
 
 const log = logger.getSubLogger({ prefix: ['Middleware'] });
 
@@ -66,6 +66,8 @@ export async function middleware(request: NextRequest): Promise<NextResponse> {
       },
     });
 
+    // Authentication logic commented out
+    /*
     if (request.nextUrl.pathname.startsWith('/dashboard')) {
       log.debug('Checking authentication for dashboard access');
       const { data: session } = await betterFetch<Session>('/api/auth/get-session', {
@@ -83,6 +85,7 @@ export async function middleware(request: NextRequest): Promise<NextResponse> {
       }
       log.debug('User authenticated for dashboard access', { userId: session.user?.id });
     }
+    */
 
     if (!request.cookies.get('csrfToken')) {
       log.debug('Setting CSRF token cookie');
