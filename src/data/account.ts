@@ -21,15 +21,17 @@
  *   console.error('Error:', error);
  * }
  */
-import { db } from '@/lib/prisma';
+// import { db } from '@/lib/prisma';
 
+// @ts-ignore
 export const getAccountByUserId = async (userId: string) => {
   try {
-    const account = await db.account.findFirst({
-      where: { userId },
-    });
+    // const account = await db.account.findFirst({
+    //   where: { userId },
+    // });
 
-    return account;
+    // return account;
+    return null;
   } catch (error) {
     return null;
   }

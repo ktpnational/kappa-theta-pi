@@ -1,7 +1,7 @@
 'use server';
 
 import { getUserByEmail, getVerificationTokenByToken } from '@/data';
-import { db } from '@/lib/prisma';
+// import { db } from '@/lib/prisma';
 
 /**
  * Server action that verifies a user's email address using a verification token
@@ -59,7 +59,8 @@ import { db } from '@/lib/prisma';
  * 5. Removes the used verification token
  */
 export const newVerification = async (token: string) => {
-  const existingToken = await getVerificationTokenByToken(token);
+  // TODO: 🚩
+  const existingToken = await getVerificationTokenByToken(token) as any;
 
   if (!existingToken) {
     return { error: 'Token does not exist!' };
@@ -77,17 +78,17 @@ export const newVerification = async (token: string) => {
     return { error: 'Email does not exist' };
   }
 
-  await db.user.update({
-    where: { id: existingUser.id },
-    data: {
-      emailVerified: true,
-      email: existingToken.email,
-    },
-  });
+  // await db.user.update({
+  //   where: { id: existingUser.id },
+  //   data: {
+  //     emailVerified: true,
+  //     email: existingToken.email,
+  //   },
+  // });
 
-  await db.verificationToken.delete({
-    where: { id: existingToken.id },
-  });
+  // await db.verificationToken.delete({
+  //   where: { id: existingToken.id },
+  // });
 
   return { success: 'Email verified!' };
 };

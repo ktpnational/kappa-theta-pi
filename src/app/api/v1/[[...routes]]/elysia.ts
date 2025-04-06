@@ -1,4 +1,4 @@
-import { db } from '@/lib/prisma';
+// import { db } from '@/lib/prisma';
 import { auth } from '@/server';
 import { Stringify, handleEden } from '@/utils';
 import type { Session } from 'better-auth';
@@ -80,7 +80,7 @@ export const createContext = new Elysia()
     async (
       _,
     ): Promise<{
-      db: typeof db;
+      db: any; // typeof db;
       session: Session;
     }> => {
       const session = (await auth.api.getSession({ headers: await headers() }))?.session;
@@ -89,7 +89,7 @@ export const createContext = new Elysia()
         unauthorized();
       }
 
-      return { db, session };
+      return { db: {}, session };
     },
   )
   .as('plugin');
@@ -117,48 +117,49 @@ export const dashboardRoute = new Elysia()
    * @returns {Promise<Object>} Response containing members data or error
    * @throws {Error} On database errors
    */
+  // @ts-ignore
   .get('/members/search', async ({ db, query }) => {
     try {
-      const { search, chapter, active } = query;
+      // const { search, chapter, active } = query;
 
-      const members = await db.member.findMany({
-        where: {
-          AND: [
-            search
-              ? {
-                  profile: {
-                    user: { name: { contains: search, mode: 'insensitive' } },
-                  },
-                }
-              : {},
-            chapter ? { chapterId: chapter } : {},
-            active !== undefined
-              ? {
-                  profile: { active: Boolean(active) },
-                }
-              : {},
-          ],
-        },
-        include: {
-          profile: {
-            include: {
-              user: {
-                select: {
-                  id: true,
-                  name: true,
-                  email: true,
-                  image: true,
-                },
-              },
-              address: true,
-            },
-          },
-          resume: true,
-          chapter: true,
-        },
-      });
+      // const members = await db.member.findMany({
+      //   where: {
+      //     AND: [
+      //       search
+      //         ? {
+      //             profile: {
+      //               user: { name: { contains: search, mode: 'insensitive' } },
+      //             },
+      //           }
+      //         : {},
+      //       chapter ? { chapterId: chapter } : {},
+      //       active !== undefined
+      //         ? {
+      //             profile: { active: Boolean(active) },
+      //           }
+      //         : {},
+      //     ],
+      //   },
+      //   include: {
+      //     profile: {
+      //       include: {
+      //         user: {
+      //           select: {
+      //             id: true,
+      //             name: true,
+      //             email: true,
+      //             image: true,
+      //           },
+      //         },
+      //         address: true,
+      //       },
+      //     },
+      //     resume: true,
+      //     chapter: true,
+      //   },
+      // });
 
-      return { data: members, error: null, status: 200 };
+      return { data: [], error: null, status: 200 };
     } catch (error) {
       return {
         data: null,
@@ -181,23 +182,24 @@ export const dashboardRoute = new Elysia()
    */
   .post(
     '/members',
+    // @ts-ignore
     async ({ db, body, session, error }) => {
-      if (!session) return error('Unauthorized', 'You must be logged in to create a member');
+      // if (!session) return error('Unauthorized', 'You must be logged in to create a member');
 
-      const member = await db.member.create({
-        data: {
-          ...body,
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        },
-        include: {
-          profile: true,
-          resume: true,
-          chapter: true,
-        },
-      });
+      // const member = await db.member.create({
+      //   data: {
+      //     ...body,
+      //     createdAt: new Date(),
+      //     updatedAt: new Date(),
+      //   },
+      //   include: {
+      //     profile: true,
+      //     resume: true,
+      //     chapter: true,
+      //   },
+      // });
 
-      return { data: member, status: 201 };
+      return { data: {}, status: 201 };
     },
     { body: memberSchema },
   )
@@ -212,44 +214,45 @@ export const dashboardRoute = new Elysia()
    * @returns {Promise<Object>} Response with chapters or error
    * @throws {EdenFetchError} On database errors
    */
+  // @ts-ignore
   .get('/chapters', async ({ db, query }) => {
     try {
-      const { status, search } = query;
+      // const { status, search } = query;
 
-      const chapters = await db.chapter.findMany({
-        where: {
-          AND: [
-            status ? { status } : {},
-            search
-              ? {
-                  OR: [
-                    { name: { contains: search, mode: 'insensitive' } },
-                    { greekName: { contains: search, mode: 'insensitive' } },
-                    { university: { contains: search, mode: 'insensitive' } },
-                  ],
-                }
-              : {},
-          ],
-        },
-        include: {
-          members: {
-            include: {
-              profile: {
-                include: {
-                  user: {
-                    select: {
-                      name: true,
-                      email: true,
-                    },
-                  },
-                },
-              },
-            },
-          },
-        },
-      });
+      // const chapters = await db.chapter.findMany({
+      //   where: {
+      //     AND: [
+      //       status ? { status } : {},
+      //       search
+      //         ? {
+      //             OR: [
+      //               { name: { contains: search, mode: 'insensitive' } },
+      //               { greekName: { contains: search, mode: 'insensitive' } },
+      //               { university: { contains: search, mode: 'insensitive' } },
+      //             ],
+      //           }
+      //         : {},
+      //     ],
+      //   },
+      //   include: {
+      //     members: {
+      //       include: {
+      //         profile: {
+      //           include: {
+      //             user: {
+      //               select: {
+      //                 name: true,
+      //                 email: true,
+      //               },
+      //             },
+      //           },
+      //         },
+      //       },
+      //     },
+      //   },
+      // });
 
-      return { data: chapters, status: 200 };
+      return { data: [], status: 200 };
     } catch (error) {
       return handleEden({
         data: null,
@@ -271,22 +274,23 @@ export const dashboardRoute = new Elysia()
    */
   .post(
     '/chapters',
+    // @ts-ignore
     async ({ db, body, session, error }) => {
-      if (!session) return error('Unauthorized', 'You must be logged in to create a chapter');
+      // if (!session) return error('Unauthorized', 'You must be logged in to create a chapter');
 
-      const chapter = await db.chapter.create({
-        data: {
-          ...body,
-          foundingDate: new Date(body.foundingDate),
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        },
-        include: {
-          members: true,
-        },
-      });
+      // const chapter = await db.chapter.create({
+      //   data: {
+      //     ...body,
+      //     foundingDate: new Date(body.foundingDate),
+      //     createdAt: new Date(),
+      //     updatedAt: new Date(),
+      //   },
+      //   include: {
+      //     members: true,
+      //   },
+      // });
 
-      return { data: chapter, status: 201 };
+      return { data: {}, status: 201 };
     },
     { body: chapterSchema },
   )
@@ -300,36 +304,37 @@ export const dashboardRoute = new Elysia()
    * @returns {Promise<Object>} Response with member or error
    * @throws {EdenFetchError} On database errors
    */
+  // @ts-ignore
   .get('/members/:id', async ({ db, params }) => {
     try {
-      const member = await db.member.findUnique({
-        where: { id: params.id },
-        include: {
-          profile: {
-            include: {
-              user: {
-                select: {
-                  id: true,
-                  name: true,
-                  email: true,
-                  image: true,
-                },
-              },
-              address: true,
-            },
-          },
-          resume: true,
-          chapter: true,
-          candidates: {
-            include: {
-              company: true,
-            },
-          },
-        },
-      });
+      // const member = await db.member.findUnique({
+      //   where: { id: params.id },
+      //   include: {
+      //     profile: {
+      //       include: {
+      //         user: {
+      //           select: {
+      //             id: true,
+      //             name: true,
+      //             email: true,
+      //             image: true,
+      //           },
+      //         },
+      //         address: true,
+      //       },
+      //     },
+      //     resume: true,
+      //     chapter: true,
+      //     candidates: {
+      //       include: {
+      //         company: true,
+      //       },
+      //     },
+      //   },
+      // });
 
-      if (!member) return { error: 'Member not found', status: 404 };
-      return { data: member, status: 200 };
+      // if (!member) return { error: 'Member not found', status: 404 };
+      return { data: {}, status: 200 };
     } catch (error) {
       return handleEden({
         data: null,
@@ -354,24 +359,25 @@ export const dashboardRoute = new Elysia()
    */
   .patch(
     '/members/:id',
+    // @ts-ignore
     async ({ db, params, body, session, error }) => {
-      if (!session) return error('Unauthorized', 'You must be logged in to update a member');
+      // if (!session) return error('Unauthorized', 'You must be logged in to update a member');
 
       try {
-        const member = await db.member.update({
-          where: { id: params.id },
-          data: {
-            ...body,
-            updatedAt: new Date(),
-          },
-          include: {
-            profile: true,
-            resume: true,
-            chapter: true,
-          },
-        });
+        // const member = await db.member.update({
+        //   where: { id: params.id },
+        //   data: {
+        //     ...body,
+        //     updatedAt: new Date(),
+        //   },
+        //   include: {
+        //     profile: true,
+        //     resume: true,
+        //     chapter: true,
+        //   },
+        // });
 
-        return { data: member, status: 200 };
+        return { data: {}, status: 200 };
       } catch (error) {
         return handleEden({
           data: null,
@@ -398,22 +404,23 @@ export const dashboardRoute = new Elysia()
    */
   .patch(
     '/chapters/:id',
+    // @ts-ignore
     async ({ db, params, body, session, error }) => {
-      if (!session) return error('Unauthorized', 'You must be logged in to update a chapter');
+      // if (!session) return error('Unauthorized', 'You must be logged in to update a chapter');
 
       try {
-        const chapter = await db.chapter.update({
-          where: { id: params.id },
-          data: {
-            ...body,
-            updatedAt: new Date(),
-          },
-          include: {
-            members: true,
-          },
-        });
+        // const chapter = await db.chapter.update({
+        //   where: { id: params.id },
+        //   data: {
+        //     ...body,
+        //     updatedAt: new Date(),
+        //   },
+        //   include: {
+        //     members: true,
+        //   },
+        // });
 
-        return { data: chapter, status: 200 };
+        return { data: {}, status: 200 };
       } catch (error) {
         return handleEden({
           data: null,
@@ -425,17 +432,18 @@ export const dashboardRoute = new Elysia()
     },
     { body: chapterUpdateSchema },
   )
+  // @ts-ignore
   .get('/company/profile', async ({ db, session }) => {
     try {
-      const { userId } = session;
-      const profile = await db.profile.findUnique({
-        where: { userId },
-        include: {
-          company: true,
-        },
-      });
+      // const { userId } = session;
+      // const profile = await db.profile.findUnique({
+      //   where: { userId },
+      //   include: {
+      //     company: true,
+      //   },
+      // });
 
-      return { data: profile, error: null, status: 200 };
+      return { data: {}, error: null, status: 200 };
     } catch (err) {
       return {
         data: null,
@@ -446,21 +454,22 @@ export const dashboardRoute = new Elysia()
       };
     }
   })
+  // @ts-ignore
   .get('/member/profile', async ({ db, session }) => {
     try {
-      const { userId } = session;
-      const profile = await db.profile.findUnique({
-        where: { userId },
-        include: {
-          member: {
-            include: {
-              chapter: true,
-              resume: true,
-            },
-          },
-        },
-      });
-      return { data: profile, error: null, status: 200 };
+      // const { userId } = session;
+      // const profile = await db.profile.findUnique({
+      //   where: { userId },
+      //   include: {
+      //     member: {
+      //       include: {
+      //         chapter: true,
+      //         resume: true,
+      //       },
+      //     },
+      //   },
+      // });
+      return { data: {}, error: null, status: 200 };
     } catch (err) {
       return {
         data: null,
@@ -475,22 +484,23 @@ export const dashboardRoute = new Elysia()
 export const utilityRoute = new Elysia()
   .use(createContext)
   .use(timingMiddleware)
+  // @ts-ignore
   .get('/get-role', async ({ db, session }) => {
     try {
-      const { userId } = session;
-      const role = await db.user.findUnique({
-        where: {
-          id: userId,
-        },
-        select: {
-          role: true,
-        },
-      });
+      // const { userId } = session;
+      // const role = await db.user.findUnique({
+      //   where: {
+      //     id: userId,
+      //   },
+      //   select: {
+      //     role: true,
+      //   },
+      // });
 
-      // TODO: 🚩 This is a temporary fix to get the role
-      if (!role) return { error: 'User not found', status: 404 };
+      // // TODO: 🚩 This is a temporary fix to get the role
+      // if (!role) return { error: 'User not found', status: 404 };
 
-      return { data: role, status: 200 };
+      return { data: { role: 'USER' }, status: 200 };
     } catch (err) {
       return handleEden({
         data: null,

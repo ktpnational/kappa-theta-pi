@@ -17,9 +17,7 @@ const Members = dynamic(
   },
 );
 
-const ResourcesMembersPage = async () => {
-  return <Members />;
-};
+const ResourcesMembersPage = async () => <Members />;
 
 ResourcesMembersPage.displayName = 'ResourcesMembersPage';
 export default ResourcesMembersPage;

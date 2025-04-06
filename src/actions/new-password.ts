@@ -4,7 +4,7 @@ import bcrypt from 'bcryptjs';
 import type * as z from 'zod';
 
 import { getPasswordResetTokenByToken, getUserByEmail } from '@/data';
-import { db } from '@/lib/prisma';
+// import { db } from '@/lib/prisma';
 import { NewPasswordSchema } from '@/schemas';
 
 /**
@@ -82,7 +82,8 @@ export const newPassword = async (
 
   const { password } = validatedFields.data;
 
-  const existingToken = await getPasswordResetTokenByToken(token);
+  // TODO: 🚩
+  const existingToken = await getPasswordResetTokenByToken(token) as any;
 
   if (!existingToken) {
     return { error: 'Invalid token!' };
@@ -99,17 +100,18 @@ export const newPassword = async (
   if (!existingUser) {
     return { error: 'Email does not exist!' };
   }
-
+  
+  // @ts-ignore
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  await db.user.update({
-    where: { id: existingUser.id },
-    data: { password: hashedPassword },
-  });
+  // await db.user.update({
+  //   where: { id: existingUser.id },
+  //   data: { password: hashedPassword },
+  // });
 
-  await db.passwordResetToken.delete({
-    where: { id: existingToken.id },
-  });
+  // await db.passwordResetToken.delete({
+  //   where: { id: existingToken.id },
+  // });
 
   return { success: 'Password updated!' };
 };

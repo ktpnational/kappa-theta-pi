@@ -1,10 +1,10 @@
 // 'use server';
 
 import { getRole } from '@/lib';
-import { db } from '@/lib/prisma';
+// import { db } from '@/lib/prisma';
 import { logger } from '@/utils';
 import { betterAuth } from 'better-auth';
-import { prismaAdapter } from 'better-auth/adapters/prisma';
+// import { prismaAdapter } from 'better-auth/adapters/prisma';
 import authConfig from './auth.config';
 
 const log = logger.getSubLogger({
@@ -14,9 +14,9 @@ const log = logger.getSubLogger({
 log.info('Initializing authentication system');
 
 export const auth = betterAuth({
-  database: prismaAdapter(db, {
-    provider: 'postgresql',
-  }),
+  // database: prismaAdapter(db, {
+  //   provider: 'postgresql',
+  // }),
   ...authConfig,
   appName: 'Kappa Theta PI',
 
@@ -110,23 +110,23 @@ export const auth = betterAuth({
           try {
             const role = await getRole();
             log.debug('Retrieved role for new user', { userId: user.id, role });
-            await db.user.create({
-              data: {
-                id: user.id,
-                name: user.name,
-                email: user.email,
-                emailVerified: user.emailVerified || null,
-                image: user.image,
-                role: role || 'GUEST',
-                profile: {
-                  create: {
-                    role: role || 'GUEST',
-                    active: true,
-                    // Initialize with empty values for other relations if needed
-                  },
-                },
-              },
-            });
+            // await db.user.create({
+            //   data: {
+            //     id: user.id,
+            //     name: user.name,
+            //     email: user.email,
+            //     emailVerified: user.emailVerified || null,
+            //     image: user.image,
+            //     role: role || 'GUEST',
+            //     profile: {
+            //       create: {
+            //         role: role || 'GUEST',
+            //         active: true,
+            //         // Initialize with empty values for other relations if needed
+            //       },
+            //     },
+            //   },
+            // });
             log.info('User profile created', { userId: user.id, role: role || 'GUEST' });
           } catch (error) {
             log.error('Failed to create user profile', { userId: user.id, error });
@@ -148,26 +148,26 @@ export const auth = betterAuth({
             const role = await getRole();
             log.debug('Retrieved role for user update', { userId: user.id, role });
             // Update user in auth schema
-            await db.user.update({
-              where: { id: user.id },
-              data: {
-                name: user.name,
-                email: user.email,
-                emailVerified: user.emailVerified || null,
-                image: user.image,
-                role: role || undefined,
-              },
-            });
+            // await db.user.update({
+            //   where: { id: user.id },
+            //   data: {
+            //     name: user.name,
+            //     email: user.email,
+            //     emailVerified: user.emailVerified || null,
+            //     image: user.image,
+            //     role: role || undefined,
+            //   },
+            // });
             log.debug('User record updated in database', { userId: user.id });
 
             // Also update profile if role changed
             if (role) {
-              await db.profile.update({
-                where: { userId: user.id },
-                data: {
-                  role: role,
-                },
-              });
+              // await db.profile.update({
+              //   where: { userId: user.id },
+              //   data: {
+              //     role: role,
+              //   },
+              // });
               log.debug('User profile role updated', { userId: user.id, role });
             }
           } catch (error) {

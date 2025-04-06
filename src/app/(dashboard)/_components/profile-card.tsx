@@ -61,3 +61,4 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({ member }) => {
 }
 
 ProfileCard.displayName = "ProfileCard"
+export default ProfileCard

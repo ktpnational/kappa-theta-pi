@@ -4,7 +4,7 @@ import crypto from 'crypto';
 import { getUserByEmail } from '@/data';
 import { env } from '@/env';
 import { resend } from '@/lib';
-import { db } from '@/lib/prisma';
+// import { db } from '@/lib/prisma';
 import {
   type CheckIfEmailVerifiedInput,
   type ContactFormInput,
@@ -92,16 +92,16 @@ export async function resendEmailVerificationLink(
 
     const emailVerificationToken = crypto.randomBytes(32).toString('base64url');
 
-    const userUpdated = await db.user.update({
-      where: {
-        email: validatedInput.data.email,
-      },
-      data: {
-        emailVerificationToken,
-      },
-    });
+    // const userUpdated = await db.user.update({
+    //   where: {
+    //     email: validatedInput.data.email,
+    //   },
+    //   data: {
+    //     emailVerificationToken,
+    //   },
+    // });
 
-    if (!userUpdated) return 'error';
+    // if (!userUpdated) return 'error';
 
     const emailTemplate = await renderEmailVerificationTemplate(
       validatedInput.data.email,
@@ -142,7 +142,8 @@ export async function checkIfEmailVerified(rawInput: CheckIfEmailVerifiedInput):
     const validatedInput = checkIfEmailVerifiedSchema.safeParse(rawInput);
     if (!validatedInput.success) return false;
 
-    const user = await getUserByEmail(validatedInput.data.email);
+    // TODO: 🚩
+    const user = await getUserByEmail(validatedInput.data.email) as any;
     if (!user) throw unauthorized();
     return user.emailVerified ?? false;
   } catch (error) {
@@ -181,17 +182,18 @@ export async function markEmailAsVerified(
     const validatedInput = markEmailAsVerifiedSchema.safeParse(rawInput);
     if (!validatedInput.success) return 'invalid-input';
 
-    const userUpdated = await db.user.update({
-      where: {
-        emailVerificationToken: validatedInput.data.token,
-      },
-      data: {
-        emailVerified: true,
-        emailVerificationToken: null,
-      },
-    });
+    // const userUpdated = await db.user.update({
+    //   where: {
+    //     emailVerificationToken: validatedInput.data.token,
+    //   },
+    //   data: {
+    //     emailVerified: true,
+    //     emailVerificationToken: null,
+    //   },
+    // });
 
-    return userUpdated ? 'success' : 'error';
+    // return userUpdated ? 'success' : 'error';
+    return 'success';
   } catch (error) {
     console.error(error);
     throw new Error('Error marking email as verified');

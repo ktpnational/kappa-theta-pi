@@ -2,7 +2,7 @@
 
 import { getUserByEmail } from '@/data';
 import { generateVerificationToken, hashPassword, sendVerificationEmail } from '@/lib';
-import { db } from '@/lib/prisma';
+// import { db } from '@/lib/prisma';
 import { RegisterSchema } from '@/schemas';
 import type * as z from 'zod';
 
@@ -85,13 +85,13 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
     const hashedPassword = await hashPassword(password);
 
     // Create the new user in the database
-    await db.user.create({
-      data: {
-        name,
-        email,
-        password: hashedPassword,
-      },
-    });
+    // await db.user.create({
+    //   data: {
+    //     name,
+    //     email,
+    //     password: hashedPassword,
+    //   },
+    // });
 
     // Generate a verification token and send the verification email
     const verificationToken = await generateVerificationToken(email);

@@ -5,7 +5,7 @@ import type * as z from 'zod';
 
 import { getTwoFactorConfirmationByUserId, getTwoFactorTokenByEmail, getUserByEmail } from '@/data';
 import {
-  db,
+  // db,
   generateTwoFactorToken,
   generateVerificationToken,
   sendTwoFactorTokenEmail,
@@ -24,7 +24,8 @@ export const login = async (values: z.infer<typeof LoginSchema>, callbackUrl?: s
 
   const { email, password, code } = validatedFields.data;
 
-  const existingUser = await getUserByEmail(email);
+  // TODO: 🚩
+  const existingUser = await getUserByEmail(email) as any;
 
   if (!existingUser || !existingUser.email || !existingUser.password) {
     return { error: 'Email does not exist!' };
@@ -46,7 +47,8 @@ export const login = async (values: z.infer<typeof LoginSchema>, callbackUrl?: s
 
   if (existingUser.isTwoFactorEnabled && existingUser.email) {
     if (code) {
-      const twoFactorToken = await getTwoFactorTokenByEmail(existingUser.email);
+      // TODO: 🚩
+      const twoFactorToken = await getTwoFactorTokenByEmail(existingUser.email) as any;
 
       if (
         !twoFactorToken ||
@@ -56,19 +58,19 @@ export const login = async (values: z.infer<typeof LoginSchema>, callbackUrl?: s
         return { error: 'Invalid or expired code!' };
       }
 
-      await db.twoFactorToken.delete({ where: { id: twoFactorToken.id } });
+      // await db.twoFactorToken.delete({ where: { id: twoFactorToken.id } });
 
       const existingConfirmation = await getTwoFactorConfirmationByUserId(existingUser.id);
 
       if (existingConfirmation) {
-        await db.twoFactorConfirmation.delete({
-          where: { id: existingConfirmation.id },
-        });
+        // await db.twoFactorConfirmation.delete({
+        //   where: { id: existingConfirmation.id },
+        // });
       }
 
-      await db.twoFactorConfirmation.create({
-        data: { userId: existingUser.id },
-      });
+      // await db.twoFactorConfirmation.create({
+      //   data: { userId: existingUser.id },
+      // });
     } else {
       const twoFactorToken = await generateTwoFactorToken(existingUser.email);
       await sendTwoFactorTokenEmail(twoFactorToken.email, twoFactorToken.token);

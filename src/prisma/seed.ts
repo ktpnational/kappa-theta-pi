@@ -1,9 +1,10 @@
 'use server';
-import { db } from '@/lib/prisma';
-import { CandidateStatus, type Chapter, Role, type User } from '@prisma/client';
+// import { db } from '@/lib/prisma';
+import { CandidateStatus, type Chapter, PrismaClient, Role, type User } from '@prisma/client';
 import bcrypt from 'bcryptjs';
 
-const prisma = db;
+// const prisma = db;
+const prisma = new PrismaClient();
 
 async function main() {
   try {
