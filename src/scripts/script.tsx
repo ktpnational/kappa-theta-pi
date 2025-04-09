@@ -48,7 +48,7 @@ export function Scripts() {
     image: 'https://www.kappathetapi.com/logo.png',
     logo: 'https://www.kappathetapi.com/logo.png',
     sameAs: ['https://www.facebook.com/kappathetapi', 'https://www.instagram.com/kappathetapi'],
-  };
+  } as const;
 
   /**
    * Configuration object defining paths for preloading behavior
@@ -216,7 +216,7 @@ export function Scripts() {
         eagerness: 'conservative',
       },
     ],
-  };
+  } as const;
 
   const organizationSchema = generateSchema({
     type: 'Organization',
@@ -236,15 +236,21 @@ export function Scripts() {
         dangerouslySetInnerHTML={{
           __html: Stringify(baseSpeculationRules),
         }}
+        onError={(event) => {
+          console.error('Error loading speculation rules script:', event);
+        }}
       />
 
       {/* External Scripts */}
       <Script
-        strategy="lazyOnload"
+        strategy="afterInteractive" // lazyOnLoad
         src={`https://maps.googleapis.com/maps/api/js?key=${Redacted.make(
           env.google.maps.apiKey,
         ).getValue()}&libraries=maps,marker&v=beta&callback=Function.prototype`}
         id="google-maps"
+        onError={(event) => {
+          console.error('Error loading Google Maps script:', event);
+        }}
       />
 
       <Script
@@ -253,6 +259,9 @@ export function Scripts() {
           env.analytics.ga.trackingId,
         ).getValue()}`}
         id="google-analytics-script"
+        onError={(event) => {
+          console.error('Error loading Google Analytics script:', event);
+        }}
       />
 
       <Script
@@ -268,6 +277,9 @@ export function Scripts() {
             });
           `,
         }}
+        onError={(event) => {
+          console.error('Error loading Google Analytics config script:', event);
+        }}
       />
 
       <Script
@@ -278,6 +290,9 @@ export function Scripts() {
         ).getValue()}`}
         crossOrigin="anonymous"
         id="google-adsense"
+        onError={(event) => {
+          console.error('Error loading Google Adsense script:', event);
+        }}
       />
 
       <Script
@@ -286,6 +301,9 @@ export function Scripts() {
         strategy="afterInteractive"
         dangerouslySetInnerHTML={{
           __html: Stringify(schemaOrg),
+        }}
+        onError={(event) => {
+          console.error('Error loading Schema.org script:', event);
         }}
       />
 
@@ -296,7 +314,11 @@ export function Scripts() {
         dangerouslySetInnerHTML={{
           __html: Stringify(organizationSchema),
         }}
+        onError={(event) => {
+          console.error('Error loading Schema.org extended script:', event);
+        }}
       />
     </>
   );
 }
+

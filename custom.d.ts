@@ -162,7 +162,7 @@ declare global {
       currentYear: number;
       timeZone: string;
     };
-        gtag: (
+    gtag: (
       command: string,
       eventName: string,
       eventParams: {

@@ -47,8 +47,8 @@ const withPwa = pwa({
   reloadOnOnline: true, // Reload the app when it comes back online
   fallbacks: {
     document: '/offline', // Fallback route for pages
-    image: '/static/images/logo.webp', // Fallback route for images
-    font: '/static/fonts/fallback.woff2', // Fallback route for fonts
+    image: '/assets/images/logo.webp', // Fallback route for images
+    font: '/assets/fonts/palatino.woff2', // Fallback route for fonts
   },
   workboxOptions: {
     exclude: [/\/_next\/static\/.*(?<!\.p)\.woff2/, /\.map$/, /^manifest.*\.js$/, /\.pdf$/], // Exclude specific files from precaching

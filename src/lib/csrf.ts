@@ -1,15 +1,15 @@
 import crypto from 'crypto';
-import { env } from '@/env';
+// import { env } from '@/env';
 import { nextCsrf } from 'next-csrf';
 
 const { setup, csrf } = nextCsrf({
   tokenKey: 'x-csrf-token',
   cookieOptions: {
     httpOnly: true,
-    secure: env.NODE_ENV === 'production',
+    secure: process.env.NODE_ENV === 'production',
     maxAge: 60 * 60 * 24 * 30,
   },
-  secret: env.CSRF_SECRET,
+  secret: process.env.CSRF_SECRET,
 });
 
 const csrfToken = crypto.randomBytes(32).toString('hex');

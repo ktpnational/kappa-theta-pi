@@ -42,6 +42,7 @@ export default function GlobalError({ error }: { error: Error & { digest?: strin
    * Reports the error to Sentry when the component mounts or when the error changes
    */
   useEffect(() => {
+    console.error('Error in GlobalError:', error);
     Sentry.captureException(error);
   }, [error]);
 
