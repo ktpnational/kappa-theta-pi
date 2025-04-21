@@ -352,7 +352,7 @@
     "react-markdown": "^10.1.0",
     "react-resizable-panels": "^2.1.7",
     "react-simplemde-editor": "^5.2.0",
-    "react-spinners": "^0.15.0",
+    "react-spinners": "^0.17.0",
     "react-wrap-balancer": "^1.1.1",
     "recharts": "^2.15.1",
     "rehype-pretty-code": "^0.14.1",
