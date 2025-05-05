@@ -288,7 +288,7 @@
     "critters": "^0.0.25",
     "cross-env": "^7.0.3",
     "crypto-browserify": "^3.12.1",
-    "cspell": "^8.18.1",
+    "cspell": "^9.0.0",
     "cssnano": "^7.0.6",
     "cz-conventional-changelog": "^3.3.0",
     "date-fns": "^4.1.0",
