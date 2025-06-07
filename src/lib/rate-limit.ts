@@ -1,54 +1,19 @@
-import { redis } from '@/classes/redis.server';
-import { logger } from '@/utils';
-import { Ratelimit } from '@upstash/ratelimit';
-import { isIpInBanListString } from './get-ip';
-
-export type RateLimitHelper = {
-  rateLimitingType?: 'default' | 'forcedSlowMode' | 'auth' | 'api' | 'ai';
+type RateLimitHelper = {
+  rateLimitingType?: "default";
   identifier: string;
 };
 
-const limiter = {
-  default: new Ratelimit({
-    redis,
-    limiter: Ratelimit.slidingWindow(20, '10 s'),
-    analytics: true,
-    prefix: 'ratelimit:default',
-  }),
-  forcedSlowMode: new Ratelimit({
-    redis,
-    limiter: Ratelimit.slidingWindow(1, '30 s'),
-    analytics: true,
-    prefix: 'ratelimit:slowmode',
-  }),
-  auth: new Ratelimit({
-    redis,
-    limiter: Ratelimit.slidingWindow(5, '10 s'),
-    analytics: true,
-    prefix: 'ratelimit:auth',
-  }),
-  api: new Ratelimit({
-    redis,
-    limiter: Ratelimit.slidingWindow(30, '60 s'),
-    analytics: true,
-    prefix: 'ratelimit:api',
-  }),
-  ai: new Ratelimit({
-    redis,
-    limiter: Ratelimit.slidingWindow(20, '24 h'),
-    analytics: true,
-    prefix: 'ratelimit:ai',
-  }),
-};
-
-export const rateLimiter = (rateLimitingType: RateLimitHelper['rateLimitingType'] = 'default') => {
-  const log = logger.getSubLogger({ prefix: ['RateLimit', rateLimitingType] });
-  return async function rateLimit({ identifier }: RateLimitHelper) {
-    if (isIpInBanListString(identifier)) {
-      log.info('IP is in ban list', { identifier });
-      return limiter.forcedSlowMode.limit(identifier);
-    }
-    log.info('Rate limiting', { identifier });
-    return limiter[rateLimitingType].limit(identifier);
+export const rateLimiter = (
+  _: RateLimitHelper["rateLimitingType"] = "default",
+) => {
+  return async function rateLimit({
+    identifier: _identifier,
+  }: RateLimitHelper) {
+    return {
+      success: true,
+      limit: 9999,
+      remaining: 9999,
+      reset: Date.now() + 1000,
+    };
   };
 };

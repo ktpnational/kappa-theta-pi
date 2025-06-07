@@ -1,30 +1,15 @@
-import { Elysia } from 'elysia';
-import { rateLimit } from 'elysia-rate-limit';
-import { dashboardRoute } from './elysia';
+import { Elysia } from "elysia";
+import { dashboardRoute } from "./elysia";
 
-const app = new Elysia({ prefix: '/api/v1' })
+const app = new Elysia({ prefix: "/api/v1" })
   .use(dashboardRoute)
-  .use(
-    rateLimit({
-      duration: 60000,
-      max: 100,
-      headers: true,
-      scoping: 'scoped',
-      countFailedRequest: true,
-      errorResponse: new Response(
-        JSON.stringify({
-          error: 'Too many requests',
-          status: 429,
-        }),
-        { status: 429 },
-      ),
-    }),
-  )
+
   .onError(({ code, error, set }) => {
     console.error(`[Elysia Error] ${code}:`, error);
-    set.status = code === 'NOT_FOUND' ? 404 : 500;
+    set.status = code === "NOT_FOUND" ? 404 : 500;
+
     return {
-      error: error.message,
+      error: (error as Error)?.message ?? "Unknown error",
       status: set.status,
     };
   });

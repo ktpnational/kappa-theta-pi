@@ -1,8 +1,8 @@
-import { auth } from '@/auth';
-import { typeDefs } from '@/graphql';
-import { resolvers } from '@/graphql/resolvers';
-import { db } from '@/lib';
-import { apollo } from '@elysiajs/apollo';
+import { auth } from "@/auth";
+import { typeDefs } from "@/graphql";
+import { resolvers } from "@/graphql/resolvers";
+import { db } from "@/lib";
+import { apollo } from "@elysiajs/apollo";
 /**
  * Core server configuration file for the Elysia backend API.
  * This file handles the setup of contexts, middleware, and server initialization.
@@ -13,9 +13,8 @@ import { apollo } from '@elysiajs/apollo';
  * @fileoverview Main Elysia server configuration and setup
  * @module server/config
  */
-import type { ElysiaConfig } from 'elysia';
-import Elysia from 'elysia';
-import { rateLimit } from 'elysia-rate-limit';
+import type { ElysiaConfig } from "elysia";
+import Elysia from "elysia";
 /**
  * Creates and configures the request context available throughout the API.
  * The context provides access to core services and state needed during request processing.
@@ -35,7 +34,7 @@ const createContext = new Elysia()
 
     return { db, session };
   })
-  .as('plugin');
+  .as("plugin");
 
 export type Context = {
   db: typeof db;
@@ -63,7 +62,7 @@ const timmingMiddleware = new Elysia()
   .onAfterHandle(({ path, store: { start } }) =>
     console.log(`[Elysia] ${path} took ${Date.now() - start}ms to execute`),
   )
-  .as('plugin');
+  .as("plugin");
 
 // @ts-expect-error
 const apolloMiddleware = apollo({
@@ -101,27 +100,11 @@ export const createElysia = <S extends string>(options?: ElysiaConfig<S>) => {
     .use(timmingMiddleware)
     .onError(({ code, error, set }) => {
       console.error(`[Elysia Error] ${code}:`, error);
-      set.status = code === 'NOT_FOUND' ? 404 : 500;
+      set.status = code === "NOT_FOUND" ? 404 : 500;
       return {
         error: error,
         status: set.status,
       };
-    })
-    .use(
-      rateLimit({
-        duration: 60000,
-        max: 100,
-        headers: true,
-        scoping: 'scoped',
-        countFailedRequest: true,
-        errorResponse: new Response(
-          JSON.stringify({
-            error: 'Too many requests',
-            status: 429,
-          }),
-          { status: 429 },
-        ),
-      }),
-    );
+    });
   // .use(apolloMiddleware);
 };
