@@ -142,7 +142,7 @@
     "@aws-sdk/util-locate-window": "^3.804.0",
     "@fingerprintjs/botd": "^1.9.1",
     "@fingerprintjs/fingerprintjs-pro-react": "^2.6.3",
-    "@t3-oss/env-nextjs": "^0.11.1",
+    "@t3-oss/env-nextjs": "^0.13.6",
     "assert": "^2.1.0",
     "browserify-zlib": "^0.2.0",
     "crypto-browserify": "^3.12.1",
