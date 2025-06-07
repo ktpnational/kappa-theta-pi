@@ -38,8 +38,7 @@ export const NewPasswordSchema = z.object({
 export const SettingsSchema = z
   .object({
     name: z.optional(z.string()),
-    isTwoFactorEnabled: z.optional(z.boolean()),
-    role: z.enum([Role.SPONSOR]),
+    role: z.enum([Role.COMPANY, Role.MEMBER, Role.GUEST]),
     email: z.optional(z.string().email()),
     password: z.optional(z.string().min(6)),
     newPassword: z.optional(z.string().min(6)),

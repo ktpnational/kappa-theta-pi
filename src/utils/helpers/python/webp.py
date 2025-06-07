@@ -44,7 +44,8 @@ def convert_to_webp(image: Path) -> None:
     try:
         output_file: Path = image.with_suffix(".webp")
         if not shutil.which("cwebp"):
-            logging.error("cwebp is not installed")
+            # see: https://github.com/Yukioru/cwebp-cli
+            logging.error("cwebp is not installed, visit: https://github.com/Yukioru/cwebp-cli")
             return
         command: List[str] = [
             "cwebp",

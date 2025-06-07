@@ -3,7 +3,7 @@
 import { cn } from '@/lib/utils';
 import { Play, XIcon } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
-import Image from 'next/image';
+import Image, { type ImageProps } from 'next/image';
 import React, { useState, useCallback } from 'react';
 
 /**
@@ -29,7 +29,8 @@ type AnimationStyle =
  * @property {string} [thumbnailAlt='Video thumbnail'] - Alt text for the thumbnail image
  * @property {string} [className] - Additional CSS classes to apply to the container
  */
-interface HeroVideoProps {
+
+interface HeroVideoProps extends Omit<ImageProps, 'src' | 'alt'> {
   animationStyle?: AnimationStyle;
   videoSrc: string;
   thumbnailSrc: string;
@@ -104,12 +105,19 @@ export const HeroVideoDialog = React.memo(
     thumbnailSrc,
     thumbnailAlt = 'Video thumbnail',
     className,
+    ...imageProps
   }: HeroVideoProps) => {
     const [isVideoOpen, setIsVideoOpen] = useState(false);
     const selectedAnimation = animationVariants[animationStyle];
 
-    const handleClose = useCallback(() => setIsVideoOpen(false), []);
-    const handleOpen = useCallback(() => setIsVideoOpen(true), []);
+    const handleClose = useCallback(() => {
+      setIsVideoOpen(false);
+      console.log('close');
+    }, []);
+    const handleOpen = useCallback(() => {
+      setIsVideoOpen(true);
+      console.log('open');
+    }, []);
 
     return (
       <div className={cn('relative', className)}>
@@ -121,18 +129,20 @@ export const HeroVideoDialog = React.memo(
           onKeyDown={(e) => e.key === 'Enter' && handleOpen()}
           aria-label="Open video"
         >
-          <div className="relative w-full">
+          <picture className="relative w-full">
             <Image
               src={thumbnailSrc}
               alt={thumbnailAlt}
               width={1920}
               height={1080}
               className="w-full transition-all duration-200 group-hover:brightness-[0.8] ease-out rounded-md shadow-lg border"
+              {...imageProps}
             />
-          </div>
+            <source srcSet={thumbnailSrc} type="image/webp" />
+          </picture>
           <div className="absolute inset-0 flex items-center justify-center group-hover:scale-100 scale-[0.9] transition-all duration-200 ease-out rounded-2xl">
             <div className="bg-primary/10 flex items-center justify-center rounded-full backdrop-blur-md size-28">
-              <div className="flex items-center justify-center bg-gradient-to-b from-primary/30 to-primary shadow-md rounded-full size-20 transition-all ease-out duration-200 relative group-hover:scale-[1.2] scale-100">
+              <div className="flex items-center justify-center bg-linear-to-b from-primary/30 to-primary shadow-md rounded-full size-20 transition-all ease-out duration-200 relative group-hover:scale-[1.2] scale-100">
                 <Play
                   className="size-8 text-white fill-white group-hover:scale-105 scale-100 transition-transform duration-200 ease-out"
                   style={{
@@ -162,7 +172,7 @@ export const HeroVideoDialog = React.memo(
                 animate={selectedAnimation.animate}
                 exit={selectedAnimation.exit}
                 transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-                className="relative w-full max-w-4xl mx-4 md:mx-0 aspect-[3/2]"
+                className="relative w-full max-w-4xl mx-4 md:mx-0 aspect-3/2"
                 onClick={(e) => e.stopPropagation()}
               >
                 <motion.button
@@ -172,7 +182,7 @@ export const HeroVideoDialog = React.memo(
                 >
                   <XIcon className="size-5" />
                 </motion.button>
-                <div className="size-full border-2 border-white rounded-2xl overflow-hidden isolate z-[1] relative">
+                <div className="size-full border-2 border-white rounded-2xl overflow-hidden isolate z-1 relative">
                   <iframe
                     src={videoSrc}
                     title={thumbnailAlt}
@@ -181,6 +191,7 @@ export const HeroVideoDialog = React.memo(
                     allowFullScreen
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   />
+                  <source src={videoSrc} type="video/mp4" />
                 </div>
               </motion.div>
             </motion.div>

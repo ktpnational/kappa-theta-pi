@@ -1,9 +1,5 @@
 'use client';
 
-/**
- * @fileoverview A comprehensive carousel component implementation using Embla Carousel
- */
-
 import useEmblaCarousel, { type UseEmblaCarouselType } from 'embla-carousel-react';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import * as React from 'react';
@@ -11,23 +7,11 @@ import * as React from 'react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
-/** Type alias for the Embla Carousel API */
 type CarouselApi = UseEmblaCarouselType[1];
-/** Type alias for useEmblaCarousel parameters */
 type UseCarouselParameters = Parameters<typeof useEmblaCarousel>;
-/** Type alias for carousel options */
 type CarouselOptions = UseCarouselParameters[0];
-/** Type alias for carousel plugins */
 type CarouselPlugin = UseCarouselParameters[1];
 
-/**
- * Props for the Carousel component
- * @typedef {Object} CarouselProps
- * @property {CarouselOptions} [opts] - Configuration options for the carousel
- * @property {CarouselPlugin} [plugins] - Plugins to extend carousel functionality
- * @property {'horizontal' | 'vertical'} [orientation] - Carousel orientation
- * @property {(api: CarouselApi) => void} [setApi] - Callback to access carousel API
- */
 type CarouselProps = {
   opts?: CarouselOptions;
   plugins?: CarouselPlugin;
@@ -35,10 +19,6 @@ type CarouselProps = {
   setApi?: (api: CarouselApi) => void;
 };
 
-/**
- * Props provided through CarouselContext
- * @typedef {Object} CarouselContextProps
- */
 type CarouselContextProps = {
   carouselRef: ReturnType<typeof useEmblaCarousel>[0];
   api: ReturnType<typeof useEmblaCarousel>[1];
@@ -48,14 +28,8 @@ type CarouselContextProps = {
   canScrollNext: boolean;
 } & CarouselProps;
 
-/** React context for sharing carousel state */
 const CarouselContext = React.createContext<CarouselContextProps | null>(null);
 
-/**
- * Custom hook to access carousel context
- * @throws {Error} If used outside of Carousel provider
- * @returns {CarouselContextProps} Carousel context value
- */
 function useCarousel() {
   const context = React.useContext(CarouselContext);
 
@@ -66,10 +40,6 @@ function useCarousel() {
   return context;
 }
 
-/**
- * Main carousel component that provides context and handles carousel initialization
- * @component
- */
 const Carousel = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement> & CarouselProps
@@ -164,10 +134,6 @@ const Carousel = React.forwardRef<
 });
 Carousel.displayName = 'Carousel';
 
-/**
- * Container component for carousel slides
- * @component
- */
 const CarouselContent = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => {
     const { carouselRef, orientation } = useCarousel();
@@ -189,10 +155,6 @@ const CarouselContent = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HT
 );
 CarouselContent.displayName = 'CarouselContent';
 
-/**
- * Individual carousel slide component
- * @component
- */
 const CarouselItem = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => {
     const { orientation } = useCarousel();
@@ -214,10 +176,6 @@ const CarouselItem = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLD
 );
 CarouselItem.displayName = 'CarouselItem';
 
-/**
- * Previous slide navigation button
- * @component
- */
 const CarouselPrevious = React.forwardRef<HTMLButtonElement, React.ComponentProps<typeof Button>>(
   ({ className, variant = 'outline', size = 'icon', ...props }, ref) => {
     const { orientation, scrollPrev, canScrollPrev } = useCarousel();
@@ -246,10 +204,6 @@ const CarouselPrevious = React.forwardRef<HTMLButtonElement, React.ComponentProp
 );
 CarouselPrevious.displayName = 'CarouselPrevious';
 
-/**
- * Next slide navigation button
- * @component
- */
 const CarouselNext = React.forwardRef<HTMLButtonElement, React.ComponentProps<typeof Button>>(
   ({ className, variant = 'outline', size = 'icon', ...props }, ref) => {
     const { orientation, scrollNext, canScrollNext } = useCarousel();

@@ -1,55 +1,64 @@
-/**
- * @fileoverview Prisma database client configuration and initialization
- * @module lib/prisma
- */
+// import { logger } from '@/utils';
+// import { PrismaClient } from '@prisma/client';
+// import type { Prisma } from '@prisma/client';
+// import { withAccelerate } from '@prisma/extension-accelerate';
 
-import { PrismaClient } from '@prisma/client';
+// const log = logger.getSubLogger({ prefix: ['Prisma'] });
 
-/**
- * Extends the global namespace to include prisma client type
- * This allows for global singleton pattern implementation
- */
-declare global {
-  var prisma: PrismaClient | undefined;
-}
+// const options: Record<string, Prisma.PrismaClientOptions> = {
+//   development: {
+//     errorFormat: 'pretty' as const,
+//     log: [
+//       { emit: 'event', level: 'query' },
+//       { emit: 'event', level: 'error' },
+//       { emit: 'event', level: 'warn' },
+//     ] as const,
+//     transactionOptions: {
+//       maxWait: 10000,
+//       timeout: 10000,
+//     },
+//   },
+//   production: {
+//     errorFormat: 'minimal' as const,
+//     log: [{ emit: 'event', level: 'error' }] as const,
+//     transactionOptions: {
+//       maxWait: 10000,
+//       timeout: 10000,
+//     },
+//   },
+//   test: {
+//     errorFormat: 'pretty' as const,
+//     log: [
+//       { emit: 'event', level: 'query' },
+//       { emit: 'event', level: 'error' },
+//       { emit: 'event', level: 'warn' },
+//     ] as const,
+//     transactionOptions: {
+//       maxWait: 10000,
+//       timeout: 10000,
+//     },
+//   },
+// };
 
-let prisma: PrismaClient;
+// /**
+//  * Creates a new PrismaClient instance with appropriate options
+//  */
+// const createPrismaClient = () => {
+//   const nodeEnv = (process.env.NODE_ENV || 'development') as keyof typeof options;
+//   log.info(`Creating PrismaClient with ${nodeEnv} configuration`);
 
-if (process.env.NODE_ENV === 'production') {
-  prisma = new PrismaClient({
-    log: ['error'],
-  });
-} else {
-  if (!global.prisma) {
-    global.prisma = new PrismaClient({
-      log: ['query', 'error', 'warn'],
-    });
-  }
-  prisma = global.prisma;
-}
+//   return new PrismaClient(options[nodeEnv]).$extends(withAccelerate());
+// };
 
-/**
- * Database client singleton instance
- *
- * @constant
- * @type {PrismaClient}
- *
- * @remarks
- * Uses global singleton pattern to prevent multiple client instances:
- * - Reuses existing global client if available
- * - Creates new client if none exists
- *
- * @example
- * import { db } from '@/lib/prisma'
- *
- * // Use db for database operations
- * const user = await db.user.findUnique({
- *   where: { id: 1 }
- * })
- */
-export const db = prisma;
+// type PrismaClientSingleton = ReturnType<typeof createPrismaClient>;
 
-/**
- * Re-export PrismaClient type for use in other modules
- */
-export type { PrismaClient };
+// const globalForPrisma = globalThis as unknown as {
+//   prisma: PrismaClientSingleton | undefined;
+// };
+
+// export const db = globalForPrisma.prisma ?? createPrismaClient();
+
+// if (process.env.NODE_ENV !== 'production') {
+//   log.info('Setting Prisma client in global scope for development');
+//   globalForPrisma.prisma = db;
+// }

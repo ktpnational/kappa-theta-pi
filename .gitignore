@@ -43,6 +43,7 @@ next-env.d.ts
 *.tsbuildinfo
 
 bun.lockb
+bun.lock
 package-lock.json
 pnpm-lock.yaml
 yarn.lock
@@ -72,3 +73,14 @@ sw.js.*
 .contentlayer
 
 .fake
+
+fallback-*.js
+fallback-*.js.map
+
+swe-worker-*.js
+swe-worker-*.js.map
+
+
+.vercel
+
+manifest.webmanifest

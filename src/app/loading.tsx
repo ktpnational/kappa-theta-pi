@@ -1,7 +1,14 @@
-'use client';
+import { constructMetadata } from '@/utils';
+import dynamic from 'next/dynamic';
 
-import { Loader } from '@/components';
-import { memo } from 'react';
+export const metadata = constructMetadata({
+  title: 'Loading...',
+  description: 'Loading...',
+});
+
+const Loader = dynamic(() => import('@/components').then((mod) => mod.Loader), {
+  ssr: true,
+});
 
 /**
  * Loading component that displays during page/component transitions
@@ -12,12 +19,7 @@ import { memo } from 'react';
  *   <Loading />
  * )
  */
-const Loading = memo(() => {
-  return (
-    <>
-      <Loader />
-    </>
-  );
-});
+const Loading = () => <Loader />;
 
+Loading.displayName = 'Loading';
 export default Loading;

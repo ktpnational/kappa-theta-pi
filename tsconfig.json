@@ -2,16 +2,6 @@
   "$schema": "https://json.schemastore.org/tsconfig",
   "display": "Next.js",
   "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "@/constants": ["src/constants"],
-      "@/lib": ["src/lib"],
-      "@/schemas": ["src/schemas"],
-      "@/data/*": ["src/data/*"],
-      "@/components/*": ["src/components/*"],
-      "@testing": ["./test-fixtures.ts"],
-      "@/*": ["./src/*"]
-    },
     "esModuleInterop": true,
     "skipLibCheck": true,
     "target": "es2022",
@@ -49,7 +39,11 @@
     "declaration": true,
     "sourceMap": true,
     "allowSyntheticDefaultImports": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   },
   "include": [
     "next-env.d.ts",

@@ -24,99 +24,111 @@ export const resolvers: {
   Query: {
     users:
       (): Resolver<User[]> =>
+      // @ts-ignore
       async (_parent, _args, ctx): Promise<User[]> => {
-        const [error, users] = await catchError<User[]>(ctx.db.user.findMany());
+        // const [error, users] = await catchError<User[]>(ctx.db.user.findMany());
 
-        if (error) throw error;
+        // if (error) throw error;
 
-        if (!users) throw new Error('Users not found');
+        // if (!users) throw new Error('Users not found');
 
-        return users;
+        // return users;
+        return [];
       },
 
     user:
       (): Resolver<User | null, unknown, { id: string }> =>
+      // @ts-ignore
       async (_parent, { id }, ctx) => {
-        const [error, user] = await catchError<User | null>(
-          ctx.db.user.findUnique({
-            where: { id },
-          }),
-        );
+        // const [error, user] = await catchError<User | null>(
+        //   ctx.db.user.findUnique({
+        //     where: { id },
+        //   }),
+        // );
 
-        if (error) throw error;
+        // if (error) throw error;
 
-        return user;
+        // return user;
+        return null;
       },
 
     chapters:
       (): Resolver<Chapter[], unknown, ChapterQueryArgs> =>
+      // @ts-ignore
       async (_parent, { status, search }, ctx): Promise<Chapter[]> => {
-        const [error, chapters] = await catchError<Chapter[]>(
-          ctx.db.chapter.findMany({
-            where: {
-              AND: [
-                status ? { status } : {},
-                search
-                  ? {
-                      OR: [{ name: { contains: search } }, { greekName: { contains: search } }],
-                    }
-                  : {},
-              ],
-            },
-          }),
-        );
+        // const [error, chapters] = await catchError<Chapter[]>(
+        //   ctx.db.chapter.findMany({
+        //     where: {
+        //       AND: [
+        //         status ? { status } : {},
+        //         search
+        //           ? {
+        //               OR: [{ name: { contains: search } }, { greekName: { contains: search } }],
+        //             }
+        //           : {},
+        //       ],
+        //     },
+        //   }),
+        // );
 
-        if (error) throw error;
+        // if (error) throw error;
 
-        if (!chapters) throw new Error('Chapters not found');
+        // if (!chapters) throw new Error('Chapters not found');
 
-        return chapters;
+        // return chapters;
+        return [];
       },
 
     chapter:
       (): Resolver<Chapter | null, unknown, { id: string }> =>
+      // @ts-ignore
       async (_parent, { id }, ctx) => {
-        const [error, chapter] = await catchError<Chapter | null>(
-          ctx.db.chapter.findUnique({
-            where: { id },
-          }),
-        );
+        // const [error, chapter] = await catchError<Chapter | null>(
+        //   ctx.db.chapter.findUnique({
+        //     where: { id },
+        //   }),
+        // );
 
-        if (error) throw error;
+        // if (error) throw error;
 
-        return chapter;
+        // return chapter;
+        return null;
       },
   },
 
   User: {
+    // @ts-ignore
     profile: (): Resolver<Profile | null, User> => async (parent, _args, ctx) => {
-      const [error, profile] = await catchError<Profile | null>(
-        ctx.db.profile.findUnique({
-          where: { userId: parent.id },
-        }),
-      );
+      // const [error, profile] = await catchError<Profile | null>(
+      //   ctx.db.profile.findUnique({
+      //     where: { userId: parent.id },
+      //   }),
+      // );
 
-      if (error) throw error;
+      // if (error) throw error;
 
-      return profile;
+      // return profile;
+      return null;
     },
   },
 
   Chapter: {
     members:
       (): Resolver<Member[], Chapter> =>
+      // @ts-ignore
       async (parent, _args, ctx): Promise<Member[]> => {
-        const [error, members] = await catchError<Member[]>(
-          ctx.db.member.findMany({
-            where: { chapterId: parent.id },
-          }),
-        );
+        // const [error, members] = await catchError<Member[]>(
+        //   ctx.db.member.findMany({
+        //     where: { chapterId: parent.id },
+        //   }),
+        // );
 
-        if (error) throw error;
+        // if (error) throw error;
 
-        if (!members) throw new Error('Members not found');
+        // if (!members) throw new Error('Members not found');
 
-        return members;
+        // return members;
+        return [];
       },
   },
 };

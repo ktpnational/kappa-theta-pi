@@ -9,6 +9,5 @@ export * from './new-password-form';
 export * from './new-verification-form';
 export * from './register-form';
 export * from './reset-form';
-export * from './role-gate';
 export * from './social';
 export * from './user-button';

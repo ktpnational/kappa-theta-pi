@@ -7,6 +7,9 @@ import {
   AvatarIcon,
   CheckIcon,
   CoutKtp,
+  GithubIcon,
+  InstagramIcon,
+  LinkedInIcon,
   PaperplaneIcon,
   PlaceholderIcon,
   SpinnerIcon,
@@ -127,6 +130,21 @@ export const Icons = {
     android: ({ className, size, ...props }: SVGProps<SVGSVGElement>) => (
       <i>
         <AndroidIcon className={cn(getSizeClasses(size), className)} {...props} />
+      </i>
+    ),
+    instagram: ({ className, size, ...props }: SVGProps<SVGSVGElement>) => (
+      <i>
+        <InstagramIcon className={cn(getSizeClasses(size), className)} {...props} />
+      </i>
+    ),
+    linkedin: ({ className, size, ...props }: SVGProps<SVGSVGElement>) => (
+      <i>
+        <LinkedInIcon className={cn(getSizeClasses(size), className)} {...props} />
+      </i>
+    ),
+    github: ({ className, size, ...props }: SVGProps<SVGSVGElement>) => (
+      <i>
+        <GithubIcon className={cn(getSizeClasses(size), className)} {...props} />
       </i>
     ),
   },

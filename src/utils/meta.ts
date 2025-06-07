@@ -66,6 +66,7 @@ export function constructMetadata({
         href: icons,
       },
     ],
+    category: 'education',
     manifest: '/manifest.webmanifest',
     metadataBase: new URL(url),
 

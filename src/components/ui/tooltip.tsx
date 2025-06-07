@@ -5,43 +5,14 @@ import * as React from 'react';
 
 import { cn } from '@/lib/utils';
 
-/**
- * Provider component that must wrap all tooltip components.
- * Manages shared state for multiple tooltips.
- */
 const TooltipProvider = TooltipPrimitive.Provider;
 
-/**
- * Root tooltip component that coordinates the tooltip trigger and content.
- */
 const Tooltip = TooltipPrimitive.Root;
 
-/**
- * The element that triggers the tooltip when interacted with.
- * Usually wraps the element that the tooltip describes.
- */
 const TooltipTrigger = TooltipPrimitive.Trigger;
 
-/**
- * The content displayed inside the tooltip when triggered.
- *
- * @component
- * @param {Object} props - Component props
- * @param {string} [props.className] - Additional CSS classes to apply
- * @param {number} [props.sideOffset=4] - Offset from the trigger in pixels
- * @param {React.Ref} ref - Forward ref for the tooltip content element
- * @returns {React.ReactElement} Rendered tooltip content
- *
- * @example
- * ```tsx
- * <Tooltip>
- *   <TooltipTrigger>Hover me</TooltipTrigger>
- *   <TooltipContent>Tooltip content</TooltipContent>
- * </Tooltip>
- * ```
- */
 const TooltipContent = React.forwardRef<
-  React.ElementRef<typeof TooltipPrimitive.Content>,
+  React.ComponentRef<typeof TooltipPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>
 >(({ className, sideOffset = 4, ...props }, ref) => (
   <TooltipPrimitive.Content

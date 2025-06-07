@@ -1,4 +1,4 @@
-import { redis } from '@/classes/redis.server';
+import { redis } from '@/classes/redis';
 import { logger } from '@/utils';
 import { Ratelimit } from '@upstash/ratelimit';
 import { isIpInBanListString } from './get-ip';
@@ -39,7 +39,7 @@ const limiter = {
     analytics: true,
     prefix: 'ratelimit:ai',
   }),
-};
+} as const;
 
 export const rateLimiter = (rateLimitingType: RateLimitHelper['rateLimitingType'] = 'default') => {
   const log = logger.getSubLogger({ prefix: ['RateLimit', rateLimitingType] });
@@ -52,3 +52,5 @@ export const rateLimiter = (rateLimitingType: RateLimitHelper['rateLimitingType'
     return limiter[rateLimitingType].limit(identifier);
   };
 };
+
+export const getRateLimitReset = (result: number) => new Date(result * 1000).toLocaleString();
