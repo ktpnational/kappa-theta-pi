@@ -1,4 +1,6 @@
-import { db } from '@/lib';
+'use server';
+
+// import { db } from '@/lib/prisma';
 
 /**
  * Retrieves a verification token from the database by email address
@@ -14,13 +16,15 @@ import { db } from '@/lib';
  *   // Token found
  * }
  */
+// @ts-ignore
 export const getVerificationTokenByEmail = async (email: string) => {
   try {
-    const verificationToken = await db.verificationToken.findFirst({
-      where: { email },
-    });
+    // const verificationToken = await db.verificationToken.findFirst({
+    //   where: { email },
+    // });
 
-    return verificationToken;
+    // return verificationToken;
+    return null;
   } catch (error) {
     return null;
   }
@@ -40,13 +44,15 @@ export const getVerificationTokenByEmail = async (email: string) => {
  *   // Token found
  * }
  */
+// @ts-ignore
 export const getVerificationTokenByToken = async (token: string) => {
   try {
-    const verificationToken = await db.verificationToken.findUnique({
-      where: { token },
-    });
+    // const verificationToken = await db.verificationToken.findUnique({
+    //   where: { token },
+    // });
 
-    return verificationToken;
+    // return verificationToken;
+    return null;
   } catch (error) {
     return null;
   }

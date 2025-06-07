@@ -10,3 +10,4 @@ export * from './scroll-based-velocity';
 export * from './shimmer-button';
 export * from './text-shimmer';
 export * from './iphone-15-pro';
+export * from './hero-video-dialog';

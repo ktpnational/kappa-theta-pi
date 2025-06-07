@@ -1,3 +1,5 @@
+'use client';
+
 import { cn } from '@/lib';
 import type React from 'react';
 import { memo } from 'react';
@@ -12,7 +14,7 @@ export const LegalHeader: React.FC<{
         {title}
       </h1>
 
-      <div className="relative w-full max-w-4xl aspect-[3/1] rounded-lg overflow-hidden">
+      <div className="relative w-full max-w-4xl aspect-3/1 rounded-lg overflow-hidden">
         <svg
           width="1200"
           height="640"

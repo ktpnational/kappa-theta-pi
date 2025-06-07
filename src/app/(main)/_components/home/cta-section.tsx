@@ -47,7 +47,7 @@ const itemVariants = {
  */
 const CTASectionSkeleton = () => (
   <section id="cta" className="my-16 md:my-24 px-4">
-    <Card className="max-w-4xl mx-auto p-8 md:p-12 bg-gradient-to-br from-[#234c8b] to-[#458eff]">
+    <Card className="max-w-4xl mx-auto p-8 md:p-12 bg-linear-to-br from-[#234c8b] to-[#458eff]">
       <div className="space-y-6 text-center">
         <Skeleton className="h-10 w-2/3 mx-auto bg-white/20" />
         <Skeleton className="h-6 w-3/4 mx-auto bg-white/20" />
@@ -65,7 +65,7 @@ const CTASectionSkeleton = () => (
  */
 const CTAContent = () => (
   <motion.div
-    className="max-w-4xl mx-auto text-center p-8 md:p-12 rounded-2xl shadow-2xl bg-gradient-to-br from-[#234c8b] to-[#458eff] text-white overflow-hidden relative"
+    className="max-w-4xl mx-auto text-center p-8 md:p-12 rounded-2xl shadow-2xl bg-linear-to-br from-[#234c8b] to-[#458eff] text-white overflow-hidden relative"
     variants={containerVariants}
     initial="hidden"
     whileInView="visible"
@@ -88,10 +88,7 @@ const CTAContent = () => (
     </motion.p>
     <motion.div variants={itemVariants}>
       <Link href="/chapters/start" passHref>
-        <Button
-          size="lg"
-          className="bg-[#538b52] text-white hover:bg-[#8ddd8d] transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg group"
-        >
+        <Button className="group">
           Start a Chapter
           <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 ease-in-out group-hover:translate-x-1" />
         </Button>

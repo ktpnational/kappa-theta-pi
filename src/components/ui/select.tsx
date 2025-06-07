@@ -6,35 +6,20 @@ import * as React from 'react';
 
 import { cn } from '@/lib/utils';
 
-/**
- * Root component that contains all the parts of a select.
- */
 const Select = SelectPrimitive.Root;
 
-/**
- * Used to group multiple items in a select list.
- */
 const SelectGroup = SelectPrimitive.Group;
 
-/**
- * Component that displays the selected value in the trigger.
- */
 const SelectValue = SelectPrimitive.Value;
 
-/**
- * The button that toggles the select popover. Contains the select value and arrow icon.
- * @param {string} className - Additional CSS classes to apply
- * @param {React.ReactNode} children - The content to render inside the trigger
- * @param {React.Ref<HTMLButtonElement>} ref - Forwarded ref
- */
 const SelectTrigger = React.forwardRef<
-  React.ElementRef<typeof SelectPrimitive.Trigger>,
+  React.ComponentRef<typeof SelectPrimitive.Trigger>,
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>
 >(({ className, children, ...props }, ref) => (
   <SelectPrimitive.Trigger
     ref={ref}
     className={cn(
-      'flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1',
+      'flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1',
       className,
     )}
     {...props}
@@ -47,13 +32,8 @@ const SelectTrigger = React.forwardRef<
 ));
 SelectTrigger.displayName = SelectPrimitive.Trigger.displayName;
 
-/**
- * Button to scroll up through a list of options when they overflow.
- * @param {string} className - Additional CSS classes to apply
- * @param {React.Ref<HTMLDivElement>} ref - Forwarded ref
- */
 const SelectScrollUpButton = React.forwardRef<
-  React.ElementRef<typeof SelectPrimitive.ScrollUpButton>,
+  React.ComponentRef<typeof SelectPrimitive.ScrollUpButton>,
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.ScrollUpButton>
 >(({ className, ...props }, ref) => (
   <SelectPrimitive.ScrollUpButton
@@ -66,13 +46,8 @@ const SelectScrollUpButton = React.forwardRef<
 ));
 SelectScrollUpButton.displayName = SelectPrimitive.ScrollUpButton.displayName;
 
-/**
- * Button to scroll down through a list of options when they overflow.
- * @param {string} className - Additional CSS classes to apply
- * @param {React.Ref<HTMLDivElement>} ref - Forwarded ref
- */
 const SelectScrollDownButton = React.forwardRef<
-  React.ElementRef<typeof SelectPrimitive.ScrollDownButton>,
+  React.ComponentRef<typeof SelectPrimitive.ScrollDownButton>,
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.ScrollDownButton>
 >(({ className, ...props }, ref) => (
   <SelectPrimitive.ScrollDownButton
@@ -85,15 +60,8 @@ const SelectScrollDownButton = React.forwardRef<
 ));
 SelectScrollDownButton.displayName = SelectPrimitive.ScrollDownButton.displayName;
 
-/**
- * The component that contains the select's content when open.
- * @param {string} className - Additional CSS classes to apply
- * @param {React.ReactNode} children - The content to render inside
- * @param {'item' | 'popper'} position - Position of the content
- * @param {React.Ref<HTMLDivElement>} ref - Forwarded ref
- */
 const SelectContent = React.forwardRef<
-  React.ElementRef<typeof SelectPrimitive.Content>,
+  React.ComponentRef<typeof SelectPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Content>
 >(({ className, children, position = 'popper', ...props }, ref) => (
   <SelectPrimitive.Portal>
@@ -124,13 +92,8 @@ const SelectContent = React.forwardRef<
 ));
 SelectContent.displayName = SelectPrimitive.Content.displayName;
 
-/**
- * Used to render a label in the select content.
- * @param {string} className - Additional CSS classes to apply
- * @param {React.Ref<HTMLDivElement>} ref - Forwarded ref
- */
 const SelectLabel = React.forwardRef<
-  React.ElementRef<typeof SelectPrimitive.Label>,
+  React.ComponentRef<typeof SelectPrimitive.Label>,
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Label>
 >(({ className, ...props }, ref) => (
   <SelectPrimitive.Label
@@ -141,20 +104,14 @@ const SelectLabel = React.forwardRef<
 ));
 SelectLabel.displayName = SelectPrimitive.Label.displayName;
 
-/**
- * The component that contains the select items.
- * @param {string} className - Additional CSS classes to apply
- * @param {React.ReactNode} children - The content to render inside
- * @param {React.Ref<HTMLDivElement>} ref - Forwarded ref
- */
 const SelectItem = React.forwardRef<
-  React.ElementRef<typeof SelectPrimitive.Item>,
+  React.ComponentRef<typeof SelectPrimitive.Item>,
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Item>
 >(({ className, children, ...props }, ref) => (
   <SelectPrimitive.Item
     ref={ref}
     className={cn(
-      'relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
+      'relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-hidden focus:bg-accent focus:text-accent-foreground data-disabled:pointer-events-none data-disabled:opacity-50',
       className,
     )}
     {...props}
@@ -170,13 +127,8 @@ const SelectItem = React.forwardRef<
 ));
 SelectItem.displayName = SelectPrimitive.Item.displayName;
 
-/**
- * Visually or semantically separates items in the select.
- * @param {string} className - Additional CSS classes to apply
- * @param {React.Ref<HTMLDivElement>} ref - Forwarded ref
- */
 const SelectSeparator = React.forwardRef<
-  React.ElementRef<typeof SelectPrimitive.Separator>,
+  React.ComponentRef<typeof SelectPrimitive.Separator>,
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Separator>
 >(({ className, ...props }, ref) => (
   <SelectPrimitive.Separator

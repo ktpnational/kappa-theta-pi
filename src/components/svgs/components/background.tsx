@@ -1,36 +1,25 @@
 'use client';
 
 import { cn } from '@/lib';
-import { motion } from 'motion/react';
+import { type Variants, motion } from 'motion/react';
 import React from 'react';
 import type { TrueSVGProps } from '../types';
 
-/**
- * An animated background component that displays floating shapes and fraternity branding
- *
- * @component
- * @returns {React.JSX.Element} A full-screen background with animated SVG shapes and fraternity text
- *
- * @example
- * return (
- *   <AnimatedBackground />
- * )
- */
-export const AnimatedBackground = ({ className, ...props }: TrueSVGProps) => {
-  /**
-   * Generates random movement parameters for animated shapes
-   *
-   * @returns {Object} Movement parameters for Framer Motion
-   * @property {number[]} x - X-axis movement range [start, end]
-   * @property {number[]} y - Y-axis movement range [start, end]
-   * @property {number[]} rotate - Rotation range in degrees [start, end]
-   */
-  const randomMovement = () => ({
-    x: [0, Math.random() * 10 - 5],
-    y: [0, Math.random() * 10 - 5],
-    rotate: [0, Math.random() * 10 - 5],
-  });
+const shapeVariants = {
+  float: {
+    x: [0, 5, -5, 0],
+    y: [0, 5, -5, 0],
+    rotate: [0, 5, -5, 0],
+    transition: {
+      duration: 20,
+      repeat: Number.POSITIVE_INFINITY,
+      repeatType: 'mirror',
+      ease: 'easeInOut',
+    },
+  },
+} satisfies Variants;
 
+export const AnimatedBackground = ({ className, ...props }: TrueSVGProps) => {
   return (
     <div className="fixed inset-0 overflow-hidden bg-[#234C8B]">
       <svg
@@ -50,36 +39,21 @@ export const AnimatedBackground = ({ className, ...props }: TrueSVGProps) => {
             <motion.path
               d="M220 429C496.142 429 720 205.142 720 -71C720 -347.142 496.142 -571 220 -571C-56.1424 -571 -280 -347.142 -280 -71C-280 205.142 -56.1424 429 220 429Z"
               fill="#458EFF"
-              animate={randomMovement()}
-              transition={{
-                duration: 20,
-                repeat: Number.POSITIVE_INFINITY,
-                repeatType: 'reverse',
-                ease: 'easeInOut',
-              }}
+              variants={shapeVariants}
+              animate="float"
             />
             <motion.path
               d="M1142 1650C1485.52 1650 1764 1426.14 1764 1150C1764 873.858 1485.52 650 1142 650C798.479 650 520 873.858 520 1150C520 1426.14 798.479 1650 1142 1650Z"
               fill="#8BB9FF"
-              animate={randomMovement()}
-              transition={{
-                duration: 25,
-                repeat: Number.POSITIVE_INFINITY,
-                repeatType: 'reverse',
-                ease: 'easeInOut',
-              }}
+              variants={shapeVariants}
+              animate="float"
             />
             <motion.path
               d="M81 1398C357.142 1398 581 1174.14 581 898C581 621.858 357.142 398 81 398C-195.142 398 -419 621.858 -419 898C-419 1174.14 -195.142 1398 81 1398Z"
               fill="#BAECBA"
               fillOpacity="0.44"
-              animate={randomMovement()}
-              transition={{
-                duration: 22,
-                repeat: Number.POSITIVE_INFINITY,
-                repeatType: 'reverse',
-                ease: 'easeInOut',
-              }}
+              variants={shapeVariants}
+              animate="float"
             />
           </g>
         </g>

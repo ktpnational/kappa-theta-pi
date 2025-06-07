@@ -1,4 +1,6 @@
+import { MainProvider } from '@/app/_providers';
 import { Footer, Header } from '@/components';
+import { JotaiProvider } from '@/providers';
 import { constructMetadata } from '@/utils';
 import type React from 'react';
 
@@ -27,13 +29,13 @@ export const metadata = constructMetadata({
  */
 const LegalLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <>
-      <Header />
+    <MainProvider>
+      <JotaiProvider Component={Header} />
       <main className="flex flex-col items-center justify-center min-h-[calc(100dvh-10rem)] container">
         {children}
       </main>
       <Footer />
-    </>
+    </MainProvider>
   );
 };
 

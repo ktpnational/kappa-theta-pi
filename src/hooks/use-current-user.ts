@@ -1,11 +1,11 @@
 'use client';
 
-import { useSession } from 'next-auth/react';
+import { useSession } from '@/lib/auth-client';
 
 /**
  * Custom React hook that retrieves the currently authenticated user.
  *
- * This hook wraps next-auth's useSession hook to provide direct access to the user object
+ * This hook wraps <>'s useSession hook to provide direct access to the user object
  * from the session data. It safely handles cases where the session or user may be undefined.
  *
  * @returns {object|undefined} The current user object if authenticated, undefined otherwise.

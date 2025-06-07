@@ -1,9 +1,10 @@
 import { logger } from '@/utils';
+import type { KebabCase } from 'type-fest';
 
 /**
  * Converts an object to a formatted JSON string with proper indentation.
  *
- * @param {any} obj - The object to convert to a JSON string
+ * @param {object} obj - The object to convert to a JSON string
  * @returns {string} A properly formatted JSON string representation of the input object with 2-space indentation
  *
  * @example
@@ -24,7 +25,7 @@ import { logger } from '@/utils';
  * - Useful for debugging, logging, and data serialization
  * - Safe with primitives, arrays, objects, null and undefined
  */
-export const Stringify = (obj: any): string => {
+export const Stringify = (obj: object): string => {
   return JSON.stringify(obj, null, 2);
 };
 
@@ -254,7 +255,7 @@ export const ScrollIntoCenterView = (href: string) => {
  * - SEO-friendly output
  * - Consistent with common slug formats
  */
-export const slugify = (str: string, forDisplayingInput?: boolean) => {
+export const slugify = (str: string, forDisplayingInput?: boolean): KebabCase<string> => {
   if (!str) {
     return '';
   }

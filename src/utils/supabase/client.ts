@@ -34,8 +34,8 @@ export const createClient = () => {
   if (supabaseInstance) return supabaseInstance;
 
   supabaseInstance = createSupabaseClient<Database>(
-    process.env.NEXT_PUBLIC_SUPABASE_URL ?? '',
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    process.env.NEXT_PUBLIC_SUPABASE_URL,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
     {
       auth: {
         storage:
@@ -90,8 +90,8 @@ export const createClient = () => {
  */
 export const createAuthenticatedClient = (accessToken: string) => {
   return createSupabaseClient<Database>(
-    process.env.NEXT_PUBLIC_SUPABASE_URL ?? '',
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    process.env.NEXT_PUBLIC_SUPABASE_URL,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
     {
       global: {
         headers: {

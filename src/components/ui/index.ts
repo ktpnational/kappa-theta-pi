@@ -13,3 +13,4 @@ export * from './sheet';
 export * from './sidebar';
 export * from './skeleton';
 export * from './textarea';
+export * from './crumbs';

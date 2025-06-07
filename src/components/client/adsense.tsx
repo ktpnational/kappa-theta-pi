@@ -1,5 +1,6 @@
 'use client';
 
+import { config } from '@/config';
 import { useEffect } from 'react';
 
 interface AdSenseProps {
@@ -21,7 +22,7 @@ export function AdSense({ adSlot, adFormat = 'auto', style }: AdSenseProps) {
     <ins
       className="adsbygoogle"
       style={style || { display: 'block' }}
-      data-ad-client={process.env.NEXT_PUBLIC_ADSENSE_ID}
+      data-ad-client={config.analytics.adsense.id}
       data-ad-slot={adSlot}
       data-ad-format={adFormat}
       data-full-width-responsive="true"

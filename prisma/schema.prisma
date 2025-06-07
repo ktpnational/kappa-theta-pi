@@ -4,21 +4,20 @@ generator client {
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
-  schemas   = ["public", "next_auth"]
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  schemas  = ["public", "auth"]
 }
 
 model User {
   id                      String                 @id @default(uuid())
   name                    String?
   email                   String?                @unique
-  emailVerified           DateTime?              @map("email_verified")
+  emailVerified           Boolean?              @map("email_verified")
   emailVerificationToken  String?                @unique @map("email_verification_token")
   image                   String?
   password                String?
-  role                    Role                   @default(SPONSOR)
+  role                    Role                   @default(MEMBER)
   accounts                Account[]
   sessions                Session[]
   isTwoFactorEnabled      Boolean                @default(false)
@@ -27,7 +26,7 @@ model User {
   profile                 Profile?
 
   @@map("users")
-  @@schema("next_auth")
+  @@schema("auth")
 }
 
 model Account {
@@ -47,7 +46,7 @@ model Account {
 
   @@unique([provider, providerAccountId])
   @@map("accounts")
-  @@schema("next_auth")
+  @@schema("auth")
 }
 
 model Session {
@@ -58,7 +57,7 @@ model Session {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("sessions")
-  @@schema("next_auth")
+  @@schema("auth")
 }
 
 model VerificationToken {
@@ -69,7 +68,7 @@ model VerificationToken {
 
   @@unique([email, token])
   @@map("verification_tokens")
-  @@schema("next_auth")
+  @@schema("auth")
 }
 
 model PasswordResetToken {
@@ -80,7 +79,7 @@ model PasswordResetToken {
 
   @@unique([email, token])
   @@map("password_reset_tokens")
-  @@schema("next_auth")
+  @@schema("auth")
 }
 
 model TwoFactorToken {
@@ -91,7 +90,7 @@ model TwoFactorToken {
 
   @@unique([email, token])
   @@map("two_factor_tokens")
-  @@schema("next_auth")
+  @@schema("auth")
 }
 
 model TwoFactorConfirmation {
@@ -101,14 +100,14 @@ model TwoFactorConfirmation {
 
   @@unique([userId])
   @@map("two_factor_confirmations")
-  @@schema("next_auth")
+  @@schema("auth")
 }
 
 model Profile {
   id        String   @id @default(uuid())
   userId    String   @unique
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  role      Role     @default(SPONSOR)
+  role      Role     @default(MEMBER)
   active    Boolean  @default(true)
   version   String?
   photoUrl  String?
@@ -124,9 +123,11 @@ model Profile {
 }
 
 enum Role {
-  SPONSOR
+  GUEST
+  MEMBER
+  COMPANY
 
-  @@schema("next_auth")
+  @@schema("auth")
 }
 
 model Address {
@@ -231,14 +232,5 @@ enum CandidateStatus {
   OFFERED
   REJECTED
 
-  @@schema("public")
-}
-
-model NewsletterSubscriber {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  createdAt DateTime @default(now()) @map("created_at")
-
-  @@map("newsletter_subscribers")
   @@schema("public")
 }

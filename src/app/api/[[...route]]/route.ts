@@ -1,5 +1,9 @@
+import authController from '@/server/modules/auth';
+import { getURL } from '@/utils';
+import arcject from '@/utils/security/arcject';
 import { Hono } from 'hono';
 import { bodyLimit } from 'hono/body-limit';
+import { cache } from 'hono/cache';
 import { contextStorage } from 'hono/context-storage';
 import { cors } from 'hono/cors';
 import { logger } from 'hono/logger';
@@ -21,15 +25,29 @@ const api = app
   .use('*', contextStorage())
   .use('*', timingMiddleware)
   .use('*', logger())
-  .use('*', bodyLimit({ maxSize: 1024 * 1024 * 2 }))
+  .use(
+    '*',
+    bodyLimit({
+      maxSize: 1024 * 1024 * 2,
+      onError: (c) => {
+        return c.json({ error: 'Request body too large' }, { status: 413 });
+      },
+    }),
+  )
   .use(
     '*',
     cors({
-      origin: process.env.NODE_ENV === 'production' ? ['https://www.kappathetapi.org'] : ['*'],
+      origin: getURL(),
       allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
       allowHeaders: ['Content-Type', 'Authorization'],
       maxAge: 86400,
       credentials: true,
+    }),
+  )
+  .use(
+    cache({
+      cacheName: 'kappa-theta-pi-cache',
+      cacheControl: 'max-age=60',
     }),
   )
   .use(
@@ -52,8 +70,32 @@ const api = app
     }),
   )
   .use('/health', async (c) => {
-    return c.json({ status: 'ok' });
+    return c.json({ message: 'ok', status: 200 });
   })
+  .use('/arcjet', async (c) => {
+    const req = c.req.raw;
+    const decision = await arcject.protect(req, { requested: 5 });
+    console.log('Arcjet decision', decision);
+
+    if (decision.isDenied()) {
+      if (decision.reason.isBot()) {
+        return c.json({ error: 'No bots allowed', reason: decision.reason }, { status: 403 });
+      } else if (decision.reason.isRateLimit()) {
+        return c.json({ error: 'Too many requests', reason: decision.reason }, { status: 429 });
+      } else {
+        return c.json({ error: 'Forbidden', reason: decision.reason }, { status: 403 });
+      }
+    }
+
+    // Arcjet Pro plan verifies the authenticity of common bots using IP data.
+    // Verification isn't always possible, so we recommend checking the decision separately.
+    if (decision.reason.isBot() && decision.reason.isSpoofed()) {
+      return c.json({ error: 'Forbidden', reason: decision.reason }, { status: 403 });
+    }
+
+    return c.json({ message: 'Hello world' });
+  })
+  .route('/auth', authController)
   .use('*', async (c, next) => {
     try {
       await next();

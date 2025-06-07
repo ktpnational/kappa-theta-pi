@@ -8,16 +8,8 @@ import * as React from 'react';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { cn } from '@/lib/utils';
 
-/**
- * A wrapper component around the Command primitive that provides a command palette interface.
- * Extends the base Command component with standardized styling.
- *
- * @param {string} className - Additional CSS class names to apply
- * @param {React.RefObject} ref - Forwarded ref to the underlying Command element
- * @returns {React.JSX.Element} The Command component with styling applied
- */
 const Command = React.forwardRef<
-  React.ElementRef<typeof CommandPrimitive>,
+  React.ComponentRef<typeof CommandPrimitive>,
   React.ComponentPropsWithoutRef<typeof CommandPrimitive>
 >(({ className, ...props }, ref) => (
   <CommandPrimitive
@@ -31,13 +23,6 @@ const Command = React.forwardRef<
 ));
 Command.displayName = CommandPrimitive.displayName;
 
-/**
- * A dialog wrapper for the Command component that provides a modal interface.
- *
- * @param {ReactNode} children - Child elements to render within the command dialog
- * @param {DialogProps} props - Props for the underlying Dialog component
- * @returns {React.JSX.Element} A modal dialog containing the command interface
- */
 const CommandDialog = ({ children, ...props }: DialogProps) => {
   return (
     <Dialog {...props}>
@@ -50,15 +35,8 @@ const CommandDialog = ({ children, ...props }: DialogProps) => {
   );
 };
 
-/**
- * An input component for the command interface with an integrated search icon.
- *
- * @param {string} className - Additional CSS class names to apply
- * @param {React.RefObject} ref - Forwarded ref to the underlying input element
- * @returns {React.JSX.Element} A styled input field with search icon
- */
 const CommandInput = React.forwardRef<
-  React.ElementRef<typeof CommandPrimitive.Input>,
+  React.ComponentRef<typeof CommandPrimitive.Input>,
   React.ComponentPropsWithoutRef<typeof CommandPrimitive.Input>
 >(({ className, ...props }, ref) => (
   <div className="flex items-center border-b px-3" cmdk-input-wrapper="">
@@ -66,7 +44,7 @@ const CommandInput = React.forwardRef<
     <CommandPrimitive.Input
       ref={ref}
       className={cn(
-        'flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50',
+        'flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-hidden placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50',
         className,
       )}
       {...props}
@@ -76,15 +54,8 @@ const CommandInput = React.forwardRef<
 
 CommandInput.displayName = CommandPrimitive.Input.displayName;
 
-/**
- * A scrollable list container for command items.
- *
- * @param {string} className - Additional CSS class names to apply
- * @param {React.RefObject} ref - Forwarded ref to the underlying list element
- * @returns {React.JSX.Element} A styled scrollable list container
- */
 const CommandList = React.forwardRef<
-  React.ElementRef<typeof CommandPrimitive.List>,
+  React.ComponentRef<typeof CommandPrimitive.List>,
   React.ComponentPropsWithoutRef<typeof CommandPrimitive.List>
 >(({ className, ...props }, ref) => (
   <CommandPrimitive.List
@@ -96,14 +67,8 @@ const CommandList = React.forwardRef<
 
 CommandList.displayName = CommandPrimitive.List.displayName;
 
-/**
- * A component to display when no results are found in the command list.
- *
- * @param {React.RefObject} ref - Forwarded ref to the empty state element
- * @returns {React.JSX.Element} A centered empty state message
- */
 const CommandEmpty = React.forwardRef<
-  React.ElementRef<typeof CommandPrimitive.Empty>,
+  React.ComponentRef<typeof CommandPrimitive.Empty>,
   React.ComponentPropsWithoutRef<typeof CommandPrimitive.Empty>
 >((props, ref) => (
   <CommandPrimitive.Empty ref={ref} className="py-6 text-center text-sm" {...props} />
@@ -111,15 +76,8 @@ const CommandEmpty = React.forwardRef<
 
 CommandEmpty.displayName = CommandPrimitive.Empty.displayName;
 
-/**
- * A container for grouping related command items.
- *
- * @param {string} className - Additional CSS class names to apply
- * @param {React.RefObject} ref - Forwarded ref to the group element
- * @returns {React.JSX.Element} A styled group container with heading support
- */
 const CommandGroup = React.forwardRef<
-  React.ElementRef<typeof CommandPrimitive.Group>,
+  React.ComponentRef<typeof CommandPrimitive.Group>,
   React.ComponentPropsWithoutRef<typeof CommandPrimitive.Group>
 >(({ className, ...props }, ref) => (
   <CommandPrimitive.Group
@@ -134,15 +92,8 @@ const CommandGroup = React.forwardRef<
 
 CommandGroup.displayName = CommandPrimitive.Group.displayName;
 
-/**
- * A visual separator between command items or groups.
- *
- * @param {string} className - Additional CSS class names to apply
- * @param {React.RefObject} ref - Forwarded ref to the separator element
- * @returns {React.JSX.Element} A horizontal line separator
- */
 const CommandSeparator = React.forwardRef<
-  React.ElementRef<typeof CommandPrimitive.Separator>,
+  React.ComponentRef<typeof CommandPrimitive.Separator>,
   React.ComponentPropsWithoutRef<typeof CommandPrimitive.Separator>
 >(({ className, ...props }, ref) => (
   <CommandPrimitive.Separator
@@ -153,21 +104,14 @@ const CommandSeparator = React.forwardRef<
 ));
 CommandSeparator.displayName = CommandPrimitive.Separator.displayName;
 
-/**
- * An individual selectable item within the command list.
- *
- * @param {string} className - Additional CSS class names to apply
- * @param {React.RefObject} ref - Forwarded ref to the item element
- * @returns {React.JSX.Element} A styled interactive command item
- */
 const CommandItem = React.forwardRef<
-  React.ElementRef<typeof CommandPrimitive.Item>,
+  React.ComponentRef<typeof CommandPrimitive.Item>,
   React.ComponentPropsWithoutRef<typeof CommandPrimitive.Item>
 >(({ className, ...props }, ref) => (
   <CommandPrimitive.Item
     ref={ref}
     className={cn(
-      "relative flex cursor-default gap-2 select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none data-[disabled=true]:pointer-events-none data-[selected='true']:bg-accent data-[selected=true]:text-accent-foreground data-[disabled=true]:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+      "relative flex cursor-default gap-2 select-none items-center rounded-sm px-2 py-1.5 text-sm outline-hidden data-[disabled=true]:pointer-events-none data-[selected='true']:bg-accent data-[selected=true]:text-accent-foreground data-[disabled=true]:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
       className,
     )}
     {...props}
@@ -176,13 +120,6 @@ const CommandItem = React.forwardRef<
 
 CommandItem.displayName = CommandPrimitive.Item.displayName;
 
-/**
- * A component for displaying keyboard shortcuts alongside command items.
- *
- * @param {string} className - Additional CSS class names to apply
- * @param {HTMLSpanElement} props - HTML attributes for the shortcut element
- * @returns {React.JSX.Element} A styled shortcut display
- */
 const CommandShortcut = ({ className, ...props }: React.HTMLAttributes<HTMLSpanElement>) => {
   return (
     <span

@@ -1,10 +1,13 @@
+'use client';
+
 import React from 'react';
 import {
   // BlogSection,
   CtaSection,
   FAQSection,
   HeroSection,
-  MapSection,
+  // 🚩
+  // MapSection,
   // MobileSection,
   SponsorsSection,
 } from '.';
@@ -35,7 +38,8 @@ export const HomeSections = () => {
     <>
       <HeroSection />
       <SponsorsSection />
-      <MapSection />
+      {/* 🚩🚩🚩 */}
+      {/* <MapSection /> */}
       <FAQSection />
       {/* <BlogSection /> */}
       <CtaSection />

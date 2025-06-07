@@ -2,6 +2,7 @@ import { AppSidebar } from '@/components';
 import { SidebarInset, SidebarProvider } from '@/components/ui';
 import { constructMetadata } from '@/utils';
 import type React from 'react';
+import { DashboardProvider } from '../_providers';
 
 export const metadata = constructMetadata({
   title: 'Dashboard',
@@ -29,12 +30,12 @@ export const metadata = constructMetadata({
  */
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <>
+    <DashboardProvider>
       <SidebarProvider>
         <AppSidebar />
         <SidebarInset>{children}</SidebarInset>
       </SidebarProvider>
-    </>
+    </DashboardProvider>
   );
 };
 

@@ -1,3 +1,4 @@
+
 import { Toaster } from '@/components/ui/sonner';
 
 /**
@@ -11,7 +12,7 @@ import { Toaster } from '@/components/ui/sonner';
  *
  * @example
  * // Basic usage
- * <Events>
+ * <Events>/
  *   <App />
  * </Events>
  *

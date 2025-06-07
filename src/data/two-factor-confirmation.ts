@@ -1,4 +1,6 @@
-import { db } from '@/lib';
+'use server';
+
+// import { db } from '@/lib/prisma';
 
 /**
  * Retrieves a two-factor confirmation record for a specific user from the database.
@@ -26,13 +28,15 @@ import { db } from '@/lib';
  *
  * @throws {PrismaClientKnownRequestError} Caught internally - returns null on database errors
  */
+// @ts-ignore
 export const getTwoFactorConfirmationByUserId = async (userId: string) => {
   try {
-    const twoFactorConfirmation = await db.twoFactorConfirmation.findUnique({
-      where: { userId },
-    });
+    // const twoFactorConfirmation = await db.twoFactorConfirmation.findUnique({
+    //   where: { userId },
+    // });
 
-    return twoFactorConfirmation;
+    // return twoFactorConfirmation;
+    return null;
   } catch (error) {
     return null;
   }

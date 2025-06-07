@@ -7,29 +7,8 @@ import { DayPicker } from 'react-day-picker';
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
-/**
- * Props interface that extends DayPicker's base props
- */
 export type CalendarProps = React.ComponentProps<typeof DayPicker>;
 
-/**
- * Calendar component that wraps react-day-picker with custom styling
- *
- * @component
- * @param {Object} props - Component props
- * @param {string} [props.className] - AdditioSS clpass names
- * @param {Object} [props.cram {string} [props.classNamassNames] - Custom class ] - Additionames for internal elements
- * @param {boolean} [props.showOutsial CSS classes to apply to the calendeDays=true] - Whether to show days from previous/next months
- *
- * @example
- * ```tsx
- * <Calendar
- *   selected={date}
- *   onSelect={setDate}
- *   cName="rounded-md border"
- * />
- * ```
- */
 function Calendar({ className, classNames, showOutsideDays = true, ...props }: CalendarProps) {
   return (
     <DayPicker
@@ -68,10 +47,16 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }: C
         ...classNames,
       }}
       components={{
-        // @ts-expect-error
-        IconLeft: ({ ...props }) => <ChevronLeft className="h-4 w-4" />,
-        // @ts-expect-error
-        IconRight: ({ ...props }) => <ChevronRight className="h-4 w-4" />,
+        PreviousMonthButton: (props) => (
+          <button {...props}>
+            <ChevronLeft className={cn('h-4 w-4')} />
+          </button>
+        ),
+        NextMonthButton: (props) => (
+          <button {...props}>
+            <ChevronRight className={cn('h-4 w-4')} />
+          </button>
+        ),
       }}
       {...props}
     />
