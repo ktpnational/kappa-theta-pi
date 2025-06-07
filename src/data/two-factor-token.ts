@@ -1,4 +1,6 @@
-import { db } from '@/lib';
+'use server';
+
+// import { db } from '@/lib/prisma';
 
 /**
  * Retrieves a two-factor authentication token record by its token value
@@ -16,13 +18,15 @@ import { db } from '@/lib';
  *   // Token not found
  * }
  */
+// @ts-ignore
 export const getTwoFactorTokenByToken = async (token: string) => {
   try {
-    const twoFactorToken = await db.twoFactorToken.findUnique({
-      where: { token },
-    });
+    // const twoFactorToken = await db.twoFactorToken.findUnique({
+    //   where: { token },
+    // });
 
-    return twoFactorToken;
+    // return twoFactorToken;
+    return null;
   } catch (error) {
     return null;
   }
@@ -48,13 +52,15 @@ export const getTwoFactorTokenByToken = async (token: string) => {
  *   // No token exists for this email
  * }
  */
+// @ts-ignore
 export const getTwoFactorTokenByEmail = async (email: string) => {
   try {
-    const twoFactorToken = await db.twoFactorToken.findFirst({
-      where: { email },
-    });
+    // const twoFactorToken = await db.twoFactorToken.findFirst({
+    //   where: { email },
+    // });
 
-    return twoFactorToken;
+    // return twoFactorToken;
+    return null;
   } catch (error) {
     return null;
   }

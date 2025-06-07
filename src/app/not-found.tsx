@@ -3,7 +3,7 @@
  * @module NotFoundPage
  */
 
-import { NotFound } from '@/components';
+import { NotFound } from '@/app/_client';
 import { constructMetadata } from '@/utils';
 
 /**

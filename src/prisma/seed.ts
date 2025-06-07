@@ -1,35 +1,59 @@
-import {
-  CandidateStatus,
-  type Chapter,
-  PrismaClient,
-  // Profile,
-  Role,
-  type User,
-} from '@prisma/client';
+'use server';
+// import { db } from '@/lib/prisma';
+import { CandidateStatus, type Chapter, PrismaClient, Role, type User } from '@prisma/client';
 import bcrypt from 'bcryptjs';
 
+// const prisma = db;
 const prisma = new PrismaClient();
 
 async function main() {
   try {
     // Clean up existing data
-    await prisma.$transaction([
-      prisma.newsletterSubscriber.deleteMany(),
-      prisma.candidate.deleteMany(),
-      prisma.company.deleteMany(),
-      prisma.member.deleteMany(),
-      prisma.resume.deleteMany(),
-      prisma.chapter.deleteMany(),
-      prisma.address.deleteMany(),
-      prisma.profile.deleteMany(),
-      prisma.twoFactorConfirmation.deleteMany(),
-      prisma.twoFactorToken.deleteMany(),
-      prisma.passwordResetToken.deleteMany(),
-      prisma.verificationToken.deleteMany(),
-      prisma.session.deleteMany(),
-      prisma.account.deleteMany(),
-      prisma.user.deleteMany(),
-    ]);
+    await prisma.$transaction(async (tx) => {
+      await Promise.all([
+        tx.candidate
+          .deleteMany()
+          .catch((e: Error) => console.log('Skipping candidate deletion:', e.message)),
+        tx.company
+          .deleteMany()
+          .catch((e: Error) => console.log('Skipping company deletion:', e.message)),
+        tx.member
+          .deleteMany()
+          .catch((e: Error) => console.log('Skipping member deletion:', e.message)),
+        tx.resume
+          .deleteMany()
+          .catch((e: Error) => console.log('Skipping resume deletion:', e.message)),
+        tx.chapter
+          .deleteMany()
+          .catch((e: Error) => console.log('Skipping chapter deletion:', e.message)),
+        tx.address
+          .deleteMany()
+          .catch((e: Error) => console.log('Skipping address deletion:', e.message)),
+        tx.profile
+          .deleteMany()
+          .catch((e: Error) => console.log('Skipping profile deletion:', e.message)),
+        // Skip twoFactorConfirmation if table doesn't exist
+        tx.twoFactorConfirmation
+          .deleteMany()
+          .catch((e: Error) => console.log('Skipping twoFactorConfirmation deletion:', e.message)),
+        tx.twoFactorToken
+          .deleteMany()
+          .catch((e: Error) => console.log('Skipping twoFactorToken deletion:', e.message)),
+        tx.passwordResetToken
+          .deleteMany()
+          .catch((e: Error) => console.log('Skipping passwordResetToken deletion:', e.message)),
+        tx.verificationToken
+          .deleteMany()
+          .catch((e: Error) => console.log('Skipping verificationToken deletion:', e.message)),
+        tx.session
+          .deleteMany()
+          .catch((e: Error) => console.log('Skipping session deletion:', e.message)),
+        tx.account
+          .deleteMany()
+          .catch((e: Error) => console.log('Skipping account deletion:', e.message)),
+        tx.user.deleteMany().catch((e: Error) => console.log('Skipping user deletion:', e.message)),
+      ]);
+    });
 
     // Create users with different roles
     const users = await Promise.all([
@@ -39,13 +63,13 @@ async function main() {
           email: 'admin@example.com',
           name: 'Admin User',
           password: await bcrypt.hash('password123', 10),
-          emailVerified: new Date(),
+          emailVerified: true,
           image: 'https://avatars.githubusercontent.com/u/1234567',
-          role: Role.SPONSOR,
+          role: Role.COMPANY,
           isTwoFactorEnabled: false,
           profile: {
             create: {
-              role: Role.SPONSOR,
+              role: Role.COMPANY,
               active: true,
               version: '1.0',
               address: {
@@ -70,13 +94,13 @@ async function main() {
             email: `company@${companyName.toLowerCase().replace(/\s+/g, '')}.com`,
             name: `${companyName} Manager`,
             password: await bcrypt.hash('password123', 10),
-            emailVerified: new Date(),
-            role: Role.SPONSOR,
+            emailVerified: true,
+            role: Role.COMPANY,
             isTwoFactorEnabled: false,
             image: `https://logo.clearbit.com/${companyName.toLowerCase().replace(/\s+/g, '')}.com`,
             profile: {
               create: {
-                role: Role.SPONSOR,
+                role: Role.COMPANY,
                 active: true,
                 version: '1.0',
                 company: {
@@ -112,13 +136,13 @@ async function main() {
               email: `user${index + 1}@example.com`,
               name: `Test User ${index + 1}`,
               password: await bcrypt.hash('password123', 10),
-              emailVerified: new Date(),
-              role: Role.SPONSOR,
+              emailVerified: true,
+              role: Role.MEMBER,
               isTwoFactorEnabled: false,
               image: `https://avatars.dicebear.com/api/human/${index}.svg`,
               profile: {
                 create: {
-                  role: Role.SPONSOR,
+                  role: Role.MEMBER,
                   active: true,
                   version: '1.0',
                 },
@@ -233,7 +257,7 @@ async function main() {
         if (!profile) {
           profile = await prisma.profile.create({
             data: {
-              role: Role.SPONSOR,
+              role: Role.MEMBER,
               active: true,
               version: '1.0',
               userId: user.id,

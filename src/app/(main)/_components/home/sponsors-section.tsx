@@ -73,12 +73,13 @@ export const SponsorsSection = () => {
                   className="object-contain w-full h-full grayscale opacity-60 transition-opacity duration-200 hover:opacity-100 hover:grayscale-0"
                   width={112}
                   height={40}
+                  loading={'lazy'}
                 />
               </div>
             ))}
           </Marquee>
-          <div className="pointer-events-none absolute inset-y-0 left-0 h-full w-1/3 bg-gradient-to-r from-white" />
-          <div className="pointer-events-none absolute inset-y-0 right-0 h-full w-1/3 bg-gradient-to-l from-white" />
+          <div className="pointer-events-none absolute inset-y-0 left-0 h-full w-1/3 bg-linear-to-r from-white" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 h-full w-1/3 bg-linear-to-l from-white" />
         </div>
       </div>
     </section>

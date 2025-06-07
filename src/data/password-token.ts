@@ -1,4 +1,6 @@
-import { db } from '@/lib';
+'use server';
+
+// import { db } from '@/lib/prisma';
 
 /**
  * Retrieves a password reset token record from the database by its token value
@@ -18,13 +20,15 @@ import { db } from '@/lib';
  * }
  * ```
  */
+// @ts-ignore
 export const getPasswordResetTokenByToken = async (token: string) => {
   try {
-    const passwordResetToken = await db.passwordResetToken.findUnique({
-      where: { token },
-    });
+    // const passwordResetToken = await db.passwordResetToken.findUnique({
+    //   where: { token },
+    // });
 
-    return passwordResetToken;
+    // return passwordResetToken;
+    return null;
   } catch (error) {
     return null;
   }
@@ -48,13 +52,15 @@ export const getPasswordResetTokenByToken = async (token: string) => {
  * }
  * ```
  */
+// @ts-ignore
 export const getPasswordResetTokenByEmail = async (email: string) => {
   try {
-    const passwordResetToken = await db.passwordResetToken.findFirst({
-      where: { email },
-    });
+    // const passwordResetToken = await db.passwordResetToken.findFirst({
+    //   where: { email },
+    // });
 
-    return passwordResetToken;
+    // return passwordResetToken;
+    return null;
   } catch (error) {
     return null;
   }

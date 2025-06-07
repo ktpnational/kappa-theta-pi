@@ -1,5 +1,15 @@
 import { AnimatedBackground } from '@/components';
+import { auth } from '@/server';
 import { constructMetadata } from '@/utils';
+import dynamic from 'next/dynamic';
+import { headers } from 'next/headers';
+
+const ServiceUnavailableError = dynamic(
+  () => import('@/app/_client').then((mod) => mod.ServiceUnavailableError),
+  {
+    ssr: true,
+  },
+);
 
 export const metadata = constructMetadata({
   title: 'Auth',
@@ -27,16 +37,24 @@ export const metadata = constructMetadata({
  * - Conic gradient background from neutral-900 through neutral-600 back to neutral-900
  * - Flexible child content rendering
  */
-const AuthLayout = ({ children }: { children: React.ReactNode }) => {
+const AuthLayout = async ({ children }: { children: React.ReactNode }) => {
+  // await auth();
+  const session = await auth.api.getSession({ headers: await headers() });
   return (
-    <main
-      className="
+    <>
+      {session ? (
+        <main
+          className="
           min-h-screen flex items-center justify-center container mx-auto
-        "
-    >
-      {children}
-      <AnimatedBackground />
-    </main>
+          "
+        >
+          {children}
+          <AnimatedBackground />
+        </main>
+      ) : (
+        <ServiceUnavailableError />
+      )}
+    </>
   );
 };
 

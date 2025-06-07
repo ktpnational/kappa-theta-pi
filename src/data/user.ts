@@ -1,4 +1,6 @@
-import { db } from '@/lib';
+'use server';
+
+// import { db } from '@/lib/prisma';
 
 /**
  * Retrieves a user from the database by their email address
@@ -16,11 +18,12 @@ import { db } from '@/lib';
  * }
  * ```
  */
+// @ts-ignore
 export const getUserByEmail = async (email: string) => {
   try {
-    const user = await db.user.findUnique({ where: { email } });
-
-    return user;
+    // const user = await db.user.findUnique({ where: { email } });
+    // return user;
+    return null;
   } catch (error) {
     return null;
   }
@@ -42,11 +45,12 @@ export const getUserByEmail = async (email: string) => {
  * }
  * ```
  */
+// @ts-ignore
 export const getUserById = async (id: string) => {
   try {
-    const user = await db.user.findUnique({ where: { id } });
-
-    return user;
+    // const user = await db.user.findUnique({ where: { id } });
+    // return user;
+    return null;
   } catch (error) {
     return null;
   }

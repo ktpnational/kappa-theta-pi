@@ -1,6 +1,7 @@
 'use client';
 
 import { datadogRum } from '@datadog/browser-rum';
+import type { RumInitConfiguration } from '@datadog/browser-rum-core';
 import app from 'next/app';
 import { cache, memo, useEffect } from 'react';
 
@@ -45,7 +46,7 @@ const initDatadog = cache(() => {
     datadogRum.init({
       applicationId: process.env.NEXT_PUBLIC_DATADOG_APPLICATION_ID,
       clientToken: process.env.NEXT_PUBLIC_DATADOG_CLIENT_TOKEN,
-      site: process.env.NEXT_PUBLIC_DATADOG_SITE,
+      site: process.env.NEXT_PUBLIC_DATADOG_SITE as Extract<RumInitConfiguration['site'], string>,
       service: app.name,
       env: process.env.NODE_ENV,
       version: process.env.NEXT_PUBLIC_APP_VERSION,
@@ -56,7 +57,7 @@ const initDatadog = cache(() => {
       trackLongTasks: true,
       defaultPrivacyLevel: 'mask-user-input',
       allowedTracingUrls: [/https:\/\/.*\.kappathetapi\.org/],
-    });
+    } satisfies RumInitConfiguration);
 
     datadogRum.startSessionReplayRecording();
     window.__datadogRumInitialized = true;

@@ -1,4 +1,7 @@
-import { auth } from '@/auth';
+'use server';
+import { auth } from '@/server';
+import { headers } from 'next/headers';
+import { getRole } from './get-role';
 
 /**
  * Retrieves the current authenticated user from the session
@@ -15,7 +18,10 @@ import { auth } from '@/auth';
  * }
  */
 export const currentUser = async () => {
-  const session = await auth();
+  'use server';
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
 
   return session?.user;
 };
@@ -35,7 +41,5 @@ export const currentUser = async () => {
  * }
  */
 export const currentRole = async () => {
-  const session = await auth();
-
-  return session?.user?.role;
+  return await getRole();
 };

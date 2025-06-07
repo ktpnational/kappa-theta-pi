@@ -1,8 +1,9 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
+import { signIn } from '@/lib/auth-client';
 import { DEFAULT_LOGIN_REDIRECT } from '@/routes';
-import { signIn } from 'next-auth/react';
+
 import { useSearchParams } from 'next/navigation';
 import { FcGoogle } from 'react-icons/fc';
 
@@ -11,7 +12,7 @@ const Social = () => {
   const callbackUrl = searchParams?.get('callbackUrl') ?? DEFAULT_LOGIN_REDIRECT;
 
   const onClick = (provider: 'google') => {
-    signIn(provider, { callbackUrl });
+    signIn.social({ provider: provider, callbackURL: callbackUrl });
   };
 
   return (

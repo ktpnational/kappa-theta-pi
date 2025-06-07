@@ -192,7 +192,7 @@ export const ContactForm = (): React.JSX.Element => {
 
         <Button
           variant="outline"
-          className="h-14 border bg-gradient-to-br from-pink-600/70 to-purple-400/70 text-lg font-bold tracking-wide hover:opacity-70"
+          className="h-14 border bg-linear-to-br from-pink-600/70 to-purple-400/70 text-lg font-bold tracking-wide hover:opacity-70"
         >
           {isPending && <Icons.miscellaneous.spinner className="mr-2 size-4 animate-spin" />}
           {isPending ? 'Sending...' : 'Send'}

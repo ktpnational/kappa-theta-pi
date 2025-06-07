@@ -27,6 +27,7 @@ const banlistSchema = z.array(z.string());
 
 export function isIpInBanlist(request: Request | NextApiRequest): boolean {
   const IP = getIP(request);
+  // TODO: Use env
   const rawBanListJson = process.env.IP_BANLIST || '[]';
   const banList = banlistSchema.parse(JSON.parse(rawBanListJson));
   if (IP && banList.includes(IP)) {
@@ -37,6 +38,7 @@ export function isIpInBanlist(request: Request | NextApiRequest): boolean {
 }
 
 export function isIpInBanListString(identifer: string): boolean {
+  // TODO: Use env
   const rawBanListJson = process.env.IP_BANLIST || '[]';
   const banList = banlistSchema.parse(JSON.parse(rawBanListJson));
   if (banList.includes(identifer)) {

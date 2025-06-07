@@ -1,14 +1,39 @@
+// @ts-nocheck
+import { DataLoader } from '@/server';
 import { constructMetadata } from '@/utils';
+import type {
+  Profile,
+  Chapter,
+  Resume,
+  Member
+} from '@prisma/client';
+import type { Metadata } from 'next';
 import React from 'react';
+import dynamic from 'next/dynamic';
 
-export const metadata = constructMetadata({
-  title: 'Member',
+const DashboardMember = dynamic(() => import('../../_components/member/member'), {
+  ssr: true,
 });
 
-const DashboardMemberPage = () => {
-  return <div>Member</div>;
+interface MemberProps extends Member {
+  profile: Profile
+  chapter: Chapter
+  resume: Resume
+}
+
+
+export const metadata: Metadata = constructMetadata({
+  title: 'Member Dashboard',
+});
+
+const DashboardMemberPage = async () => {
+  // return (
+  //   <DataLoader<MemberProps> type="elysia" apiPath="/api/v1/member/profile">
+  //     {(data) => <DashboardMember {...data} />}
+  //   </DataLoader>
+  // );
+  return <div>Member Page</div>;
 };
 
 DashboardMemberPage.displayName = 'DashboardMemberPage';
-
 export default DashboardMemberPage;

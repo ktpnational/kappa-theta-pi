@@ -279,12 +279,12 @@ const createGlobalStore = () =>
         })),
     },
     faq: {
-      openIndex: null,
-      setOpenIndex: (value) =>
+      openIndex: null as number | null,
+      setOpenIndex: (value: number | null) =>
         set((state) => ({
           faq: { ...state.faq, openIndex: value },
         })),
-      toggleOpen: (index) =>
+      toggleOpen: (index: number) =>
         set((state) => ({
           faq: {
             ...state.faq,

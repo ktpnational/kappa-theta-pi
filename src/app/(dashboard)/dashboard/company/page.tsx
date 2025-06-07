@@ -1,12 +1,26 @@
+// @ts-nocheck
+import { DataLoader } from '@/server';
 import { constructMetadata } from '@/utils';
-import type React from 'react';
+import type { Company } from '@prisma/client';
+import type { Metadata } from 'next';
+import dynamic from 'next/dynamic';
 
-export const metadata = constructMetadata({
-  title: 'Company',
+export const metadata: Metadata = constructMetadata({
+  title: 'Company Dashboard',
+  description: 'Manage your company profile and view candidates',
 });
 
-const DashboardCompanyPage = () => {
-  return <div>Company</div>;
+const DashboardCompany = dynamic(() => import('@/app/(dashboard)/_components/company/company'), {
+  ssr: true,
+});
+
+const DashboardCompanyPage = async () => {
+  // return (
+  //   <DataLoader<Company> type="elysia" apiPath="/api/v1/company/profile">
+  //     {(data) => <DashboardCompany {...data} />}
+  //   </DataLoader>
+  // );
+  return <div>Company Page</div>;
 };
 
 DashboardCompanyPage.displayName = 'DashboardCompanyPage';
