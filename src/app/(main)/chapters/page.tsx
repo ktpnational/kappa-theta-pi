@@ -124,6 +124,26 @@ const chapters = [
     greekLetter: 'Alpha Gamma',
     email: 'ktpatvt@gmail.com',
   },
+  {
+    school: 'Ohio State University',
+    greekLetter: 'Alpha Delta',
+    email: 'osuktp@gmail.com',
+  },
+  {
+    school: 'Cornell University',
+    greekLetter: 'Alpha Epsilon',
+    email: 'ktpcornell@gmail.com',
+  },
+  {
+    school: 'University of Virginia',
+    greekLetter: 'Alpha Zeta',
+    email: 'uvaktp@gmail.com',
+  },
+  {
+    school: 'Indiana University',
+    greekLetter: 'Alpha Eta',
+    email: 'ktpindiana@gmail.com',
+  }
 ];
 
 const ChaptersPage = () => {
