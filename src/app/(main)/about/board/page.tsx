@@ -48,7 +48,7 @@ const boardMembers = [
     location: "Boston University",
     email: "ypathak1@bu.edu",
     linkedin: "https://www.linkedin.com/in/yana-pathak/",
-    headshot: "/assets/headshots/yana-pathank-headshot.webp",
+    headshot: "/assets/headshots/yana-pathak-headshot.webp",
   },
 ];
 
