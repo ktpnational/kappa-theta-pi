@@ -43,7 +43,7 @@ const boardMembers = [
     headshot: "/assets/headshots/ivy-enyenihi-headshot.webp",
   },
   {
-    name: "Yana Pathank",
+    name: "Yana Pathak",
     role: "Director of Correspondence",
     location: "Boston University",
     email: "ypathak1@bu.edu",
