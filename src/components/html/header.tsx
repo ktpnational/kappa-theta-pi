@@ -150,13 +150,10 @@ export const Header = memo(() => {
   }, [handleScroll]);
 
   const renderAuthSection = () => {
-    if (status === 'loading') {
-      return null;
-    }
-    if (session?.user) {
-      return <UserNav user={session.user} />;
-    }
-  };
+  if (status === 'loading') return null;
+  if (session?.user) return <UserNav user={session.user} />;
+  return null; // Fallback for all other cases
+};
 
   return (
     <header
