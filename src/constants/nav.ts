@@ -59,48 +59,7 @@ const navigationSections: NavSection[] = [
         description: 'Bring KΘΠ to your campus',
       },
     ],
-  },
-  {
-    title: 'Resources',
-    items: [
-      {
-        title: 'For Members',
-        href: '/resources/members',
-        description: 'Access member-exclusive content',
-      },
-      {
-        title: 'For Companies',
-        href: '/resources/companies',
-        description: 'Partner with our organization',
-      },
-      {
-        title: 'For Chapters',
-        href: '/resources/chapters',
-        description: 'Chapter management tools',
-      },
-      {
-        title: 'Founders Day',
-        href: '/resources/foundersday',
-        description: 'Founders Day Event',
-      },
-    ],
-  },
-];
-
-/**
- * Authentication related navigation links
- */
-export const authLinks: NavItem[] = [
-  {
-    title: 'Login',
-    href: '/auth/login',
-    description: 'Sign in to your account',
-  },
-  {
-    title: 'Register',
-    href: '/auth/register',
-    description: 'Create a new account',
-  },
+  }
 ];
 
 /**
