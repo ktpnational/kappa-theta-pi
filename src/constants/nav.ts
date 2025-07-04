@@ -63,32 +63,6 @@ const navigationSections: NavSection[] = [
 ];
 
 /**
- * Dashboard navigation links based on user role
- */
-export const dashboardLinks: NavItem[] = [
-  {
-    title: 'Dashboard',
-    href: '/dashboard',
-    description: 'View your dashboard',
-  },
-  {
-    title: 'Company Portal',
-    href: '/dashboard/company',
-    description: 'Access company management tools',
-  },
-  {
-    title: 'Member Portal',
-    href: '/dashboard/member',
-    description: 'Access member resources',
-  },
-  {
-    title: 'Settings',
-    href: '/settings',
-    description: 'Manage your account settings',
-  },
-];
-
-/**
  * Legal and policy related navigation links
  */
 export const legalLinks: NavItem[] = [
