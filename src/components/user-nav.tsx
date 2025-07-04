@@ -74,13 +74,6 @@ export function UserNav({ user }: UserNavProps) {
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuGroup>
-          {dashboardLinks.map((item) => (
-            <DropdownMenuItem key={item.href} asChild>
-              <Link href={item.href}>{item.title}</Link>
-            </DropdownMenuItem>
-          ))}
-        </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem className="text-red-600 cursor-pointer" onClick={() => signOut()}>
           Log out
