@@ -14,8 +14,6 @@ import {
 } from '@/components/ui/navigation-menu';
 import {
   type NavItem,
-  authLinks,
-  dashboardLinks,
   legalLinks,
   navigationSections,
   utilityLinks,
@@ -155,24 +153,9 @@ export const Header = memo(() => {
     if (status === 'loading') {
       return null;
     }
-
     if (session?.user) {
       return <UserNav user={session.user} />;
     }
-
-    return (
-      <div className="flex items-center gap-4">
-        {authLinks.map((item) => (
-          <Button
-            key={item.href}
-            variant={item.href === '/auth/login' ? 'default' : 'outline'}
-            asChild
-          >
-            <Link href={item.href}>{item.title}</Link>
-          </Button>
-        ))}
-      </div>
-    );
   };
 
   return (
@@ -211,22 +194,6 @@ export const Header = memo(() => {
                     </NavigationMenuContent>
                   </NavigationMenuItem>
                 ))}
-
-                {/* Conditional Dashboard Links */}
-                {session?.user && (
-                  <NavigationMenuItem>
-                    <NavigationMenuTrigger>Dashboard</NavigationMenuTrigger>
-                    <NavigationMenuContent>
-                      <ul className="grid w-[400px] gap-3 p-4">
-                        {dashboardLinks.map((item) => (
-                          <ListItem key={item.href} title={item.title} href={item.href}>
-                            {item.description}
-                          </ListItem>
-                        ))}
-                      </ul>
-                    </NavigationMenuContent>
-                  </NavigationMenuItem>
-                )}
 
                 {/* Utility Links */}
                 {utilityLinks.map((item) => (
@@ -268,16 +235,6 @@ export const Header = memo(() => {
                 ))}
               </div>
             ))}
-
-            {/* Conditional Dashboard Section */}
-            {session?.user && (
-              <div className="space-y-2">
-                <h3 className="font-semibold text-lg text-[#234C8B] px-2 mb-2">Dashboard</h3>
-                {dashboardLinks.map((item) => (
-                  <MobileMenuItem key={item.href} item={item} />
-                ))}
-              </div>
-            )}
 
             {/* Auth Section for Mobile */}
             {!session?.user && (
