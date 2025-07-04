@@ -18,7 +18,7 @@ type NavSection = {
   title: string;
   /** Array of navigation items contained within this section */
   items: NavItem[];
-};
+}; 
 
 /**
  * Primary navigation sections containing grouped navigation items
