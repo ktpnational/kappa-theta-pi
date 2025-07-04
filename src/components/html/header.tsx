@@ -233,16 +233,6 @@ export const Header = memo(() => {
               </div>
             ))}
 
-            {/* Auth Section for Mobile */}
-            {!session?.user && (
-              <div className="space-y-2">
-                <h3 className="font-semibold text-lg text-[#234C8B] px-2 mb-2">Account</h3>
-                {authLinks.map((item) => (
-                  <MobileMenuItem key={item.href} item={item} />
-                ))}
-              </div>
-            )}
-
             {/* Utility Links Section */}
             <div className="space-y-2">
               <h3 className="font-semibold text-lg text-[#234C8B] px-2 mb-2">Quick Links</h3>
