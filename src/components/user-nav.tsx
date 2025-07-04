@@ -11,7 +11,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { dashboardLinks } from '@/constants';
 import type { User } from 'next-auth';
 import { signOut } from 'next-auth/react';
 import Link from 'next/link';
