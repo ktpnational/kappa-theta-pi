@@ -12,7 +12,6 @@ import {
 } from '@/components/ui/dropdown-menu';
 import type { User } from 'next-auth';
 import { signOut } from 'next-auth/react';
-import Link from 'next/link';
 
 /**
  * Props for the UserNav component
