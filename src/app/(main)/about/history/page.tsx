@@ -12,48 +12,46 @@ const AboutHistoryPage = () => {
             A Message from the President
           </h2>
           <p className="text-sm text-gray-600 mb-6">
-            Hi, my name is <strong>Zoey Lee</strong>, and I’m honored to serve
-            as the inaugural President of the KTP National Organization. It’s a
-            privilege to work alongside a dedicated team of board members—
-            Tommy, Anjali, Nate, Kairavi, Emily, Makayla, Pranav and
-            Beatriz—each a leader and pillar within their respective local
-            chapters.
-          </p>
-          <p className="text-sm text-gray-600 mb-6">
-            As KTP grew, several local leaders recognized the need for an
-            overarching body to guide new chapter development and strengthen the
-            bonds between existing chapters. From this realization, the KTP
-            National Organization was born.
+            Hi, my name is <strong>Shriya Srinivasan</strong>, and I’m excited to continue
+            as the President of the KTP National Organization in our second year of operation. 
+            Working with our talented board has been incredibly rewarding as we've tackled new 
+            challenges and expanded our impact across the technology landscape.
+            Building on the strong foundation established in our inaugural year, we've witnessed 
+            remarkable growth as our community has expanded to over 800+ members nationwide. This 
+            milestone reflects not only our reach but also the powerful impact KTP continues to have 
+            in connecting technology professionals and fostering innovation across universities.
           </p>
           <h3 className="text-xl font-semibold text-navy-blue mb-4">
-            In Our Inaugural Year, Our Goals Include:
+            As We Enter Our Second Year, Our Strategic Focus Areas Include:
           </h3>
           <ul className="list-disc list-inside space-y-2 text-sm text-gray-600 mb-6">
-            <li>Upholding the five KTP pillars in every local chapter.</li>
+            <li>Strengthening adherence to the five KTP pillars across all local chapters to ensure
+              consistency in our values and mission.</li>
             <li>
-              Developing a community platform to foster inter-chapter
-              communication.
+              Fostering cross-chapter collaboration to create a unified national community where 
+              members can connect, share knowledge, and work together regardless of geographic boundaries.
             </li>
             <li>
-              Building a comprehensive KTP National Organization website to
-              share our mission, highlight our chapters, facilitate new chapter
-              inquiries, and feature our sponsors.
+              Launching exciting project opportunities, including our flagship KTP National Hackathon with 
+              industry sponsors, providing members hands-on experience and networking opportunities.
             </li>
             <li>
-              Updating the KTP National Constitution to better support our
-              mission.
+              Maintaining operational excellence by ensuring all chapters follow our established KTP 
+              Constitution for consistent governance and chapter management.
             </li>
-            <li>Appointing a board of directors aligned with KTP’s values.</li>
+            <li>Expanding career development initiatives by connecting chapters with industry contacts
+              and opening pathways to meaningful job opportunities across various tech sectors.</li>
           </ul>
           <p className="text-sm text-gray-600 mb-6">
-            By striving toward these objectives, we will create a strong
-            foundation for KTP’s future endeavors and ensure that our community
-            continues to thrive. With over 30+ chapters and growing, the future
-            of KTP is bright. I look forward to seeing everything we accomplish
-            together!
+            With our momentum building, we're actively working to establish new chapters at universities across 
+            the country, expanding access to KTP's unique blend of professional development and technical excellence. 
+            We're focused on creating meaningful connections that transcend individual chapters by building bridges 
+            between students, alumni, and industry professionals to create lasting impact in the tech community.
+            The energy and passion I see across our chapters inspire me daily. Together, we're not just growing an organization; 
+            we're cultivating the next generation of technology leaders who will shape our industry's future.
           </p>
           <p className="text-sm text-gray-600 font-semibold">Best,</p>
-          <p className="text-sm text-gray-600 font-semibold">Zoey Lee</p>
+          <p className="text-sm text-gray-600 font-semibold">Shriya Srinivasan</p>
         </div>
       </div>
     </div>
