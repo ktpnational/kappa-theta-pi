@@ -314,7 +314,7 @@
     "jsonwebtoken": "^9.0.2",
     "lint-staged": "^15.3.0",
     "lodash": "^4.17.21",
-    "lucide-react": "^0.469.0",
+    "lucide-react": "^0.545.0",
     "markdownlint": "^0.37.3",
     "markdownlint-cli": "^0.43.0",
     "micromark-util-classify-character": "^2.0.1",
