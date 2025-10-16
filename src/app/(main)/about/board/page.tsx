@@ -50,6 +50,14 @@ const boardMembers = [
     linkedin: "https://www.linkedin.com/in/yana-pathak/",
     headshot: "/assets/headshots/yana-pathak-headshot.webp",
   },
+  {
+    name: "Siddhartha Paruchuri",
+    role: "Director of Outreach",
+    location: "Ohio State University",
+    email: "siddharthaparuchuri.osu@gmail.com",
+    linkedin: "https://www.linkedin.com/in/siddhartha-paruchuri-34a353293/",
+    headshot: "/assets/headshots/siddharhta-paruchuri-headshot.webp,
+  },
 ];
 
 const inauguralBoardMembers = [
