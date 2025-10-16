@@ -58,6 +58,14 @@ const boardMembers = [
     linkedin: "https://www.linkedin.com/in/siddhartha-paruchuri-34a353293/",
     headshot: "/assets/headshots/siddhartha-paruchuri-headshot.webp",
   },
+  {
+    name: "Shreyas Sunke",
+    role: "Director of Finance",
+    location: "Indiana University Bloomington",
+    email: "shreyassunke005@gmail.com",
+    linkedin: "https://www.linkedin.com/in/ssunke/",
+    headshot: "/assets/headshots/shreyas-sunke-headshot.webp",
+  },
 ];
 
 const inauguralBoardMembers = [
