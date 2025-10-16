@@ -56,7 +56,7 @@ const boardMembers = [
     location: "Ohio State University",
     email: "siddharthaparuchuri.osu@gmail.com",
     linkedin: "https://www.linkedin.com/in/siddhartha-paruchuri-34a353293/",
-    headshot: "/assets/headshots/siddharhta-paruchuri-headshot.webp,
+    headshot: "/assets/headshots/siddharhta-paruchuri-headshot.webp",
   },
 ];
 
