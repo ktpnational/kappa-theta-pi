@@ -29,7 +29,7 @@ const boardMembers = [
   {
     name: "Douglas Brito",
     role: "Director of Technology",
-    location: "University of Texas at Austin",
+    location: "The University of Texas at Austin",
     email: "douglascebrito@gmail.com",
     linkedin: "https://www.linkedin.com/in/douglascebrito/",
     headshot: "/assets/headshots/douglas-brito-headshot.webp",
@@ -53,8 +53,8 @@ const boardMembers = [
   {
     name: "Siddhartha Paruchuri",
     role: "Director of Outreach",
-    location: "Ohio State University",
-    email: "siddharthaparuchuri.osu@gmail.com",
+    location: "The Ohio State University",
+    email: "paruchuri.15@osu.edu",
     linkedin: "https://www.linkedin.com/in/siddhartha-paruchuri-34a353293/",
     headshot: "/assets/headshots/siddhartha-paruchuri-headshot.webp",
   },
