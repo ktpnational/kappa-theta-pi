@@ -33,7 +33,7 @@ export const app: DeepRequired<
 > = {
   name: 'Kappa Theta Pi - National',
   url: 'https://www.kappathetapi.org/',
-  email: 'contact@kappathetapi.org',
+  email: 'kappathetapinational@gmail.com',
   description:
     'Kappa Theta Pi (ΚΘΠ, also known as KTP) is a co-ed professional fraternity specializing in the field of information technology. The goals of the fraternity are to create bonds between students of Informatics, computer science, business, design, computer engineering, Information, and any others who are interested in technology, to develop networks through facilitation of professional and social growth, and to expose members to career options in the technology field.',
 };
