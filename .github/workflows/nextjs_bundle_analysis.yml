@@ -58,7 +58,7 @@ jobs:
         run: node report-bundle-size.js
 
       - name: Upload bundle
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: bundle
           path: .next/analyze/__bundle_analysis.json
