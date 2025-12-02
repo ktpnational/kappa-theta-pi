@@ -115,6 +115,11 @@ const chapters = [
     email: 'ktpuca@gmail.com',
   },
   {
+    school: 'New Brunswick',
+    greekLetter: 'Alpha Beta',
+    email: 'ktpnewbrunswick@gmail.com',
+  },
+  {
     school: 'Virginia Polytechnic and State University',
     greekLetter: 'Alpha Gamma',
     email: 'ktpatvt@gmail.com',
