@@ -5,7 +5,7 @@ const boardMembers = [
   {
     name: "Shriya Srinivasan",
     role: "President",
-    location: "Rutgers University",
+    location: "New Brunswick",
     email: "shriya@srinivasans.com",
     linkedin: "https://www.linkedin.com/in/shriyasrinivasans/",
     headshot: "/assets/headshots/shriya-srinivasan-headshot.webp",
