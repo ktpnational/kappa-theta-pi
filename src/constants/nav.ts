@@ -59,7 +59,17 @@ const navigationSections: NavSection[] = [
         description: 'Bring KΘΠ to your campus',
       },
     ],
-  }
+  },
+  {
+    title: 'Merch',
+    items: [
+      {
+        title: 'Shop KΘΠ Merch',
+        href: 'https://ktpmerch.com/Ktpmerch/shop/home',
+        description: 'Official Kappa Theta Pi merchandise store',
+      },
+    ],
+  },
 ];
 
 /**
