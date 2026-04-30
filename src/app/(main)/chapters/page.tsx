@@ -98,7 +98,7 @@ const chapters = [
     school: 'University of Southern California',
     greekLetter: 'Tau',
     email: 'ktpusc@usc.edu',
-    website: 'https://www.ktpusc.com',
+    website: 'https://engage.usc.edu/ktp/home/',
   },
   {
     school: 'Lewis University',
@@ -171,6 +171,18 @@ const chapters = [
     greekLetter: 'Alpha Eta',
     email: 'ktpindiana@gmail.com',
     website: 'https://www.ktpiu.com',
+  },
+  {
+    school: '	University of South Carolina',
+    greekLetter: 'Alpha Theta',
+    email: 'soktp@mailbox.sc.edu',
+    website: 'https://www.ktpusc.com',
+  },
+  {
+    school: 'University of Washington',
+    greekLetter: 'Alpha Iota',
+    email: 'kappathetapi@uw.edu',
+    website: 'https://ktp-uw-website.vercel.app',
   }
 ];
 
