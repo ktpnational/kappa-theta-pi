@@ -380,7 +380,7 @@ export const chapters: ChapterGroup = {
       university: '	University of South Carolina',
       location: 'Columbia, South Carolina',
       status: 'Active',
-      coordinates: [34.0007,-81.0348],
+      coordinates: [33.99598,-81.02824],
     },
     {
       name: 'Alpha Iota',
@@ -389,7 +389,7 @@ export const chapters: ChapterGroup = {
       university: 'University of Washington',
       location: 'Seattle, Washington',
       status: 'Active',
-      coordinates: [47.6061, -122.3328],
+      coordinates: [47.6559, -122.3074],
     }
   ],
   colony: [],

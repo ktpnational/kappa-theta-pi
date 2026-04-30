@@ -173,7 +173,7 @@ const chapters = [
     website: 'https://www.ktpiu.com',
   },
   {
-    school: '	University of South Carolina',
+    school: 'University of South Carolina',
     greekLetter: 'Alpha Theta',
     email: 'soktp@mailbox.sc.edu',
     website: 'https://www.ktpusc.com',
