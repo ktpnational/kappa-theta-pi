@@ -27,12 +27,12 @@ const boardMembers = [
     headshot: "/assets/headshots/yeshwanth-headshot.webp",
   },
   {
-    name: "Pranav Boopalam",
+    name: "Pranav Kannan",
     role: "Director of Alumni Relations",
-    location: "University of Michigan",
-    email: "boopalam@umich.edu",
-    linkedin: "https://www.linkedin.com/in/pranav-boopalam",
-    headshot: "/assets/headshots/pranav-boopalam-headshot.webp",
+    location: "Ohio State University",
+    email: "kannan.93@osu.edu",
+    linkedin: "https://www.linkedin.com/in/pranav-kannan22",
+    headshot: "/assets/headshots/pranav-kannan-headshot.webp",
   },
   {
     name: "Amishi Gupta",
