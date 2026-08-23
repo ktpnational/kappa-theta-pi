@@ -12,7 +12,7 @@ const AboutHistoryPage = () => {
             A Message from the President
           </h2>
           <p className="text-sm text-gray-600 mb-6">
-            Hi, my name is <strong>Shriya Srinivasan</strong>, and I’m excited to continue
+            Hi, my name is <strong>Siddhartha Paruchuri</strong>, and I’m excited to continue
             as the President of the KTP National Organization in our second year of operation. 
             Working with our talented board has been incredibly rewarding as we've tackled new 
             challenges and expanded our impact across the technology landscape.
@@ -51,7 +51,7 @@ const AboutHistoryPage = () => {
             we're cultivating the next generation of technology leaders who will shape our industry's future.
           </p>
           <p className="text-sm text-gray-600 font-semibold">Best,</p>
-          <p className="text-sm text-gray-600 font-semibold">Shriya Srinivasan</p>
+          <p className="text-sm text-gray-600 font-semibold">Siddhartha Paruchuri</p>
         </div>
       </div>
     </div>
