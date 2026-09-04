@@ -187,7 +187,7 @@ const chapters = [
   {
     school: 'Purdue University',
     greekLetter: 'Alpha Kappa',
-    email: 'ktppurdue@purdue.edu',
+    email: 'ktp@purdue.edu',
     website: 'https://www.ktppurdue.org/',
   }
 ];
