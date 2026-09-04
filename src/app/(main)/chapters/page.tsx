@@ -183,6 +183,12 @@ const chapters = [
     greekLetter: 'Alpha Iota',
     email: 'kappathetapi@uw.edu',
     website: 'https://ktp-uw-website.vercel.app',
+  },
+  {
+    school: 'Purdue University',
+    greekLetter: 'Alpha Kappa',
+    email: 'ktppurdue@purdue.edu',
+    website: 'https://www.ktppurdue.org/',
   }
 ];
 

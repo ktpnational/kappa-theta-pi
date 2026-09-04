@@ -390,6 +390,15 @@ export const chapters: ChapterGroup = {
       location: 'Seattle, Washington',
       status: 'Active',
       coordinates: [47.6559, -122.3074],
+    },
+    {
+      name: 'Alpha Kappa',
+      greekName: 'ΑΚ',
+      foundingDate: 'May 7th, 2026',
+      university: 'Purdue University',
+      location: 'West Lafayette, Indiana',
+      status: 'Active',
+      coordinates: [40.4259, -86.9081],
     }
   ],
   colony: [],
