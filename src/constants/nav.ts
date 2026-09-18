@@ -98,9 +98,9 @@ export const legalLinks: NavItem[] = [
  */
 export const utilityLinks: NavItem[] = [
   {
-    title: 'Member Directory',
+    title: 'Member Login',
     href: 'https://ktp-member-login.vercel.app/members.html',
-    description: 'Search and connect with current KTP members',
+    description: 'Access the member login portal',
   },
   {
     title: 'Contact',
